@@ -18,6 +18,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import HeaderDrawer from '../ReusableComponents/HeaderDrawer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import {BASE_URL} from '../Assets/utils/Restapi/Config';
 
 const {height, width} = Dimensions.get('window');
 
@@ -82,7 +83,7 @@ const ProfileScreen = ({navigation, route}) => {
     const token = await AsyncStorage.getItem('token');
     // setIsLoading(false);
     axios
-      .get('https://all-in-one-app-sa.herokuapp.com/user/profile', {
+      .get(BASE_URL + `/profile`, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(val => {
@@ -115,7 +116,9 @@ const ProfileScreen = ({navigation, route}) => {
         </View>
       ) : (
         <View>
-          <ScrollView showsVerticalScrollIndicator={false}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{paddingBottom: 40}}>
             <LinearGradient
               colors={['#8690DD', '#5D56B4']}
               start={{x: 0, y: 0}}

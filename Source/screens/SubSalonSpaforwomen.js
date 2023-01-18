@@ -27,6 +27,8 @@ const {width, height} = Dimensions.get('window');
 import Modal from 'react-native-modal';
 import {RadioButton} from 'react-native-paper';
 import CustomButton from '../ReusableComponents/Button';
+import {BASE_URL} from '../Assets/utils/Restapi/Config';
+import {_getStorage} from '../Assets/utils/storage/Storage';
 
 const SubSalonSpaforwomen = props => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -37,28 +39,25 @@ const SubSalonSpaforwomen = props => {
   const preData = props.route.params;
 
   console.log('service========444444444444444==========', preData);
-  // console.log('hlo343333333333333333ooooooo2222222================', services);
 
   useEffect(() => {
     service();
   }, []);
 
   const service = async () => {
+    const token = await _getStorage('token');
+
     axios
-      .get(
-        'https://all-in-one-app-sa.herokuapp.com/category/subcategory2Service/' +
-          preData._id,
-        {
-          headers: {Authorization: ''},
-        },
-      )
-      .then(resp => {
-        setServices(resp.data.result);
-        setIsLoading(false);
+      .get(BASE_URL + `/category/subcategory2Service/${preData._id}`, {
+        headers: {Authorization: `Bearer ${token}`},
       })
-      .catch(e => {
-        console.log('in catch sub category2Service');
-        console.log(e);
+      .then(rep => {
+        console.log('services ', rep.data);
+        setServices(res.data.result);
+        // setIsLoading(false);
+      })
+      .catch(error => {
+        console.log('servise catch error', error.response.data);
         setIsLoading(false);
       });
   };

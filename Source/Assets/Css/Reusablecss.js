@@ -44,6 +44,7 @@ const Reusablecss = StyleSheet.create({
   title: {
     fontWeight: 'bold',
     fontSize: wp('5%'),
+    color: Colors.black,
   },
   ratingCntr: {
     flexDirection: 'row',
@@ -62,6 +63,7 @@ const Reusablecss = StyleSheet.create({
   },
   text: {
     fontSize: 15,
+    color: Colors.black,
   },
   priceBar: {
     fontSize: hp('2%'),

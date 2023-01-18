@@ -4,6 +4,7 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
+import Colors from '../Assets/Constants/Colors';
 
 const ServiceItems = props => {
   return (
@@ -32,6 +33,7 @@ const ServiceItems = props => {
             marginLeft: wp('2%'),
             fontWeight: 'bold',
             marginTop: hp('1%'),
+            color: Colors.black,
           }}>
           {props.title}
         </Text>

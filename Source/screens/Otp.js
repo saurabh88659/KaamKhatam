@@ -18,62 +18,81 @@ import OtpInputs from 'react-native-otp-inputs';
 import CustomButton from '../ReusableComponents/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import {BASE_URL} from '../Assets/utils/Restapi/Config';
+import Toast from 'react-native-simple-toast';
+
 const Otp = ({navigation, route}) => {
   const [pin, setPin] = useState('');
   const [counter, setCounter] = React.useState(30);
-  const [getDetailsId, setGetDetailsId] = useState('');
+  // const [getDetailsId, setGetDetailsId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
-  const {DetailsIdGet, phone} = route.params;
-  // console.log(DetailsIdGet);
-
-  useEffect(() => {
-    AsyncStorage.getItem('DetailsId').then(value => setGetDetailsId(value));
-  }, [DetailsIdGet]);
+  const phone = route.params;
+  // console.log(phone);
 
   const onPressotpVerification = () => {
-    console.log('DetailsId', getDetailsId);
-
     const verifyObj = {
-      details: getDetailsId,
       otp: pin,
-      phone: phone,
+      phone: phone?.phone,
     };
-    console.log(verifyObj);
-    // console.log('Verify obj value==' + verifyObj.otp);
-    // console.log(verifyObj);
-    // verifyObj.otp = Number(verifyObj.otp);
-    // // verifyObj.phone
-    // console.log(verifyObj);
-    // const fetchData = async () => {
-    //   setIsLoading(true);
+    // console.log('verifyObj', verifyObj);
 
     const fetchData = async () => {
       setIsLoading(true);
+      Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
+
       axios
-        .post(
-          'https://all-in-one-app-sa.herokuapp.com/user/verifyOTP',
-          verifyObj,
-        )
+        .post(BASE_URL + `/verifyOTP`, verifyObj)
+
         .then(async response => {
           await AsyncStorage.setItem('token', response.data.token);
           await AsyncStorage.setItem(
             'refreshToken',
             response.data.refreshToken,
           );
-          await AsyncStorage.setItem('userId', response.data.user_id);
+          await AsyncStorage.setItem('user_id', response.data.user_id);
+          // console.log(response.data);
+          // if (response.data.message == 'Registered successful') {
+          //   navigation.navigate('RegisterAccount');
+          // }
           console.log(response.data);
-          if (response.data.message === 'Registered successful') {
-            navigation.navigate('RegisterAccount');
-          } else {
-            navigation
-              .navigate('TabNavigation')
-              .finally(() => setIsLoading(false));
-          }
+          axios
+            .get(BASE_URL + `/profile`, {
+              headers: {
+                Authorization: `Bearer ${response.data.token}`,
+              },
+            })
+            .then(res => {
+              if (res.data.result.firstName) {
+                navigation.navigate('TabNavigation');
+              } else {
+                navigation.navigate('RegisterAccount');
+              }
+            })
+            .catch(err => {
+              if (err.response.data?.message == "User Doesn't Exists") {
+                navigation.navigate('RegisterAccount');
+              }
+            });
+          // if (response.data.message === 'Registered successful') {
+          //   navigation.navigate('RegisterAccount');
+          // } else {
+          //   navigation
+          //     .navigate('TabNavigation')
+          //     .finally(() => setIsLoading(false));
+          // }
         })
         .catch(e => {
-          console.log(e);
+          console.log('otp screen catch error', e.response.data);
+          Toast.showWithGravity(
+            e.response?.data?.message,
+            Toast.LONG,
+            Toast.BOTTOM,
+          );
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     };
     fetchData();
@@ -91,7 +110,7 @@ const Otp = ({navigation, route}) => {
     setIsButtonDisabled(true);
     setIsLoading(false);
     axios
-      .post('https://all-in-one-app-sa.herokuapp.com/user/sendOTP', {
+      .post(BASE_URL + `/sendOTP`, {
         phone: route.params.phone,
       })
       .then(async res => {

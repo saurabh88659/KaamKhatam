@@ -76,12 +76,17 @@ import Location from './Source/screens/Location';
 import Home from './Source/screens/Home/Home';
 import TabNavigation from './Navigation/TabNavigation';
 import DrowerNavigation from './Navigation/DrowerNavigation';
+import Subcategory from './Source/screens/Category.js/Subcategory';
+import Subcategory2 from './Source/screens/Category.js/Subcategory2';
+import Services from './Source/screens/Category.js/Services';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
-    <NavigationContainer independent={true}>
+    <NavigationContainer
+    //  independent={true}
+    >
       <Stack.Navigator>
         <Stack.Screen
           name="Splash"
@@ -405,6 +410,21 @@ const App = () => {
         <Stack.Screen
           name="Bottomsheetmodal"
           component={Bottomsheetmodal}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Subcategory"
+          component={Subcategory}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Subcategory2"
+          component={Subcategory2}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Services"
+          component={Services}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

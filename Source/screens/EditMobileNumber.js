@@ -4,6 +4,7 @@ import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import {BASE_URL} from '../Assets/utils/Restapi/Config';
 
 function EditMobileNumber({navigation, route}) {
   const [changenumber, setChangenubmer] = useState();
@@ -11,31 +12,33 @@ function EditMobileNumber({navigation, route}) {
 
   const preData = route.params;
 
+  // console.log('preData', preData);
+
   const handleSendOTP = async () => {
     axios
-      .post('https://all-in-one-app-sa.herokuapp.com/user/sendOTP', {
+      .post(BASE_URL + `/sendOTP`, {
         phone: changenumber,
       })
       .then(res => {
         console.log(res.data);
-        if (res.data.details) {
-          AsyncStorage.setItem('DetailsId', res.data.details);
+        if (res.data) {
+          // AsyncStorage.setItem('DetailsId', res.data.details);
           navigation.navigate('MobileOtp', {
-            details: res.data.details,
+            // details: res.data.details,
             phone: changenumber,
           });
         } else {
           console.log('else condtion');
         }
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch(error => {
+        console.log('mobail nuember otp catch error', error.response.data);
       });
   };
 
-  useEffect(() => {
-    AsyncStorage.getItem('DetailsId').then(value => setGetDetailsId(value));
-  }, []);
+  // useEffect(() => {
+  //   AsyncStorage.getItem('DetailsId').then(value => setGetDetailsId(value));
+  // }, []);
 
   return (
     <>

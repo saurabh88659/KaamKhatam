@@ -35,11 +35,16 @@ import {
   GraphRequest,
   GraphRequestManager,
 } from 'react-native-fbsdk';
+import {BASE_URL} from '../Assets/utils/Restapi/Config';
 
 const {height, width} = Dimensions.get('screen');
 
 const Login = props => {
   const [isSelected, setSelection] = useState(false);
+  const [MobileNumber, setMobileNumber] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMobileNumber, setErrorMobileNumber] = useState(null);
+  const [isPhone, setIsPhone] = useState(false);
 
   // useEffect(() => {
   //   GoogleSignin.configure();
@@ -153,15 +158,9 @@ const Login = props => {
   // }
   // // const [checkMobileNumber, setCheckMobileNumber] = useState(true);
 
-  const [MobileNumber, setMobileNumber] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [detailsValue, setdetailsValue] = useState(null);
-  const [otpValue, setOtp] = useState(null);
-  const [getValue, setGetValue] = useState(true);
-
-  const [errorMobileNumber, setErrorMobileNumber] = useState(null);
-  const [isPhone, setIsPhone] = useState(false);
+  // const [detailsValue, setdetailsValue] = useState(null);
+  // const [otpValue, setOtp] = useState(null);
+  // const [getValue, setGetValue] = useState(true);
 
   const _validateMobileNumber = mobileNo => {
     var mobileNoRegex = /^[6-9]{1}[0-9]{9}$/;
@@ -178,48 +177,30 @@ const Login = props => {
     }
   };
 
-  // const validate = () => {
-  //   let flag = true;
-  //   if (MobileNumber === 'hello') {
-  //     setErrorMobileNumber('*Please enter mobile number.');
-  //     flag = false;
-  //   }
-
-  //   return flag && isPhone;
-  // };
-
-  // const onSubmit = () => {
-  //   if (validate()) {
-  //     props.navigation.navigate('Otp');
-  //     // api();
-  //   } else {
-  //   }
-  // };
-
   // ************ Login Api Integration ************
 
   const handleSubmit = () => {
     const SubmitDAta = {
       phone: MobileNumber,
     };
+    console.log('phone number', SubmitDAta);
     setIsLoading(true);
     axios
-      .post('https://all-in-one-app-sa.herokuapp.com/user/sendOTP', SubmitDAta)
+      .post(BASE_URL + `/sendOTP`, SubmitDAta)
       .then(res => {
+        // console.log('response', res.data);
         if (res.data.Status == 200) {
           alert('Number is not ');
-        } else if (res.data.details) {
-          AsyncStorage.setItem('DetailsId', res.data.details);
+        } else if (res.data) {
           props.navigation.navigate('Otp', {
-            DetailsIdGet: res.data.details,
             phone: MobileNumber,
           });
         } else {
           console.log('else condtion');
         }
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch(error => {
+        console.log(error.response);
       })
       .finally(() => setIsLoading(false));
   };
@@ -285,14 +266,11 @@ const Login = props => {
             />
           ) : (
             <CustomButton
-              // onPress={()=>}
               title={'Login / Sign Up'}
               bgColor={Colors.lightGreen}
               width={wp('80%')}
               height={hp('7%')}
               color={Colors.white}
-              // onPress={() => props.navigation.navigate('Otp')}
-              // onPress={onSubmit}
               onPress={handleSubmit}
             />
           )}

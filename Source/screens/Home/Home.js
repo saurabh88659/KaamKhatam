@@ -19,46 +19,79 @@ import Colors from '../../Assets/Constants/Colors';
 import HeaderDrawer from '../../ReusableComponents/HeaderDrawer';
 import ServicesComp from './Component/ServicesComp';
 import BeautyServices from './Component/BeautyServices';
-
-// import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import Swiper from 'react-native-swiper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import {BASE_URL} from '../../Assets/utils/Restapi/Config';
+import {_getStorage} from '../../Assets/utils/storage/Storage';
 
-const Home = ({navigation}) => {
+function Home({navigation}) {
   const [category, setCategory] = useState([]);
+
+  const [actieindex, setActieindex] = useState('');
+
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     homescreen();
   }, []);
 
-  const homescreen = () => {
+  const funnavigeData = async () => {
+    const token = await _getStorage('token');
+
+    // console.log(token);
     axios
-      .get('https://all-in-one-app-sa.herokuapp.com/category/allCategory', {
-        headers: {Authorization: ''},
+      .get(BASE_URL + `/category/categoryService/${actieindex}`, {
+        headers: {Authorization: `Bearer ${token}`},
       })
       .then(resp => {
+        if (resp.data.result.subCategory?.length !== 0) {
+          navigation.navigate('Subcategory', {actieindex});
+        } else if (resp.data.result.service?.length !== 0) {
+          let navData = {
+            _id: actieindex,
+            from: 'cat',
+          };
+          navigation.navigate('Services', {navData});
+        } else {
+        }
+        console.log('subCategory-------->>>', resp.data.result.subCategory);
+        // setIsLoading(false);
+      })
+      .catch(error => {
+        console.log('in catch error data home  ', error.response);
+        // setIsLoading(false);
+      });
+  };
+
+  const homescreen = async () => {
+    const token = await _getStorage('token');
+    axios
+      .get(BASE_URL + `/category/allCategory`, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(async resp => {
         setCategory(resp.data.category);
         setIsLoading(false);
+        // setActieindex(resp.data.category._id);
+        // console.log('home category--------------', resp.data.category);
       })
       .catch(e => {
-        console.log('in catch');
-        console.log(e);
+        console.log('home screen catch error', e.response.data);
         setIsLoading(false);
       });
   };
 
-  console.log('hello===================================', category);
+  console.log('========ALLHOMEID=========', actieindex);
 
   return (
     <SafeAreaView style={styles.container}>
       <HeaderDrawer
         Title="ALL IN ONE"
         location="Sector 62"
-        onPress={() => navigation.toggleDrawer()}
         // onPress={() => navigation.toggleDrawer()}
-        // onPress={() => console.log('hey===================')}
+        onPress={() => navigation.openDrawer()}
+        // onPress={() => navigation.toggleDrawer()}
       />
       {isLoading ? (
         <View
@@ -131,15 +164,23 @@ const Home = ({navigation}) => {
                   justifyContent: 'space-between',
                 }}>
                 {category.map((val, index) => (
-                  // console.log('Category=====111111111111111=======', val),
+                  // console.log(
+                  //   'Category home=====111111111111111=======',
+                  //   val._id,
+                  // ),
                   <View key={index} style={{alignItems: 'center'}}>
                     <ServicesComp
                       title={val.name}
-                      image={require('../../Assets/Images/facial-treatmenticone66.png')}
+                      image={val.imageUrl}
                       newStyle
                       onPress={() => {
-                        navigation.navigate('ServicesofWomenOnly', val);
+                        navigation.navigate('Subcategory', val);
+                        setActieindex(val._id);
                       }}
+                      // onPress={() => {
+                      //   setActieindex(val._id);
+                      //   funnavigeData;
+                      // }}
                     />
                   </View>
 
@@ -297,7 +338,7 @@ const Home = ({navigation}) => {
       )}
     </SafeAreaView>
   );
-};
+}
 
 export default Home;
 const styles = StyleSheet.create({

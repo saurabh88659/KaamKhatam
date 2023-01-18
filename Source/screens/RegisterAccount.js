@@ -28,6 +28,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const {height, width} = Dimensions.get('window');
 import {RadioButton} from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import {BASE_URL} from '../Assets/utils/Restapi/Config';
+import Toast from 'react-native-simple-toast';
+import {_getStorage} from '../Assets/utils/storage/Storage';
 
 const RegisterAccount = props => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -38,15 +41,26 @@ const RegisterAccount = props => {
   const [pincode, setPincode] = useState('');
   const [changemobile, setMobilechange] = useState('');
   const [code, setCode] = useState('');
-
-  const [isLoading, setIsLoading] = useState(true);
-
+  const [email, setEmail] = useState('');
+  const [emailOtp, setemailOtp] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [gender, setGender] = useState('');
+  const [state, setState] = useState('');
+  const [address, setAddress] = useState('');
+  const [dataupdate, setDataupdate] = useState({});
+  const [getDate, setGetDate] = useState('');
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
-  // console.log({firstname, lastname, date, gender, city, pincode});
+  useEffect(() => {
+    profiledata();
+  }, []);
 
   const handleSubmit = async () => {
-    // props.navigation.navigate('Location');
+    // const token = await AsyncStorage.getItem('token');
+    const token = await _getStorage('token');
+
+    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
+
     let newObj = {
       firstName: firstname,
       lastName: lastname,
@@ -54,20 +68,21 @@ const RegisterAccount = props => {
       gender: gender,
       city: city,
       pincode: Number(pincode),
+      state,
+      address: address,
     };
-    console.log(newObj);
-    const token = await AsyncStorage.getItem('token');
     console.log(token);
     console.log('newOBJ', newObj);
-    setIsLoading(true);
+    // setIsLoading(true);
     axios
-      .put('https://all-in-one-app-sa.herokuapp.com/user/profile', newObj, {
+      .put(BASE_URL + `/profile`, newObj, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(val => {
         console.log(val.data);
         // setIsLoading(false);
         props.navigation.navigate('TabNavigation');
+        Toast.showWithGravity(val.data.message, Toast.LONG, Toast.BOTTOM);
       })
       .catch(e => {
         console.log('in catch');
@@ -76,13 +91,13 @@ const RegisterAccount = props => {
   };
 
   // =====================++++++++++=====================
-  const [dataupdate, setDataupdate] = useState({});
 
-  useEffect(async () => {
-    const token = await AsyncStorage.getItem('token');
+  const profiledata = async () => {
+    const token = await _getStorage('token');
+    // console.log('token----------------------------', token);
 
     axios
-      .get('https://all-in-one-app-sa.herokuapp.com/user/profile', {
+      .get(BASE_URL + `/profile`, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(val => {
@@ -92,6 +107,9 @@ const RegisterAccount = props => {
         setDate(val.data.result.dateOfBirth);
         setCity(val.data.result.city);
         setGender(val.data.result.gender);
+        setState(val.data.result.state);
+        setAddress(val.data.result.address);
+
         setPincode(
           val.data.result.pincode
             ? String(val.data.result.pincode)
@@ -105,13 +123,10 @@ const RegisterAccount = props => {
 
       .catch(e => {
         console.log('in catch');
-        console.log(e);
+        console.log('catch error in get profile', e);
         setIsLoading(false);
       });
-  }, []);
-
-  const [getDate, setGetDate] = useState('');
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  };
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -138,87 +153,78 @@ const RegisterAccount = props => {
   };
 
   // ======================email intrigation===================
-  // const [errorEmail, setErrorEmail] = useState(null);
 
-  const [email, setEmail] = useState('');
-  const [emailOtp, setemailOtp] = useState('');
-
-  const handleOkay = async () => {
-    // console.log('Hey');
-    // console.log('otp', emailOtp);
-    // console.log('OTP', code);
-    const token = await AsyncStorage.getItem('token');
+  const _verifyMailotp = async () => {
+    const token = await _getStorage('token');
+    // console.log('token ===', token);
     const obj = {
       id: emailOtp,
       otp: Number(code),
     };
-    console.log(obj);
+    // console.log(obj);
     axios
-      .post('https://all-in-one-app-sa.herokuapp.com/user/verifyMailOTP', obj, {
+      .post(BASE_URL + `/verifyMailOTP`, obj, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(value => {
         console.log(value.data);
+        setModalVisible(!modalVisible);
       })
-      .catch(e => {
-        console.log(e);
+      .catch(error => {
+        console.log(error.response.data);
       });
-    setModalVisible(!modalVisible);
   };
 
-  const LoginApi = async () => {
-    console.log('hi=============================');
+  const LoginApisendmailotp = async () => {
+    const token = await _getStorage('token');
+    // console.log('email-------------.....>>>', token);
 
-    const token = await AsyncStorage.getItem('token');
-    console.log('email-------------', token);
-
-    // setLoader(true);
+    const emailObj = {
+      email,
+    };
+    // console.log('emailObj', emailObj);
 
     axios
-      .post(
-        'https://all-in-one-app-sa.herokuapp.com/user/sendMail',
-        {
-          email: email,
-        },
-        {
-          headers: {Authorization: `Bearer ${token}`},
-        },
-      )
-      .then(value => {
-        // AsyncStorage.setItem('token', value.data.token);
-        // console.log('h4h4h4h4==', value.data.id);
-        setemailOtp(value.data._id);
-        let aasdsadasd = value.data.id;
-        setemailOtp(aasdsadasd);
+      .put(BASE_URL + `/sendMail`, emailObj, {
+        headers: {Authorization: `Bearer ${token}`},
       })
-      .catch(e => {
-        console.log(e);
+
+      .then(res => {
+        console.log('email response', res.data);
+        setemailOtp(res.data.id);
+        // let mail_Id = res.data.id;
+        // setemailOtp(mail_Id);
+        setModalVisible(!modalVisible);
+      })
+
+      .catch(error => {
+        console.log('email send otp catch error', error.response.data.message);
       });
   };
-  ////////////////////////////////////////////////////////////////////
+
+  // console.log('emailOtp', emailOtp);
 
   const resendemail = async () => {
-    console.log('HIHIHI');
-    const token = await AsyncStorage.getItem('token');
+    const token = await _getStorage('token');
+    // console.log('resend otp-------------.....>>>', token);
+
+    const emailObj = {
+      email,
+    };
+    // console.log('emailObj', emailObj);
 
     axios
-      .post(
-        'https://all-in-one-app-sa.herokuapp.com/user/sendMail',
-        {
-          email: email,
-        },
-        {
-          headers: {Authorization: `Bearer ${token}`},
-        },
-      )
-      .then(value => {
-        setemailOtp(value.data._id);
-        let aasdsadasd = value.data.id;
-        setemailOtp(aasdsadasd);
-        console.log('resend sucessfully');
+      .put(BASE_URL + `/sendMail`, emailObj, {
+        headers: {Authorization: `Bearer ${token}`},
       })
-      .catch(e => {
-        console.log(e);
+
+      .then(res => {
+        console.log('email response', res.data);
+        setemailOtp(res.data.id);
+      })
+
+      .catch(error => {
+        console.log('email send otp catch error', error.response.data.message);
       });
   };
 
@@ -230,7 +236,7 @@ const RegisterAccount = props => {
         title="Register Account"
         onPress={() => props.navigation.goBack()}
       />
-      {isLoading ? (
+      {isLoading === true ? (
         <View
           style={{
             minHeight: '100%',
@@ -250,6 +256,7 @@ const RegisterAccount = props => {
                   fontSize: 15,
                   marginHorizontal: 20,
                   top: 10,
+                  color: Colors.black,
                 }}>
                 First Name
               </Text>
@@ -276,6 +283,7 @@ const RegisterAccount = props => {
                   marginHorizontal: 20,
                   fontWeight: 'bold',
                   fontSize: 15,
+                  color: Colors.black,
                 }}>
                 Last Name
               </Text>
@@ -303,6 +311,7 @@ const RegisterAccount = props => {
                   fontWeight: 'bold',
                   fontSize: 15,
                   top: 5,
+                  color: Colors.black,
                 }}>
                 Date of Birth
               </Text>
@@ -347,6 +356,7 @@ const RegisterAccount = props => {
                   fontWeight: 'bold',
                   fontSize: 15,
                   // top: 5,
+                  color: Colors.black,
                 }}>
                 Gender
               </Text>
@@ -376,6 +386,65 @@ const RegisterAccount = props => {
                   <Text style={{top: 10, fontWeight: '500'}}>Female</Text>
                 </View>
               </View>
+              <View>
+                <Text
+                  style={{
+                    marginHorizontal: 20,
+                    fontWeight: 'bold',
+                    fontSize: 15,
+                    color: Colors.black,
+                  }}>
+                  State
+                </Text>
+                <TextInput
+                  placeholder="State"
+                  placeholderTextColor="grey"
+                  value={state}
+                  onChangeText={text => {
+                    setState(text);
+                  }}
+                  style={{
+                    marginHorizontal: 15,
+                    // backgroundColor: 'red',
+                    borderColor: 'grey',
+                    borderWidth: 1,
+                    borderRadius: 6,
+                    paddingHorizontal: 15,
+                    marginVertical: 5,
+                    color: 'black',
+                  }}
+                />
+              </View>
+              <View>
+                <Text
+                  style={{
+                    marginHorizontal: 20,
+                    fontWeight: 'bold',
+                    fontSize: 15,
+                    color: Colors.black,
+                  }}>
+                  Address
+                </Text>
+                <TextInput
+                  placeholder="Address"
+                  placeholderTextColor="grey"
+                  value={address}
+                  onChangeText={text => {
+                    setAddress(text);
+                  }}
+                  style={{
+                    marginHorizontal: 15,
+                    // backgroundColor: 'red',
+                    borderColor: 'grey',
+                    borderWidth: 1,
+                    borderRadius: 6,
+                    paddingHorizontal: 15,
+                    marginVertical: 5,
+                    color: 'black',
+                  }}
+                />
+              </View>
+
               <View
                 style={{
                   flexDirection: 'row',
@@ -474,11 +543,8 @@ const RegisterAccount = props => {
                     }}
                   />
                   <TouchableOpacity
-                    onPress={() => {
-                      setModalVisible(true);
-                      LoginApi();
-                    }}
-                    // onPress={LoginApi}
+                    onPress={LoginApisendmailotp}
+                    // onPress={() => setModalVisible(!modalVisible)}
                     style={{
                       borderWidth: 1,
                       borderColor: 'green',
@@ -603,7 +669,7 @@ const RegisterAccount = props => {
                   </View>
                   <TouchableOpacity
                     // onPress={() => setModalVisible(!modalVisible)}
-                    onPress={handleOkay}
+                    onPress={_verifyMailotp}
                     // onPress={formdata}
                     style={{
                       backgroundColor: '#138F00',

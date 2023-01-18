@@ -17,28 +17,26 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {BASE_URL} from '../Assets/utils/Restapi/Config';
+import {_getStorage} from '../Assets/utils/storage/Storage';
 
 function MobileOtp({navigation, route}) {
   const [pin, setPin] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [changenumber, setChangenubmer] = useState('');
-  const [details, setDetails] = useState('');
 
-  // console.log('DetailsIdGet====', route.params);
   const handleSubmit = async () => {
-    // console.log('hi', pin);
-    const token = await AsyncStorage.getItem('token');
+    const token = await _getStorage('token');
+
     console.log(token);
     const newObj = {
-      details: details,
       phone: route.params.phone,
       otp: Number(pin),
     };
-    console.log(newObj);
     setIsLoading(false);
 
     axios
-      .put('https://all-in-one-app-sa.herokuapp.com/user/phone', newObj, {
+      .put(BASE_URL + `/phone`, newObj, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(val => {
@@ -47,15 +45,13 @@ function MobileOtp({navigation, route}) {
 
           navigation.navigate('RegisterAccount'),
             {
-              details: res.data.details,
               phone: changenumber,
               otp: Number(pin),
             };
         }
       })
-      .catch(e => {
-        console.log('in catch');
-        console.log(e);
+      .catch(error => {
+        console.log('otp mobail otp catch error', error.response.data);
       });
   };
 
@@ -64,34 +60,29 @@ function MobileOtp({navigation, route}) {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   useEffect(() => {
-    setDetails(route.params.details);
     const timer =
       counter > 0 && setInterval(() => setCounter(counter - 1), 1000);
     return () => clearInterval(timer);
   }, [counter]);
 
   const handleResend = () => {
-    console.log('hi========================++++++=', pin);
-
     setIsButtonDisabled(true);
     setIsLoading(false);
     axios
-      .post('https://all-in-one-app-sa.herokuapp.com/user/sendOTP', {
+      .post(BASE_URL + `/sendOTP`, {
         phone: route.params.phone,
       })
       .then(res => {
         console.log('jayguhio', res.data);
-        if (res.data.details) {
-          setDetails(res.data.details);
+        if (res.data) {
         } else {
           console.log('else condtion');
         }
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error.response.data);
       });
   };
-  console.log('hello========', route.params.phone);
 
   return (
     <>

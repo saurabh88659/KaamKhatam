@@ -22,36 +22,58 @@ import axios from 'axios';
 import Reusablecss from '../Assets/Css/Reusablecss';
 import GreenHeader from '../ReusableComponents/GreenHeader';
 import AddCart from '../ReusableComponents/AddCart';
+import {BASE_URL} from '../Assets/utils/Restapi/Config';
+import {_getStorage} from '../Assets/utils/storage/Storage';
 
 const SpaforWomen = props => {
   const preData = props.route.params;
-  console.log('SUB--2222', preData);
+  // console.log('SUB--2222', preData);
   const [services, setServices] = useState('');
+
+  // console.log('subCategory2============333333333333333333==============');
+  // console.log('hey--------------', preData);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       BASE_URL + `/category/subcategoryService/${preData._id}`,
+
+  //       {
+  //         headers: {Authorization: ''},
+  //       },
+  //     )
+  //     .then(resp => {
+  //       console.log('heeeeeeeeeeeeeeeeeeeee', resp.data);
+  //       setServices(resp.data.result);
+  //     })
+  //     .catch(e => {
+  //       console.log('in catch');
+  //       console.log(e);
+  //     });
+  // }, []);
+
+  useEffect(() => {
+    subservice();
+  }, []);
+
+  const subservice = async () => {
+    const token = await _getStorage('token');
+    console.log('token', token);
+    axios
+      .get(BASE_URL + `/category/subcategoryService/${preData._id}`, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(rep => {
+        console.log('sub services', rep.data.result);
+        setServices(rep.data.result.service);
+      })
+      .catch(error => {
+        console.log('subservices', error.response.data);
+      });
+  };
 
   console.log('dablu=======================', services);
 
-  console.log('subCategory2============333333333333333333==============');
-  console.log('hey--------------', preData);
-
-  useEffect(() => {
-    axios
-      .get(
-        'https://all-in-one-app-sa.herokuapp.com/category/subcategoryService/' +
-          preData._id,
-        {
-          headers: {Authorization: ''},
-        },
-      )
-      .then(resp => {
-        console.log('heeeeeeeeeeeeeeeeeeeee', resp.data);
-        setServices(resp.data.result);
-      })
-      .catch(e => {
-        console.log('in catch');
-        console.log(e);
-      });
-  }, []);
-  console.log('afteraxios');
   return (
     <View style={styles.container}>
       <Header
@@ -75,7 +97,7 @@ const SpaforWomen = props => {
           }
           // keyExtractor={(subCategory2, index) => index.toString()}
           showsVerticalScrollIndicator={false}
-          data={preData.subCategory2}
+          data={services}
           renderItem={({item, index}) => (
             <ServiceItems
               title={item.name}
