@@ -17,6 +17,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-crop-picker';
 import HeaderDrawer from '../ReusableComponents/HeaderDrawer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {BottomSheet} from 'react-native-btr';
+
 import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 
@@ -26,6 +28,7 @@ const ProfileScreen = ({navigation, route}) => {
   const [imageUrlPath, setImageUrlPath] = useState(null);
   const [imageUrlData, setImageUrlData] = useState('');
   const [profileData, setProfileData] = useState({});
+  const [visible, setVisible] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -41,39 +44,22 @@ const ProfileScreen = ({navigation, route}) => {
       setImageUrlData(image.data);
     });
   };
-
-  // const onCamera = () => {
-  //   console.warn('hello');
-  //   ImagePicker.openCamera({
-  //     cropping: true,
-  //     includeBase64: true,
-  //     mediaType: 'any',
-  //   }).then(image => {
-  //     console.log('===== Open Camera =====222', image);
-  //     setImageUrlPath(image.path);
-  //     setImageUrlData(image.data);
-  //   });
-  // };
-
-  // useEffect(async () => {
-  //   const token = await AsyncStorage.getItem('token');
-  //   setIsLoading(false);
-
-  //   axios
-  //     .get('https://all-in-one-app-sa.herokuapp.com/user/profile', {
-  //       headers: {Authorization: `Bearer ${token}`},
-  //     })
-  //     .then(val => {
-  //       setProfileData(val.data.result);
-  //     })
-  //     .catch(e => {
-  //       console.log('in catch');
-  //       console.log(e);
-  //     });
-  // }, []);
-
-  // ================================================
-  // const [getTokenId, setTokenId] = useState();
+  const toggleBottomNavigationView = () => {
+    setVisible(!visible);
+  };
+  const onCamera = () => {
+    console.warn('hello');
+    ImagePicker.openCamera({
+      cropping: true,
+      quality: 1,
+      includeBase64: true,
+      mediaType: 'any',
+    }).then(image => {
+      // console.log('===== Open Camera =====222', image);
+      setImageUrlPath(image.path);
+      setImageUrlData(image.data);
+    });
+  };
 
   useEffect(() => {
     profileapi();
@@ -136,7 +122,7 @@ const ProfileScreen = ({navigation, route}) => {
               </ImageBackground>
               <TouchableOpacity
                 style={{top: -55, alignSelf: 'center', margin: 20, left: 36}}
-                onPress={onGallary}>
+                onPress={toggleBottomNavigationView}>
                 <Image
                   source={require('../Assets/Images/cameraicone22.png')}
                   style={Styles.cameraicone}
@@ -252,6 +238,81 @@ const ProfileScreen = ({navigation, route}) => {
           </ScrollView>
         </View>
       )}
+      <BottomSheet
+        visible={visible}
+        onBackButtonPress={toggleBottomNavigationView}
+        onBackdropPress={toggleBottomNavigationView}>
+        <View style={Styles.bottomNavigationView}>
+          <View style={{alignItems: 'center'}}>
+            <Text
+              style={{
+                color: Colors.black,
+                fontSize: 20,
+                fontWeight: '500',
+                top: 20,
+              }}>
+              Upload Photo
+            </Text>
+            <Text
+              style={{
+                color: Colors.lightGray,
+                fontSize: 15,
+                top: 25,
+              }}>
+              Choose Your Profile Picture
+            </Text>
+          </View>
+          <TouchableOpacity
+            onPress={onCamera}
+            style={{
+              backgroundColor: Colors.lightOrange,
+              height: 50,
+              top: 40,
+              marginHorizontal: 20,
+              borderRadius: 7,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Text
+              style={{color: Colors.white, fontSize: 17, fontWeight: 'bold'}}>
+              Take Photo
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={onGallary}
+            style={{
+              backgroundColor: Colors.lightOrange,
+              height: 50,
+              marginHorizontal: 20,
+              borderRadius: 7,
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginTop: 50,
+            }}>
+            <Text
+              style={{color: Colors.white, fontSize: 17, fontWeight: 'bold'}}>
+              Choose From Gellery
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setVisible(!visible)}
+            style={{
+              backgroundColor: Colors.lightOrange,
+              height: 50,
+              //   top: 40,
+              marginHorizontal: 20,
+              borderRadius: 7,
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginTop: 10,
+            }}>
+            <Text
+              style={{color: Colors.white, fontSize: 17, fontWeight: 'bold'}}>
+              Cancel
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </BottomSheet>
     </SafeAreaView>
   );
 };
@@ -302,5 +363,12 @@ const Styles = StyleSheet.create({
     margin: 5,
     top: -15,
     borderRadius: 4,
+  },
+  bottomNavigationView: {
+    backgroundColor: '#fff',
+    width: '100%',
+    height: 280,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
 });

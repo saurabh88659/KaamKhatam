@@ -27,44 +27,13 @@ import {_getStorage} from '../../Assets/utils/storage/Storage';
 
 function Home({navigation}) {
   const [category, setCategory] = useState([]);
-
-  const [actieindex, setActieindex] = useState('');
-
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    homescreen();
+    getAllCategory();
   }, []);
 
-  const funnavigeData = async () => {
-    const token = await _getStorage('token');
-
-    // console.log(token);
-    axios
-      .get(BASE_URL + `/category/categoryService/${actieindex}`, {
-        headers: {Authorization: `Bearer ${token}`},
-      })
-      .then(resp => {
-        if (resp.data.result.subCategory?.length !== 0) {
-          navigation.navigate('Subcategory', {actieindex});
-        } else if (resp.data.result.service?.length !== 0) {
-          let navData = {
-            _id: actieindex,
-            from: 'cat',
-          };
-          navigation.navigate('Services', {navData});
-        } else {
-        }
-        console.log('subCategory-------->>>', resp.data.result.subCategory);
-        // setIsLoading(false);
-      })
-      .catch(error => {
-        console.log('in catch error data home  ', error.response);
-        // setIsLoading(false);
-      });
-  };
-
-  const homescreen = async () => {
+  const getAllCategory = async () => {
     const token = await _getStorage('token');
     axios
       .get(BASE_URL + `/category/allCategory`, {
@@ -73,8 +42,7 @@ function Home({navigation}) {
       .then(async resp => {
         setCategory(resp.data.category);
         setIsLoading(false);
-        // setActieindex(resp.data.category._id);
-        // console.log('home category--------------', resp.data.category);
+        console.log('home category--------------', resp.data.category);
       })
       .catch(e => {
         console.log('home screen catch error', e.response.data);
@@ -82,7 +50,34 @@ function Home({navigation}) {
       });
   };
 
-  console.log('========ALLHOMEID=========', actieindex);
+  const getCategoryWiseService = async id => {
+    const token = await _getStorage('token');
+    // console.log('home id', id);
+
+    axios
+      .get(BASE_URL + `/category/categoryService/${id}`, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(resp => {
+        if (resp.data.result.subCategory?.length !== 0) {
+          navigation.navigate('Subcategory', {id});
+        } else if (resp.data.result.service?.length !== 0) {
+          let navData = {
+            _id: id,
+            from: 'cat',
+          };
+          console.log('home navData', navData);
+          navigation.navigate('Services', {navData});
+        } else {
+        }
+        console.log('subCategory-------->>>', resp.data.result.subCategory);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.log('in catch error data home', error.response);
+        setIsLoading(false);
+      });
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -173,14 +168,11 @@ function Home({navigation}) {
                       title={val.name}
                       image={val.imageUrl}
                       newStyle
-                      onPress={() => {
-                        navigation.navigate('Subcategory', val);
-                        setActieindex(val._id);
-                      }}
                       // onPress={() => {
+                      //   navigation.navigate('Subcategory', val);
                       //   setActieindex(val._id);
-                      //   funnavigeData;
                       // }}
+                      onPress={() => getCategoryWiseService(val._id, val.name)}
                     />
                   </View>
 

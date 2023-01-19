@@ -1,4 +1,10 @@
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import Header from '../../ReusableComponents/Header';
@@ -8,53 +14,55 @@ import {BASE_URL} from '../../Assets/utils/Restapi/Config';
 
 const Subcategory = props => {
   const [subCategory, setSubcategory] = useState([]);
-  const [subActive, setSubActive] = useState('');
+  // const [subActive, setSubActive] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   const predata = props.route.params;
 
-  console.log('==========predata===========', predata._id);
-
-  console.log('==========subActive===========', subActive);
+  console.log('Subcategory==========predata===========', predata);
+  // console.log('==========subActive===========', subActive);
 
   useEffect(() => {
     subCategoryscreen();
-    // subCategorytwo();
   }, []);
 
   const subCategoryscreen = async () => {
     const token = await _getStorage('token');
     console.log('token SUB ', token);
+
     axios
-      .get(BASE_URL + `/category/categoryService/${predata._id}`, {
+      .get(BASE_URL + `/category/categoryService/${predata.id}`, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(resp => {
         setSubcategory(resp.data.result.subCategory);
-        // console.log('subCategory-------->>>', resp.data.result.subCategory);
-        // setIsLoading(false);
+        console.log('subCategory-------->>>', resp.data.result.subCategory);
+        setIsLoading(false);
       })
       .catch(error => {
-        console.log('SUB CATEGORY catch error data 22', error.response.data);
-        // setIsLoading(false);
+        console.log('SUB CATEGORY catch error data', error.response.data);
+        setIsLoading(false);
       });
   };
 
-  const subCategorytwo = async () => {
+  const getSubCategoryWIseService = async id => {
     const token = await _getStorage('token');
     // setIsLoading(true);
+    // console.log('SubcategorID---------------------------', id);
 
     axios
-      .get(BASE_URL + `/category/subcategoryService/${subActive}`, {
+      .get(BASE_URL + `/category/subcategoryService/${id}`, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(resp => {
         if (resp.data.result.subCategory2?.length !== 0) {
-          props.navigation.navigate('Subcategory2', {subActive});
+          props.navigation.navigate('Subcategory2', {id});
         } else if (resp.data.result.service?.length !== 0) {
           let navData = {
-            _id: subActive,
+            id: id,
             from: 'sub_cat',
           };
+          console.log('navData----------------', navData);
           props.navigation.navigate('Services', {navData});
         } else {
         }
@@ -62,15 +70,10 @@ const Subcategory = props => {
         // setIsLoading(false);
       })
       .catch(error => {
-        console.log(
-          'SUB CATEGORY 22 2224434434 in catch error data',
-          error.response.data,
-        );
+        console.log('SUB CATEGORY  in catch error data', error);
         // setIsLoading(false);
       });
   };
-
-  //   console.log('subActive', subActive);
 
   return (
     <View>
@@ -80,34 +83,48 @@ const Subcategory = props => {
         title={predata.name}
         onPress={() => props.navigation.goBack()}
       />
-      <View>
-        {subCategory.map((v, index) => (
-          // console.log('v--------------->>>', v),
-          <TouchableOpacity
-            key={index}
-            style={{
-              flexDirection: 'row',
-              marginHorizontal: 20,
-              marginVertical: 20,
-            }}
-            onPress={() => {
-              props.navigation.navigate('Subcategory2', v);
-              setSubActive(v._id);
-            }}>
-            <Image source={v.imageUrl} style={{height: 70, width: 70}} />
-            <Text
+
+      {isLoading ? (
+        <View
+          style={{
+            minHeight: '90%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <ActivityIndicator color={Colors.darkOrange} size="large" />
+        </View>
+      ) : (
+        <View>
+          {subCategory.map((v, index) => (
+            // console.log('v--------------->>>', v),
+            <TouchableOpacity
+              key={index}
               style={{
-                fontSize: 18,
-                fontWeight: 'bold',
-                marginHorizontal: 15,
-                marginVertical: 25,
-                color: Colors.black,
+                flexDirection: 'row',
+                marginHorizontal: 20,
+                marginVertical: 5,
+              }}
+              onPress={() => {
+                // props.navigation.navigate('Subcategory2', v);
+                // setSubActive(v._id);
+                getSubCategoryWIseService(v._id);
               }}>
-              {v.name}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+              <Image source={v.imageUrl} style={{height: 70, width: 70}} />
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: 'bold',
+                  marginHorizontal: 15,
+                  marginVertical: 25,
+                  color: Colors.black,
+                }}>
+                {v.name}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
     </View>
   );
 };

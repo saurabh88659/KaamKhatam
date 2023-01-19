@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, Image, FlatList, StyleSheet} from 'react-native';
+import {
+  Text,
+  View,
+  Image,
+  FlatList,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
 
 import {
   heightPercentageToDP as hp,
@@ -15,30 +22,39 @@ import Header from '../../ReusableComponents/Header';
 
 const SpaforWomen = props => {
   const preData = props.route.params;
-  //   console.log('SUB--2222', preData._id);
   const [services, setServices] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+
+  // console.log('SUB--2222', preData);
 
   useEffect(() => {
     subservice();
   }, []);
 
+  const subCategorytwo = id => {
+    let navData = {
+      id,
+      from: 'sub_cat_2',
+    };
+    props.navigation.navigate('Services', {navData});
+  };
+
   const subservice = async () => {
     const token = await _getStorage('token');
     console.log('token', token);
     axios
-      .get(BASE_URL + `/category/subcategoryService/${preData._id}`, {
+      .get(BASE_URL + `/category/subcategoryService/${preData.id}`, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(rep => {
-        console.log('SUB category 22', rep.data.result.subCategory2);
         setServices(rep.data.result.subCategory2);
+        setIsLoading(false);
       })
       .catch(error => {
         console.log('SUB services 22', error.response.data);
+        setIsLoading(false);
       });
   };
-
-  //   console.log('dablu=======================', services);
 
   return (
     <View style={styles.container}>
@@ -48,30 +64,42 @@ const SpaforWomen = props => {
         title={preData.name}
         onPress={() => props.navigation.goBack()}
       />
-
-      <FlatList
-        ListHeaderComponent={
-          <View
-            style={{
-              width: wp('100%'),
-              height: hp('5%'),
-              marginVertical: -25,
-              borderBottomWidth: hp('0.4%'),
-              borderColor: '#F4F4F4',
-            }}
-          />
-        }
-        // keyExtractor={(subCategory2, index) => index.toString()}
-        showsVerticalScrollIndicator={false}
-        data={services}
-        renderItem={({item, index}) => (
-          <ServiceItems
-            title={item.name}
-            image={item.image}
-            click={() => props.navigation.navigate('Services', item)}
-          />
-        )}
-      />
+      {isLoading ? (
+        <View
+          style={{
+            minHeight: '90%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <ActivityIndicator color={Colors.darkOrange} size="large" />
+        </View>
+      ) : (
+        <FlatList
+          ListHeaderComponent={
+            <View
+              style={{
+                width: wp('100%'),
+                height: hp('5%'),
+                marginVertical: -25,
+                borderBottomWidth: hp('0.4%'),
+                borderColor: '#F4F4F4',
+              }}
+            />
+          }
+          // keyExtractor={(subCategory2, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+          data={services}
+          renderItem={({item, index}) => (
+            <ServiceItems
+              title={item.name}
+              image={item.image}
+              // click={() => props.navigation.navigate('Services', item)}
+              click={() => subCategorytwo(item._id)}
+            />
+          )}
+        />
+      )}
     </View>
   );
 };

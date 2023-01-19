@@ -25,55 +25,107 @@ import Header from '../../ReusableComponents/Header';
 import GreenHeader from '../../ReusableComponents/GreenHeader';
 import AddCart from '../../ReusableComponents/AddCart';
 import Reusablecss from '../../Assets/Css/Reusablecss';
-import CustomButton from '../../ReusableComponents/Button';
+// import CustomButton from '../../ReusableComponents/Button';
 import {_getStorage} from '../../Assets/utils/storage/Storage';
 import {BASE_URL} from '../../Assets/utils/Restapi/Config';
 import {BottomSheet} from 'react-native-btr';
 
-const SubSalonSpaforwomen = props => {
+const Services = props => {
   const [visible, setVisible] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
   const [serId, setSerID] = useState('');
   const [serviceID, setServiceID] = useState('');
+  const [silverID, setSilverID] = useState('');
 
-  // const [gender, setGender] = useState('');
+  // const [service, setService] = useState([]);
+
   const [services, setServices] = useState('');
   const [getname, setGetname] = useState('');
   const [silver, setSilver] = useState('');
   const [platinum, setPlatinum] = useState();
+  const [getallservices, setGetallservices] = useState([]);
   const preData = props.route.params;
 
-  // console.log('serId', serId);
-  // console.log('serviceID', serviceID);
-  // console.log('getname', getname);
-  // console.log('silver', silver);
-  // console.log('platinum', platinum);
+  // console.log('preData----------service', preData);
 
-  const toggleBottomNavigationView = () => {
+  const toggleBottomNavigationView = id => {
     setVisible(!visible);
+    setSerID(id);
   };
 
   useEffect(() => {
-    service();
+    getServices();
     getPackagesByServiceId();
   }, []);
 
-  const service = async () => {
+  const getServices = () => {
+    let from = preData.navData.from;
+    console.log('from=---------', from);
+    switch (from) {
+      case 'cat':
+        getService1();
+        break;
+      case 'sub_cat':
+        getService2();
+        break;
+      case 'sub_cat_2':
+        getService3();
+        break;
+      default:
+        break;
+    }
+  };
+
+  const getService1 = async () => {
+    const token = await _getStorage('token');
+    axios
+      .get(BASE_URL + `/category/categoryData/${preData.navData.id}`, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(response => {
+        setGetallservices(response.data.result.service);
+        console.log('getService1-->>>', response.data);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.log('getService1 error-->>', error.response.data);
+        setIsLoading(false);
+      });
+  };
+
+  const getService2 = async () => {
     const token = await _getStorage('token');
 
     axios
-      .get(BASE_URL + `/category/subcategory2Service/${preData._id}`, {
+      .get(BASE_URL + `/category/subcategoryService/${preData.navData.id}`, {
         headers: {Authorization: `Bearer ${token}`},
       })
-      .then(rep => {
-        console.log('services=====>>>>', rep.data.result);
-        setServices(rep.data.result);
-        // setIsLoading(false);
+      .then(response => {
+        setGetallservices(response.data.result.service);
+        console.log('getService2-->>>', response.data);
+        setIsLoading(false);
       })
       .catch(error => {
-        console.log('servise catch erro last r', error.response);
-        // setIsLoading(false);
+        console.log('getService2 error-->>', error.response.data);
+        setIsLoading(false);
+      });
+  };
+
+  const getService3 = async () => {
+    const token = await _getStorage('token');
+    axios
+      .get(BASE_URL + `/category/subcategory2Service/${preData.navData.id}`, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(response => {
+        setGetallservices(response.data.result);
+        // console.log('getService3-->>>', response.data);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.log('getService3 error-->>', error.response.data);
+        setIsLoading(false);
       });
   };
 
@@ -88,12 +140,22 @@ const SubSalonSpaforwomen = props => {
         setServiceID(res.data.service._id);
         setGetname(res.data.service.gold);
         setSilver(res.data.service.silver);
+        setSilverID(res.data.service.silver._id);
         setPlatinum(res.data.service.platinum);
       })
       .catch(error => {
-        console.log('catch error getPackagesByServiceId', error.response.data);
+        console.log('catch error getPackagesByServiceId', error.response);
       });
   };
+
+  const cardsilver = async () => {
+    const token = await _getStorage('token');
+    console.log('token', token);
+  };
+
+  // console.log('serviceID', serviceID);
+  // console.log('serId', serId);
+  // console.log('silverID------+++-------', silverID);
 
   return (
     <View style={Reusablecss.container}>
@@ -103,7 +165,7 @@ const SubSalonSpaforwomen = props => {
         title={preData.name}
         onPress={() => props.navigation.goBack('')}
       />
-      {/* {isLoading === true ? (
+      {isLoading === true ? (
         <View
           style={{
             minHeight: '100%',
@@ -113,72 +175,72 @@ const SubSalonSpaforwomen = props => {
           }}>
           <ActivityIndicator color={Colors.darkOrange} size="large" />
         </View>
-      ) : ( */}
-      <View>
-        <GreenHeader title="Sanitised tool, single-use products & sachets " />
-        <View style={Reusablecss.cntrContainer}>
-          <FlatList
-            keyExtractor={(item, index) => index.toString()}
-            showsVerticalScrollIndicator={false}
-            data={services}
-            renderItem={({item}) => (
-              <View style={Reusablecss.card}>
-                <View style={Reusablecss.cardItem}>
-                  <Text style={Reusablecss.title}>{item.name}</Text>
-                  <View style={Reusablecss.ratingCntr}>
-                    <FontAwesome5Icon
-                      name="star"
-                      solid
-                      size={hp('2%')}
-                      color={Colors.lightYellow}
-                    />
-                    <Text style={Reusablecss.ratingBar}>{item.rating}</Text>
-                  </View>
-                  <View style={Reusablecss.priceCntr}>
-                    <Text style={Reusablecss.img}>INR</Text>
+      ) : (
+        <View>
+          <GreenHeader title="Sanitised tool, single-use products & sachets " />
+          <View style={Reusablecss.cntrContainer}>
+            <FlatList
+              keyExtractor={(item, index) => index.toString()}
+              showsVerticalScrollIndicator={false}
+              data={getallservices}
+              renderItem={({item}) => (
+                <View style={Reusablecss.card}>
+                  <View style={Reusablecss.cardItem}>
+                    <Text style={Reusablecss.title}>{item.name}</Text>
+                    <View style={Reusablecss.ratingCntr}>
+                      <FontAwesome5Icon
+                        name="star"
+                        solid
+                        size={hp('2%')}
+                        color={Colors.lightYellow}
+                      />
+                      <Text style={Reusablecss.ratingBar}>{item.rating}</Text>
+                    </View>
+                    <View style={Reusablecss.priceCntr}>
+                      <Text style={Reusablecss.img}>INR</Text>
 
-                    <Text style={Reusablecss.priceBar}>{item.price}</Text>
-                    <Text style={Reusablecss.timing}>{item.time}</Text>
+                      <Text style={Reusablecss.priceBar}>{item.price}</Text>
+                      <Text style={Reusablecss.timing}>{item.time}</Text>
+                    </View>
+                    <Text style={{top: -5, color: Colors.black}}>
+                      .........................................................
+                    </Text>
+                    <View style={Reusablecss.dataCntr}>
+                      <Image
+                        source={require('../../Assets/Images/Ellipse1.png')}
+                      />
+                      <Text style={Reusablecss.data}>{item.description}</Text>
+                    </View>
+                    <View style={Reusablecss.dataCntr}>
+                      <Image
+                        source={require('../../Assets/Images/Ellipse1.png')}
+                        style={{opacity: item.d2 === undefined ? 0 : 1}}
+                      />
+                      <Text style={Reusablecss.data}>{item.description}</Text>
+                    </View>
                   </View>
-                  <Text style={{top: -5, color: Colors.black}}>
-                    .........................................................
-                  </Text>
-                  <View style={Reusablecss.dataCntr}>
+                  <View style={Reusablecss.imgCntr}>
                     <Image
-                      source={require('../../Assets/Images/Ellipse1.png')}
+                      resizeMode="contain"
+                      source={item.image}
+                      style={Reusablecss.innerImage}
                     />
-                    <Text style={Reusablecss.data}>{item.description}</Text>
-                  </View>
-                  <View style={Reusablecss.dataCntr}>
-                    <Image
-                      source={require('../../Assets/Images/Ellipse1.png')}
-                      style={{opacity: item.d2 === undefined ? 0 : 1}}
-                    />
-                    <Text style={Reusablecss.data}>{item.description}</Text>
+                    <TouchableOpacity
+                      onPress={() => {
+                        toggleBottomNavigationView(item._id);
+                        // setSerID(item._id);
+                      }}
+                      style={Reusablecss.imgButton}>
+                      <Text style={Reusablecss.btnText}>ADD +</Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
-                <View style={Reusablecss.imgCntr}>
-                  <Image
-                    resizeMode="contain"
-                    source={item.image}
-                    style={Reusablecss.innerImage}
-                  />
-                  <TouchableOpacity
-                    onPress={() => {
-                      toggleBottomNavigationView();
-                      setSerID(item._id);
-                    }}
-                    style={Reusablecss.imgButton}>
-                    <Text style={Reusablecss.btnText}>ADD +</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            )}
-          />
+              )}
+            />
+          </View>
+          <AddCart items={2} />
         </View>
-        <AddCart items={2} />
-      </View>
-      {/* )} */}
+      )}
 
       <BottomSheet
         visible={visible}
@@ -252,7 +314,7 @@ const SubSalonSpaforwomen = props => {
                 </View>
                 <View style={{top: 30}}>
                   <TouchableOpacity
-                    // onPress={getPackagesByServiceId}
+                    onPress={cardsilver}
                     style={{
                       paddingVertical: 5,
                       paddingHorizontal: 7,
@@ -383,8 +445,7 @@ const SubSalonSpaforwomen = props => {
                         style={{top: 4}}
                       />
                       <Text style={{marginHorizontal: 5, top: -3}}>
-                        {/* Less Equiped */}
-
+                        Less Equiped
                         {/* {platinum.description} */}
                       </Text>
                     </View>
@@ -395,8 +456,8 @@ const SubSalonSpaforwomen = props => {
                         fontWeight: 'bold',
                         color: Colors.darkGray,
                       }}>
+                      {/* INR {platinum.price} */}
                       INR
-                      {/* {platinum.price} */}
                     </Text>
                   </View>
                   <View style={{top: 30}}>
@@ -437,7 +498,7 @@ const SubSalonSpaforwomen = props => {
   );
 };
 
-export default SubSalonSpaforwomen;
+export default Services;
 
 const Styles = StyleSheet.create({
   centeredView: {
