@@ -50,9 +50,10 @@ function Home({navigation}) {
       });
   };
 
-  const getCategoryWiseService = async id => {
+  const getCategoryWiseService = async (id, name) => {
     const token = await _getStorage('token');
     // console.log('home id', id);
+    // console.log('name', name);
 
     axios
       .get(BASE_URL + `/category/categoryService/${id}`, {
@@ -60,11 +61,12 @@ function Home({navigation}) {
       })
       .then(resp => {
         if (resp.data.result.subCategory?.length !== 0) {
-          navigation.navigate('Subcategory', {id});
+          navigation.navigate('Subcategory', {id, name});
         } else if (resp.data.result.service?.length !== 0) {
           let navData = {
             _id: id,
             from: 'cat',
+            name: name,
           };
           console.log('home navData', navData);
           navigation.navigate('Services', {navData});
@@ -119,7 +121,9 @@ function Home({navigation}) {
               placeholder="Search by Category, name...."
             />
           </View>
-          <ScrollView style={styles.mainScroll}>
+          <ScrollView
+            contentContainerStyle={{paddingBottom: '55%'}}
+            showsVerticalScrollIndicator={false}>
             <View>
               <Swiper
                 showsButtons={false}
@@ -175,43 +179,8 @@ function Home({navigation}) {
                       onPress={() => getCategoryWiseService(val._id, val.name)}
                     />
                   </View>
-
-                  //   <ServicesComp
-                  //   title="Home Appliances"
-                  //   image={require('../../Assets/Images/vehiclesicone.png')}
-                  //   onPress={() =>
-                  // props.navigation.navigate('HomeAppliancesRepairing');
-
-                  //
-                  //   }
-                  // />
                 ))}
               </View>
-
-              {/* <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-                top: -10,
-              }}>
-              <ServicesComp
-                title="AC Services"
-                image={require('../../Assets/Images/serviceicone.png')}
-                onPress={() => props.navigation.navigate('ACServices')}
-              />
-              <ServicesComp
-                title="Cleaning"
-                image={require('../../Assets/Images/householdicone.png')}
-                onPress={() =>
-                  props.navigation.navigate('ProfessionalCleaningServices')
-                }
-              />
-              <ServicesComp
-                title="Electricians"
-                image={require('../../Assets/Images/electricianicone.png')}
-                onPress={() => props.navigation.navigate('Electricians')}
-              />
-            </View> */}
             </View>
 
             <View
@@ -314,17 +283,18 @@ function Home({navigation}) {
               </View>
             </View>
             <TouchableOpacity
-              onPress={() => props.navigation.navigate('SGPservices')}>
+            // onPress={() => props.navigation.navigate('SGPservices')}
+            >
               <Image
                 source={require('../../Assets/Images/hairdressing2.png')}
                 style={{
                   width: wp('100%'),
                   height: wp('40%'),
-                  marginBottom: 120,
+                  // marginBottom: hp('31%'),
                 }}
               />
             </TouchableOpacity>
-            {/* <TabNavigationCall />  */}
+            {/* <TabNavigationCall /> */}
           </ScrollView>
         </View>
       )}

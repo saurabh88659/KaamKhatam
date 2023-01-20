@@ -9,10 +9,7 @@ import {
   Modal,
   Dimensions,
 } from 'react-native';
-import {
-  DrawerContentScrollView,
-  DrawerItemList,
-} from '@react-navigation/drawer';
+import {DrawerContentScrollView} from '@react-navigation/drawer';
 
 const {height, width} = Dimensions.get('screen');
 

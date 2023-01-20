@@ -45,10 +45,10 @@ const Subcategory = props => {
       });
   };
 
-  const getSubCategoryWIseService = async id => {
+  const getSubCategoryWIseService = async (id, name) => {
     const token = await _getStorage('token');
     // setIsLoading(true);
-    // console.log('SubcategorID---------------------------', id);
+    console.log('name---------------------------', name);
 
     axios
       .get(BASE_URL + `/category/subcategoryService/${id}`, {
@@ -56,11 +56,12 @@ const Subcategory = props => {
       })
       .then(resp => {
         if (resp.data.result.subCategory2?.length !== 0) {
-          props.navigation.navigate('Subcategory2', {id});
+          props.navigation.navigate('Subcategory2', {id, name});
         } else if (resp.data.result.service?.length !== 0) {
           let navData = {
             id: id,
             from: 'sub_cat',
+            name: name,
           };
           console.log('navData----------------', navData);
           props.navigation.navigate('Services', {navData});
@@ -108,7 +109,7 @@ const Subcategory = props => {
               onPress={() => {
                 // props.navigation.navigate('Subcategory2', v);
                 // setSubActive(v._id);
-                getSubCategoryWIseService(v._id);
+                getSubCategoryWIseService(v._id, v.name);
               }}>
               <Image source={v.imageUrl} style={{height: 70, width: 70}} />
               <Text

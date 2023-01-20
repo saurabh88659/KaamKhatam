@@ -61,7 +61,7 @@ const Services = props => {
 
   const getServices = () => {
     let from = preData.navData.from;
-    console.log('from=---------', from);
+    // console.log('from=---------', from);
     switch (from) {
       case 'cat':
         getService1();
@@ -124,7 +124,7 @@ const Services = props => {
         setIsLoading(false);
       })
       .catch(error => {
-        console.log('getService3 error-->>', error.response.data);
+        console.log('getService3 error-->>', error);
         setIsLoading(false);
       });
   };
@@ -148,9 +148,35 @@ const Services = props => {
       });
   };
 
-  const cardsilver = async () => {
+  const cardSilver = async () => {
     const token = await _getStorage('token');
     console.log('token', token);
+
+    let objID = {
+      serviceId: serviceID,
+      packageId: silverID,
+    };
+    console.log('objID', objID);
+    axios
+      .post(
+        BASE_URL + `/cart/silver`,
+        {objID},
+        {
+          headers: {Authorization: `Bearer ${token}`},
+        },
+      )
+      .then(rep => {
+        // if (rep.data.Status == 200){
+
+        // } else(rep.data){
+
+        // }
+
+        console.log('Silver-----', rep.data);
+      })
+      .catch(error => {
+        console.log('Siliver catch error', error.response);
+      });
   };
 
   // console.log('serviceID', serviceID);
@@ -162,7 +188,7 @@ const Services = props => {
       <Header
         bgColor={Colors.darkOrange}
         color={Colors.black}
-        title={preData.name}
+        title={preData.navData.name}
         onPress={() => props.navigation.goBack('')}
       />
       {isLoading === true ? (
@@ -314,7 +340,7 @@ const Services = props => {
                 </View>
                 <View style={{top: 30}}>
                   <TouchableOpacity
-                    onPress={cardsilver}
+                    onPress={cardSilver}
                     style={{
                       paddingVertical: 5,
                       paddingHorizontal: 7,

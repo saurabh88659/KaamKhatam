@@ -43,7 +43,7 @@ const RegisterAccount = props => {
   const [code, setCode] = useState('');
   const [email, setEmail] = useState('');
   const [emailOtp, setemailOtp] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [gender, setGender] = useState('');
   const [state, setState] = useState('');
   const [address, setAddress] = useState('');
@@ -56,7 +56,6 @@ const RegisterAccount = props => {
   }, []);
 
   const handleSubmit = async () => {
-    // const token = await AsyncStorage.getItem('token');
     const token = await _getStorage('token');
 
     Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
@@ -73,20 +72,21 @@ const RegisterAccount = props => {
     };
     console.log(token);
     console.log('newOBJ', newObj);
-    // setIsLoading(true);
+    setIsLoading(true);
     axios
       .put(BASE_URL + `/profile`, newObj, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(val => {
         console.log(val.data);
-        // setIsLoading(false);
+        setIsLoading(false);
         props.navigation.navigate('TabNavigation');
         Toast.showWithGravity(val.data.message, Toast.LONG, Toast.BOTTOM);
       })
       .catch(e => {
         console.log('in catch');
         console.log(e);
+        setIsLoading(false);
       });
   };
 
@@ -239,7 +239,7 @@ const RegisterAccount = props => {
       {isLoading === true ? (
         <View
           style={{
-            minHeight: '100%',
+            minHeight: '90%',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -248,7 +248,9 @@ const RegisterAccount = props => {
         </View>
       ) : (
         <View>
-          <ScrollView contentContainerStyle={{paddingBottom: 100}}>
+          <ScrollView
+            contentContainerStyle={{paddingBottom: '30%'}}
+            showsVerticalScrollIndicator={false}>
             <View>
               <Text
                 style={{
@@ -610,11 +612,11 @@ const RegisterAccount = props => {
                 </View>
               </View>
 
-              {isLoading ? (
+              {isLoading === true ? (
                 <ActivityIndicator
                   color="#FFA034"
                   size="large"
-                  style={{alignSelf: 'center', top: 20}}
+                  style={{alignSelf: 'center'}}
                 />
               ) : (
                 <View style={{alignItems: 'center'}}>

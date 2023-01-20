@@ -24,20 +24,18 @@ import Toast from 'react-native-simple-toast';
 const Otp = ({navigation, route}) => {
   const [pin, setPin] = useState('');
   const [counter, setCounter] = React.useState(30);
-  // const [getDetailsId, setGetDetailsId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const phone = route.params;
-  // console.log(phone);
+
+  const fNumber = phone?.phone.split('', 6);
 
   const onPressotpVerification = () => {
     const verifyObj = {
       otp: pin,
       phone: phone?.phone,
     };
-    // console.log('verifyObj', verifyObj);
-
     const fetchData = async () => {
       setIsLoading(true);
       Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
@@ -141,10 +139,15 @@ const Otp = ({navigation, route}) => {
         />
         <View style={{justifyContent: 'center', top: '10%'}}>
           <View style={{alignItems: 'center', marginTop: -hp('50%')}}>
-            <Text style={{fontWeight: 'bold', fontSize: hp('4%')}}>
+            <Text
+              style={{
+                fontWeight: 'bold',
+                fontSize: hp('4%'),
+                color: Colors.black,
+              }}>
               Enter Verification Code
             </Text>
-            <Text
+            {/* <Text
               style={{
                 fontSize: hp('2%'),
                 marginTop: hp('1%'),
@@ -152,6 +155,9 @@ const Otp = ({navigation, route}) => {
               }}>
               We have sent you a 6-digit Verification code on {'\n'}+91
               87********
+            </Text> */}
+            <Text style={{top: 10, color: Colors.black}}>
+              We have sent you a 6-digit verifications code on +91 {fNumber}****
             </Text>
             <View style={{flexDirection: 'row', marginTop: hp('5%')}}>
               <OtpInputs

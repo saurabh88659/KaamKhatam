@@ -1,23 +1,13 @@
 import React from 'react';
-
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-
-// import NavigationDrawerStructure from './NavigationDrawerStructure';
 import Booking from './Source/screens/Bleach';
-// import TabNavigation from './Navigation/TabNavigation';
-import HairColor from './Source/screens/HairColor';
-// import Bleach from './Source/screens/Bleach';
-
 import Pedicure from './Source/screens/Pedicure';
-
 import ACServices from './Source/screens/ACServices';
 import SalonWomen from './Source/screens/SalonWomen';
 import SalonMen from './Source/screens/SalonMen';
 import TherapiesWomen from './Source/screens/TherapiesWomen';
-import ACcheckup from './Source/screens/ACcheckup';
 import WindowACcheckup from './Source/screens/WindowACcheckup';
-
 import ProfileScreen from './Source/screens/ProfileScreen';
 import Salonforwomen from './Source/screens/Salonforwomen';
 import Support from './Source/screens/Support';
@@ -34,7 +24,6 @@ import InverterStabilizer from './Source/screens/InverterStabilizer';
 import InstallationScreen from './Source/screens/InstallationScreen';
 import ServicesofWomenOnly from './Source/screens/ServicesofWomenOnly';
 import SpaforWomen from './Source/screens/SpaforWomen';
-import StressReliefTherapies from './Source/screens/StressReliefTherapies';
 import Editaddress from './Source/screens/Editaddress';
 import Faqs from './Source/screens/Faqs';
 import Viewdetails from './Source/screens/Viewdetails';
@@ -51,7 +40,6 @@ import SubHomeApliances from './Source/screens/SubHomeApliances';
 import SubMassageSalonformen from './Source/screens/SubMassageSalonformen';
 import SubSalonSpaforwomen from './Source/screens/SubSalonSpaforwomen';
 import SubSalonSpaforwomen2 from './Source/screens/SubSalonSpaforwomen2';
-
 import Manicure from './Source/screens/Manicure';
 import Chocolatewax from './Source/screens/Chocolatewax';
 import Threading from './Source/screens/Threading';
@@ -64,10 +52,8 @@ import Bleach from './Source/screens/Bleach';
 import Cleanup from './Source/screens/Cleanup';
 import EditMobileNumber from './Source/screens/EditMobileNumber';
 import MobileOtp from './Source/screens/MobileOtp';
-// import EditMobileSave from './Source/screens/EditMobileSave';
 import SGPservices from './Source/screens/SGPservices';
 import Bottomsheetmodal from './Source/ReusableComponents/Bottomsheetmodal';
-
 import Splash from './Source/screens/Splash';
 import Login from './Source/screens/Login';
 import Otp from './Source/screens/Otp';

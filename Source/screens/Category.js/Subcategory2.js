@@ -31,10 +31,11 @@ const SpaforWomen = props => {
     subservice();
   }, []);
 
-  const subCategorytwo = id => {
+  const subCategorytwo = (id, name) => {
     let navData = {
       id,
       from: 'sub_cat_2',
+      name: name,
     };
     props.navigation.navigate('Services', {navData});
   };
@@ -95,7 +96,7 @@ const SpaforWomen = props => {
               title={item.name}
               image={item.image}
               // click={() => props.navigation.navigate('Services', item)}
-              click={() => subCategorytwo(item._id)}
+              click={() => subCategorytwo(item._id, item.name)}
             />
           )}
         />
