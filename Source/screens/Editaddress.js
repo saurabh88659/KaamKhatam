@@ -56,7 +56,7 @@ const Editaddress = props => {
         }}>
         <View style={Styles.centeredView}>
           <View style={Styles.modalView}>
-            <View style={{}}>
+            <View>
               <TouchableOpacity
                 onPress={() => setModalVisible(!modalVisible)}
                 style={{

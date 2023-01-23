@@ -11,7 +11,7 @@ import shoppingcart2222 from '../Source/Assets/Images/shoppingcart2222.png';
 import usericonprofile from '../Source/Assets/Images/usericonprofile.png';
 import ProfileScreen from '../Source/screens/ProfileScreen';
 import Mybooking from '../Source/screens/Mybooking';
-import AddSalonforwomen from '../Source/screens/AddSalonforwomen';
+import MyCartScreen from '../Source/screens/MyCartScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -69,8 +69,8 @@ function TabNavigation() {
         }}
       />
       <Tab.Screen
-        name="AddSalonforwomen"
-        component={AddSalonforwomen}
+        name="MyCartScreen"
+        component={MyCartScreen}
         options={{
           headerShown: false,
           tabBarColor: Colors.blue,

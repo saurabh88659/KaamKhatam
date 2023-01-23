@@ -29,6 +29,7 @@ import Reusablecss from '../../Assets/Css/Reusablecss';
 import {_getStorage} from '../../Assets/utils/storage/Storage';
 import {BASE_URL} from '../../Assets/utils/Restapi/Config';
 import {BottomSheet} from 'react-native-btr';
+import Toast from 'react-native-simple-toast';
 
 const Services = props => {
   const [visible, setVisible] = useState(false);
@@ -37,13 +38,15 @@ const Services = props => {
   const [serId, setSerID] = useState('');
   const [serviceID, setServiceID] = useState('');
   const [silverID, setSilverID] = useState('');
+  const [goldID, setgoldID] = useState('');
+  const [platinumID, setPlatinumID] = useState('');
 
   // const [service, setService] = useState([]);
 
   const [services, setServices] = useState('');
   const [getname, setGetname] = useState('');
   const [silver, setSilver] = useState('');
-  const [platinum, setPlatinum] = useState();
+  const [platinum, setPlatinum] = useState('');
   const [getallservices, setGetallservices] = useState([]);
   const preData = props.route.params;
 
@@ -52,12 +55,15 @@ const Services = props => {
   const toggleBottomNavigationView = id => {
     setVisible(!visible);
     setSerID(id);
+    // getPackagesByServiceId(id);
   };
 
   useEffect(() => {
     getServices();
-    getPackagesByServiceId();
-  }, []);
+    if (serId) {
+      getPackagesByServiceId();
+    }
+  }, [serId]);
 
   const getServices = () => {
     let from = preData.navData.from;
@@ -141,47 +147,125 @@ const Services = props => {
         setGetname(res.data.service.gold);
         setSilver(res.data.service.silver);
         setSilverID(res.data.service.silver._id);
+        setgoldID(res.data.service.gold._id);
+        setPlatinumID(res.data.service.platinum._id);
         setPlatinum(res.data.service.platinum);
       })
       .catch(error => {
-        console.log('catch error getPackagesByServiceId', error.response);
+        console.log(
+          'catch error getPackagesByServiceId',
+          error.response.data.message,
+        );
+      });
+  };
+
+  const get_mycart = async () => {
+    const token = await _getStorage('token');
+
+    axios
+      .get(BASE_URL + `/cart`, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(res => {
+        console.log('get my cart----------->>', res.data.newResult);
+      })
+      .catch(error => {
+        console.log('my cart catch error-------------->>', error.response.data);
       });
   };
 
   const cardSilver = async () => {
     const token = await _getStorage('token');
-    console.log('token', token);
-
+    console.log('token---------->>', token);
+    console.log(serviceID, silverID);
     let objID = {
       serviceId: serviceID,
       packageId: silverID,
     };
     console.log('objID', objID);
     axios
-      .post(
-        BASE_URL + `/cart/silver`,
-        {objID},
-        {
-          headers: {Authorization: `Bearer ${token}`},
-        },
-      )
+      .post(BASE_URL + `/cart/silver`, objID, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
       .then(rep => {
-        // if (rep.data.Status == 200){
-
-        // } else(rep.data){
-
-        // }
-
         console.log('Silver-----', rep.data);
+        if (rep.data) {
+          props.navigation.navigate('MyCartScreen');
+          get_mycart();
+        }
+        Toast.showWithGravity(rep.data.message, Toast.LONG, Toast.BOTTOM);
       })
       .catch(error => {
-        console.log('Siliver catch error', error.response);
+        console.log('Silver catch error', error.response.data.message);
+        Toast.showWithGravity(
+          error.response.data.message,
+          Toast.LONG,
+          Toast.BOTTOM,
+        );
       });
   };
 
-  // console.log('serviceID', serviceID);
-  // console.log('serId', serId);
-  // console.log('silverID------+++-------', silverID);
+  const cardGold = async () => {
+    const token = await _getStorage('token');
+    console.log('token---------->>', token);
+    console.log(serviceID, silverID);
+    let objID = {
+      serviceId: serviceID,
+      packageId: goldID,
+    };
+    console.log('objID', objID);
+    axios
+      .post(BASE_URL + `/cart/gold`, objID, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(rep => {
+        console.log('gold-----', rep.data);
+        if (rep.data) {
+          props.navigation.navigate('MyCartScreen');
+          get_mycart();
+        }
+        Toast.showWithGravity(rep.data.message, Toast.LONG, Toast.BOTTOM);
+      })
+      .catch(error => {
+        console.log('gold catch error', error.response.data.message);
+        Toast.showWithGravity(
+          error.response.data.message,
+          Toast.LONG,
+          Toast.BOTTOM,
+        );
+      });
+  };
+
+  const cardPlatinum = async () => {
+    const token = await _getStorage('token');
+    console.log('token---------->>', token);
+    console.log(serviceID, silverID);
+    let objID = {
+      serviceId: serviceID,
+      packageId: platinumID,
+    };
+    console.log('objID', objID);
+    axios
+      .post(BASE_URL + `/cart/platinum`, objID, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(rep => {
+        console.log('Platinum-----', rep.data);
+        if (rep.data) {
+          props.navigation.navigate('MyCartScreen');
+          get_mycart();
+        }
+        Toast.showWithGravity(rep.data.message, Toast.LONG, Toast.BOTTOM);
+      })
+      .catch(error => {
+        console.log('Platinum catch error', error.response.data.message);
+        Toast.showWithGravity(
+          error.response.data.message,
+          Toast.LONG,
+          Toast.BOTTOM,
+        );
+      });
+  };
 
   return (
     <View style={Reusablecss.container}>
@@ -414,7 +498,7 @@ const Services = props => {
                   </View>
                   <View style={{top: 30}}>
                     <TouchableOpacity
-                      // onPress={getPackagesByServiceId}
+                      onPress={cardGold}
                       style={{
                         paddingVertical: 5,
                         paddingHorizontal: 7,
@@ -461,8 +545,8 @@ const Services = props => {
                         style={{marginVertical: 10}}
                       />
                       <Text style={{marginHorizontal: 5, top: 3}}>
-                        Less experienced
-                        {/* {platinum.description} */}
+                        {/* Less experienced */}
+                        {platinum.description}
                       </Text>
                     </View>
                     <View style={{flexDirection: 'row'}}>
@@ -471,8 +555,8 @@ const Services = props => {
                         style={{top: 4}}
                       />
                       <Text style={{marginHorizontal: 5, top: -3}}>
-                        Less Equiped
-                        {/* {platinum.description} */}
+                        {/* Less Equiped */}
+                        {platinum.description}
                       </Text>
                     </View>
                     <Text
@@ -482,13 +566,12 @@ const Services = props => {
                         fontWeight: 'bold',
                         color: Colors.darkGray,
                       }}>
-                      {/* INR {platinum.price} */}
-                      INR
+                      INR {platinum.price}
                     </Text>
                   </View>
                   <View style={{top: 30}}>
                     <TouchableOpacity
-                      // onPress={getPackagesByServiceId}
+                      onPress={cardPlatinum}
                       style={{
                         paddingVertical: 5,
                         paddingHorizontal: 7,

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   View,
@@ -7,6 +7,8 @@ import {
   FlatList,
   StyleSheet,
   SafeAreaView,
+  Button,
+  ActivityIndicator,
 } from 'react-native';
 
 import Colors from '../Assets/Constants/Colors';
@@ -15,57 +17,73 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import CustomButton from '../ReusableComponents/Button';
+// import CustomButton from '../ReusableComponents/Button';
 import HeaderDrawer from '../ReusableComponents/HeaderDrawer';
+import {_getStorage} from '../Assets/utils/storage/Storage';
+import axios from 'axios';
+import {BASE_URL} from '../Assets/utils/Restapi/Config';
 
-const AddSalonforwomen = props => {
-  const [num, setNum] = useState(0);
+const MyCartScreen = props => {
+  const [mycartname, setMycartname] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [delmess, setDelmess] = useState('');
 
-  const incNum = () => {
-    setNum(num + 1);
+  // const Srt = [
+  //   {
+  //     title: 'Hair Color Application ',
+  //     price: `₹69 `,
+  //   },
+  // ];
+
+  const get_mycart = async () => {
+    const token = await _getStorage('token');
+
+    axios
+      .get(BASE_URL + `/cart`, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(res => {
+        console.log('my cart', res.data.message);
+        setMycartname(res.data.newResult);
+        setDelmess('');
+        setIsLoading(false);
+      })
+      .catch(error => {
+        if (error.response.data?.message === 'No Result Found ') {
+          setDelmess(error.response.data?.message);
+          setMycartname('');
+        } else {
+          console.log('my cart catch error', error.response.data);
+        }
+        setIsLoading(false);
+      });
   };
-  const decNum = () => {
-    setNum(num - 1);
-  };
-  const Srt = [
-    {
-      title: 'Hair Color Application ',
-      price: `₹69 `,
-    },
 
-    {
-      title: `Relaxing Head Message`,
-      price: `₹399`,
-    },
-    {
-      title: `Relaxing Head Message`,
-      price: `₹499`,
-    },
-    {
-      title: `Relaxing Head Message`,
-      price: `₹499`,
-    },
-    {
-      title: `Relaxing Head Message`,
-      price: `₹499`,
-    },
-    {
-      title: `Relaxing Head Message`,
-      price: `₹499`,
-    },
-    {
-      title: `Relaxing Head Message`,
-      price: `₹499`,
-    },
-    {
-      title: `Relaxing Head Message`,
-      price: `₹499`,
-    },
-    {
-      title: `Relaxing Head Message`,
-      price: `₹499`,
-    },
-  ];
+  const delete_My_Cart = async () => {
+    const token = await _getStorage('token');
+    console.log(token);
+    console.log('mycartname', mycartname.cartId);
+
+    axios
+      .delete(BASE_URL + `/cart`, {
+        headers: {Authorization: `Bearer ${token}`},
+        data: {cartId: mycartname.cartId},
+      })
+      .then(rep => {
+        console.log('delete my cart', rep.data);
+        get_mycart();
+      })
+      .catch(error => {
+        console.log('delete catch error', error.response.data);
+      });
+  };
+
+  useEffect(() => {
+    get_mycart();
+  }, []);
+
+  // console.log('delmess---------', delmess);
+
   return (
     <SafeAreaView style={styles.container}>
       <HeaderDrawer
@@ -74,16 +92,119 @@ const AddSalonforwomen = props => {
         onPress={() => props.navigation.toggleDrawer()}
       />
 
-      <View style={{flex: 1}}>
+      {isLoading === true ? (
+        <ActivityIndicator
+          color="#FFA034"
+          size="large"
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginTop: '65%',
+          }}
+        />
+      ) : delmess ? (
+        <Text
+          style={{
+            textAlign: 'center',
+            marginTop: '60%',
+            color: '#aaa',
+          }}>
+          {delmess}
+        </Text>
+      ) : (
+        <View
+          style={{
+            height: '30%',
+            backgroundColor: Colors.white,
+            borderRadius: 10,
+            marginHorizontal: 10,
+            marginVertical: 10,
+            paddingVertical: 10,
+          }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingHorizontal: 10,
+              paddingVertical: 5,
+            }}>
+            <Text style={{color: Colors.black}}>Service Name</Text>
+            <Text
+              style={{
+                color: Colors.lightGray,
+                textAlign: 'center',
+                alignSelf: 'center',
+              }}>
+              {mycartname.serviceDescription}
+            </Text>
+          </View>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingHorizontal: 10,
+              paddingVertical: 5,
+            }}>
+            <Text style={{color: Colors.black}}>serviceId</Text>
+            <Text style={{color: Colors.lightGray}}>
+              {mycartname.serviceId}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingHorizontal: 10,
+              paddingVertical: 5,
+            }}>
+            <Text style={{color: Colors.black}}>packageId</Text>
+            <Text style={{color: Colors.lightGray}}>
+              {mycartname.packageId}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingHorizontal: 10,
+              paddingVertical: 5,
+            }}>
+            <Text style={{color: Colors.black}}>packageDescription</Text>
+            <Text style={{color: Colors.lightGray}}>
+              {mycartname.packageDescription}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingHorizontal: 10,
+              paddingVertical: 5,
+            }}>
+            <Text style={{color: Colors.black}}>Price</Text>
+            <Text style={{color: Colors.lightGray}}>{mycartname.price}</Text>
+          </View>
+          <Button title="Delete" onPress={delete_My_Cart} />
+        </View>
+      )}
+
+      {/* <View style={{flex: 1}}>
         <FlatList
-          contentContainerStyle={{paddingBottom: 300}}
+          contentContainerStyle={{paddingBottom: 60}}
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
           data={Srt}
           renderItem={({item}) => (
+            // <View
+            //   style={{
+            //     height: '100%',
+            //     borderWidth: 1,
+            //     marginVertical: 10,
+            //   }}></View>
+
             <View
               style={{
-                // borderWidth: 1,
                 borderBottomWidth: 1,
                 borderColor: '#BDBDBD',
                 flexDirection: 'row',
@@ -94,9 +215,7 @@ const AddSalonforwomen = props => {
               <Text style={styles.title}>{item.title}</Text>
               <View
                 style={{
-                  //   borderWidth: 1,
                   borderColor: 'blue',
-                  //   height: 100,
                   width: 80,
                   borderRadius: 10,
                 }}>
@@ -136,11 +255,9 @@ const AddSalonforwomen = props => {
                   <TouchableOpacity
                     style={{
                       backgroundColor: '#FF8B20',
-                      //   borderRadius: 10,
                       borderBottomRightRadius: 10,
                       borderTopRightRadius: 10,
                       width: 30,
-                      // height: 40,
                     }}>
                     <Text
                       style={{
@@ -159,6 +276,7 @@ const AddSalonforwomen = props => {
             </View>
           )}
         />
+
         <View
           style={{
             backgroundColor: 'white',
@@ -243,12 +361,12 @@ const AddSalonforwomen = props => {
             </Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 };
 
-export default AddSalonforwomen;
+export default MyCartScreen;
 
 const styles = StyleSheet.create({
   container: {
