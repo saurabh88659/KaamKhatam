@@ -8,17 +8,17 @@ import {
   StyleSheet,
 } from 'react-native';
 
-import Installation from '../Assets/Images/Installation.png';
-import ServicesAC from '../Assets/Images/ServicesAC.png';
-import SplitFaceAC from '../Assets/Images/SplitFaceAc.png';
+import Installation from '../../Assets/Images/Installation.png';
+import ServicesAC from '../../Assets/Images/ServicesAC.png';
+import SplitFaceAC from '../../Assets/Images/SplitFaceAc.png';
 
-import Header from '../ReusableComponents/Header';
-import Colors from '../Assets/Constants/Colors';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import ServiceItems from '../ReusableComponents/ServiceItems';
+import ServiceItems from '../../ReusableComponents/ServiceItems';
+import Header from '../../ReusableComponents/Header';
+import Colors from '../../Assets/Constants/Colors';
 
 const ACServices = props => {
   const preData = props.route.params;

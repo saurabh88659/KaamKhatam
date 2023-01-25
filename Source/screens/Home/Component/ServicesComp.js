@@ -4,6 +4,7 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
+import Colors from '../../../Assets/Constants/Colors';
 
 const ServicesComp = props => {
   return (
@@ -16,7 +17,6 @@ const ServicesComp = props => {
         marginTop: hp('3%'),
         width: wp('20%'),
         marginHorizontal: '2%',
-        // justifyContent: 'space-between',
       }}>
       <Image
         source={props.image}
@@ -33,6 +33,7 @@ const ServicesComp = props => {
           marginVertical: hp('1%'),
           textAlign: 'center',
           top: -13,
+          color: Colors.black,
         }}>
         {props.title}
       </Text>

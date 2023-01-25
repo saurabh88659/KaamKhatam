@@ -31,3 +31,14 @@ function Mybooking2(props) {
 }
 
 export default Mybooking2;
+
+// import {View, Text} from 'react-native';
+// import React from 'react';
+
+// export default function Mybooking2() {
+//   return (
+//     <View>
+//       <Text>Mybooking2</Text>
+//     </View>
+//   );
+// }

@@ -75,7 +75,7 @@ const Splash = ({navigation}) => {
     // const token = await _getStorage('token');
     const token = await AsyncStorage.getItem('token');
 
-    console.log('token==========..lllllllllllllll', token);
+    // console.log('token==========..lllllllllllllll', token);
 
     if (token) {
       axios
@@ -104,19 +104,20 @@ const Splash = ({navigation}) => {
                 user_id: userId,
               };
               //refresh token api
-
+              // console.log('SubmitDAta', SubmitDAta);
               axios
-                .post(BASE_URL + `/refreshToken`, SubmitDAta)
+                .post(BASE_URL + `/refreshToken`, {SubmitDAta})
                 .then(async res => {
+                  console.log('dablu------------------', res.data);
                   await AsyncStorage.setItem('token', res.data.token);
                   await AsyncStorage.setItem(
                     'refreshToken',
-                    response.data.refreshToken,
+                    res.data.refreshToken,
                   );
                 })
 
                 .catch(error => {
-                  console.log('errr--->>>', error.response?.data);
+                  console.log('errr--->>>', error.response?.data.message);
                 });
               // update access token in storage
             }

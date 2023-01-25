@@ -7,32 +7,50 @@ import {
   Dimensions,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import ServiceItems from '../ReusableComponents/ServiceItems';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import Lorealcolor from '../Assets/Images/Lorealcolor.png';
+import {_getStorage} from '../Assets/utils/storage/Storage';
+import axios from 'axios';
+import {BASE_URL} from '../Assets/utils/Restapi/Config';
 
 const {height, width} = Dimensions.get('window');
 
 const Viewdetails = props => {
-  const Srt = [
-    {
-      title: 'L`Oreal Color Application',
-      rating: 4.6,
-      price: `459 `,
-      time: '30 min',
-      image: Lorealcolor,
-      d1: 'Color provided by beautician',
-      d2: 'Variety of shades available',
-    },
-  ];
+  const bookinID = props.route.params;
+  const [bookinviewdetails, setBookinviewdetails] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    Viewdetailsbooking();
+  }, []);
+
+  const Viewdetailsbooking = async () => {
+    const token = await _getStorage('token');
+    console.log('token', token);
+    axios
+      .get(BASE_URL + `/booking/${bookinID}`, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(res => {
+        console.log('Viewdetailsbooking', res.data.result);
+        setBookinviewdetails(res.data.result);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.log('Viewdetailsbooking catch error', error.response.data);
+        setIsLoading(false);
+      });
+  };
+
   return (
     <>
       <Header
@@ -41,260 +59,250 @@ const Viewdetails = props => {
         title="View Details"
         onPress={() => props.navigation.goBack()}
       />
-      <ScrollView>
-        <View style={styles.cntrContainer}>
-          <FlatList
-            keyExtractor={(item, index) => index.toString()}
-            showsVerticalScrollIndicator={false}
-            data={Srt}
-            renderItem={({item}) => (
-              <View style={styles.card}>
-                <View style={styles.cardItem}>
-                  <Text style={styles.title}>{item.title}</Text>
-                  <View style={styles.ratingCntr}>
+      {isLoading === true ? (
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: '65%',
+          }}>
+          <ActivityIndicator color={Colors.darkOrange} size="large" />
+        </View>
+      ) : (
+        <ScrollView>
+          <View style={styles.cntrContainer}>
+            <View
+              style={{
+                height: height / 3.8,
+                marginVertical: 5,
+                marginHorizontal: 5,
+                borderRadius: 6,
+                elevation: 2,
+              }}>
+              <View style={{flexDirection: 'row', marginHorizontal: 10}}>
+                <View style={{width: '70%'}}>
+                  <Text style={{color: Colors.black, fontSize: 17}}>
+                    {bookinviewdetails.serviceName}
+                  </Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      top: 5,
+                    }}>
                     <FontAwesome5Icon
                       name="star"
                       solid
                       size={hp('2%')}
                       color={Colors.lightYellow}
                     />
-                    <Text style={styles.ratingBar}>{item.rating}</Text>
+                    <Text style={{left: 5, color: Colors.black}}>
+                      {bookinviewdetails.rating}
+                    </Text>
                   </View>
-                  <View style={styles.priceCntr}>
-                    <Image
-                      source={require('../Assets/Images/rupee.png')}
-                      style={styles.img}
-                    />
-                    <Text style={styles.priceBar}>{item.price}</Text>
-                    <Text style={styles.timing}>{item.time}</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      top: 5,
+                    }}>
+                    <Text style={{color: Colors.black}}>INR</Text>
+                    <Text
+                      style={{
+                        paddingHorizontal: 5,
+                        color: Colors.black,
+                        fontWeight: '700',
+                      }}>
+                      {bookinviewdetails.amountToBePaid}
+                    </Text>
+                    <Text style={{left: 20, color: Colors.black}}>30 min</Text>
                   </View>
-                  <Text style={{}}>
-                    ..................................................................
+                  <Text style={{color: Colors.black}}>
+                    .....................................................
                   </Text>
-                  <View style={styles.dataCntr}>
+                  <View style={{flexDirection: 'row'}}>
                     <Image
                       source={require('../Assets/Images/Ellipse1.png')}
-                      style={{opacity: item.d1 === undefined ? 0 : 1}}
+                      style={{height: 7, width: 7, borderRadius: 50, top: 5}}
                     />
-                    <Text style={styles.data}>{item.d1}</Text>
+                    <Text style={{color: Colors.black, fontSize: 13, left: 5}}>
+                      {bookinviewdetails.serviceDescription}
+                    </Text>
                   </View>
-                  <View style={styles.dataCntr}>
+                  <View style={{flexDirection: 'row', marginTop: 3}}>
                     <Image
                       source={require('../Assets/Images/Ellipse1.png')}
-                      style={{opacity: item.d2 === undefined ? 0 : 1}}
+                      style={{height: 7, width: 7, borderRadius: 50, top: 5}}
                     />
-                    <Text style={styles.data}>{item.d2}</Text>
+                    <Text style={{color: Colors.black, fontSize: 13, left: 5}}>
+                      {bookinviewdetails.packageDescription}
+                    </Text>
                   </View>
                 </View>
-                <View style={styles.imgCntr}>
+                <View style={{width: '30%', padding: 10}}>
                   <Image
                     resizeMode="contain"
-                    source={item.image}
-                    style={styles.innerImage}
+                    source={Lorealcolor}
+                    style={{height: 80, width: 80}}
                   />
                 </View>
               </View>
-            )}
-          />
+            </View>
+            <View
+              style={{
+                borderBottomWidth: 1,
+                marginHorizontal: 20,
+                borderColor: '#D9D9D9',
+                top: 10,
+                height: height / 28,
+              }}>
+              <Text
+                style={{color: '#FC8009', fontSize: 17, fontWeight: 'bold'}}>
+                Booking Details
+              </Text>
+            </View>
+          </View>
           <View
             style={{
-              borderBottomWidth: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginVertical: 20,
               marginHorizontal: 20,
-              borderColor: '#D9D9D9',
-              top: 10,
-              height: height / 28,
             }}>
-            <Text style={{color: '#FC8009', fontSize: 17, fontWeight: 'bold'}}>
-              Booking Details
+            <Text
+              style={{color: Colors.black, fontSize: 15, fontWeight: 'bold'}}>
+              Booking ID
+            </Text>
+            <Text style={{color: Colors.darkGray, fontSize: 15}}>
+              {bookinviewdetails.bookingId}
             </Text>
           </View>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginVertical: 20,
-            marginHorizontal: 20,
-          }}>
-          <Text style={{color: Colors.black, fontSize: 15, fontWeight: 'bold'}}>
-            Booking ID
-          </Text>
-          <Text style={{color: Colors.darkGray, fontSize: 15}}>
-            4848579749274
-          </Text>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginHorizontal: 20,
-          }}>
-          <Text style={{color: Colors.black, fontSize: 15, fontWeight: 'bold'}}>
-            Service Name
-          </Text>
-          <Text style={{color: Colors.darkGray, fontSize: 15}}>
-            Hair Color Application
-          </Text>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginHorizontal: 20,
-            marginVertical: 20,
-          }}>
-          <Text style={{color: Colors.black, fontSize: 15, fontWeight: 'bold'}}>
-            Time Slot
-          </Text>
-          <Text style={{color: Colors.darkGray, fontSize: 15}}>
-            10:00- 11:00 AM
-          </Text>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginHorizontal: 20,
-            //   marginVertical: 20,
-          }}>
-          <Text style={{color: Colors.black, fontSize: 15, fontWeight: 'bold'}}>
-            Price
-          </Text>
-          <Text style={{color: Colors.darkGray, fontSize: 15}}>INR 8000</Text>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginHorizontal: 20,
-            marginVertical: 20,
-          }}>
-          <Text style={{color: Colors.black, fontSize: 15, fontWeight: 'bold'}}>
-            Date
-          </Text>
-          <Text style={{color: Colors.darkGray, fontSize: 15}}>
-            June 28 2022
-          </Text>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginHorizontal: 20,
-          }}>
-          <Text style={{color: Colors.black, fontSize: 15, fontWeight: 'bold'}}>
-            Paid By
-          </Text>
-          <Text style={{color: Colors.darkGray, fontSize: 15}}>UPI</Text>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginHorizontal: 20,
-            marginVertical: 20,
-          }}>
-          <Text style={{color: Colors.black, fontSize: 15, fontWeight: 'bold'}}>
-            Status
-          </Text>
-          <Text
-            style={{color: Colors.darkGreen, fontSize: 15, fontWeight: 'bold'}}>
-            COMPLETED
-          </Text>
-        </View>
-        <View
-          style={{
-            marginVertical: '10%',
-          }}>
-          <TouchableOpacity
-            onPress={() => props.navigation.goBack()}
+          <View
             style={{
-              height: height / 16,
-              backgroundColor: '#0EC01B',
-              // width: width / 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 5,
-              marginHorizontal: 15,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginHorizontal: 20,
+              // flexWrap: 'wrap',
             }}>
-            <Text style={{color: 'white', fontWeight: 'bold', fontSize: 16}}>
-              Done
+            <Text
+              style={{color: Colors.black, fontSize: 15, fontWeight: 'bold'}}>
+              Service Name
             </Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+
+            <Text
+              style={{
+                color: Colors.darkGray,
+                fontSize: 15,
+                textAlign: 'center',
+              }}>
+              {bookinviewdetails.serviceName}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginHorizontal: 20,
+              marginVertical: 20,
+            }}>
+            <Text
+              style={{color: Colors.black, fontSize: 15, fontWeight: 'bold'}}>
+              Time Slot
+            </Text>
+            <Text style={{color: Colors.darkGray, fontSize: 15}}>
+              {bookinviewdetails.time}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginHorizontal: 20,
+            }}>
+            <Text
+              style={{color: Colors.black, fontSize: 15, fontWeight: 'bold'}}>
+              Price
+            </Text>
+            <Text style={{color: Colors.darkGray, fontSize: 15}}>
+              INR {bookinviewdetails.amountToBePaid}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginHorizontal: 20,
+              marginVertical: 20,
+            }}>
+            <Text
+              style={{color: Colors.black, fontSize: 15, fontWeight: 'bold'}}>
+              Date
+            </Text>
+            <Text style={{color: Colors.darkGray, fontSize: 15}}>
+              {bookinviewdetails.bookingDate}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginHorizontal: 20,
+            }}>
+            <Text
+              style={{color: Colors.black, fontSize: 15, fontWeight: 'bold'}}>
+              Paid By
+            </Text>
+            <Text style={{color: Colors.darkGray, fontSize: 15}}>
+              {bookinviewdetails.payby}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginHorizontal: 20,
+              marginVertical: 20,
+            }}>
+            <Text
+              style={{color: Colors.black, fontSize: 15, fontWeight: 'bold'}}>
+              Status
+            </Text>
+            <Text
+              style={{
+                fontSize: 15,
+                fontWeight: 'bold',
+                color:
+                  bookinviewdetails.bookingStatus === 'Pending'
+                    ? '#F1C114'
+                    : bookinviewdetails.bookingStatus === 'Completed'
+                    ? '#0EC01B'
+                    : '#F21313',
+              }}>
+              {bookinviewdetails.bookingStatus}
+            </Text>
+          </View>
+          <View
+            style={{
+              marginVertical: '10%',
+            }}>
+            <TouchableOpacity
+              onPress={() => props.navigation.goBack()}
+              style={{
+                height: height / 16,
+                backgroundColor: '#0EC01B',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 5,
+                marginHorizontal: 15,
+              }}>
+              <Text style={{color: 'white', fontWeight: 'bold', fontSize: 16}}>
+                Done
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      )}
     </>
   );
 };
 
 export default Viewdetails;
-const styles = StyleSheet.create({
-  cntrContainer: {
-    // height: hp('7%'),
-  },
-  card: {
-    width: wp('100%'),
-    backgroundColor: '#F4F4F4',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    borderWidth: hp('0.2%'),
-    borderColor: Colors.lightGray,
-    borderBottomRightRadius: hp('2%'),
-    borderBottomLeftRadius: hp('2%'),
-  },
-  cardItem: {
-    width: '70%',
-    padding: wp('3%'),
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: wp('5%'),
-  },
-  ratingCntr: {
-    flexDirection: 'row',
-    marginTop: hp('1%'),
-  },
-  ratingBar: {
-    fontWeight: 'bold',
-    fontSize: wp('4%'),
-  },
-  priceCntr: {
-    flexDirection: 'row',
-    // marginTop: hp('2%'),
-    alignItems: 'center',
-  },
-  img: {
-    width: hp('2%'),
-    height: hp('2%'),
-  },
-  priceBar: {
-    fontWeight: 'bold',
-    fontSize: hp('2.5%'),
-  },
-  timing: {
-    marginLeft: wp('5%'),
-    fontSize: hp('2%'),
-  },
-  dataCntr: {
-    flexDirection: 'row',
-    marginTop: hp('1%'),
-    alignItems: 'center',
-  },
-  data: {
-    fontSize: hp('2%'),
-    color: Colors.darkGray,
-    marginLeft: wp('2%'),
-  },
-  imgCntr: {
-    width: wp('25%'),
-    height: hp('25%'),
-    padding: wp('1%'),
-    marginRight: wp('2%'),
-    marginTop: -hp('3%'),
-    alignItems: 'center',
-  },
-  innerImage: {
-    width: wp('25%'),
-    height: hp('25%'),
-  },
-});
+const styles = StyleSheet.create({});

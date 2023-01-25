@@ -98,7 +98,6 @@ const Subcategory = props => {
       ) : (
         <View>
           {subCategory.map((v, index) => (
-            // console.log('v--------------->>>', v),
             <TouchableOpacity
               key={index}
               style={{

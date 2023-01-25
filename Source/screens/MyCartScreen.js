@@ -7,8 +7,9 @@ import {
   FlatList,
   StyleSheet,
   SafeAreaView,
-  Button,
   ActivityIndicator,
+  ScrollView,
+  RefreshControl,
 } from 'react-native';
 
 import Colors from '../Assets/Constants/Colors';
@@ -17,16 +18,20 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-// import CustomButton from '../ReusableComponents/Button';
 import HeaderDrawer from '../ReusableComponents/HeaderDrawer';
 import {_getStorage} from '../Assets/utils/storage/Storage';
 import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
+import Geolocation from '@react-native-community/geolocation';
 
 const MyCartScreen = props => {
   const [mycartname, setMycartname] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [delmess, setDelmess] = useState('');
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
+
+  const [refresh, setRfresh] = useState(false);
 
   // const Srt = [
   //   {
@@ -35,18 +40,36 @@ const MyCartScreen = props => {
   //   },
   // ];
 
+  // const pullMe = () => {
+  //   setRfresh(true);
+  // };
+
+  setTimeout(() => {
+    setRfresh(false);
+  }, 3000);
+
+  // console.log('mycartname', mycartname.cartId);
+
+  useEffect(() => {
+    get_mycart();
+  }, []);
+
   const get_mycart = async () => {
     const token = await _getStorage('token');
+    setRfresh(true);
 
     axios
       .get(BASE_URL + `/cart`, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        console.log('my cart', res.data.message);
+        // console.log('my cart', res.data.message);
         setMycartname(res.data.newResult);
         setDelmess('');
         setIsLoading(false);
+        setRfresh(false);
+
+        // console.log('cart id ---------', res.data.newResult);
       })
       .catch(error => {
         if (error.response.data?.message === 'No Result Found ') {
@@ -78,11 +101,35 @@ const MyCartScreen = props => {
       });
   };
 
-  useEffect(() => {
-    get_mycart();
-  }, []);
-
-  // console.log('delmess---------', delmess);
+  const _getgeolocations = async () => {
+    const token = await _getStorage('token');
+    Geolocation.getCurrentPosition(data => {
+      setLatitude(data.coords.latitude), setLongitude(data.coords.longitude);
+    });
+    const locobj = {
+      longitude: latitude,
+      latitude: longitude,
+    };
+    console.log('locobj', locobj);
+    axios
+      .put(BASE_URL + `/coordinates`, locobj, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(res => {
+        console.log('Locations', res.data);
+        if (res.data) {
+          // props.navigation.navigate('Editaddress');
+          props.navigation.navigate('TimeAndSlot', {
+            cartId: mycartname.cartId,
+          });
+        } else {
+          console.log('else conditions');
+        }
+      })
+      .catch(error => {
+        console.log('catch locations error', error.response?.data);
+      });
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -91,103 +138,142 @@ const MyCartScreen = props => {
         location="Sector 62"
         onPress={() => props.navigation.toggleDrawer()}
       />
-
-      {isLoading === true ? (
-        <ActivityIndicator
-          color="#FFA034"
-          size="large"
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginTop: '65%',
-          }}
-        />
-      ) : delmess ? (
-        <Text
-          style={{
-            textAlign: 'center',
-            marginTop: '60%',
-            color: '#aaa',
-          }}>
-          {delmess}
-        </Text>
-      ) : (
-        <View
-          style={{
-            height: '30%',
-            backgroundColor: Colors.white,
-            borderRadius: 10,
-            marginHorizontal: 10,
-            marginVertical: 10,
-            paddingVertical: 10,
-          }}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={() => get_mycart()} />
+        }>
+        {isLoading === true ? (
+          <ActivityIndicator
+            color="#FFA034"
+            size="large"
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginTop: '65%',
+            }}
+          />
+        ) : delmess ? (
+          <Text
+            style={{
+              textAlign: 'center',
+              marginTop: '60%',
+              color: '#aaa',
+            }}>
+            {delmess}
+          </Text>
+        ) : (
           <View
             style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingHorizontal: 10,
-              paddingVertical: 5,
+              height: '100%',
+              backgroundColor: Colors.white,
+              borderRadius: 10,
+              marginHorizontal: 10,
+              marginVertical: 10,
+              paddingVertical: 10,
             }}>
-            <Text style={{color: Colors.black}}>Service Name</Text>
-            <Text
+            <View
               style={{
-                color: Colors.lightGray,
-                textAlign: 'center',
-                alignSelf: 'center',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingHorizontal: 10,
+                paddingVertical: 5,
               }}>
-              {mycartname.serviceDescription}
-            </Text>
-          </View>
+              <Text style={{color: Colors.black}}>Service Name</Text>
+              <Text
+                style={{
+                  color: Colors.lightGray,
+                  textAlign: 'center',
+                  alignSelf: 'center',
+                }}>
+                {mycartname.serviceName}
+              </Text>
+            </View>
 
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingHorizontal: 10,
-              paddingVertical: 5,
-            }}>
-            <Text style={{color: Colors.black}}>serviceId</Text>
-            <Text style={{color: Colors.lightGray}}>
-              {mycartname.serviceId}
-            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingHorizontal: 10,
+                paddingVertical: 5,
+              }}>
+              <Text style={{color: Colors.black}}>serviceId</Text>
+              <Text style={{color: Colors.lightGray}}>
+                {mycartname.serviceId}
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingHorizontal: 10,
+                paddingVertical: 5,
+              }}>
+              <Text style={{color: Colors.black}}>packageId</Text>
+              <Text style={{color: Colors.lightGray}}>
+                {mycartname.packageId}
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingHorizontal: 10,
+                paddingVertical: 5,
+              }}>
+              <Text style={{color: Colors.black}}>packageDescription</Text>
+              <Text style={{color: Colors.lightGray}}>
+                {mycartname.packageDescription}
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingHorizontal: 10,
+                paddingVertical: 5,
+              }}>
+              <Text style={{color: Colors.black}}>Price</Text>
+              <Text style={{color: Colors.lightGray}}>{mycartname.price}</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginHorizontal: 10,
+              }}>
+              <TouchableOpacity
+                // onPress={() => props.navigation.navigate('Editaddress')}
+                onPress={_getgeolocations}
+                style={{
+                  backgroundColor: Colors.darkGreen,
+                  padding: 8,
+                  borderRadius: 7,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  paddingHorizontal: 20,
+                }}>
+                <Text style={{color: Colors.white, fontWeight: '500'}}>
+                  Add Booking
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={delete_My_Cart}
+                style={{
+                  backgroundColor: '#E70505',
+                  padding: 8,
+                  borderRadius: 7,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  paddingHorizontal: 20,
+                }}>
+                <Text style={{color: Colors.white, fontWeight: '500'}}>
+                  Delete
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingHorizontal: 10,
-              paddingVertical: 5,
-            }}>
-            <Text style={{color: Colors.black}}>packageId</Text>
-            <Text style={{color: Colors.lightGray}}>
-              {mycartname.packageId}
-            </Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingHorizontal: 10,
-              paddingVertical: 5,
-            }}>
-            <Text style={{color: Colors.black}}>packageDescription</Text>
-            <Text style={{color: Colors.lightGray}}>
-              {mycartname.packageDescription}
-            </Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingHorizontal: 10,
-              paddingVertical: 5,
-            }}>
-            <Text style={{color: Colors.black}}>Price</Text>
-            <Text style={{color: Colors.lightGray}}>{mycartname.price}</Text>
-          </View>
-          <Button title="Delete" onPress={delete_My_Cart} />
-        </View>
-      )}
+        )}
+      </ScrollView>
 
       {/* <View style={{flex: 1}}>
         <FlatList

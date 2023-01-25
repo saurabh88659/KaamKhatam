@@ -2,13 +2,12 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Booking from './Source/screens/Bleach';
 import Pedicure from './Source/screens/Pedicure';
-import ACServices from './Source/screens/ACServices';
+import ACServices from './Source/screens/pages/ACServices';
 import SalonWomen from './Source/screens/SalonWomen';
 import SalonMen from './Source/screens/SalonMen';
 import TherapiesWomen from './Source/screens/TherapiesWomen';
 import WindowACcheckup from './Source/screens/WindowACcheckup';
 import ProfileScreen from './Source/screens/ProfileScreen';
-import Salonforwomen from './Source/screens/Salonforwomen';
 import Support from './Source/screens/Support';
 import PrivacyPolicies from './Source/screens/PrivacyPolicies';
 import Abouts from './Source/screens/Abouts';
@@ -64,13 +63,14 @@ import DrowerNavigation from './Navigation/DrowerNavigation';
 import Subcategory from './Source/screens/Category.js/Subcategory';
 import Subcategory2 from './Source/screens/Category.js/Subcategory2';
 import Services from './Source/screens/Category.js/Services';
+import TimeAndSlot from './Source/screens/TimeAndSlot';
 
 const Stack = createNativeStackNavigator();
 
-const AuthStack = () => {
+function AuthStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Splash"
         component={Splash}
         options={{headerShown: false}}
@@ -91,7 +91,7 @@ const AuthStack = () => {
         name="Location"
         component={Location}
         options={{headerShown: false}}
-      />
+      /> */}
 
       <Stack.Screen
         name="DrowerNavigation"
@@ -136,11 +136,11 @@ const AuthStack = () => {
         component={Manicure}
         options={{headerShown: false}}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="ACServices"
         component={ACServices}
         options={{headerShown: false}}
-      />
+      /> */}
       <Stack.Screen
         name="SalonWomen"
         component={SalonWomen}
@@ -179,8 +179,8 @@ const AuthStack = () => {
       />
 
       <Stack.Screen
-        name="Salonforwomen"
-        component={Salonforwomen}
+        name="TimeAndSlot"
+        component={TimeAndSlot}
         options={{headerShown: false}}
       />
       <Stack.Screen
@@ -305,7 +305,7 @@ const AuthStack = () => {
         component={SubElectrions}
         options={{headerShown: false}}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="SubCleaning"
         component={SubCleaning}
         options={{headerShown: false}}
@@ -314,8 +314,8 @@ const AuthStack = () => {
         name="SubAcService"
         component={SubAcService}
         options={{headerShown: false}}
-      />
-      <Stack.Screen
+      /> */}
+      {/* <Stack.Screen
         name="SubHomeApliances"
         component={SubHomeApliances}
         options={{headerShown: false}}
@@ -324,8 +324,8 @@ const AuthStack = () => {
         name="SubMassageSalonformen"
         component={SubMassageSalonformen}
         options={{headerShown: false}}
-      />
-      <Stack.Screen
+      /> */}
+      {/* <Stack.Screen
         name="SubSalonSpaforwomen"
         component={SubSalonSpaforwomen}
         options={{headerShown: false}}
@@ -334,8 +334,8 @@ const AuthStack = () => {
         name="SubSalonSpaforwomen2"
         component={SubSalonSpaforwomen2}
         options={{headerShown: false}}
-      />
-      <Stack.Screen
+      /> */}
+      {/* <Stack.Screen
         name="SubSalonSpaforMen"
         component={SubSalonSpaforMen}
         options={{headerShown: false}}
@@ -344,8 +344,8 @@ const AuthStack = () => {
         name="Chocolatewax"
         component={Chocolatewax}
         options={{headerShown: false}}
-      />
-      <Stack.Screen
+      /> */}
+      {/* <Stack.Screen
         name="Threding"
         component={Threading}
         options={{headerShown: false}}
@@ -354,17 +354,17 @@ const AuthStack = () => {
         name="CancelBooking"
         component={CancelBooking}
         options={{headerShown: false}}
-      />
-      <Stack.Screen
+      /> */}
+      {/* <Stack.Screen
         name="Bleach"
         component={Bleach}
         options={{headerShown: false}}
-      />
-      <Stack.Screen
+      /> */}
+      {/* <Stack.Screen
         name="Cleanup"
         component={Cleanup}
         options={{headerShown: false}}
-      />
+      /> */}
       <Stack.Screen
         name="EditMobileNumber"
         component={EditMobileNumber}
@@ -407,6 +407,6 @@ const AuthStack = () => {
       />
     </Stack.Navigator>
   );
-};
+}
 
 export default AuthStack;

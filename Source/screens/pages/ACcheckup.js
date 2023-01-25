@@ -1,13 +1,13 @@
 import React from 'react';
 import {Text, View, Image, FlatList, StyleSheet} from 'react-native';
 
-import Header from '../ReusableComponents/Header';
-import Colors from '../Assets/Constants/Colors';
+import Header from '../../ReusableComponents/Header';
+import Colors from '../../Assets/Constants/Colors';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import ServiceAC from '../ReusableComponents/ServiceAC';
+import ServiceAC from '../../ReusableComponents/ServiceAC';
 
 export default function ACcheckup() {
   const Srt = [

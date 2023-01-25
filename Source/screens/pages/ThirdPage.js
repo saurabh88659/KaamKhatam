@@ -12,7 +12,6 @@ const ThirdPage = () => {
             This is the Third Page
           </Text>
         </View>
-       
       </View>
     </SafeAreaView>
   );

@@ -40,6 +40,7 @@ const Services = props => {
   const [silverID, setSilverID] = useState('');
   const [goldID, setgoldID] = useState('');
   const [platinumID, setPlatinumID] = useState('');
+  const [catname, setCatname] = useState('');
 
   // const [service, setService] = useState([]);
 
@@ -142,7 +143,7 @@ const Services = props => {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        console.log('getPackagesByServiceId', res.data.service);
+        console.log('getPackagesByServiceId', res.data);
         setServiceID(res.data.service._id);
         setGetname(res.data.service.gold);
         setSilver(res.data.service.silver);
@@ -150,6 +151,7 @@ const Services = props => {
         setgoldID(res.data.service.gold._id);
         setPlatinumID(res.data.service.platinum._id);
         setPlatinum(res.data.service.platinum);
+        setCatname(res.data.category);
       })
       .catch(error => {
         console.log(
@@ -159,20 +161,22 @@ const Services = props => {
       });
   };
 
-  const get_mycart = async () => {
-    const token = await _getStorage('token');
+  // console.log('catname', catname);
 
-    axios
-      .get(BASE_URL + `/cart`, {
-        headers: {Authorization: `Bearer ${token}`},
-      })
-      .then(res => {
-        console.log('get my cart----------->>', res.data.newResult);
-      })
-      .catch(error => {
-        console.log('my cart catch error-------------->>', error.response.data);
-      });
-  };
+  // const get_mycart = async () => {
+  //   const token = await _getStorage('token');
+
+  //   axios
+  //     .get(BASE_URL + `/cart`, {
+  //       headers: {Authorization: `Bearer ${token}`},
+  //     })
+  //     .then(res => {
+  //       console.log('get my cart----------->>', res.data.newResult);
+  //     })
+  //     .catch(error => {
+  //       console.log('my cart catch error-------------->>', error.response.data);
+  //     });
+  // };
 
   const cardSilver = async () => {
     const token = await _getStorage('token');
@@ -181,6 +185,7 @@ const Services = props => {
     let objID = {
       serviceId: serviceID,
       packageId: silverID,
+      category: catname,
     };
     console.log('objID', objID);
     axios
@@ -191,7 +196,7 @@ const Services = props => {
         console.log('Silver-----', rep.data);
         if (rep.data) {
           props.navigation.navigate('MyCartScreen');
-          get_mycart();
+          // get_mycart();
         }
         Toast.showWithGravity(rep.data.message, Toast.LONG, Toast.BOTTOM);
       })
@@ -212,6 +217,7 @@ const Services = props => {
     let objID = {
       serviceId: serviceID,
       packageId: goldID,
+      category: catname,
     };
     console.log('objID', objID);
     axios
@@ -222,7 +228,7 @@ const Services = props => {
         console.log('gold-----', rep.data);
         if (rep.data) {
           props.navigation.navigate('MyCartScreen');
-          get_mycart();
+          // get_mycart();
         }
         Toast.showWithGravity(rep.data.message, Toast.LONG, Toast.BOTTOM);
       })
@@ -243,6 +249,7 @@ const Services = props => {
     let objID = {
       serviceId: serviceID,
       packageId: platinumID,
+      category: catname,
     };
     console.log('objID', objID);
     axios
@@ -253,7 +260,7 @@ const Services = props => {
         console.log('Platinum-----', rep.data);
         if (rep.data) {
           props.navigation.navigate('MyCartScreen');
-          get_mycart();
+          // get_mycart();
         }
         Toast.showWithGravity(rep.data.message, Toast.LONG, Toast.BOTTOM);
       })
