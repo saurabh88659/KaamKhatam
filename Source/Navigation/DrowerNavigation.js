@@ -1,8 +1,8 @@
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import TabNavigation from './TabNavigation';
-import Colors from '../Source/Assets/Constants/Colors';
-import CustomDrawerMenu from '../CustomDrawerMenu';
+import Colors from '../Assets/Constants/Colors';
+import CustomDrawerMenu from '../../CustomDrawerMenu';
 
 const Drawer = createDrawerNavigator();
 export default function DrowerNavigation() {

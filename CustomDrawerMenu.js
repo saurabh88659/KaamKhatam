@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -10,17 +10,57 @@ import {
   Dimensions,
 } from 'react-native';
 import {DrawerContentScrollView} from '@react-navigation/drawer';
+import {_getStorage} from './Source/Assets/utils/storage/Storage';
+import {BASE_URL} from './Source/Assets/utils/Restapi/Config';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Colors from './Source/Assets/Constants/Colors';
+// import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 const {height, width} = Dimensions.get('screen');
 
-CustomDrawerMenu = props => {
+const CustomDrawerMenu = props => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible2, setModalVisible2] = useState(false);
+
+  // const [defaultrate, setDefaultrate] = useState(2);
+  // const [maxrating, setMaxrating] = useState([1, 2, 3, 4, 5]);
+
+  const [profileData, setProfileData] = useState({});
+
+  useEffect(() => {
+    profileapi();
+  }, []);
+
+  const profileapi = async () => {
+    const token = await _getStorage('token');
+    console.log('token', token);
+
+    axios
+      .get(BASE_URL + `/profile`, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(val => {
+        setProfileData(val.data.result);
+        // console.log('profile drower>', val.data.result);
+      })
+      .catch(e => {
+        console.log('in catch', e.response.data);
+      });
+  };
+
+  const _logout = async () => {
+    await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('isLoggedIn');
+    setModalVisible(!modalVisible);
+    props.navigation.navigate('Login');
+  };
 
   return (
-    <ScrollView style={{flex: 1, backgroundColor: '#D6FCED'}}>
+    <ScrollView style={{flex: 1, backgroundColor: Colors.lightOrange}}>
       <DrawerContentScrollView
         {...props}
-        contentContainerStyle={{backgroundColor: '#D6FCED'}}>
+        contentContainerStyle={{backgroundColor: Colors.white}}>
         <View style={{marginVertical: 20}}>
           <TouchableOpacity
             onPress={() => props.navigation.navigate('ProfileScreen')}>
@@ -34,7 +74,9 @@ CustomDrawerMenu = props => {
               props.navigation.navigate('ProfileScreen');
             }}>
             <View style={Styles.textlable}>
-              <Text style={Styles.textstyl}>Verified Customer</Text>
+              <Text style={Styles.textstyl}>
+                {profileData.firstName + ' ' + profileData.lastName}
+              </Text>
             </View>
           </TouchableOpacity>
 
@@ -52,7 +94,7 @@ CustomDrawerMenu = props => {
           <View>
             <View style={Styles.linesstyles}></View>
             <TouchableOpacity
-              onPress={() => props.navigation.navigate('Mybooking2')}
+              onPress={() => props.navigation.navigate('Mybooking')}
               style={Styles.constyles}>
               <Image
                 source={require('./Source/Assets/Images/credit-cardicone2.png')}
@@ -62,6 +104,33 @@ CustomDrawerMenu = props => {
             </TouchableOpacity>
           </View>
 
+          <View>
+            <View style={Styles.linesstyles}></View>
+            <TouchableOpacity
+              style={Styles.constyles}
+              onPress={() => props.navigation.navigate('Support')}>
+              <Image
+                source={require('./Source/Assets/Images/headphonesicone.png')}
+                style={Styles.iconestyles}
+              />
+              <Text style={Styles.textstyles1}>Support</Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <View style={Styles.linesstyles}></View>
+            <TouchableOpacity
+              onPress={() => {
+                setModalVisible2(true);
+                props.navigation.closeDrawer('Home');
+              }}
+              style={Styles.constyles}>
+              <Image
+                source={require('./Source/Assets/Images/Bstaricone.png')}
+                style={Styles.iconestyles}
+              />
+              <Text style={Styles.textstyles1}>Rate the App</Text>
+            </TouchableOpacity>
+          </View>
           <View>
             <View style={Styles.linesstyles}></View>
             <TouchableOpacity
@@ -84,28 +153,6 @@ CustomDrawerMenu = props => {
                 style={Styles.iconestyles}
               />
               <Text style={Styles.textstyles1}>Terms and Conditions</Text>
-            </TouchableOpacity>
-          </View>
-          <View>
-            <View style={Styles.linesstyles}></View>
-            <TouchableOpacity
-              style={Styles.constyles}
-              onPress={() => props.navigation.navigate('Support')}>
-              <Image
-                source={require('./Source/Assets/Images/headphonesicone.png')}
-                style={Styles.iconestyles}
-              />
-              <Text style={Styles.textstyles1}>Support</Text>
-            </TouchableOpacity>
-          </View>
-          <View>
-            <View style={Styles.linesstyles}></View>
-            <TouchableOpacity style={Styles.constyles}>
-              <Image
-                source={require('./Source/Assets/Images/Bstaricone.png')}
-                style={Styles.iconestyles}
-              />
-              <Text style={Styles.textstyles1}>Rate the App</Text>
             </TouchableOpacity>
           </View>
           <View>
@@ -150,6 +197,12 @@ CustomDrawerMenu = props => {
           </TouchableOpacity>
           <View style={Styles.linesstyles}></View>
 
+          <View style={{alignItems: 'center'}}>
+            <Text style={{color: Colors.darkGray, fontWeight: '500'}}>
+              Version 1.1.0.1
+            </Text>
+          </View>
+
           <View style={{}}>{/* <DrawerItemList {...props} /> */}</View>
         </View>
       </DrawerContentScrollView>
@@ -187,10 +240,11 @@ CustomDrawerMenu = props => {
                     borderRadius: 4,
                     borderWidth: 1,
                   }}
-                  onPress={() => {
-                    setModalVisible(!modalVisible);
-                    props.navigation.navigate('Login');
-                  }}>
+                  // onPress={() => {
+                  //   setModalVisible(!modalVisible);
+                  //   props.navigation.navigate('Login');
+                  // }}
+                  onPress={_logout}>
                   <Text
                     style={{
                       color: 'white',
@@ -221,6 +275,100 @@ CustomDrawerMenu = props => {
                       textAlign: 'center',
                     }}>
                     No
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible2}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+            setModalVisible2(!modalVisible2);
+          }}>
+          <View style={Styles.centeredView}>
+            <View
+              style={{
+                backgroundColor: Colors.white,
+                paddingVertical: 60,
+                marginHorizontal: 10,
+                borderRadius: 7,
+              }}>
+              <Text style={{color: Colors.black, textAlign: 'center'}}>
+                Tab a star to rate in on the App Store.
+              </Text>
+              {/* <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
+                  paddingHorizontal: 20,
+                }}>
+                <Text>hello</Text>
+                <Text>hello</Text>
+                <Text>hello</Text>
+                <Text>hello</Text>
+                <Text>hello</Text>
+                <FontAwesome5Icon
+                  name="star"
+                  solid
+                  size="2%"
+                  color={Colors.lightYellow}
+                />
+              </View> */}
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  marginHorizontal: 40,
+                }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setModalVisible2(!modalVisible2);
+                  }}
+                  style={{
+                    borderColor: '#0EC01B',
+                    backgroundColor: '#0EC01B',
+                    height: height / 18,
+                    width: width / 3.5,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 4,
+                    borderWidth: 1,
+                  }}>
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                    }}>
+                    Submit
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    setModalVisible2(!modalVisible2);
+                  }}
+                  style={{
+                    borderColor: '#0EC01B',
+                    height: height / 18,
+                    width: width / 3.5,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 4,
+                    borderColor: '#0EC01B',
+                    borderWidth: 1,
+                  }}>
+                  <Text
+                    style={{
+                      color: '#0EC01B',
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                    }}>
+                    Cancel
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -279,6 +427,7 @@ const Styles = StyleSheet.create({
   textstyles1: {
     marginHorizontal: 15,
     fontWeight: '500',
+    color: Colors.darkGray,
   },
   centeredView: {
     flex: 1,

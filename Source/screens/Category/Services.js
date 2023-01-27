@@ -16,10 +16,7 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-
 const {width, height} = Dimensions.get('window');
-
-// import {RadioButton} from 'react-native-paper';
 import Colors from '../../Assets/Constants/Colors';
 import Header from '../../ReusableComponents/Header';
 import GreenHeader from '../../ReusableComponents/GreenHeader';
@@ -33,7 +30,6 @@ import Toast from 'react-native-simple-toast';
 
 const Services = props => {
   const [visible, setVisible] = useState(false);
-
   const [isLoading, setIsLoading] = useState(true);
   const [serId, setSerID] = useState('');
   const [serviceID, setServiceID] = useState('');
@@ -110,7 +106,7 @@ const Services = props => {
       })
       .then(response => {
         setGetallservices(response.data.result.service);
-        console.log('getService2-->>>', response.data);
+        console.log('getService2-->>>', response.data.result.service);
         setIsLoading(false);
       })
       .catch(error => {
@@ -127,11 +123,11 @@ const Services = props => {
       })
       .then(response => {
         setGetallservices(response.data.result);
-        // console.log('getService3-->>>', response.data);
+        console.log('getService3-->>>', response.data);
         setIsLoading(false);
       })
       .catch(error => {
-        console.log('getService3 error-->>', error);
+        console.log('getService3 error-->>', error.response.data.message);
         setIsLoading(false);
       });
   };
@@ -154,10 +150,7 @@ const Services = props => {
         setCatname(res.data.category);
       })
       .catch(error => {
-        console.log(
-          'catch error getPackagesByServiceId',
-          error.response.data.message,
-        );
+        console.log('catch error getPackagesByServiceId', error.response.data);
       });
   };
 

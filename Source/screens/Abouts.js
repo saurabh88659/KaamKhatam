@@ -3,7 +3,7 @@ import React from 'react';
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
 
-Abouts = props => {
+const Abouts = props => {
   return (
     <SafeAreaView>
       <Header

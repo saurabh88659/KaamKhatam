@@ -20,12 +20,12 @@ import {BASE_URL} from '../../Assets/utils/Restapi/Config';
 import Colors from '../../Assets/Constants/Colors';
 import Header from '../../ReusableComponents/Header';
 
-const SpaforWomen = props => {
+const Subcategory2 = props => {
   const preData = props.route.params;
   const [services, setServices] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
-  // console.log('SUB--2222', preData);
+  console.log('SUB--2222', preData);
 
   useEffect(() => {
     subservice();
@@ -94,7 +94,7 @@ const SpaforWomen = props => {
           renderItem={({item, index}) => (
             <ServiceItems
               title={item.name}
-              image={item.image}
+              image={item.imageUrl}
               // click={() => props.navigation.navigate('Services', item)}
               click={() => subCategorytwo(item._id, item.name)}
             />
@@ -104,7 +104,7 @@ const SpaforWomen = props => {
     </View>
   );
 };
-export default SpaforWomen;
+export default Subcategory2;
 const styles = StyleSheet.create({
   container: {
     width: wp('100%'),

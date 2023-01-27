@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   TextInput,
   ActivityIndicator,
+  StatusBar,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {
@@ -45,7 +46,7 @@ function Home({navigation}) {
         console.log('home category--------------', resp.data.category);
       })
       .catch(e => {
-        console.log('home screen catch error', e.response.data);
+        console.log('home screen catch error', e.response?.data);
         setIsLoading(false);
       });
   };
@@ -83,12 +84,12 @@ function Home({navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={Colors.darkGreen} barStyle={Colors.white} />
+
       <HeaderDrawer
         Title="ALL IN ONE"
         location="Sector 62"
-        // onPress={() => navigation.toggleDrawer()}
         onPress={() => navigation.openDrawer()}
-        // onPress={() => navigation.toggleDrawer()}
       />
       {isLoading ? (
         <View

@@ -23,6 +23,7 @@ import {_getStorage} from '../Assets/utils/storage/Storage';
 import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import Geolocation from '@react-native-community/geolocation';
+import Toast from 'react-native-simple-toast';
 
 const MyCartScreen = props => {
   const [mycartname, setMycartname] = useState('');
@@ -84,6 +85,8 @@ const MyCartScreen = props => {
 
   const delete_My_Cart = async () => {
     const token = await _getStorage('token');
+    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
+
     console.log(token);
     console.log('mycartname', mycartname.cartId);
 
@@ -93,11 +96,17 @@ const MyCartScreen = props => {
         data: {cartId: mycartname.cartId},
       })
       .then(rep => {
-        console.log('delete my cart', rep.data);
+        // console.log('delete my cart', rep.data);
         get_mycart();
+        Toast.showWithGravity(res.data?.message, Toast.LONG, Toast.BOTTOM);
       })
       .catch(error => {
         console.log('delete catch error', error.response.data);
+        Toast.showWithGravity(
+          error.response.data?.message,
+          Toast.LONG,
+          Toast.BOTTOM,
+        );
       });
   };
 

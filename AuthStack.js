@@ -2,17 +2,12 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Booking from './Source/screens/Bleach';
 import Pedicure from './Source/screens/Pedicure';
-import ACServices from './Source/screens/pages/ACServices';
 import SalonWomen from './Source/screens/SalonWomen';
 import SalonMen from './Source/screens/SalonMen';
 import TherapiesWomen from './Source/screens/TherapiesWomen';
 import WindowACcheckup from './Source/screens/WindowACcheckup';
 import ProfileScreen from './Source/screens/ProfileScreen';
-import Support from './Source/screens/Support';
-import PrivacyPolicies from './Source/screens/PrivacyPolicies';
-import Abouts from './Source/screens/Abouts';
 import Mywallet from './Source/screens/Mywallet';
-import Termsandconditions from './Source/screens/Termsandconditions';
 import ProfessionalCleaningServices from './Source/screens/ProfessionalCleaningServices';
 import Mybooking from './Source/screens/Mybooking';
 import InstallationUninstallation from './Source/screens/InstallationUninstallation';
@@ -23,7 +18,6 @@ import InstallationScreen from './Source/screens/InstallationScreen';
 import ServicesofWomenOnly from './Source/screens/ServicesofWomenOnly';
 import SpaforWomen from './Source/screens/SpaforWomen';
 import Editaddress from './Source/screens/Editaddress';
-import Faqs from './Source/screens/Faqs';
 import Viewdetails from './Source/screens/Viewdetails';
 import ViewdetailsCancelled from './Source/screens/ViewdetailsCancelled';
 import ViewdetailsPending from './Source/screens/ViewdetailsPending';
@@ -58,11 +52,7 @@ import Otp from './Source/screens/Otp';
 import RegisterAccount from './Source/screens/RegisterAccount';
 import Location from './Source/screens/Location';
 import Home from './Source/screens/Home/Home';
-import TabNavigation from './Navigation/TabNavigation';
-import DrowerNavigation from './Navigation/DrowerNavigation';
-import Subcategory from './Source/screens/Category.js/Subcategory';
-import Subcategory2 from './Source/screens/Category.js/Subcategory2';
-import Services from './Source/screens/Category.js/Services';
+import TabNavigation from './Source/Navigation/TabNavigation';
 import TimeAndSlot from './Source/screens/TimeAndSlot';
 
 const Stack = createNativeStackNavigator();
@@ -91,13 +81,13 @@ function AuthStack() {
         name="Location"
         component={Location}
         options={{headerShown: false}}
-      /> */}
+      />
 
       <Stack.Screen
         name="DrowerNavigation"
         component={DrowerNavigation}
         options={{headerShown: false}}
-      />
+      /> */}
 
       <Stack.Screen
         name="TabNavigation"
@@ -105,11 +95,11 @@ function AuthStack() {
         options={{headerShown: false}}
       />
 
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Home"
         component={Home}
         options={{headerShown: false}}
-      />
+      /> */}
       <Stack.Screen
         name="ServicesofWomenOnly"
         component={ServicesofWomenOnly}
@@ -172,32 +162,13 @@ function AuthStack() {
         component={ProfileScreen}
         options={{headerShown: false}}
       />
-      <Stack.Screen
-        name="Termsandconditions"
-        component={Termsandconditions}
-        options={{headerShown: false}}
-      />
 
       <Stack.Screen
         name="TimeAndSlot"
         component={TimeAndSlot}
         options={{headerShown: false}}
       />
-      <Stack.Screen
-        name="Support"
-        component={Support}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="PrivacyPolicies"
-        component={PrivacyPolicies}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="Abouts"
-        component={Abouts}
-        options={{headerShown: false}}
-      />
+
       <Stack.Screen
         name="Mywallet"
         component={Mywallet}
@@ -260,11 +231,7 @@ function AuthStack() {
         component={Editaddress}
         options={{headerShown: false}}
       />
-      <Stack.Screen
-        name="Faqs"
-        component={Faqs}
-        options={{headerShown: false}}
-      />
+
       <Stack.Screen
         name="Viewdetails"
         component={Viewdetails}
@@ -388,21 +355,6 @@ function AuthStack() {
       <Stack.Screen
         name="Bottomsheetmodal"
         component={Bottomsheetmodal}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="Subcategory"
-        component={Subcategory}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="Subcategory2"
-        component={Subcategory2}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="Services"
-        component={Services}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

@@ -11,16 +11,15 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-// import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
 import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-crop-picker';
 import HeaderDrawer from '../ReusableComponents/HeaderDrawer';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BottomSheet} from 'react-native-btr';
 
 import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
+import {_getStorage} from '../Assets/utils/storage/Storage';
 
 const {height, width} = Dimensions.get('window');
 
@@ -66,8 +65,8 @@ const ProfileScreen = ({navigation, route}) => {
   }, []);
 
   const profileapi = async () => {
-    const token = await AsyncStorage.getItem('token');
-    // setIsLoading(false);
+    const token = await _getStorage('token');
+
     axios
       .get(BASE_URL + `/profile`, {
         headers: {Authorization: `Bearer ${token}`},
@@ -336,7 +335,6 @@ const Styles = StyleSheet.create({
   cameraicone: {
     height: height / 30,
     width: width / 15,
-    // left: 35,
   },
   editicone: {
     height: 20,

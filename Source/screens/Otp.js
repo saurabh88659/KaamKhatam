@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Image,
   Text,
-  TextInput,
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
@@ -62,8 +61,8 @@ const Otp = ({navigation, route}) => {
               },
             })
             .then(res => {
-              if (res.data.result.firstName) {
-                navigation.navigate('TabNavigation');
+              if (res.data?.result.firstName) {
+                navigation.navigate('DrowerNavigation');
               } else {
                 navigation.navigate('RegisterAccount');
               }

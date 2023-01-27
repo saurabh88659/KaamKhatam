@@ -80,12 +80,11 @@ const RegisterAccount = props => {
       .then(val => {
         console.log(val.data);
         setIsLoading(false);
-        props.navigation.navigate('TabNavigation');
+        props.navigation.navigate('DrowerNavigation');
         Toast.showWithGravity(val.data.message, Toast.LONG, Toast.BOTTOM);
       })
       .catch(e => {
-        console.log('in catch');
-        console.log(e);
+        console.log('in catch', e);
         setIsLoading(false);
       });
   };
@@ -156,12 +155,12 @@ const RegisterAccount = props => {
 
   const _verifyMailotp = async () => {
     const token = await _getStorage('token');
-    // console.log('token ===', token);
+    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
+
     const obj = {
       id: emailOtp,
       otp: Number(code),
     };
-    // console.log(obj);
     axios
       .post(BASE_URL + `/verifyMailOTP`, obj, {
         headers: {Authorization: `Bearer ${token}`},
@@ -169,6 +168,7 @@ const RegisterAccount = props => {
       .then(value => {
         console.log(value.data);
         setModalVisible(!modalVisible);
+        Toast.showWithGravity(value.data.message, Toast.LONG, Toast.BOTTOM);
       })
       .catch(error => {
         console.log(error.response.data);
@@ -192,8 +192,6 @@ const RegisterAccount = props => {
       .then(res => {
         console.log('email response', res.data);
         setemailOtp(res.data.id);
-        // let mail_Id = res.data.id;
-        // setemailOtp(mail_Id);
         setModalVisible(!modalVisible);
       })
 

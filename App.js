@@ -1,6 +1,6 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import AuthStack from './AuthStack';
+import AuthStack from './Source/Navigation/StackNavigators/AuthStack';
 
 function App() {
   return (
@@ -9,5 +9,4 @@ function App() {
     </NavigationContainer>
   );
 }
-
 export default App;

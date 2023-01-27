@@ -107,7 +107,7 @@ const Subcategory = props => {
               }}
               onPress={() => {
                 // props.navigation.navigate('Subcategory2', v);
-                // setSubActive(v._id);
+                // // setSubActive(v._id);
                 getSubCategoryWIseService(v._id, v.name);
               }}>
               <Image source={v.imageUrl} style={{height: 70, width: 70}} />
