@@ -17,7 +17,7 @@ const Termsandconditions = props => {
         style={{marginHorizontal: 20}}
         contentContainerStyle={{paddingBottom: 90, marginTop: 10}}
         showsVerticalScrollIndicator={false}>
-        <Text style={{}}>
+        <Text style={{color: Colors.black}}>
           Lorem Ipsum is simply dummy text of the prinng typeseng industry.
           Lorem Ipsum has been the industry's standard dummy text ever since the
           1500s, when an unknown printer took a galley of type and scrambled it
@@ -46,8 +46,8 @@ const Termsandconditions = props => {
           model sentence structures, to generate Lorem Ipsum.
         </Text>
 
-        <Text style={{margin: 10}}>HEDONIST ROOTS</Text>
-        <Text style={{}}>
+        <Text style={{margin: 10, color: Colors.black}}>HEDONIST ROOTS</Text>
+        <Text style={{color: Colors.black}}>
           Lorem Ipsum is simply dummy text of the prinng and typeseng industry.
           Lorem Ipsum has been the industry's standard dummy text ever since the
           1500s, when an unknown printer took a galley of type and scrambled it

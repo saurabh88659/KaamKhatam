@@ -19,7 +19,9 @@ export default function TranscationsScreen() {
             marginHorizontal: 10,
           }}>
           <View style={{marginVertical: 10}}>
-            <Text style={{fontWeight: 'bold'}}>Paid for cleaning Services</Text>
+            <Text style={{fontWeight: 'bold', color: Colors.darkGray}}>
+              Paid for cleaning Services
+            </Text>
             <Text
               style={{
                 fontSize: 13,
@@ -31,7 +33,6 @@ export default function TranscationsScreen() {
             <View style={{flexDirection: 'row'}}>
               <Text style={{fontWeight: 'bold'}}>Paid By:</Text>
               <Text style={{fontSize: 14, color: Colors.darkGray}}>
-                {' '}
                 All In One Wallet
               </Text>
             </View>

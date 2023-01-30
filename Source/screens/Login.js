@@ -177,7 +177,7 @@ const Login = props => {
     }
   };
 
-  // ************ Login Api Integration ************
+  //TODO ************ Login Api Integration ************
 
   const handleSubmit = () => {
     const SubmitDAta = {
@@ -365,7 +365,8 @@ const Login = props => {
               flexWrap: 'wrap',
               top: 8,
             }}>
-            <Text style={{fontSize: 15, fontWeight: '500'}}>
+            <Text
+              style={{fontSize: 15, fontWeight: '500', color: Colors.black}}>
               By proceeding, you agree to
             </Text>
             <TouchableOpacity

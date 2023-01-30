@@ -348,7 +348,7 @@ const Services = props => {
               )}
             />
           </View>
-          <AddCart items={2} />
+          {/* <AddCart items={2} /> */}
         </View>
       )}
 
@@ -397,7 +397,12 @@ const Services = props => {
                       source={require('../../Assets/Images/Ellipse1.png')}
                       style={{marginVertical: 10}}
                     />
-                    <Text style={{marginHorizontal: 5, top: 3}}>
+                    <Text
+                      style={{
+                        marginHorizontal: 5,
+                        top: 3,
+                        color: Colors.black,
+                      }}>
                       {/* Less experienced */}
                       {silver.description}
                     </Text>
@@ -407,7 +412,12 @@ const Services = props => {
                       source={require('../../Assets/Images/Ellipse1.png')}
                       style={{top: 4}}
                     />
-                    <Text style={{marginHorizontal: 5, top: -3}}>
+                    <Text
+                      style={{
+                        marginHorizontal: 5,
+                        top: -3,
+                        color: Colors.black,
+                      }}>
                       {/* Less Equiped */}
                       {silver.description}
                     </Text>
@@ -471,7 +481,12 @@ const Services = props => {
                         source={require('../../Assets/Images/Ellipse1.png')}
                         style={{marginVertical: 10}}
                       />
-                      <Text style={{marginHorizontal: 5, top: 3}}>
+                      <Text
+                        style={{
+                          marginHorizontal: 5,
+                          top: 3,
+                          color: Colors.black,
+                        }}>
                         {/* Less experienced */}
                         {getname.description}
                       </Text>
@@ -481,7 +496,12 @@ const Services = props => {
                         source={require('../../Assets/Images/Ellipse1.png')}
                         style={{top: 4}}
                       />
-                      <Text style={{marginHorizontal: 5, top: -3}}>
+                      <Text
+                        style={{
+                          marginHorizontal: 5,
+                          top: -3,
+                          color: Colors.black,
+                        }}>
                         {/* Less Equiped */}
                         {getname.description}
                       </Text>
@@ -544,7 +564,12 @@ const Services = props => {
                         source={require('../../Assets/Images/Ellipse1.png')}
                         style={{marginVertical: 10}}
                       />
-                      <Text style={{marginHorizontal: 5, top: 3}}>
+                      <Text
+                        style={{
+                          marginHorizontal: 5,
+                          top: 3,
+                          color: Colors.black,
+                        }}>
                         {/* Less experienced */}
                         {platinum.description}
                       </Text>
@@ -554,7 +579,12 @@ const Services = props => {
                         source={require('../../Assets/Images/Ellipse1.png')}
                         style={{top: 4}}
                       />
-                      <Text style={{marginHorizontal: 5, top: -3}}>
+                      <Text
+                        style={{
+                          marginHorizontal: 5,
+                          top: -3,
+                          color: Colors.black,
+                        }}>
                         {/* Less Equiped */}
                         {platinum.description}
                       </Text>
@@ -640,7 +670,7 @@ const Styles = StyleSheet.create({
   bottomNavigationView: {
     backgroundColor: '#fff',
     width: '100%',
-    height: '60%',
+    height: '50%',
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },

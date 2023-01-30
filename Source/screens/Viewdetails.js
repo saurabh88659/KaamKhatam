@@ -73,6 +73,7 @@ const Viewdetails = props => {
           <View style={styles.cntrContainer}>
             <View
               style={{
+                paddingVertical: 6,
                 height: height / 3.8,
                 marginVertical: 5,
                 marginHorizontal: 5,

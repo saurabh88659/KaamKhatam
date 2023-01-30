@@ -150,7 +150,10 @@ function Mybooking({navigation}) {
                         }}>
                         Time slot:
                       </Text>
-                      <Text style={{fontSize: 15, left: 5}}>{value.time}</Text>
+                      <Text
+                        style={{fontSize: 15, left: 5, color: Colors.black}}>
+                        {value.time}
+                      </Text>
                     </View>
                     <View style={{flexDirection: 'row'}}>
                       <Text
@@ -161,7 +164,8 @@ function Mybooking({navigation}) {
                         }}>
                         Date
                       </Text>
-                      <Text style={{fontSize: 15, left: 5}}>
+                      <Text
+                        style={{fontSize: 15, left: 5, color: Colors.black}}>
                         {value.bookingDate}
                       </Text>
                     </View>
@@ -174,7 +178,9 @@ function Mybooking({navigation}) {
                         }}>
                         Price:
                       </Text>
-                      <Text style={{fontSize: 15}}>{value.amountToBePaid}</Text>
+                      <Text style={{fontSize: 15, color: Colors.black}}>
+                        {value.amountToBePaid}
+                      </Text>
                     </View>
                   </View>
                 </View>

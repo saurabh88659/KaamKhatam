@@ -18,6 +18,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import Toast from 'react-native-simple-toast';
+// import reactNativeUpiPayment from 'react-native-upi-payment';
+import RNUpiPayment from 'react-native-upi-payment';
 
 const {height, width} = Dimensions.get('window');
 
@@ -33,7 +35,7 @@ const TimeAndSlot = props => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const cartID = props.route.params;
-  // console.log('cartID===========>>', cartID);
+  // ! console.log('cartID===========>>', cartID);
 
   const TimeSlot = [
     {
@@ -61,15 +63,9 @@ const TimeAndSlot = props => {
       startTime: '03:00 PM',
       endTime: '04:00 PM',
     },
-
-    // {
-    //   id:
-    //   startTime: '08:00-9:00 AM',
-    //   // endTime: '03:00',
-    // },
   ];
 
-  console.log('TimeSlot-------------', index2, startTime, endTime);
+  //TODO console.log('TimeSlot-------------', index2, startTime, endTime);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -94,36 +90,6 @@ const TimeAndSlot = props => {
 
     hideDatePicker();
   };
-
-  // function getTimeStops(start, end) {
-  //   var startTime = moment(start, 'HH:mm');
-  //   var endTime = moment(end, 'HH:mm');
-
-  //   if (endTime.isBefore(startTime)) {
-  //     endTime.add(1, 'day');
-  //   }
-
-  //   var timeStops = [];
-
-  //   while (startTime <= endTime) {
-  //     timeStops.push(new moment(startTime).format('HH:mm'));
-  //     startTime.add(30, 'minutes');
-  //   }
-  //   return timeStops;
-  // }
-
-  // var timeStops = getTimeStops('11:00', '02:00');
-  // console.log('timeStops----------- ', timeStops);
-  // timeStops = getTimeStops('11:00', '23:59');
-  // console.log('timeStops--------->>. ', timeStops);
-
-  // useEffect(() => {
-  //   // var timeStops = getTimeStops('11:00', '02:00');
-  //   // console.log(timeStops);
-  //   setTimeslot(getTimeStops('11:00', '02:00'));
-  // }, []);
-
-  // console.log('timeslot============>>', timeslot);
 
   const conBooking = async () => {
     const token = await _getStorage('token');
@@ -161,6 +127,29 @@ const TimeAndSlot = props => {
         );
       });
   };
+
+  const upiPayment = () => {
+    // console.log('hey');
+    RNUpiPayment.initializePayment(
+      {
+        vpa: 'EXPLORETOBUY.62627320@hdfcbank', // or can be john@ybl or mobileNo@upi
+        payeeName: 'John Doe',
+        amount: '1',
+        transactionRef: 'aasf-332-aoei-fn',
+      },
+      successCallback,
+      failureCallback,
+    );
+  };
+
+  function successCallback(data) {
+    console.log('success');
+  }
+
+  function failureCallback(data) {
+    // do whatever with the data
+    console.log('failure');
+  }
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -457,7 +446,10 @@ const TimeAndSlot = props => {
           </View>
         </View>
       </View>
-      <ScrollView horizontal={true}>
+      <ScrollView
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        style={{}}>
         {TimeSlot.map((timeSlot, index) => (
           <View key={index}>
             <TouchableOpacity
@@ -489,7 +481,8 @@ const TimeAndSlot = props => {
       </ScrollView>
 
       <TouchableOpacity
-        onPress={conBooking}
+        // onPress={conBooking}
+        onPress={upiPayment}
         style={{
           backgroundColor: '#09bd39',
           justifyContent: 'center',

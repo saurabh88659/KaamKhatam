@@ -104,9 +104,9 @@ const Splash = ({navigation}) => {
                 user_id: userId,
               };
               //refresh token api
-              // console.log('SubmitDAta', SubmitDAta);
+              console.log('SubmitDAta', SubmitDAta);
               axios
-                .post(BASE_URL + `/refreshToken`, {SubmitDAta})
+                .post(BASE_URL + `/refreshToken`, SubmitDAta)
                 .then(async res => {
                   console.log('dablu------------------', res.data);
                   await AsyncStorage.setItem('token', res.data.token);

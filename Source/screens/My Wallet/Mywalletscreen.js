@@ -39,12 +39,15 @@ export default function Mywalletscreen() {
                 fontWeight: 'bold',
                 marginVertical: 10,
                 fontSize: 17,
+                color: Colors.black,
               }}>
               My Wallet
             </Text>
           </View>
           <View style={{flexDirection: 'row', marginHorizontal: 10}}>
-            <Text style={{left: 10, fontSize: 18}}>INR 150</Text>
+            <Text style={{left: 10, fontSize: 18, color: Colors.lightGray}}>
+              INR 150
+            </Text>
             {/* <Image source={require('../../Assets/Images/wallet.png')} style={{ height: 20, width: 20 }} /> */}
           </View>
         </View>

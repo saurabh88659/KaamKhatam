@@ -15,7 +15,7 @@ const Abouts = props => {
       <ScrollView
         contentContainerStyle={{marginTop: 15, paddingBottom: 100}}
         showsVerticalScrollIndicator={false}>
-        <Text style={{marginHorizontal: 20}}>
+        <Text style={{marginHorizontal: 20, color: Colors.black}}>
           Lorem Ipsum is simply dummy text of the prinng and typeseng industry.
           Lorem Ipsum has been the industry's standard dummy text ever since the
           1500s, when an unknown printer took a galley of type and scrambled it
@@ -44,10 +44,16 @@ const Abouts = props => {
           model sentence structures, to generate Lorem Ipsum.
         </Text>
 
-        <Text style={{fontSize: 16, margin: 5, marginHorizontal: 20}}>
+        <Text
+          style={{
+            fontSize: 16,
+            margin: 5,
+            marginHorizontal: 20,
+            color: Colors.black,
+          }}>
           HEDONIST ROOTS
         </Text>
-        <Text style={{marginHorizontal: 20}}>
+        <Text style={{marginHorizontal: 20, color: Colors.black}}>
           Lorem Ipsum is simply dummy text of the prinng and typeseng industry.
           Lorem Ipsum has been the industry's standard dummy text ever since the
           1500s, when an unknown printer took a galley of type and scrambled it

@@ -160,7 +160,12 @@ const ProfileScreen = ({navigation, route}) => {
                     source={require('../Assets/Images/phonereceiversilhouette.png')}
                     style={{height: 20, width: 20}}
                   />
-                  <Text style={{paddingHorizontal: 20, fontWeight: '500'}}>
+                  <Text
+                    style={{
+                      paddingHorizontal: 20,
+                      fontWeight: '500',
+                      color: Colors.black,
+                    }}>
                     {profileData.phone}
                   </Text>
                 </View>
@@ -177,7 +182,13 @@ const ProfileScreen = ({navigation, route}) => {
                     source={require('../Assets/Images/usericone222.png')}
                     style={{height: 20, width: 20}}
                   />
-                  <Text style={{paddingHorizontal: 20, fontWeight: '500'}}>
+
+                  <Text
+                    style={{
+                      paddingHorizontal: 20,
+                      fontWeight: '500',
+                      color: Colors.black,
+                    }}>
                     {profileData.gender}
                   </Text>
                 </View>
@@ -194,7 +205,12 @@ const ProfileScreen = ({navigation, route}) => {
                     source={require('../Assets/Images/emailicone.png')}
                     style={{height: 20, width: 20}}
                   />
-                  <Text style={{paddingHorizontal: 20, fontWeight: '500'}}>
+                  <Text
+                    style={{
+                      paddingHorizontal: 20,
+                      fontWeight: '500',
+                      color: Colors.black,
+                    }}>
                     {profileData.email}
                   </Text>
                 </View>
@@ -211,7 +227,12 @@ const ProfileScreen = ({navigation, route}) => {
                     source={require('../Assets/Images/birthdaycake.png')}
                     style={{height: 20, width: 20}}
                   />
-                  <Text style={{paddingHorizontal: 20, fontWeight: '500'}}>
+                  <Text
+                    style={{
+                      paddingHorizontal: 20,
+                      fontWeight: '500',
+                      color: Colors.black,
+                    }}>
                     {profileData.dateOfBirth}
                   </Text>
                 </View>
@@ -228,7 +249,12 @@ const ProfileScreen = ({navigation, route}) => {
                     source={require('../Assets/Images/city2.png')}
                     style={{height: 20, width: 20}}
                   />
-                  <Text style={{paddingHorizontal: 20, fontWeight: '500'}}>
+                  <Text
+                    style={{
+                      paddingHorizontal: 20,
+                      fontWeight: '500',
+                      color: Colors.black,
+                    }}>
                     {profileData.city}
                   </Text>
                 </View>

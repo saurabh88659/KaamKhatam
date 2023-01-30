@@ -22,11 +22,10 @@ const {height, width} = Dimensions.get('screen');
 const CustomDrawerMenu = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
+  const [profileData, setProfileData] = useState({});
 
   // const [defaultrate, setDefaultrate] = useState(2);
   // const [maxrating, setMaxrating] = useState([1, 2, 3, 4, 5]);
-
-  const [profileData, setProfileData] = useState({});
 
   useEffect(() => {
     profileapi();
@@ -452,5 +451,6 @@ const Styles = StyleSheet.create({
     top: -15,
     fontWeight: '700',
     fontSize: 17,
+    color: Colors.black,
   },
 });

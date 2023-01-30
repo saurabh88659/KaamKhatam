@@ -51,6 +51,11 @@ const RegisterAccount = props => {
   const [getDate, setGetDate] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
+  //! ================working on ==============
+  const [isGettingOTP, setIsGettingOTP] = useState(false);
+  const [isVerifyingOTP, setIsVerifyingOTP] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
+
   useEffect(() => {
     profiledata();
   }, []);
@@ -168,6 +173,8 @@ const RegisterAccount = props => {
       .then(value => {
         console.log(value.data);
         setModalVisible(!modalVisible);
+        setIsVerified(true);
+        setIsVerifyingOTP(false);
         Toast.showWithGravity(value.data.message, Toast.LONG, Toast.BOTTOM);
       })
       .catch(error => {
@@ -192,11 +199,13 @@ const RegisterAccount = props => {
       .then(res => {
         console.log('email response', res.data);
         setemailOtp(res.data.id);
+        setIsGettingOTP(false);
         setModalVisible(!modalVisible);
       })
 
       .catch(error => {
         console.log('email send otp catch error', error.response.data.message);
+        setIsGettingOTP(false);
       });
   };
 
@@ -331,7 +340,7 @@ const RegisterAccount = props => {
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                   }}>
-                  <Text>{date}</Text>
+                  <Text style={{color: Colors.black}}>{date}</Text>
                   <View>
                     <DateTimePickerModal
                       isVisible={isDatePickerVisible}
@@ -558,6 +567,38 @@ const RegisterAccount = props => {
                     }}>
                     <Text style={{color: 'white'}}> Get OTP</Text>
                   </TouchableOpacity>
+                  {/* <TouchableOpacity
+                    onPress={LoginApisendmailotp}
+                    style={{
+                      position: 'absolute',
+                      backgroundColor: isVerified
+                        ? Colors.darkGreen
+                        : Colors.lightYellow,
+                      right: 10,
+                      paddingHorizontal: 14,
+                      paddingVertical: 7,
+                      borderRadius: 2,
+                      justifyContent: 'center',
+                      borderRadius: 6,
+                    }}>
+                    {isGettingOTP ? (
+                      <ActivityIndicator size={20} color={Colors.darkGreen} />
+                    ) : isVerified ? (
+                      <Text
+                        style={{
+                          color: 'black',
+                        }}>
+                        verifed
+                      </Text>
+                    ) : (
+                      <Text
+                        style={{
+                          color: 'black',
+                        }}>
+                        verify
+                      </Text>
+                    )}
+                  </TouchableOpacity> */}
                 </View>
               </View>
               <View style={{marginHorizontal: 20}}>
