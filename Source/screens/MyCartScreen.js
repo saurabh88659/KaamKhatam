@@ -98,7 +98,7 @@ const MyCartScreen = props => {
       .then(rep => {
         // console.log('delete my cart', rep.data);
         get_mycart();
-        Toast.showWithGravity(res.data?.message, Toast.LONG, Toast.BOTTOM);
+        Toast.showWithGravity(rep.data?.message, Toast.LONG, Toast.BOTTOM);
       })
       .catch(error => {
         console.log('delete catch error', error.response.data);

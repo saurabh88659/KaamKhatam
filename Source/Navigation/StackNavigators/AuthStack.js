@@ -17,6 +17,7 @@ import Subcategory from '../../screens/Category/Subcategory';
 import Subcategory2 from '../../screens/Category/Subcategory2';
 import Services from '../../screens/Category/Services';
 import TimeAndSlot from '../../screens/TimeAndSlot';
+import PaymentScreen from '../../screens/PaymentScreen';
 
 const Stack = createNativeStackNavigator();
 function AuthStack() {
@@ -102,6 +103,11 @@ function AuthStack() {
       <Stack.Screen
         name="TimeAndSlot"
         component={TimeAndSlot}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="PaymentScreen"
+        component={PaymentScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

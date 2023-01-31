@@ -6,6 +6,7 @@ import {
   Image,
   ScrollView,
   Dimensions,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Colors from '../Assets/Constants/Colors';
@@ -19,7 +20,6 @@ import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import Toast from 'react-native-simple-toast';
 // import reactNativeUpiPayment from 'react-native-upi-payment';
-import RNUpiPayment from 'react-native-upi-payment';
 
 const {height, width} = Dimensions.get('window');
 
@@ -93,15 +93,11 @@ const TimeAndSlot = props => {
 
   const conBooking = async () => {
     const token = await _getStorage('token');
-    console.log(token);
-    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
-
     let book = {
-      cartId: cartID.cartId,
+      cartId: cartID?.cartId,
       start: startTime,
       end: endTime,
       bookingDate: date,
-      payby: 'cash',
     };
     console.log('book', book);
 
@@ -111,45 +107,80 @@ const TimeAndSlot = props => {
       })
       .then(res => {
         console.log('add booking', res.data);
-        // if (res.data) {
-        //   props.navigation.navigate('Mybooking');
-        // } else {
-        //   console.log('else conditions');
-        // }
-        Toast.showWithGravity(res.data.mesaage, Toast.LONG, Toast.BOTTOM);
+        let bookinId = res.data?.bookingId;
+        let price = res.data?.total;
+        if (res.data) {
+          props.navigation.navigate('PaymentScreen', {bookinId, price});
+        } else {
+          console.log('else conditions');
+        }
       })
       .catch(error => {
-        console.log('add booking catch error', error.response.data.mesaage);
-        Toast.showWithGravity(
-          error.response.data.mesaage,
-          Toast.LONG,
-          Toast.BOTTOM,
+        console.log(
+          'add booking catch error---',
+          error.response?.data?.message,
+        );
+        Alert.alert(
+          'CartID 63d910519ed4b9ed75748a24',
+          'Booking Already Present, Please Clear You Cart having',
+          [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'OK', onPress: () => props.navigation.goBack()},
+          ],
         );
       });
   };
 
-  const upiPayment = () => {
-    // console.log('hey');
-    RNUpiPayment.initializePayment(
-      {
-        vpa: 'EXPLORETOBUY.62627320@hdfcbank', // or can be john@ybl or mobileNo@upi
-        payeeName: 'John Doe',
-        amount: '1',
-        transactionRef: 'aasf-332-aoei-fn',
-      },
-      successCallback,
-      failureCallback,
-    );
-  };
+  // const upiPayment = () => {
+  //   // console.log('hey');
+  //   RNUpiPayment.initializePayment(
+  //     {
+  //       vpa: 'EXPLORETOBUY.62627320@hdfcbank',
+  //       payeeName: 'John Doe',
+  //       amount: '1',
+  //       transactionRef: 'aasf-332-aoei-fn',
+  //     },
+  //     successCallback,
+  //     failureCallback,
+  //   );
+  // };
 
-  function successCallback(data) {
-    console.log('success');
-  }
+  // function successCallback(data) {
+  //   console.log('success');
+  // }
 
-  function failureCallback(data) {
-    // do whatever with the data
-    console.log('failure');
-  }
+  // function failureCallback(data) {
+  //   // do whatever with the data
+  //   console.log('failure');
+  // }
+
+  // const upiPayment = () => {
+  //   RNUpiPayment.initializePayment({
+  //     vpa: 'EXPLORETOBUY.62627320@hdfcbank', // or can be john@ybl or mobileNo@upi
+  //     payeeName: 'John Doe',
+  //     amount: '1',
+  //     transactionRef: 'aasf-332-aoei-fn',
+  //   });
+
+  //   switch (response.status) {
+  //     case 'success':
+  //       console.log('Transaction Successful:', response);
+  //       break;
+  //     case 'failed':
+  //       console.log('Transaction Failed:', response);
+  //       break;
+  //     case 'submitted':
+  //       console.log('Transaction Submitted:', response);
+  //       break;
+  //     default:
+  //       console.log('Transaction Failed:', response);
+  //       break;
+  //   }
+  // };
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -446,10 +477,7 @@ const TimeAndSlot = props => {
           </View>
         </View>
       </View>
-      <ScrollView
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        style={{}}>
+      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         {TimeSlot.map((timeSlot, index) => (
           <View key={index}>
             <TouchableOpacity
@@ -481,8 +509,8 @@ const TimeAndSlot = props => {
       </ScrollView>
 
       <TouchableOpacity
-        // onPress={conBooking}
-        onPress={upiPayment}
+        onPress={conBooking}
+        // onPress={() => props.navigation.navigate('PaymentScreen')}
         style={{
           backgroundColor: '#09bd39',
           justifyContent: 'center',
