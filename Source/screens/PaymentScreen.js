@@ -112,8 +112,7 @@ const PaymentScreen = props => {
         }}>
         <Text style={{color: Colors.black, fontSize: 16}}>Cash</Text>
         <TouchableOpacity
-          //   onPress={() => navigation.navigate('Mybooking')}
-          onPress={successCallback}
+          onPress={() => props.navigation.navigate('Mybooking')}
           style={{
             borderWidth: 1,
             paddingHorizontal: 15,

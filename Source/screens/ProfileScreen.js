@@ -16,23 +16,26 @@ import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-crop-picker';
 import HeaderDrawer from '../ReusableComponents/HeaderDrawer';
 import {BottomSheet} from 'react-native-btr';
-
 import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import {_getStorage} from '../Assets/utils/storage/Storage';
-
 const {height, width} = Dimensions.get('window');
-
 const ProfileScreen = ({navigation, route}) => {
   const [imageUrlPath, setImageUrlPath] = useState(null);
   const [imageUrlData, setImageUrlData] = useState('');
   const [profileData, setProfileData] = useState({});
   const [visible, setVisible] = useState(false);
-
   const [isLoading, setIsLoading] = useState(true);
 
+  useEffect(() => {
+    _getprofileapi();
+  }, []);
+
+  const toggleBottomNavigationView = () => {
+    setVisible(!visible);
+  };
+
   const onGallary = () => {
-    console.warn('hello');
     ImagePicker.openPicker({
       cropping: true,
       quality: 1,
@@ -40,33 +43,67 @@ const ProfileScreen = ({navigation, route}) => {
       mediaType: 'any',
     }).then(image => {
       setImageUrlPath(image.path);
-      setImageUrlData(image.data);
+      setImageUrlData(image);
     });
   };
-  const toggleBottomNavigationView = () => {
-    setVisible(!visible);
-  };
+
   const onCamera = () => {
-    console.warn('hello');
     ImagePicker.openCamera({
       cropping: true,
       quality: 1,
-      includeBase64: true,
       mediaType: 'any',
     }).then(image => {
-      // console.log('===== Open Camera =====222', image);
       setImageUrlPath(image.path);
-      setImageUrlData(image.data);
+      setImageUrlData(image);
     });
   };
 
-  useEffect(() => {
-    profileapi();
-  }, []);
+  // const _updateProfilePic = async imageUrlData => {
+  //   const token = await _getStorage('token');
+  //   Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
 
-  const profileapi = async () => {
+  //   console.log('data', data);
+
+  //   var filename = data?.path?.replace(/^.*[\\\/]/, '');
+
+  //   console.log('filename', filename);
+
+  //   const profilePic = new FormData();
+
+  //   profilePic.append('image', {
+  //     name: filename,
+  //     type: data.mime,
+  //     uri:
+  //       Platform.OS === 'android'
+  //         ? data.path
+  //         : data.path.replace('file://', ''),
+  //   });
+  //   profilePic.append('imageUrl');
+
+  //   axios
+  //     .put(BASE_URL + `/uploadImage`, profilePic, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //         'Content-Type': 'multipart/form-data',
+  //       },
+  //     })
+  //     .then(res => {
+  //       console.log('Profile image--------->>', res.data.imageUrl);
+  //       setImage(res.data.imageUrl);
+  //       Toast.showWithGravity(
+  //         'Image Updated Successfully',
+  //         Toast.LONG,
+  //         Toast.BOTTOM,
+  //       );
+  //     })
+  //     .catch(error => {
+  //       console.log('error in catch Profile image', error.response.data);
+  //       Toast.showWithGravity('❗SERVER ERROR', Toast.LONG, Toast.BOTTOM);
+  //     });
+  // };
+
+  const _getprofileapi = async () => {
     const token = await _getStorage('token');
-
     axios
       .get(BASE_URL + `/profile`, {
         headers: {Authorization: `Bearer ${token}`},
@@ -324,7 +361,6 @@ const ProfileScreen = ({navigation, route}) => {
             style={{
               backgroundColor: Colors.lightOrange,
               height: 50,
-              //   top: 40,
               marginHorizontal: 20,
               borderRadius: 7,
               alignItems: 'center',

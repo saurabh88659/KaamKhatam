@@ -18,6 +18,7 @@ import Subcategory2 from '../../screens/Category/Subcategory2';
 import Services from '../../screens/Category/Services';
 import TimeAndSlot from '../../screens/TimeAndSlot';
 import PaymentScreen from '../../screens/PaymentScreen';
+import RescheduleBooking from '../../screens/RescheduleBooking';
 
 const Stack = createNativeStackNavigator();
 function AuthStack() {
@@ -103,6 +104,11 @@ function AuthStack() {
       <Stack.Screen
         name="TimeAndSlot"
         component={TimeAndSlot}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="RescheduleBooking"
+        component={RescheduleBooking}
         options={{headerShown: false}}
       />
       <Stack.Screen

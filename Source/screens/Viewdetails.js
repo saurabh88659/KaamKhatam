@@ -280,12 +280,13 @@ const Viewdetails = props => {
               {bookinviewdetails.bookingStatus}
             </Text>
           </View>
-          <View
-            style={{
-              marginVertical: '10%',
-            }}>
+
+          {bookinviewdetails.bookingStatus == 'Pending' ||
+          bookinviewdetails.bookingStatus === 'Completed' ? null : (
             <TouchableOpacity
-              onPress={() => props.navigation.goBack()}
+              onPress={() =>
+                props.navigation.navigate('RescheduleBooking', bookinID)
+              }
               style={{
                 height: height / 16,
                 backgroundColor: '#0EC01B',
@@ -293,12 +294,29 @@ const Viewdetails = props => {
                 justifyContent: 'center',
                 borderRadius: 5,
                 marginHorizontal: 15,
+                // marginVertical,
               }}>
               <Text style={{color: 'white', fontWeight: 'bold', fontSize: 16}}>
-                Done
+                Reschedule
               </Text>
             </TouchableOpacity>
-          </View>
+          )}
+
+          <TouchableOpacity
+            onPress={() => props.navigation.goBack()}
+            style={{
+              height: height / 16,
+              backgroundColor: '#0EC01B',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 5,
+              marginHorizontal: 15,
+              marginVertical: 10,
+            }}>
+            <Text style={{color: 'white', fontWeight: 'bold', fontSize: 16}}>
+              Done
+            </Text>
+          </TouchableOpacity>
         </ScrollView>
       )}
     </>

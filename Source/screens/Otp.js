@@ -35,64 +35,59 @@ const Otp = ({navigation, route}) => {
       otp: pin,
       phone: phone?.phone,
     };
-    const fetchData = async () => {
-      setIsLoading(true);
-      Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
 
-      axios
-        .post(BASE_URL + `/verifyOTP`, verifyObj)
+    setIsLoading(true);
+    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
 
-        .then(async response => {
-          await AsyncStorage.setItem('token', response.data.token);
-          await AsyncStorage.setItem(
-            'refreshToken',
-            response.data.refreshToken,
-          );
-          await AsyncStorage.setItem('user_id', response.data.user_id);
-          // console.log(response.data);
-          // if (response.data.message == 'Registered successful') {
-          //   navigation.navigate('RegisterAccount');
-          // }
-          console.log(response.data);
-          axios
-            .get(BASE_URL + `/profile`, {
-              headers: {
-                Authorization: `Bearer ${response.data.token}`,
-              },
-            })
-            .then(res => {
-              if (res.data?.result.firstName) {
-                navigation.navigate('DrowerNavigation');
-              } else {
-                navigation.navigate('RegisterAccount');
-              }
-            })
-            .catch(err => {
-              if (err.response.data?.message == "User Doesn't Exists") {
-                navigation.navigate('RegisterAccount');
-              }
-            });
-          // if (response.data.message === 'Registered successful') {
-          //   navigation.navigate('RegisterAccount');
-          // } else {
-          //   navigation
-          //     .navigate('TabNavigation')
-          //     .finally(() => setIsLoading(false));
-          // }
-        })
-        .catch(e => {
-          console.log('otp screen catch error', e.response.data);
-          Toast.showWithGravity(
-            e.response?.data?.message,
-            Toast.LONG,
-            Toast.BOTTOM,
-          );
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    };
-    fetchData();
+    axios
+      .post(BASE_URL + `/verifyOTP`, verifyObj)
+
+      .then(async response => {
+        await AsyncStorage.setItem('token', response.data.token);
+        await AsyncStorage.setItem('refreshToken', response.data.refreshToken);
+        await AsyncStorage.setItem('user_id', response.data.user_id);
+        // console.log(response.data);
+        // if (response.data.message == 'Registered successful') {
+        //   navigation.navigate('RegisterAccount');
+        // }
+        console.log(response.data);
+        axios
+          .get(BASE_URL + `/profile`, {
+            headers: {
+              Authorization: `Bearer ${response.data.token}`,
+            },
+          })
+          .then(res => {
+            if (res.data?.result.firstName) {
+              navigation.navigate('DrowerNavigation');
+            } else {
+              navigation.navigate('RegisterAccount');
+            }
+          })
+          .catch(err => {
+            if (err.response.data?.message == "User Doesn't Exists") {
+              navigation.navigate('RegisterAccount');
+            }
+          });
+        // if (response.data.message === 'Registered successful') {
+        //   navigation.navigate('RegisterAccount');
+        // } else {
+        //   navigation
+        //     .navigate('TabNavigation')
+        //     .finally(() => setIsLoading(false));
+        // }
+      })
+      .catch(e => {
+        console.log('otp screen catch error', e.response.data);
+        Toast.showWithGravity(
+          e.response?.data?.message,
+          Toast.LONG,
+          Toast.BOTTOM,
+        );
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   //  =================resend======================>

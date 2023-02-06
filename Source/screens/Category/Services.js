@@ -20,7 +20,7 @@ const {width, height} = Dimensions.get('window');
 import Colors from '../../Assets/Constants/Colors';
 import Header from '../../ReusableComponents/Header';
 import GreenHeader from '../../ReusableComponents/GreenHeader';
-import AddCart from '../../ReusableComponents/AddCart';
+// import AddCart from '../../ReusableComponents/AddCart';
 import Reusablecss from '../../Assets/Css/Reusablecss';
 // import CustomButton from '../../ReusableComponents/Button';
 import {_getStorage} from '../../Assets/utils/storage/Storage';

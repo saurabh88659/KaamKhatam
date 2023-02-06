@@ -72,10 +72,11 @@ const Splash = ({navigation}) => {
   }, []);
 
   const splashhandle = async () => {
-    // const token = await _getStorage('token');
-    const token = await AsyncStorage.getItem('token');
+    const token = await _getStorage('token');
+    console.log('token==========..lllllllllllllll', token);
 
-    // console.log('token==========..lllllllllllllll', token);
+    // const refreshToken = await AsyncStorage.getItem('refreshToken');
+    // console.log('refreshToken------->>.', refreshToken);
 
     if (token) {
       axios
@@ -104,7 +105,7 @@ const Splash = ({navigation}) => {
                 user_id: userId,
               };
               //refresh token api
-              console.log('SubmitDAta', SubmitDAta);
+              console.log('SubmitDAta', resfreshToken);
               axios
                 .post(BASE_URL + `/refreshToken`, SubmitDAta)
                 .then(async res => {

@@ -129,7 +129,7 @@ function Home({navigation}) {
               <Swiper
                 showsButtons={false}
                 autoplay={true}
-                autoplayTimeout={4}
+                autoplayTimeout={10}
                 showsPagination={false}
                 style={styles.scroll}>
                 <Image
@@ -164,19 +164,11 @@ function Home({navigation}) {
                   justifyContent: 'space-between',
                 }}>
                 {category.map((val, index) => (
-                  // console.log(
-                  //   'Category home=====111111111111111=======',
-                  //   val._id,
-                  // ),
                   <View key={index} style={{alignItems: 'center'}}>
                     <ServicesComp
                       title={val.name}
                       image={val.imageUrl}
                       newStyle
-                      // onPress={() => {
-                      //   navigation.navigate('Subcategory', val);
-                      //   setActieindex(val._id);
-                      // }}
                       onPress={() => getCategoryWiseService(val._id, val.name)}
                     />
                   </View>
@@ -202,7 +194,6 @@ function Home({navigation}) {
                 <LinearGradient
                   start={{x: 0.0, y: 0.25}}
                   end={{x: 0.9, y: 1.0}}
-                  // locations={[0, 0.8, 0.6]}
                   colors={[
                     Colors.lightOrange,
                     Colors.lightOrange,
@@ -283,19 +274,15 @@ function Home({navigation}) {
                 </TouchableOpacity>
               </View>
             </View>
-            <TouchableOpacity
-            // onPress={() => props.navigation.navigate('SGPservices')}
-            >
+            <TouchableOpacity>
               <Image
                 source={require('../../Assets/Images/hairdressing2.png')}
                 style={{
                   width: wp('100%'),
                   height: wp('40%'),
-                  // marginBottom: hp('31%'),
                 }}
               />
             </TouchableOpacity>
-            {/* <TabNavigationCall /> */}
           </ScrollView>
         </View>
       )}
@@ -324,7 +311,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   imgSlider: {
-    // marginHorizontal: wp('3%'),
     alignSelf: 'center',
     borderWidth: 3,
     borderColor: Colors.white,
