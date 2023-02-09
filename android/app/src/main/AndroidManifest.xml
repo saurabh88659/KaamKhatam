@@ -2,6 +2,10 @@
   package="com.allonone">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
+
+
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera.front" android:required="false" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -27,5 +31,11 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
+    <!-- <application android:label="@string/app_name" ...> -->
+    ...
+   	<meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+   	<meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
+    ...
+<!-- </application>   -->
     </application>
 </manifest>

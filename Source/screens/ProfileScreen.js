@@ -19,6 +19,8 @@ import {BottomSheet} from 'react-native-btr';
 import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import {_getStorage} from '../Assets/utils/storage/Storage';
+import Toast from 'react-native-simple-toast';
+
 const {height, width} = Dimensions.get('window');
 const ProfileScreen = ({navigation, route}) => {
   const [imageUrlPath, setImageUrlPath] = useState(null);
@@ -43,7 +45,8 @@ const ProfileScreen = ({navigation, route}) => {
       mediaType: 'any',
     }).then(image => {
       setImageUrlPath(image.path);
-      setImageUrlData(image);
+      // setImageUrlData(image);
+      _updateProfilePic(image);
     });
   };
 
@@ -54,53 +57,54 @@ const ProfileScreen = ({navigation, route}) => {
       mediaType: 'any',
     }).then(image => {
       setImageUrlPath(image.path);
-      setImageUrlData(image);
+      // setImageUrlData(image);
+      _updateProfilePic(image);
     });
   };
 
-  // const _updateProfilePic = async imageUrlData => {
-  //   const token = await _getStorage('token');
-  //   Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
+  const _updateProfilePic = async data => {
+    const token = await _getStorage('token');
+    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
 
-  //   console.log('data', data);
+    console.log('data', data);
 
-  //   var filename = data?.path?.replace(/^.*[\\\/]/, '');
+    var filename = data?.path?.replace(/^.*[\\\/]/, '');
 
-  //   console.log('filename', filename);
+    console.log('filename', filename);
 
-  //   const profilePic = new FormData();
+    const profilePic = new FormData();
 
-  //   profilePic.append('image', {
-  //     name: filename,
-  //     type: data.mime,
-  //     uri:
-  //       Platform.OS === 'android'
-  //         ? data.path
-  //         : data.path.replace('file://', ''),
-  //   });
-  //   profilePic.append('imageUrl');
+    profilePic.append('image', {
+      name: filename,
+      type: data.mime,
+      uri:
+        Platform.OS === 'android'
+          ? data.path
+          : data.path.replace('file://', ''),
+    });
+    profilePic.append('imageUrl');
 
-  //   axios
-  //     .put(BASE_URL + `/uploadImage`, profilePic, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //         'Content-Type': 'multipart/form-data',
-  //       },
-  //     })
-  //     .then(res => {
-  //       console.log('Profile image--------->>', res.data.imageUrl);
-  //       setImage(res.data.imageUrl);
-  //       Toast.showWithGravity(
-  //         'Image Updated Successfully',
-  //         Toast.LONG,
-  //         Toast.BOTTOM,
-  //       );
-  //     })
-  //     .catch(error => {
-  //       console.log('error in catch Profile image', error.response.data);
-  //       Toast.showWithGravity('❗SERVER ERROR', Toast.LONG, Toast.BOTTOM);
-  //     });
-  // };
+    axios
+      .put(BASE_URL + `/uploadImage`, profilePic, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(res => {
+        console.log('Profile image--------->>', res.data.imageUrl);
+        setImage(res.data.imageUrl);
+        Toast.showWithGravity(
+          'Image Updated Successfully',
+          Toast.LONG,
+          Toast.BOTTOM,
+        );
+      })
+      .catch(error => {
+        console.log('error in catch Profile image', error.response);
+        Toast.showWithGravity('❗SERVER ERROR', Toast.LONG, Toast.BOTTOM);
+      });
+  };
 
   const _getprofileapi = async () => {
     const token = await _getStorage('token');

@@ -105,7 +105,7 @@ const Splash = ({navigation}) => {
                 user_id: userId,
               };
               //refresh token api
-              console.log('SubmitDAta', resfreshToken);
+              console.log('SubmitDAta--------------', resfreshToken);
               axios
                 .post(BASE_URL + `/refreshToken`, SubmitDAta)
                 .then(async res => {
@@ -115,6 +115,9 @@ const Splash = ({navigation}) => {
                     'refreshToken',
                     res.data.refreshToken,
                   );
+                  // if (res.data.token) {
+                  //   navigation.navigate('DrowerNavigation');
+                  // }
                 })
 
                 .catch(error => {

@@ -19,7 +19,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import Toast from 'react-native-simple-toast';
-// import reactNativeUpiPayment from 'react-native-upi-payment';
 
 const {height, width} = Dimensions.get('window');
 
@@ -35,33 +34,67 @@ const TimeAndSlot = props => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const cartID = props.route.params;
-  // ! console.log('cartID===========>>', cartID);
 
   const TimeSlot = [
     {
       id: 0,
-      startTime: '11:00 AM',
-      endTime: '12:00 PM',
+      startTime: '09:00 AM',
+      endTime: '10:00 PM',
     },
     {
       id: 1,
-      startTime: '12:00 AM',
-      endTime: '01:00 PM',
+      startTime: '10:00 AM',
+      endTime: '11:00 PM',
     },
     {
       id: 2,
+      startTime: '11:00 PM',
+      endTime: '12:00 PM',
+    },
+    {
+      id: 3,
+      startTime: '12:00 PM',
+      endTime: '01:00 PM',
+    },
+    {
+      id: 4,
       startTime: '01:00 PM',
       endTime: '02:00 PM',
     },
     {
-      id: 3,
+      id: 5,
       startTime: '02:00 PM',
       endTime: '03:00 PM',
     },
     {
-      id: 4,
+      id: 6,
       startTime: '03:00 PM',
       endTime: '04:00 PM',
+    },
+    {
+      id: 7,
+      startTime: '04:00 PM',
+      endTime: '05:00 PM',
+    },
+    {
+      id: 8,
+      startTime: '05:00 PM',
+      endTime: '06:00 PM',
+    },
+    {
+      id: 9,
+      startTime: '06:00 PM',
+      endTime: '07:00 PM',
+    },
+    {
+      id: 10,
+      startTime: '07:00 PM',
+      endTime: '08:00 PM',
+    },
+    {
+      id: 11,
+      startTime: '08:00 PM',
+      endTime: '09:00 PM',
     },
   ];
 
@@ -477,7 +510,7 @@ const TimeAndSlot = props => {
           </View>
         </View>
       </View>
-      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+      <ScrollView horizontal={false} showsHorizontalScrollIndicator={false}>
         {TimeSlot.map((timeSlot, index) => (
           <View key={index}>
             <TouchableOpacity
@@ -518,29 +551,35 @@ const TimeAndSlot = props => {
           paddingHorizontal: 20,
           paddingVertical: 10,
           alignItems: 'center',
+          marginHorizontal: 10,
         }}>
         <Text style={{alignSelf: 'center', color: 'white', fontWeight: 'bold'}}>
           Proceed to pay
         </Text>
       </TouchableOpacity>
 
-      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          flexWrap: 'wrap',
+        }}>
         <View>
-          <Text style={{fontSize: 10, color: 'grey'}}>
+          <Text style={{fontSize: 13, color: 'grey'}}>
             By proceeding you accept the latest versions of our
           </Text>
         </View>
         <TouchableOpacity>
-          <Text style={{fontSize: 10, color: 'black'}}>T&C,</Text>
+          <Text style={{fontSize: 13, color: 'black'}}>T&C,</Text>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Text style={{fontSize: 10, color: 'black'}}>Privacy policy</Text>
+          <Text style={{fontSize: 13, color: 'black'}}>Privacy policy</Text>
         </TouchableOpacity>
         <View>
-          <Text style={{fontSize: 10, color: 'grey'}}>and</Text>
+          <Text style={{fontSize: 13, color: 'grey'}}>and</Text>
         </View>
         <TouchableOpacity>
-          <Text style={{fontSize: 10, color: 'black'}}>Cancellaon</Text>
+          <Text style={{fontSize: 13, color: 'black'}}>Cancellaon</Text>
         </TouchableOpacity>
       </View>
 

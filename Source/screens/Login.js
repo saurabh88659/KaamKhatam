@@ -5,39 +5,34 @@ import {
   View,
   SafeAreaView,
   KeyboardAvoidingView,
-  ImageBackground,
   Image,
   TextInput,
   TouchableOpacity,
   Dimensions,
   ActivityIndicator,
-  Alert,
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import Colors from '../Assets/Constants/Colors';
-import Header from '../ReusableComponents/Header';
 import CustomButton from '../ReusableComponents/Button';
-import AddCart from '../ReusableComponents/AddCart';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 // import auth from '@react-native-firebase/auth';
-// import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
-
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import CheckBox from '@react-native-community/checkbox';
-
 import {
   LoginManager,
   GraphRequest,
+  AccessToken,
   GraphRequestManager,
 } from 'react-native-fbsdk';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
-
 const {height, width} = Dimensions.get('screen');
+import Toast from 'react-native-simple-toast';
 
 const Login = props => {
   const [isSelected, setSelection] = useState(false);
@@ -46,90 +41,93 @@ const Login = props => {
   const [errorMobileNumber, setErrorMobileNumber] = useState(null);
   const [isPhone, setIsPhone] = useState(false);
 
-  // useEffect(() => {
-  //   GoogleSignin.configure();
-  // }, []);
+  useEffect(() => {
+    GoogleSignin.configure();
+  }, []);
 
-  // const signIn = async () => {
-  //   try {
-  //     await GoogleSignin.hasPlayServices();
-  //     const userInfo = await GoogleSignin.signIn();
-  //     // props.navigation.navigate('Otp')
-  //     //   this.setState({ userInfo });
-  //     console.log('user info', userInfo);
-  //     if (userInfo == '') {
-  //       alert('user data not found');
-  //     } else {
-  //       props.navigation.navigate('DrowerNavigation');
-  //     }
-  //   } catch (error) {
-  //     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-  //       console.log(error);
-  //       // user cancelled the login flow
-  //     } else if (error.code === statusCodes.IN_PROGRESS) {
-  //       console.log(error);
-  //       // operation (e.g. sign in) is in progress already
-  //     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-  //       console.log(error);
-  //       // play services not available or outdated
-  //     } else {
-  //       console.log(error);
-  //       // some other error happened
-  //     }
-  //   }
-  // };
+  const signIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      // props.navigation.navigate('Otp')
+      //   this.setState({ userInfo });
+      console.log('user info', userInfo.user);
+      if (userInfo == '') {
+        alert('user data not found');
+      } else {
+        props.navigation.navigate('DrowerNavigation');
+      }
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log(error);
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        console.log(error);
+        // operation (e.g. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        console.log(error);
+        // play services not available or outdated
+      } else {
+        console.log(error);
+        // some other error happened
+      }
+    }
+  };
 
   // ======================?
 
-  // const fbLogin = resCallback => {
-  //   LoginManager.logOut();
-  //   return LoginManager.logInWithPermissions(['email', 'public_profile']).then(
-  //     result => {
-  //       console.log('fb result =======', result);
-  //       if (
-  //         result.declinedPermissions &&
-  //         result.declinedPermissions.includes('email')
-  //       ) {
-  //         resCallback({message: 'Email is required'});
-  //       }
-  //       if (result.isCancelled) {
-  //         console.log('error');
-  //       } else {
-  //         const infoRequest = new GraphRequest(
-  //           '/me?fields=email,name,picture',
-  //           null,
-  //           resCallback,
-  //         );
-  //         new GraphRequestManager().addRequest(infoRequest).start();
-  //       }
-  //     },
-  //     function (error) {
-  //       console.log('Login failed with error' + error);
-  //     },
-  //   );
-  // };
+  const fbLogin = resCallback => {
+    LoginManager.logOut();
+    return LoginManager.logInWithPermissions(['email', 'public_profile']).then(
+      result => {
+        console.log('fb result ++=======', result);
+        if (
+          result.declinedPermissions &&
+          result.declinedPermissions.includes('email')
+        ) {
+          resCallback({message: 'Email is required'});
+        }
+        if (result.isCancelled) {
+          console.log('error ---------- true');
+        } else {
+          const infoRequest = new GraphRequest(
+            '/me?fields=email,name,picture',
+            null,
+            resCallback,
+          );
+          new GraphRequestManager().addRequest(infoRequest).start();
+        }
+      },
+      function (error) {
+        console.log('Login failed with error' + error);
+      },
+    );
+  };
 
-  // const onFbLogin = async () => {
-  //   try {
-  //     await fbLogin(_responceInfoCallBack);
-  //   } catch (error) {
-  //     console.log('error raised', error);
-  //   }
-  // };
-  // const _responceInfoCallBack = async (error, result) => {
-  //   if (error) {
-  //     console.log('error top', error);
-  //     return;
-  //   } else {
-  //     const userData = result;
-  //     console.log('fb data', userData);
-  //     if (userData == ' ') {
-  //       alert('user data is not get');
-  //     } else {
-  //       props.navigation.navigate('DrowerNavigation');
-  //     }
-  //   }
-  // };
+  const onFbLogin = async () => {
+    try {
+      await fbLogin(_responceInfoCallBack);
+    } catch (error) {
+      console.log('error raised', error);
+      console.log('Fb sdk', error);
+    }
+  };
+  const _responceInfoCallBack = async (error, result) => {
+    if (error) {
+      console.log('error top', error);
+
+      return;
+    } else {
+      const userData = result;
+      console.log('fb data', userData);
+      if (userData == ' ') {
+        alert('user data is not get');
+      } else {
+        props.navigation.navigate('DrowerNavigation');
+      }
+    }
+  };
+
   // // async function onFacebookButtonPress() {
   // //   // Attempt login with permissions
   // //   const result = await LoginManager.logInWithPermissions([
@@ -156,11 +154,8 @@ const Login = props => {
   //   // Sign-in the user with the credential
   //   return auth().signInWithCredential(facebookCredential);
   // }
-  // // const [checkMobileNumber, setCheckMobileNumber] = useState(true);
 
-  // const [detailsValue, setdetailsValue] = useState(null);
-  // const [otpValue, setOtp] = useState(null);
-  // const [getValue, setGetValue] = useState(true);
+  // +++++++++++++++++++++++++++++=======================
 
   const _validateMobileNumber = mobileNo => {
     var mobileNoRegex = /^[6-9]{1}[0-9]{9}$/;
@@ -201,6 +196,11 @@ const Login = props => {
       })
       .catch(error => {
         console.log(error.response);
+        Toast.showWithGravity(
+          'Please feel The Number',
+          Toast.LONG,
+          Toast.BOTTOM,
+        );
       })
       .finally(() => setIsLoading(false));
   };
@@ -299,7 +299,7 @@ const Login = props => {
                 right: 10,
               }}></View>
             <View style={{top: 27}}>
-              <Text style={{fontSize: 16}}>Or Login with</Text>
+              <Text style={{fontSize: 16, color: 'black'}}>Or Login with</Text>
             </View>
             <View
               style={{
@@ -319,9 +319,7 @@ const Login = props => {
             top: 35,
             marginHorizontal: 60,
           }}>
-          <TouchableOpacity
-          //  onPress={signIn}
-          >
+          <TouchableOpacity onPress={signIn}>
             <Image
               source={require('../Assets/Images/google.png')}
               style={{height: hp('10%'), width: wp('20%')}}
@@ -329,7 +327,7 @@ const Login = props => {
             {/* <Text style={{left: 15, top: -10, fontSize: 16}}>Google</Text> */}
           </TouchableOpacity>
           <TouchableOpacity
-            // onPress={onFbLogin}
+            onPress={onFbLogin}
             // onPress={() =>
             //   onFacebookButtonPress().then(() =>
             //     console.log('Signed in with Facebook!'),

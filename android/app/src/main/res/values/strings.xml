@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">allonone</string>
+        <string name="facebook_app_id">1410265796378321</string>
+    <string name="fb_login_protocol_scheme">fb1410265796378321</string>
+    <string name="facebook_client_token">56789</string>
+
+
 </resources>
