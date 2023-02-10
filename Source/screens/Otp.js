@@ -59,7 +59,7 @@ const Otp = ({navigation, route}) => {
           })
           .then(res => {
             if (res.data?.result.firstName) {
-              navigation.navigate('DrowerNavigation');
+              navigation.navigate('Location');
             } else {
               navigation.navigate('RegisterAccount');
             }
@@ -141,15 +141,6 @@ const Otp = ({navigation, route}) => {
               }}>
               Enter Verification Code
             </Text>
-            {/* <Text
-              style={{
-                fontSize: hp('2%'),
-                marginTop: hp('1%'),
-                flexWrap: 'wrap',
-              }}>
-              We have sent you a 6-digit Verification code on {'\n'}+91
-              87********
-            </Text> */}
             <Text style={{top: 10, color: Colors.black}}>
               We have sent you a 6-digit verifications code on +91 {fNumber}****
             </Text>
@@ -175,7 +166,6 @@ const Otp = ({navigation, route}) => {
                 width={wp('90%')}
                 height={hp('7%')}
                 color={Colors.white}
-                // onPress={() => navigation.navigate('RegisterAccount')}
                 onPress={onPressotpVerification}
               />
             )}

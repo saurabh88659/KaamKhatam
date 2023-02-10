@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Dimensions,
   ActivityIndicator,
+  ImageBackground,
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
@@ -88,7 +89,7 @@ const Login = props => {
           resCallback({message: 'Email is required'});
         }
         if (result.isCancelled) {
-          console.log('error ---------- true');
+          console.log('error ---------- true', result);
         } else {
           const infoRequest = new GraphRequest(
             '/me?fields=email,name,picture',
@@ -119,7 +120,8 @@ const Login = props => {
       return;
     } else {
       const userData = result;
-      console.log('fb data', userData);
+      console.log('fb data------', userData);
+
       if (userData == ' ') {
         alert('user data is not get');
       } else {
@@ -127,6 +129,28 @@ const Login = props => {
       }
     }
   };
+
+  // const onFbLogin = () => {
+  //   LoginManager.logInWithPermissions(['public_profile', 'email']).then(
+  //     result => {
+  //       console.log('result-----------', result);
+  //       if (result.isCancelled) {
+  //         console.log('Login cancelled', result);
+  //       } else {
+  //         console.log(
+  //           'Login success with permissions: ' +
+  //             result.grantedPermissions.toString(),
+  //         );
+  //         AccessToken.getCurrentAccessToken().then(data => {
+  //           console.log('hey', data.accessToken.toString());
+  //         });
+  //       }
+  //     },
+  //     error => {
+  //       console.log('Login fail with error: ' + error);
+  //     },
+  //   );
+  // };
 
   // // async function onFacebookButtonPress() {
   // //   // Attempt login with permissions
@@ -275,19 +299,6 @@ const Login = props => {
             />
           )}
 
-          {/* <CustomButton
-            // onPress={()=>}
-            title={'Facebook Sign-In'}
-            bgColor={Colors.black}
-            width={wp('80%')}
-            height={hp('7%')}
-            color={Colors.white}
-            onPress={onFbLogin}
-          /> */}
-          {/* <Button
-      title="Facebook Sign-In"
-      onPress={() => onFacebookButtonPress().then(() => console.log('Signed in with Facebook!'))}
-    /> */}
           <View style={{flexDirection: 'row'}}>
             <View
               style={{
@@ -324,21 +335,12 @@ const Login = props => {
               source={require('../Assets/Images/google.png')}
               style={{height: hp('10%'), width: wp('20%')}}
             />
-            {/* <Text style={{left: 15, top: -10, fontSize: 16}}>Google</Text> */}
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={onFbLogin}
-            // onPress={() =>
-            //   onFacebookButtonPress().then(() =>
-            //     console.log('Signed in with Facebook!'),
-            //   )
-            // }
-            style={{top: 10}}>
+          <TouchableOpacity onPress={onFbLogin} style={{top: 10}}>
             <Image
               source={require('../Assets/Images/facebook.png')}
               style={{height: hp('8%'), width: wp('15%')}}
             />
-            {/* <Text style={{fontSize: 16, zIndex: 1}}>Facebook</Text> */}
           </TouchableOpacity>
         </View>
         <View
@@ -385,9 +387,9 @@ const Login = props => {
             </TouchableOpacity>
           </View>
         </View>
-        {/* <Image
+        {/* <ImageBackground
           source={require('../Assets/Images/SplashGreenBar.png')}
-          style={{zIndex: -1}}
+          style={[styles.img]}
         /> */}
         {/* <ImageBackground
           source={require('../Assets/Images/indian-flag.png')}
@@ -405,8 +407,6 @@ const styles = StyleSheet.create({
     width: wp('100%'),
     height: hp('100%'),
     backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'space-between',
   },
   img: {
     height: hp('30%'),

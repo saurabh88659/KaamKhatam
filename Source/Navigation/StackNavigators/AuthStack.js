@@ -19,6 +19,8 @@ import Services from '../../screens/Category/Services';
 import TimeAndSlot from '../../screens/TimeAndSlot';
 import PaymentScreen from '../../screens/PaymentScreen';
 import RescheduleBooking from '../../screens/RescheduleBooking';
+import EditMobileNumber from '../../screens/EditMobileNumber';
+import MobileOtp from '../../screens/MobileOtp';
 
 const Stack = createNativeStackNavigator();
 function AuthStack() {
@@ -40,11 +42,21 @@ function AuthStack() {
         component={RegisterAccount}
         options={{headerShown: false}}
       />
-      {/* <Stack.Screen
+      <Stack.Screen
+        name="EditMobileNumber"
+        component={EditMobileNumber}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="MobileOtp"
+        component={MobileOtp}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
         name="Location"
         component={Location}
         options={{headerShown: false}}
-      /> */}
+      />
 
       <Stack.Screen
         name="DrowerNavigation"

@@ -88,7 +88,7 @@ const Splash = ({navigation}) => {
         .then(resp => {
           // console.log(resp.data);
           if (resp.data.result.firstName) {
-            navigation.navigate('DrowerNavigation');
+            navigation.navigate('Location');
           } else {
             navigation.navigate('RegisterAccount');
           }
