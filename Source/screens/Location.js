@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View, Image, PermissionsAndroid} from 'react-native';
+import {StyleSheet, Text, View, Image} from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -10,7 +10,6 @@ import Geolocation from '@react-native-community/geolocation';
 import {_getStorage} from '../Assets/utils/storage/Storage';
 import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
-
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 
 const Location = props => {

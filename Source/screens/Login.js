@@ -34,6 +34,7 @@ import {
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 const {height, width} = Dimensions.get('screen');
 import Toast from 'react-native-simple-toast';
+import Modal from 'react-native-modal';
 
 const Login = props => {
   const [isSelected, setSelection] = useState(false);
@@ -41,6 +42,10 @@ const Login = props => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMobileNumber, setErrorMobileNumber] = useState(null);
   const [isPhone, setIsPhone] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [googleemail, setGoggleemail] = useState('');
+  const [googlephone, setGooglephone] = useState('');
+  const [datag, setData] = useState('');
 
   useEffect(() => {
     GoogleSignin.configure();
@@ -50,14 +55,19 @@ const Login = props => {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
+      setGoggleemail(userInfo.user.email);
+
+      return userInfo;
       // props.navigation.navigate('Otp')
       //   this.setState({ userInfo });
-      console.log('user info', userInfo.user);
-      if (userInfo == '') {
-        alert('user data not found');
-      } else {
-        props.navigation.navigate('DrowerNavigation');
-      }
+      // console.log('user info', userInfo.user.email);
+      // // setData(userInfo);
+      // if (userInfo == '') {
+      //   alert('user data not found');
+      // } else {
+      //   // props.navigation.navigate('DrowerNavigation');
+      //   console.log('api');
+      // }
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         console.log(error);
@@ -74,6 +84,8 @@ const Login = props => {
       }
     }
   };
+
+  console.log('googleemail------>>>', googleemail);
 
   // ======================?
 
@@ -125,7 +137,7 @@ const Login = props => {
       if (userData == ' ') {
         alert('user data is not get');
       } else {
-        props.navigation.navigate('DrowerNavigation');
+        props.navigation.navigate('Location');
       }
     }
   };
@@ -202,6 +214,7 @@ const Login = props => {
     const SubmitDAta = {
       phone: MobileNumber,
     };
+
     console.log('phone number', SubmitDAta);
     setIsLoading(true);
     axios
@@ -227,6 +240,62 @@ const Login = props => {
         );
       })
       .finally(() => setIsLoading(false));
+  };
+
+  const _socialloginGoogle = () => {
+    const SubmitDAta = {
+      phone: googlephone,
+      email: googleemail,
+    };
+    console.log('phone number', SubmitDAta);
+    axios
+      .post(BASE_URL + `/socialPhoneLogin`, SubmitDAta)
+      .then(res => {
+        console.log('response', res.data);
+        if (res.data.Status == 200) {
+          alert('Number is not ');
+        } else if (res.data) {
+          props.navigation.navigate('Otp', {
+            phone: MobileNumber,
+          });
+        } else {
+          console.log('else condtion');
+        }
+      })
+      .catch(error => {
+        console.log('google login with phone', error);
+        Toast.showWithGravity(
+          'Please feel The Number',
+          Toast.LONG,
+          Toast.BOTTOM,
+        );
+      });
+  };
+
+  const socialLoginGoogle = async () => {
+    const response = await signIn();
+    // console.log('response', googleemail);
+    if (response) {
+      console.log('api');
+      axios
+        .post(BASE_URL + `/socialLogin`, {
+          email: googleemail,
+        })
+        .then(res => {
+          console.log('hey', res.data);
+          if (
+            res.data.message ==
+            'Please enter mobile number to signUp user with email and phone'
+          ) {
+            setModalVisible(!modalVisible);
+          } else {
+            console.log('else conditions');
+          }
+        })
+        .catch(error => {
+          console.log('sociallogin catch error----->>>.', error);
+        });
+    }
   };
 
   return (
@@ -330,7 +399,12 @@ const Login = props => {
             top: 35,
             marginHorizontal: 60,
           }}>
-          <TouchableOpacity onPress={signIn}>
+          <TouchableOpacity
+            onPress={socialLoginGoogle}
+            // onPress={_socialloginGoogle}
+
+            // onPress={() => setModalVisible(!modalVisible)}
+          >
             <Image
               source={require('../Assets/Images/google.png')}
               style={{height: hp('10%'), width: wp('20%')}}
@@ -396,6 +470,47 @@ const Login = props => {
           style={styles.img}
         /> */}
       </View>
+      <Modal
+        animationIn="slideInUp"
+        animationOut="slideOutDown"
+        transparent={true}
+        isVisible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(false);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <TextInput
+              style={{
+                borderWidth: 1,
+                borderColor: '#aaa',
+                color: '#000',
+                paddingLeft: 10,
+                height: 40,
+              }}
+              value={googlephone}
+              onChangeText={val => setGooglephone(val)}
+              placeholder="Enter Phone Number"
+              placeholderTextColor={'#aaa'}
+              maxLength={10}
+            />
+            <TouchableOpacity
+              onPress={_socialloginGoogle}
+              // disabled={otp_email ? false : true}
+              style={{
+                backgroundColor: 'green',
+                paddingVertical: 4,
+                marginTop: 20,
+                borderRadius: 4,
+              }}>
+              <Text
+                style={{textAlign: 'center', fontWeight: '700', color: '#fff'}}>
+                sendOTP
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -445,5 +560,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp('4%'),
     backgroundColor: Colors.white,
     elevation: 2,
+  },
+  modalView: {
+    backgroundColor: 'white',
+    marginHorizontal: 15,
+    borderRadius: 7,
+    padding: 25,
+    // alignItems: 'center',
+    shadowColor: '#000',
+    shadowRadius: 4,
+    elevation: 5,
   },
 });
