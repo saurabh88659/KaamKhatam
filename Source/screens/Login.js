@@ -28,13 +28,13 @@ import CheckBox from '@react-native-community/checkbox';
 import {
   LoginManager,
   GraphRequest,
-  AccessToken,
   GraphRequestManager,
 } from 'react-native-fbsdk';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 const {height, width} = Dimensions.get('screen');
 import Toast from 'react-native-simple-toast';
 import Modal from 'react-native-modal';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = props => {
   const [isSelected, setSelection] = useState(false);
@@ -43,9 +43,11 @@ const Login = props => {
   const [errorMobileNumber, setErrorMobileNumber] = useState(null);
   const [isPhone, setIsPhone] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisibleOtp, setModalVisibleOtp] = useState(false);
+  const [googleOtp, setGoogleOtp] = useState('');
+
   const [googleemail, setGoggleemail] = useState('');
   const [googlephone, setGooglephone] = useState('');
-  const [datag, setData] = useState('');
 
   useEffect(() => {
     GoogleSignin.configure();
@@ -56,6 +58,7 @@ const Login = props => {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       setGoggleemail(userInfo.user.email);
+      // await AsyncStorage.setItem('email', userInfo.user.email);
 
       return userInfo;
       // props.navigation.navigate('Otp')
@@ -85,7 +88,7 @@ const Login = props => {
     }
   };
 
-  console.log('googleemail------>>>', googleemail);
+  // console.log('googleemail------>>>', googleemail);
 
   // ======================?
 
@@ -119,8 +122,10 @@ const Login = props => {
 
   const onFbLogin = async () => {
     try {
-      await fbLogin(_responceInfoCallBack);
+      const response = await fbLogin(_responceInfoCallBack);
+      console.log('response----------.....', response);
     } catch (error) {
+      // return error;
       console.log('error raised', error);
       console.log('Fb sdk', error);
     }
@@ -128,17 +133,22 @@ const Login = props => {
   const _responceInfoCallBack = async (error, result) => {
     if (error) {
       console.log('error top', error);
+      // setGoggleemail(userData.email);
+      console.log('fb data------', result);
 
-      return;
+      return error;
     } else {
       const userData = result;
-      console.log('fb data------', userData);
+      console.log('fb data------', userData.email);
+      setGoggleemail(userData.email);
+      // await AsyncStorage.setItem('email', userData.email);
 
-      if (userData == ' ') {
-        alert('user data is not get');
-      } else {
-        props.navigation.navigate('Location');
-      }
+      return userData;
+      // if (userData == ' ') {
+      //   alert('user data is not get');
+      // } else {
+      //   // props.navigation.navigate('Location');
+      // }
     }
   };
 
@@ -242,6 +252,8 @@ const Login = props => {
       .finally(() => setIsLoading(false));
   };
 
+  // ====================GoogleSignin======================
+
   const _socialloginGoogle = () => {
     const SubmitDAta = {
       phone: googlephone,
@@ -255,9 +267,8 @@ const Login = props => {
         if (res.data.Status == 200) {
           alert('Number is not ');
         } else if (res.data) {
-          props.navigation.navigate('Otp', {
-            phone: MobileNumber,
-          });
+          setModalVisibleOtp(!modalVisibleOtp);
+          setModalVisible(!modalVisible);
         } else {
           console.log('else condtion');
         }
@@ -272,16 +283,39 @@ const Login = props => {
       });
   };
 
+  const verifySocialPhoneOTP = () => {
+    const SubmitDAta = {
+      phone: googlephone,
+      otp: googleOtp,
+      email: googleemail,
+    };
+
+    console.log('SubmitDAta', SubmitDAta, {});
+    axios
+      .post(BASE_URL + `/verifySocialPhoneOTP`, SubmitDAta)
+      .then(async response => {
+        await AsyncStorage.setItem('token', response.data.token);
+        await AsyncStorage.setItem('refreshToken', response.data.refreshToken);
+        await AsyncStorage.setItem('user_id', response.data.user_id);
+
+        console.log('google sigin otp', response.data);
+        props.navigation.navigate('Location');
+        setModalVisibleOtp(!modalVisibleOtp);
+      })
+      .catch(error => {
+        console.log('googole catch error in otp ', error);
+      });
+  };
+
   const socialLoginGoogle = async () => {
     const response = await signIn();
-    // console.log('response', googleemail);
     if (response) {
       console.log('api');
       axios
         .post(BASE_URL + `/socialLogin`, {
           email: googleemail,
         })
-        .then(res => {
+        .then(async res => {
           console.log('hey', res.data);
           if (
             res.data.message ==
@@ -290,12 +324,47 @@ const Login = props => {
             setModalVisible(!modalVisible);
           } else {
             console.log('else conditions');
+            console.log('hey-------', res.data);
+            await AsyncStorage.setItem('token', res.data.token);
+            await AsyncStorage.setItem('refreshToken', res.data.refreshToken);
+            await AsyncStorage.setItem('user_id', res.data.user_id);
+            props.navigation.navigate('Location');
           }
         })
         .catch(error => {
           console.log('sociallogin catch error----->>>.', error);
         });
     }
+  };
+
+  // ==============================FacebookLoginSocial===================
+  const socialLoginFacebook = async () => {
+    await onFbLogin();
+    // console.log('response', response);
+    // console.log(googleemail);
+    // if (response) {
+    console.log('api');
+    axios
+      .post(BASE_URL + `/socialLogin`, {
+        email: googleemail,
+      })
+      .then(res => {
+        console.log('hey', res.data);
+        if (
+          res.data.message ==
+          'Please enter mobile number to signUp user with email and phone'
+        ) {
+          setModalVisible(!modalVisible);
+        } else {
+          console.log('else conditions');
+          props.navigation.navigate('Location');
+        }
+      })
+      .catch(error => {
+        console.log('sociallogin catch error----->>>.', error.response);
+      });
+    // }
+    console.log('hey');
   };
 
   return (
@@ -410,7 +479,7 @@ const Login = props => {
               style={{height: hp('10%'), width: wp('20%')}}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={onFbLogin} style={{top: 10}}>
+          <TouchableOpacity onPress={socialLoginFacebook} style={{top: 10}}>
             <Image
               source={require('../Assets/Images/facebook.png')}
               style={{height: hp('8%'), width: wp('15%')}}
@@ -493,6 +562,7 @@ const Login = props => {
               placeholder="Enter Phone Number"
               placeholderTextColor={'#aaa'}
               maxLength={10}
+              keyboardType="number-pad"
             />
             <TouchableOpacity
               onPress={_socialloginGoogle}
@@ -506,6 +576,48 @@ const Login = props => {
               <Text
                 style={{textAlign: 'center', fontWeight: '700', color: '#fff'}}>
                 sendOTP
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      <Modal
+        animationIn="slideInUp"
+        animationOut="slideOutDown"
+        transparent={true}
+        isVisible={modalVisibleOtp}
+        onRequestClose={() => {
+          setModalVisibleOtp(false);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <TextInput
+              style={{
+                borderWidth: 1,
+                borderColor: '#aaa',
+                color: '#000',
+                paddingLeft: 10,
+                height: 40,
+              }}
+              value={googleOtp}
+              onChangeText={val => setGoogleOtp(val)}
+              placeholder="Enter OTP"
+              placeholderTextColor={'#aaa'}
+              maxLength={6}
+              keyboardType="number-pad"
+            />
+            <TouchableOpacity
+              onPress={verifySocialPhoneOTP}
+              disabled={googleOtp ? false : true}
+              style={{
+                backgroundColor: 'green',
+                paddingVertical: 4,
+                marginTop: 20,
+                borderRadius: 4,
+              }}>
+              <Text
+                style={{textAlign: 'center', fontWeight: '700', color: '#fff'}}>
+                Verify
               </Text>
             </TouchableOpacity>
           </View>

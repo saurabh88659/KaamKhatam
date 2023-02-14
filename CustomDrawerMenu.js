@@ -51,6 +51,7 @@ const CustomDrawerMenu = props => {
   const _logout = async () => {
     await AsyncStorage.removeItem('token');
     await AsyncStorage.removeItem('isLoggedIn');
+    // await AsyncStorage.removeItem('email');
     setModalVisible(!modalVisible);
     props.navigation.navigate('Login');
   };
