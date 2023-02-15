@@ -29,9 +29,11 @@ import {_getStorage} from '../../Assets/utils/storage/Storage';
 function Home({navigation}) {
   const [category, setCategory] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [bannerUrl, setBannerUrl] = useState([]);
 
   useEffect(() => {
     getAllCategory();
+    _getBanner();
   }, []);
 
   const getAllCategory = async () => {
@@ -79,6 +81,22 @@ function Home({navigation}) {
       .catch(error => {
         console.log('in catch error data home', error.response);
         setIsLoading(false);
+      });
+  };
+
+  const _getBanner = async () => {
+    const token = await _getStorage('token');
+    console.log('token', token);
+    axios
+      .get(BASE_URL + `/banner`, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(res => {
+        console.log('banner response', res.data);
+        setBannerUrl(res.data.banner);
+      })
+      .catch(error => {
+        console.log('banner catch error', error);
       });
   };
 
@@ -132,18 +150,14 @@ function Home({navigation}) {
                 autoplayTimeout={10}
                 showsPagination={false}
                 style={styles.scroll}>
-                <Image
-                  source={require('../../Assets/Images/banner1.png')}
-                  style={styles.imgSlider}
-                />
-                <Image
-                  source={require('../../Assets/Images/banner2.png')}
-                  style={styles.imgSlider}
-                />
-                <Image
-                  source={require('../../Assets/Images/banner3.png')}
-                  style={styles.imgSlider}
-                />
+                {bannerUrl.map((value, index) => (
+                  <TouchableOpacity key={index}>
+                    <Image
+                      source={{uri: value.imageUrl}}
+                      style={styles.imgSlider}
+                    />
+                  </TouchableOpacity>
+                ))}
               </Swiper>
             </View>
 
@@ -167,7 +181,7 @@ function Home({navigation}) {
                   <View key={index} style={{alignItems: 'center'}}>
                     <ServicesComp
                       title={val.name}
-                      image={val.imageUrl}
+                      image={{uri: val.imageUrl}}
                       newStyle
                       onPress={() => getCategoryWiseService(val._id, val.name)}
                     />
@@ -317,6 +331,5 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '100%',
     height: hp('25%'),
-    // height: 150,
   },
 });
