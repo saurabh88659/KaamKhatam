@@ -178,7 +178,8 @@ function Mybooking({navigation}) {
                         }}>
                         Price:
                       </Text>
-                      <Text style={{fontSize: 15, color: Colors.black}}>
+                      <Text
+                        style={{fontSize: 15, color: Colors.black, left: 4}}>
                         {value.amountToBePaid}
                       </Text>
                     </View>
@@ -186,7 +187,6 @@ function Mybooking({navigation}) {
                 </View>
                 <View
                   style={{
-                    // borderLeftWidth: 1,
                     paddingHorizontal: 5,
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -227,18 +227,6 @@ function Mybooking({navigation}) {
             </View>
           ))
         )}
-
-        {/* <ScrollView contentContainerStyle={{paddingBottom: 30, marginTop: 10}}>
-        <MybookingBox onClick={() => navigation.navigate('Viewdetails')} />
-        <MybookingBox
-          onClick={() => navigation.navigate('ViewdetailsCancelled')}
-        />
-        <MybookingBox
-          onClick={() => navigation.navigate('ViewdetailsPending')}
-        />
-        <MybookingBox />
-        <MybookingBox />
-      </ScrollView> */}
       </ScrollView>
     </SafeAreaView>
   );

@@ -9,9 +9,7 @@ import usericonprofile from '../Assets/Images/usericonprofile.png';
 import ProfileScreen from '../screens/ProfileScreen';
 import Mybooking from '../screens/Mybooking';
 import MyCartScreen from '../screens/MyCartScreen';
-// import HomeStack from '../Navigation/StackNavigators/HomeStack';
 import Home from '../screens/Home/Home';
-// import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
@@ -34,12 +32,16 @@ function TabNavigation() {
         showLabel: false,
         headerShown: true,
         tabBarActiveTintColor: Colors.blue,
-        tabBarShowLabel: false,
+        // tabBarShowLabel: false,
         tabBarHideOnKeyboard: true,
 
         tabBarStyle: {
           backgroundColor: Colors.darkOrange,
-          height: 60,
+          height: 55,
+        },
+        tabBarLabelStyle: {
+          fontWeight: '500',
+          fontSize: 12,
         },
       }}>
       <Tab.Screen
@@ -53,7 +55,7 @@ function TabNavigation() {
               source={homeicone}
               style={{
                 height: 30,
-                width: 32,
+                width: 30,
 
                 tintColor: focused ? Colors.blue : Colors.black,
               }}
@@ -82,7 +84,7 @@ function TabNavigation() {
         })}
       /> */}
       <Tab.Screen
-        name="Mybooking"
+        name="Booking"
         component={Mybooking}
         options={{
           headerShown: false,
@@ -92,7 +94,7 @@ function TabNavigation() {
               source={calendar22}
               style={{
                 height: 30,
-                width: 32,
+                width: 30,
 
                 tintColor: focused ? Colors.blue : Colors.black,
               }}
@@ -101,7 +103,7 @@ function TabNavigation() {
         }}
       />
       <Tab.Screen
-        name="MyCartScreen"
+        name="Cart"
         component={MyCartScreen}
         options={{
           headerShown: false,
@@ -120,7 +122,7 @@ function TabNavigation() {
         }}
       />
       <Tab.Screen
-        name="ProfileScreen"
+        name="Profile"
         component={ProfileScreen}
         options={{
           headerShown: false,

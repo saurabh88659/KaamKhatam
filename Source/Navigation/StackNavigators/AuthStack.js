@@ -21,6 +21,7 @@ import PaymentScreen from '../../screens/PaymentScreen';
 import RescheduleBooking from '../../screens/RescheduleBooking';
 import EditMobileNumber from '../../screens/EditMobileNumber';
 import MobileOtp from '../../screens/MobileOtp';
+import ChatBot from '../../screens/ChatBotScreen/ChatBot';
 
 const Stack = createNativeStackNavigator();
 function AuthStack() {
@@ -126,6 +127,11 @@ function AuthStack() {
       <Stack.Screen
         name="PaymentScreen"
         component={PaymentScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ChatBot"
+        component={ChatBot}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

@@ -73,16 +73,16 @@ const Viewdetails = props => {
           <View style={styles.cntrContainer}>
             <View
               style={{
-                paddingVertical: 6,
-                height: height / 3.8,
+                paddingVertical: 30,
                 marginVertical: 5,
-                marginHorizontal: 5,
+                marginHorizontal: 10,
                 borderRadius: 6,
-                elevation: 2,
+                borderWidth: 1,
+                borderColor: Colors.lightGray,
               }}>
               <View style={{flexDirection: 'row', marginHorizontal: 10}}>
                 <View style={{width: '70%'}}>
-                  <Text style={{color: Colors.black, fontSize: 17}}>
+                  <Text style={{color: Colors.black, fontSize: 17, top: -10}}>
                     {bookinviewdetails.serviceName}
                   </Text>
                   <View

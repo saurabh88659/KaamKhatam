@@ -236,12 +236,12 @@ function Home({navigation}) {
                   <BeautyServices
                     title="Classic Mani & Pedi"
                     image={require('../../Assets/Images/hairdressing2.png')}
-                    onPress={() => props.navigation.navigate('Manicure', props)}
+                    // onPress={() => props.navigation.navigate('Manicure', props)}
                   />
                   <BeautyServices
-                    onPress={() => {
-                      props.navigation.navigate('Bleach', props);
-                    }}
+                    // onPress={() => {
+                    //   // props.navigation.navigate('Bleach', props);
+                    // }}
                     title="Clean up + Bleach"
                     image={require('../../Assets/Images/Massage1.png')}
                   />
@@ -255,16 +255,16 @@ function Home({navigation}) {
                   <BeautyServices
                     title="Chocolate Wax"
                     image={require('../../Assets/Images/Massage3.png')}
-                    onPress={() => {
-                      props.navigation.navigate('Chocolatewax', props);
-                    }}
+                    // onPress={() => {
+                    //   props.navigation.navigate('Chocolatewax', props);
+                    // }}
                   />
                   <BeautyServices
                     title="Skin Brightening"
                     image={require('../../Assets/Images/Massage4.png')}
-                    onPress={() => {
-                      props.navigation.navigate('Cleanup', props);
-                    }}
+                    // onPress={() => {
+                    //   props.navigation.navigate('Cleanup', props);
+                    // }}
                   />
                 </View>
                 <TouchableOpacity
@@ -276,7 +276,8 @@ function Home({navigation}) {
                     backgroundColor: Colors.lightGreen,
                     alignSelf: 'center',
                   }}
-                  onPress={() => props.navigation.navigate('SalonWomen')}>
+                  // onPress={() => props.navigation.navigate('SalonWomen')}
+                >
                   <Text
                     style={{
                       fontWeight: 'bold',

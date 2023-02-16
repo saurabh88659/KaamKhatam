@@ -88,9 +88,10 @@ const RegisterAccount = props => {
         props.navigation.navigate('DrowerNavigation');
         Toast.showWithGravity(val.data.message, Toast.LONG, Toast.BOTTOM);
       })
-      .catch(e => {
-        console.log('in catch', e);
+      .catch(error => {
+        console.log('in catch', error);
         setIsLoading(false);
+        Toast.showWithGravity('Server Error❗', Toast.LONG, Toast.BOTTOM);
       });
   };
 
@@ -209,8 +210,6 @@ const RegisterAccount = props => {
       });
   };
 
-  // console.log('emailOtp', emailOtp);
-
   const resendemail = async () => {
     const token = await _getStorage('token');
     // console.log('resend otp-------------.....>>>', token);
@@ -256,7 +255,7 @@ const RegisterAccount = props => {
       ) : (
         <View>
           <ScrollView
-            contentContainerStyle={{paddingBottom: '30%'}}
+            contentContainerStyle={{paddingBottom: '40%'}}
             showsVerticalScrollIndicator={false}>
             <View>
               <Text
@@ -278,7 +277,6 @@ const RegisterAccount = props => {
                 }}
                 style={{
                   marginHorizontal: 15,
-                  // backgroundColor: 'red',
                   borderColor: 'grey',
                   borderWidth: 1,
                   borderRadius: 6,
@@ -305,7 +303,6 @@ const RegisterAccount = props => {
                 }}
                 style={{
                   marginHorizontal: 15,
-                  // backgroundColor: 'red',
                   borderColor: 'grey',
                   borderWidth: 1,
                   borderRadius: 6,
@@ -384,7 +381,10 @@ const RegisterAccount = props => {
                     status={gender === 'male' ? 'checked' : 'unchecked'}
                     onPress={() => setGender('male')}
                   />
-                  <Text style={{top: 10, fontWeight: '500'}}>Male</Text>
+                  <Text
+                    style={{top: 10, fontWeight: '500', color: Colors.black}}>
+                    Male
+                  </Text>
                 </View>
                 <View style={{flexDirection: 'row'}}>
                   <RadioButton
@@ -392,7 +392,10 @@ const RegisterAccount = props => {
                     status={gender === 'female' ? 'checked' : 'unchecked'}
                     onPress={() => setGender('female')}
                   />
-                  <Text style={{top: 10, fontWeight: '500'}}>Female</Text>
+                  <Text
+                    style={{top: 10, fontWeight: '500', color: Colors.black}}>
+                    Female
+                  </Text>
                 </View>
               </View>
               <View>
@@ -443,7 +446,6 @@ const RegisterAccount = props => {
                   }}
                   style={{
                     marginHorizontal: 15,
-                    // backgroundColor: 'red',
                     borderColor: 'grey',
                     borderWidth: 1,
                     borderRadius: 6,

@@ -16,7 +16,7 @@ const ServicesComp = props => {
         justifyContent: 'center',
         marginTop: hp('3%'),
         width: wp('20%'),
-        marginHorizontal: '2%',
+        marginHorizontal: '4%',
       }}>
       <Image
         source={props.image}

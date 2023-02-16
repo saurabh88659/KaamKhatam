@@ -11,9 +11,7 @@ import {BASE_URL} from '../Assets/utils/Restapi/Config';
 const PaymentScreen = props => {
   const bookingIdPrice = props.route.params;
 
-  console.log('bookingIdPrice', bookingIdPrice);
-
-  const [message, setMessage] = useState('');
+  // console.log('bookingIdPrice', bookingIdPrice);
 
   const upiPayment = () => {
     let newStr = uuid.v4().slice(20);
