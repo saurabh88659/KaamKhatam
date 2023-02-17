@@ -7,7 +7,7 @@ import {
   Dimensions,
   TextInput,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Colors from '../../Assets/Constants/Colors';
 const {height, width} = Dimensions.get('window');
 import RNUpiPayment from 'react-native-upi-payment';
@@ -18,6 +18,7 @@ import {_getStorage} from '../../Assets/utils/storage/Storage';
 
 export default function Mywalletscreen() {
   const [selectAmount, setSelectAmount] = useState('');
+  const [recharge, setRecharge] = useState('');
   const upiPayment = () => {
     let newStr = uuid.v4().slice(20);
     // console.log('newStr-->', newStr);
@@ -39,12 +40,13 @@ export default function Mywalletscreen() {
     console.log('success payment-->>', data);
 
     const paymentHistory = {
-      bookingId: bookingIdPrice?.bookinId,
+      bookingId: '1234567890',
       txnId: data.txnId,
       resCode: data.responseCode,
       status: data.Status,
       price: bookingIdPrice?.price,
       txnRef: data.txnRef,
+      purpose: 'recharge Wallet',
     };
 
     console.log('object', paymentHistory);
@@ -75,10 +77,8 @@ export default function Mywalletscreen() {
         status: data.Status,
         price: bookingIdPrice?.price,
         txnRef: data.txnRef,
+        purpose: 'recharge Wallet',
       };
-
-      // console.log('object', paymentHistory);
-
       axios
         .put(BASE_URL + `/booking/addPaymentHistory`, paymentHistory, {
           headers: {Authorization: `Bearer ${token}`},
@@ -91,6 +91,27 @@ export default function Mywalletscreen() {
         });
     }
   };
+
+  useEffect(() => {
+    _getWallets();
+  }, []);
+
+  const _getWallets = async () => {
+    const token = await _getStorage('token');
+    console.log(token);
+    axios
+      .get(BASE_URL + `/wallets`, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(res => {
+        console.log('response wallets', res.data.wallet.balance);
+        setRecharge(res.data.wallet.balance);
+      })
+      .catch(error => {
+        console.log('wallets catch error', error);
+      });
+  };
+
   return (
     <SafeAreaView>
       <View
@@ -125,8 +146,8 @@ export default function Mywalletscreen() {
             </Text>
           </View>
           <View style={{flexDirection: 'row', marginHorizontal: 10}}>
-            <Text style={{left: 10, fontSize: 18, color: Colors.lightGray}}>
-              INR 150
+            <Text style={{left: 10, fontSize: 18, color: Colors.black}}>
+              INR {recharge.$numberDecimal}
             </Text>
           </View>
         </View>

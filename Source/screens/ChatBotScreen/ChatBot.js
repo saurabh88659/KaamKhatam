@@ -1,35 +1,59 @@
+import React, {useEffect, useState} from 'react';
 import {View, Text, FlatList, TextInput, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
-import Message from './Message';
-import data from './Data';
+import Msg from './Message';
+import {data} from './Data';
 import Styles from './Styles';
 import Colors from '../../Assets/Constants/Colors';
 import Header from '../../ReusableComponents/Header';
+import axios from 'axios';
+import {BASE_URL} from '../../Assets/utils/Restapi/Config';
+import {_getStorage} from '../../Assets/utils/storage/Storage';
 
 let chats = [];
-
-export default function ChatBot(props) {
-  const [chatList, setChatList] = useState([]);
+const ChatBot = ({navigation}) => {
   const [msg, setMsg] = useState('');
+  const [chatList, setChatList] = useState([]);
+  // const [chatmsg, setChatmsg] = useState([]);
+
+  console.log('chatList---->', chatList);
+
+  // const getAnswer = q => {
+  //   console.log('q-------------------', q);
+  //   for (let i = 0; i < chatList.length; i++) {
+  //     console.log('chatlist---->>', chatList[i].query);
+  //     if (chatList[i].question.toLowerCase().includes(q.toLowerCase())) {
+  //       chats = [...chats, {msg: chatList[i].answer, incomingMsg: true}];
+  //       setChatList([...chats]());
+  //       return;
+  //     }
+  //   }
+  //   chats = [
+  //     ...chats,
+  //     {msg: "Didn't recognise tour question", incomingMsg: true},
+  //   ];
+  //   setChatList([...chats].reverse());
+  //   return;
+  // };
 
   const getAnswer = q => {
-    for (let i = 0; i < data.lenght; i++) {
-      if (data[i].question.includes(q.toLwerCase())) {
-        chats = [...chats, {msg: data[i].answer, incomiMsg: true}];
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].question.includes(q.toLowerCase())) {
+        chats = [...chats, {msg: data[i].answer, incomingMsg: true}];
         setChatList([...chats].reverse());
         return;
       }
     }
+
     chats = [
       ...chats,
-      {msg: "did n't recognise your question", incomiMsg: true},
+      {msg: "Didn't recognise tour question", incomingMsg: true},
     ];
     setChatList([...chats].reverse());
     return;
   };
 
-  const _onSendMsg = () => {
-    chats = [...chats, {msg: msg, sendMsg: true}];
+  const onSendMsg = () => {
+    chats = [...chats, {msg: msg, sentMsg: true}];
     setChatList([...chats].reverse());
     setTimeout(() => {
       getAnswer(msg);
@@ -37,50 +61,67 @@ export default function ChatBot(props) {
     setMsg('');
   };
 
+  useEffect(() => {
+    _getChatApi();
+  }, []);
+
+  const _getChatApi = async () => {
+    const token = await _getStorage('token');
+    // console.log('token-->>', token);
+    axios
+      .get(BASE_URL + `/chat`, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(res => {
+        console.log('response', res.data.chat);
+        setChatList(res.data.chat);
+      })
+      .catch(error => {
+        console.log('chat catch error', error.response);
+      });
+  };
+
   return (
-    <View>
+    <View style={{flex: 1}}>
       <Header
         bgColor={Colors.darkOrange}
         color={Colors.white}
         title="Chat Support"
-        onPress={() => props.navigation.goBack()}
+        onPress={() => navigation.goBack('')}
       />
       <FlatList
-        style={{height: '78%'}}
-        data={chatList}
+        style={{height: '87%', bottom: '3%'}}
         inverted={true}
         keyExtractor={(_, index) => index.toString()}
+        data={chatList}
         renderItem={({item}) => (
-          console.log('sendMsg----->>', item.sendMsg),
-          console.log('incomiMsg----->>', item.incomiMsg),
-          console.log('msg----->>', item.msg),
-          (
-            <Message
-              incomiMsg={item.incomiMsg}
-              msg={item.msg}
-              sendMsg={item.sendMsg}
-            />
-          )
+          <Msg
+            incomingMsg={item.incomingMsg}
+            msg={item.msg}
+            sentMsg={item.sentMsg}
+          />
         )}
       />
       <View style={Styles.typeMsgContainer}>
         <TextInput
+          placeholderTextColor="grey"
           style={Styles.typeMsgBox}
           value={msg}
-          placeholder="Type Here...."
-          placeholderTextColor={Colors.lightGray}
+          placeholder="Type Here ..."
           onChangeText={val => setMsg(val)}
         />
         <TouchableOpacity
-          disabled={msg ? false : true}
           style={[
             Styles.sendBtn,
-            {backgroundColor: msg ? Colors.lightGreen : Colors.lightGray},
+            {backgroundColor: msg ? Colors.darkOrange : 'grey'},
           ]}
-          onPress={() => _onSendMsg()}>
-          <Text style={{color: 'white'}}>send</Text>
+          disabled={msg ? false : true}
+          onPress={() => onSendMsg()}>
+          <Text style={Styles.sendTxt}>send</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
-}
+};
+
+export default ChatBot;

@@ -2,23 +2,21 @@ import {StyleSheet} from 'react-native';
 import Colors from '../../Assets/Constants/Colors';
 
 const Styles = StyleSheet.create({
-  incominMsgbox: {
-    backgroundColor: Colors.white,
+  incomingMsgBox: {
+    backgroundColor: 'white',
     maxWidth: '70%',
     borderRadius: 10,
     padding: 5,
     alignSelf: 'flex-start',
     marginVertical: 5,
     marginHorizontal: 5,
-    borderWidth: 1.5,
+    borderWidth: 0.5,
     borderColor: 'grey',
   },
-  incomiMsgText: {
-    color: Colors.black,
-    fontSize: 16,
-  },
+  incomingMsgText: {color: 'black', fontSize: 16},
+
   sentMsgBox: {
-    backgroundColor: Colors.lightOrange,
+    backgroundColor: 'green',
     maxWidth: '70%',
     borderRadius: 10,
     padding: 5,
@@ -26,24 +24,25 @@ const Styles = StyleSheet.create({
     marginVertical: 5,
     marginHorizontal: 5,
   },
-  sendMsgText: {
-    color: Colors.white,
-    fontSize: 16,
+
+  sentMsgText: {color: '#fff', fontSize: 16},
+
+  typeMsgContainer: {
+    flexDirection: 'row',
+    marginHorizontal: 5,
+    bottom: 5,
   },
+
   typeMsgBox: {
-    borderWidth: 1,
-    borderColor: Colors.lightGray,
+    borderWidth: 0.8,
+    borderColor: 'grey',
     padding: 10,
     width: '80%',
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
     color: Colors.black,
   },
-  typeMsgContainer: {
-    flexDirection: 'row',
-    marginHorizontal: 15,
-    bottom: 5,
-  },
+
   sendBtn: {
     width: '20%',
     alignItems: 'center',
@@ -51,6 +50,8 @@ const Styles = StyleSheet.create({
     borderBottomRightRadius: 10,
     borderTopRightRadius: 10,
   },
+
+  sendTxt: {color: 'white'},
 });
 
 export default Styles;

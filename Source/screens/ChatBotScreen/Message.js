@@ -1,20 +1,22 @@
-import {View, Text, SafeAreaView} from 'react-native';
-import React, {Fragment} from 'react';
+import React from 'react';
+import {View, Text} from 'react-native';
 import Styles from './Styles';
 
-export default function Message({incomiMsg, sendMsg, msg}) {
+const Message = ({incomingMsg, sentMsg, msg}) => {
   return (
-    <Fragment>
-      {incomiMsg && (
-        <View style={Styles.incominMsgbox}>
-          <Text style={Styles.incomiMsgText}>{msg}</Text>
+    <View>
+      {incomingMsg && (
+        <View style={Styles.incomingMsgBox}>
+          <Text style={Styles.incomingMsgText}>{msg}</Text>
         </View>
       )}
-      {sendMsg && (
-        <View style={Styles.sentMsgBox}>
-          <Text style={Styles.sendMsgText}>{msg}</Text>
-        </View>
+      {sentMsg && (
+        <Text style={Styles.sentMsgBox}>
+          <Text style={Styles.sentMsgText}>{msg}</Text>
+        </Text>
       )}
-    </Fragment>
+    </View>
   );
-}
+};
+
+export default Message;

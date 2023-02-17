@@ -1,9 +1,8 @@
-const data = [
+export const data = [
   {
     question: 'hi',
     answer: 'Hello',
   },
-
   {
     question: 'hello',
     answer: 'Hi',
@@ -16,6 +15,16 @@ const data = [
     question: 'hello bot',
     answer: 'Hi',
   },
+  {
+    question: 'how are you',
+    answer: 'I am fine',
+  },
+  {
+    question: 'what is your age',
+    answer: 'I was developed yesterday',
+  },
+  {
+    question: 'what is your name',
+    answer: 'I am bot',
+  },
 ];
-
-export default data;

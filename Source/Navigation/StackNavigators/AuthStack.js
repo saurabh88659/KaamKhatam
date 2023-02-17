@@ -22,6 +22,8 @@ import RescheduleBooking from '../../screens/RescheduleBooking';
 import EditMobileNumber from '../../screens/EditMobileNumber';
 import MobileOtp from '../../screens/MobileOtp';
 import ChatBot from '../../screens/ChatBotScreen/ChatBot';
+import MyCartScreen from '../../screens/MyCartScreen';
+import Mybooking from '../../screens/Mybooking';
 
 const Stack = createNativeStackNavigator();
 function AuthStack() {
@@ -132,6 +134,16 @@ function AuthStack() {
       <Stack.Screen
         name="ChatBot"
         component={ChatBot}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="MyCartScreen"
+        component={MyCartScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Mybooking"
+        component={Mybooking}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
