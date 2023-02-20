@@ -21,9 +21,9 @@ const ServicesComp = props => {
       <Image
         source={props.image}
         style={{
-          width: props.newStyle ? wp('23%') : wp('20%'),
-          height: wp('20%'),
-          borderRadius: wp('20%'),
+          width: props.newStyle ? wp('16%') : wp('20%'),
+          height: wp('16%'),
+          borderRadius: wp('25%'),
         }}
       />
       <Text
@@ -32,7 +32,7 @@ const ServicesComp = props => {
           fontWeight: 'bold',
           marginVertical: hp('1%'),
           textAlign: 'center',
-          top: -13,
+          top: -5,
           color: Colors.black,
         }}>
         {props.title}

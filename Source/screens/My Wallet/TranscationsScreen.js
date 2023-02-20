@@ -1,120 +1,97 @@
 import {View, Text, SafeAreaView} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Colors from '../../Assets/Constants/Colors';
+import {_getStorage} from '../../Assets/utils/storage/Storage';
+import axios from 'axios';
+import {BASE_URL} from '../../Assets/utils/Restapi/Config';
 
 export default function TranscationsScreen() {
+  const [historytra, setHistorytra] = useState([]);
+  useEffect(() => {
+    _getPaymentHistory();
+  }, []);
+
+  const _getPaymentHistory = async () => {
+    const token = await _getStorage('token');
+    axios
+      .get(BASE_URL + `/transactions/paymentHistory`, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(res => {
+        console.log(
+          'response Payment History',
+          res.data.history[0].payment_history,
+        );
+        setHistorytra(res.data.history[0].payment_history);
+      })
+      .catch(error => {
+        console.log('Payment History catch error', error);
+      });
+  };
+
   return (
     <SafeAreaView>
-      <View
-        style={{
-          borderColor: Colors.darkGray,
-          height: 100,
-          backgroundColor: Colors.white,
-          elevation: 5,
-        }}>
+      {historytra.map((value, index) => (
         <View
+          key={index}
           style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginHorizontal: 10,
+            borderColor: Colors.darkGray,
+            height: 100,
+            backgroundColor: Colors.white,
+            elevation: 5,
+            marginVertical: 1,
           }}>
-          <View style={{marginVertical: 10}}>
-            <Text style={{fontWeight: 'bold', color: Colors.darkGray}}>
-              Paid for cleaning Services
-            </Text>
-            <Text
-              style={{
-                fontSize: 13,
-                color: Colors.darkGray,
-                marginVertical: 10,
-              }}>
-              03/10/1992, 10:00 PM
-            </Text>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={{fontWeight: 'bold'}}>Paid By:</Text>
-              <Text style={{fontSize: 14, color: Colors.darkGray}}>
-                All In One Wallet
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginHorizontal: 10,
+            }}>
+            <View style={{marginVertical: 10}}>
+              <Text style={{fontWeight: 'bold', color: Colors.darkGray}}>
+                {value.purpose}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 13,
+                  color: Colors.darkGray,
+                  marginVertical: 10,
+                }}>
+                {value.time}
+              </Text>
+              <View style={{flexDirection: 'row'}}>
+                <Text style={{fontWeight: 'bold', color: Colors.lightGray}}>
+                  Paid By:
+                </Text>
+                <Text style={{fontSize: 14, color: Colors.darkGray}}>
+                  All In One Wallet
+                </Text>
+              </View>
+            </View>
+            <View style={{marginVertical: 17}}>
+              <Text
+                style={{
+                  color: Colors.darkGreen,
+                  fontWeight: '900',
+                  fontSize: 15,
+                  top: -7,
+                }}>
+                {value.status}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: Colors.lightOrange,
+                  textAlign: 'center',
+                  marginVertical: 15,
+                  fontWeight: 'bold',
+                }}>
+                INR {value.price}
               </Text>
             </View>
           </View>
-          <View style={{marginVertical: 17}}>
-            <Text
-              style={{
-                color: Colors.darkGreen,
-                fontWeight: '900',
-                fontSize: 15,
-                top: -7,
-              }}>
-              SUCCESS
-            </Text>
-            <Text
-              style={{
-                fontSize: 16,
-                color: Colors.lightOrange,
-                textAlign: 'center',
-                marginVertical: 15,
-                fontWeight: 'bold',
-              }}>
-              INR 150
-            </Text>
-          </View>
         </View>
-      </View>
-      <View
-        style={{
-          borderColor: Colors.darkGray,
-          height: 100,
-          backgroundColor: Colors.white,
-          elevation: 5,
-          marginVertical: 5,
-        }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginHorizontal: 10,
-          }}>
-          <View style={{marginVertical: 10}}>
-            <Text style={{fontWeight: 'bold'}}>Paid for cleaning Services</Text>
-            <Text
-              style={{
-                fontSize: 13,
-                color: Colors.darkGray,
-                marginVertical: 10,
-              }}>
-              03/10/1992, 10:00 PM
-            </Text>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={{fontWeight: 'bold'}}>Paid By:</Text>
-              <Text style={{fontSize: 14, color: Colors.darkGray}}>
-                {' '}
-                All In One Wallet
-              </Text>
-            </View>
-          </View>
-          <View style={{marginVertical: 17}}>
-            <Text
-              style={{
-                color: Colors.darkGreen,
-                fontWeight: '900',
-                fontSize: 15,
-                top: -7,
-              }}>
-              SUCCESS
-            </Text>
-            <Text
-              style={{
-                fontSize: 16,
-                color: Colors.lightOrange,
-                textAlign: 'center',
-                marginVertical: 15,
-                fontWeight: 'bold',
-              }}>
-              INR 150
-            </Text>
-          </View>
-        </View>
-      </View>
+      ))}
     </SafeAreaView>
   );
 }

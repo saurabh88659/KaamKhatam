@@ -24,6 +24,8 @@ import MobileOtp from '../../screens/MobileOtp';
 import ChatBot from '../../screens/ChatBotScreen/ChatBot';
 import MyCartScreen from '../../screens/MyCartScreen';
 import Mybooking from '../../screens/Mybooking';
+import Mybooking2 from '../../screens/Mybooking2';
+import ProfileScreen from '../../screens/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
 function AuthStack() {
@@ -144,6 +146,16 @@ function AuthStack() {
       <Stack.Screen
         name="Mybooking"
         component={Mybooking}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Mybooking2"
+        component={Mybooking2}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ProfileScreen"
+        component={ProfileScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

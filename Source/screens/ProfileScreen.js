@@ -20,6 +20,7 @@ import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import {_getStorage} from '../Assets/utils/storage/Storage';
 import Toast from 'react-native-simple-toast';
+import Header from '../ReusableComponents/Header';
 
 const {height, width} = Dimensions.get('window');
 const ProfileScreen = ({navigation, route}) => {
@@ -41,7 +42,6 @@ const ProfileScreen = ({navigation, route}) => {
     ImagePicker.openPicker({
       cropping: true,
       quality: 1,
-      includeBase64: true,
       mediaType: 'any',
     }).then(image => {
       setImageUrlPath(image.path);
@@ -125,10 +125,16 @@ const ProfileScreen = ({navigation, route}) => {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-      <HeaderDrawer
+      {/* <HeaderDrawer
         Title="My Profile"
         location="Sector 62"
         onPress={() => navigation.toggleDrawer()}
+      /> */}
+      <Header
+        bgColor={Colors.darkOrange}
+        color={Colors.white}
+        title="My Profile"
+        onPress={() => navigation.goBack('')}
       />
       {isLoading ? (
         <View
@@ -153,9 +159,9 @@ const ProfileScreen = ({navigation, route}) => {
               <ImageBackground
                 source={require('../Assets/Images/profilePicture123.png')}
                 style={Styles.imagebox}>
-                {imageUrlPath && (
+                {profileData && (
                   <Image
-                    source={{uri: imageUrlPath}}
+                    source={{uri: profileData.imageUrl}}
                     style={{width: 98, height: 100, borderRadius: 100}}
                   />
                 )}

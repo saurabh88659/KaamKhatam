@@ -10,30 +10,10 @@ import {BASE_URL} from '../../Assets/utils/Restapi/Config';
 import {_getStorage} from '../../Assets/utils/storage/Storage';
 
 let chats = [];
+
 const ChatBot = ({navigation}) => {
   const [msg, setMsg] = useState('');
   const [chatList, setChatList] = useState([]);
-  // const [chatmsg, setChatmsg] = useState([]);
-
-  console.log('chatList---->', chatList);
-
-  // const getAnswer = q => {
-  //   console.log('q-------------------', q);
-  //   for (let i = 0; i < chatList.length; i++) {
-  //     console.log('chatlist---->>', chatList[i].query);
-  //     if (chatList[i].question.toLowerCase().includes(q.toLowerCase())) {
-  //       chats = [...chats, {msg: chatList[i].answer, incomingMsg: true}];
-  //       setChatList([...chats]());
-  //       return;
-  //     }
-  //   }
-  //   chats = [
-  //     ...chats,
-  //     {msg: "Didn't recognise tour question", incomingMsg: true},
-  //   ];
-  //   setChatList([...chats].reverse());
-  //   return;
-  // };
 
   const getAnswer = q => {
     for (let i = 0; i < data.length; i++) {
@@ -67,13 +47,12 @@ const ChatBot = ({navigation}) => {
 
   const _getChatApi = async () => {
     const token = await _getStorage('token');
-    // console.log('token-->>', token);
     axios
       .get(BASE_URL + `/chat`, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        console.log('response', res.data.chat);
+        console.log('response--->>>', res.data.chat);
         setChatList(res.data.chat);
       })
       .catch(error => {

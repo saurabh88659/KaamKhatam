@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Modal,
   Dimensions,
+  Alert,
 } from 'react-native';
 import {DrawerContentScrollView} from '@react-navigation/drawer';
 import {_getStorage} from './Source/Assets/utils/storage/Storage';
@@ -15,7 +16,8 @@ import {BASE_URL} from './Source/Assets/utils/Restapi/Config';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Colors from './Source/Assets/Constants/Colors';
-// import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import {Rating} from 'react-native-ratings';
+import Toast from 'react-native-simple-toast';
 
 const {height, width} = Dimensions.get('screen');
 
@@ -24,9 +26,6 @@ const CustomDrawerMenu = props => {
   const [modalVisible2, setModalVisible2] = useState(false);
   const [profileData, setProfileData] = useState({});
 
-  // const [defaultrate, setDefaultrate] = useState(2);
-  // const [maxrating, setMaxrating] = useState([1, 2, 3, 4, 5]);
-
   useEffect(() => {
     profileapi();
   }, []);
@@ -34,26 +33,37 @@ const CustomDrawerMenu = props => {
   const profileapi = async () => {
     const token = await _getStorage('token');
     console.log('token', token);
-
     axios
       .get(BASE_URL + `/profile`, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(val => {
         setProfileData(val.data.result);
-        // console.log('profile drower>', val.data.result);
+        console.log('profile drower>', val.data.result);
       })
-      .catch(e => {
-        console.log('in catch', e.response.data);
+      .catch(error => {
+        console.log(' profile drower in catch', error.response.data);
       });
   };
 
   const _logout = async () => {
     await AsyncStorage.removeItem('token');
     await AsyncStorage.removeItem('isLoggedIn');
-    // await AsyncStorage.removeItem('email');
     setModalVisible(!modalVisible);
     props.navigation.navigate('Login');
+  };
+
+  const ratingCompleted = () => {
+    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
+
+    setTimeout(() => {
+      setModalVisible2(!modalVisible2);
+      Toast.showWithGravity(
+        'Thanks so much for sharing your experience with us.',
+        Toast.LONG,
+        Toast.BOTTOM,
+      );
+    }, 2000);
   };
 
   return (
@@ -63,9 +73,16 @@ const CustomDrawerMenu = props => {
         contentContainerStyle={{backgroundColor: Colors.white}}>
         <View style={{marginVertical: 20}}>
           <TouchableOpacity
+            style={{
+              height: 80,
+              width: 80,
+              borderRadius: 50,
+              alignSelf: 'center',
+              borderWidth: 1,
+            }}
             onPress={() => props.navigation.navigate('ProfileScreen')}>
             <Image
-              source={require('./Source/Assets/Images/Antiagingbody.png')}
+              source={{uri: profileData.imageUrl}}
               style={Styles.iconestyle}
             />
           </TouchableOpacity>
@@ -94,7 +111,7 @@ const CustomDrawerMenu = props => {
           <View>
             <View style={Styles.linesstyles}></View>
             <TouchableOpacity
-              onPress={() => props.navigation.navigate('Mybooking')}
+              onPress={() => props.navigation.navigate('Mybooking2')}
               style={Styles.constyles}>
               <Image
                 source={require('./Source/Assets/Images/credit-cardicone2.png')}
@@ -203,8 +220,6 @@ const CustomDrawerMenu = props => {
               Version 1.1.0.1
             </Text>
           </View>
-
-          <View style={{}}>{/* <DrawerItemList {...props} /> */}</View>
         </View>
       </DrawerContentScrollView>
 
@@ -295,50 +310,48 @@ const CustomDrawerMenu = props => {
             <View
               style={{
                 backgroundColor: Colors.white,
-                paddingVertical: 60,
+                paddingVertical: '10%',
                 marginHorizontal: 10,
                 borderRadius: 7,
               }}>
-              <Text style={{color: Colors.black, textAlign: 'center'}}>
+              <Text
+                style={{
+                  color: Colors.black,
+                  textAlign: 'center',
+                  fontWeight: '500',
+                  fontSize: 18,
+                  top: -20,
+                }}>
                 Tab a star to rate in on the App Store.
               </Text>
-              {/* <View
+              <View
                 style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-around',
-                  paddingHorizontal: 20,
+                  top: -15,
                 }}>
-                <Text>hello</Text>
-                <Text>hello</Text>
-                <Text>hello</Text>
-                <Text>hello</Text>
-                <Text>hello</Text>
-                <FontAwesome5Icon
-                  name="star"
-                  solid
-                  size="2%"
-                  color={Colors.lightYellow}
+                <Rating
+                  onFinishRating={rating => {
+                    Alert.alert('Star Rating: ' + JSON.stringify(rating));
+                  }}
+                  style={{paddingVertical: 10}}
                 />
-              </View> */}
+              </View>
               <View
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'space-between',
-                  marginHorizontal: 40,
+                  marginHorizontal: 30,
+                  top: 5,
                 }}>
                 <TouchableOpacity
-                  onPress={() => {
-                    setModalVisible2(!modalVisible2);
-                  }}
+                  onPress={ratingCompleted}
                   style={{
                     borderColor: '#0EC01B',
                     backgroundColor: '#0EC01B',
-                    height: height / 18,
-                    width: width / 3.5,
+                    paddingHorizontal: 30,
                     justifyContent: 'center',
                     alignItems: 'center',
                     borderRadius: 4,
-                    borderWidth: 1,
+                    paddingVertical: 10,
                   }}>
                   <Text
                     style={{
@@ -355,8 +368,8 @@ const CustomDrawerMenu = props => {
                   }}
                   style={{
                     borderColor: '#0EC01B',
-                    height: height / 18,
-                    width: width / 3.5,
+                    paddingHorizontal: 30,
+                    paddingVertical: 10,
                     justifyContent: 'center',
                     alignItems: 'center',
                     borderRadius: 4,

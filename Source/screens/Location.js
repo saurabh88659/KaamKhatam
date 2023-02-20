@@ -72,7 +72,9 @@ const Location = props => {
         interval: 10000,
         fastInterval: 5000,
       }).then(data => {
-        console.log('data', data);
+        // console.log('data------------->>>', data);
+        if (data == 'already-enabled') {
+        }
       });
 
       // do some action after the gps has been activated by the user

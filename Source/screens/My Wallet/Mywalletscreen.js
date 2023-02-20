@@ -19,6 +19,9 @@ import {_getStorage} from '../../Assets/utils/storage/Storage';
 export default function Mywalletscreen() {
   const [selectAmount, setSelectAmount] = useState('');
   const [recharge, setRecharge] = useState('');
+
+  console.log(selectAmount);
+
   const upiPayment = () => {
     let newStr = uuid.v4().slice(20);
     // console.log('newStr-->', newStr);
@@ -40,11 +43,10 @@ export default function Mywalletscreen() {
     console.log('success payment-->>', data);
 
     const paymentHistory = {
-      bookingId: '1234567890',
       txnId: data.txnId,
       resCode: data.responseCode,
       status: data.Status,
-      price: bookingIdPrice?.price,
+      price: selectAmount,
       txnRef: data.txnRef,
       purpose: 'recharge Wallet',
     };
@@ -52,7 +54,7 @@ export default function Mywalletscreen() {
     console.log('object', paymentHistory);
 
     axios
-      .put(BASE_URL + `/booking/addPaymentHistory`, paymentHistory, {
+      .put(BASE_URL + `/transactions/paymentHistory`, paymentHistory, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
@@ -71,16 +73,15 @@ export default function Mywalletscreen() {
       console.log('no action taken');
     } else {
       const paymentHistory = {
-        bookingId: bookingIdPrice?.bookinId,
         txnId: data.txnId,
         resCode: data.responseCode,
         status: data.Status,
-        price: bookingIdPrice?.price,
+        price: selectAmount,
         txnRef: data.txnRef,
         purpose: 'recharge Wallet',
       };
       axios
-        .put(BASE_URL + `/booking/addPaymentHistory`, paymentHistory, {
+        .put(BASE_URL + `/transactions/paymentHistory`, paymentHistory, {
           headers: {Authorization: `Bearer ${token}`},
         })
         .then(res => {
