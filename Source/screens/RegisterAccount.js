@@ -201,6 +201,7 @@ const RegisterAccount = props => {
         console.log('email response', res.data);
         setemailOtp(res.data.id);
         setIsGettingOTP(false);
+        setIsLoading();
         setModalVisible(!modalVisible);
       })
 

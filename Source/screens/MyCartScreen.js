@@ -64,7 +64,7 @@ const MyCartScreen = props => {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        // console.log('my cart', res.data.message);
+        console.log('my cart--------------.', res.data.length);
         setMycartname(res.data.newResult);
         setDelmess('');
         setIsLoading(false);
