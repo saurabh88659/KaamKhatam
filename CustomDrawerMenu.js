@@ -32,14 +32,14 @@ const CustomDrawerMenu = props => {
 
   const profileapi = async () => {
     const token = await _getStorage('token');
-    console.log('token', token);
+    // console.log('token', token);
     axios
       .get(BASE_URL + `/profile`, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(val => {
         setProfileData(val.data.result);
-        console.log('profile drower>', val.data.result);
+        // console.log('profile drower>', val.data.result);
       })
       .catch(error => {
         console.log(' profile drower in catch', error.response.data);

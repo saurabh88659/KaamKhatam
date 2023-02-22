@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import {
   heightPercentageToDP as hp,
@@ -11,17 +11,27 @@ import {_getStorage} from '../Assets/utils/storage/Storage';
 import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
+// import Geocoder from 'react-native-geocoding';
+
+// const API_KEY = 'AIzaSyD3Uol_-mBQSaZgIfuzVVK1oHXqBHPkrZE';
 
 const Location = props => {
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
+  // const [state, setState] = useState('');
+
+  // console.log('state---', state.address);
 
   const _getgeolocations = async () => {
     const token = await _getStorage('token');
-    // Geolocation.getCurrentPosition(data => {
-    //   setLatitude(data.coords.latitude), setLongitude(data.coords.longitude);
-    //   console.log('data--------------->>>>', data);
-    // });
+    Geolocation.getCurrentPosition(data => {
+      setLatitude(data.coords.latitude), setLongitude(data.coords.longitude);
+      console.log(
+        'data--------------->>>>',
+        data.coords.longitude,
+        data.coords.latitude,
+      );
+    });
 
     const locobj = {
       longitude: latitude,
@@ -83,6 +93,29 @@ const Location = props => {
     }
   };
 
+  // useEffect(() => {
+  //   onLocation();
+  //   geoCoding();
+  // }, []);
+
+  // const geoCoding = () => {
+  //   Geocoder.init(API_KEY);
+  //   Geolocation.getCurrentPosition(data => {
+  //     setLatitude(data.coords.latitude), setLongitude(data.coords.longitude);
+  //     // console.log('data--------------->>>>', data);
+  //   });
+
+  //   Geocoder.from(latitude, longitude).then(json => {
+  //     console.log('chack data=====', json.results.coords);
+  //     json.results[0].address_components.forEach((value, index) => {
+  //       setState({
+  //         address: json.results[0].formatted_address,
+  //         tempAddress: json.results[0].formatted_address,
+  //       });
+  //     });
+  //   });
+  // };
+
   return (
     <View style={styles.container}>
       <View
@@ -97,7 +130,8 @@ const Location = props => {
           See Services around
         </Text>
         <CustomButton
-          onPress={onLocation}
+          // onPress={onLocation}
+          onPress={_getgeolocations}
           height={hp('7%')}
           width={wp('80%')}
           bgColor={Colors.black}

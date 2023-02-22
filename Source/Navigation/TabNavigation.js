@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Image, Text} from 'react-native';
+// import {View, Image, Text} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Colors from '../Assets/Constants/Colors';
 // import homeicone from '../Assets/Images/home.png';
@@ -12,16 +12,16 @@ import MyCartScreen from '../screens/MyCartScreen';
 import Home from '../screens/Home/Home';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
-import {BASE_URL} from '../Assets/utils/Restapi/Config';
-import {_getStorage} from '../Assets/utils/storage/Storage';
-import axios from 'axios';
+// import {BASE_URL} from '../Assets/utils/Restapi/Config';
+// import {_getStorage} from '../Assets/utils/storage/Storage';
+// import axios from 'axios';
 
 const Tab = createBottomTabNavigator();
 
 function TabNavigation() {
   const [lenghtData, setLenghtData] = useState('');
 
-  console.log('lenghtData---------------', lenghtData);
+  // console.log('lenghtData---------------', lenghtData);
 
   // const getTabBarVisibility = route => {
   //   const routeName = getFocusedRouteNameFromRoute(route);

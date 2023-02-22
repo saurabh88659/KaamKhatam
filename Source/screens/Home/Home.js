@@ -30,6 +30,9 @@ function Home({navigation}) {
   const [category, setCategory] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [bannerUrl, setBannerUrl] = useState([]);
+  const [searchText, setSearchText] = useState('');
+
+  // console.log('hey-----------------', category);
 
   useEffect(() => {
     getAllCategory();
@@ -45,7 +48,7 @@ function Home({navigation}) {
       .then(async resp => {
         setCategory(resp.data.category);
         setIsLoading(false);
-        console.log('home category--------------', resp.data.category);
+        // console.log('home category--------------', resp.data.category);
       })
       .catch(e => {
         console.log('home screen catch error', e.response?.data);
@@ -71,7 +74,7 @@ function Home({navigation}) {
             from: 'cat',
             name: name,
           };
-          console.log('home navData', navData);
+          // console.log('home navData', navData);
           navigation.navigate('Services', {navData});
         } else {
         }
@@ -92,7 +95,7 @@ function Home({navigation}) {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        console.log('banner response', res.data);
+        // console.log('banner response', res.data);
         setBannerUrl(res.data.banner);
       })
       .catch(error => {
@@ -100,6 +103,11 @@ function Home({navigation}) {
       });
   };
 
+  const filteredData = category.filter(item => {
+    return item.name.toLowerCase().includes(searchText.toLowerCase());
+  });
+
+  console.log('filteredData', filteredData);
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={Colors.darkGreen} barStyle={Colors.white} />
@@ -138,6 +146,8 @@ function Home({navigation}) {
               style={{flex: 1, paddingHorizontal: 12, color: Colors.black}}
               placeholderTextColor="grey"
               placeholder="Search by Category, name...."
+              value={searchText}
+              onChangeText={text => setSearchText(text)}
             />
           </View>
           <ScrollView
@@ -177,7 +187,7 @@ function Home({navigation}) {
                   flexWrap: 'wrap',
                   justifyContent: 'space-between',
                 }}>
-                {category.map((val, index) => (
+                {filteredData.map((val, index) => (
                   <View key={index} style={{alignItems: 'center'}}>
                     <ServicesComp
                       title={val.name}

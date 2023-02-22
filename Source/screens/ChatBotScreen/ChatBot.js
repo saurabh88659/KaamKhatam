@@ -13,12 +13,14 @@ let chats = [];
 
 const ChatBot = ({navigation}) => {
   const [msg, setMsg] = useState('');
-  const [chatList, setChatList] = useState([]);
+  const [chatList, setChatList] = useState('');
+
+  // console.log('chatList----------', chatList);
 
   const getAnswer = q => {
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].question.includes(q.toLowerCase())) {
-        chats = [...chats, {msg: data[i].answer, incomingMsg: true}];
+    for (let i = 0; i < chatList.length; i++) {
+      if (chatList[i].question.includes(q.toLowerCase())) {
+        chats = [...chats, {msg: chatList[i].answer, incomingMsg: true}];
         setChatList([...chats].reverse());
         return;
       }
