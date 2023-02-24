@@ -106,8 +106,8 @@ function Home({navigation}) {
   const filteredData = category.filter(item => {
     return item.name.toLowerCase().includes(searchText.toLowerCase());
   });
-
   console.log('filteredData', filteredData);
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={Colors.darkGreen} barStyle={Colors.white} />

@@ -109,16 +109,23 @@ const RescheduleBooking = props => {
   };
 
   const handleConfirm = date => {
-    let c =
-      (date.getMonth() > 8
-        ? date.getMonth() + 1
-        : '0' + (date.getMonth() + 1)) +
-      '/' +
-      (date.getDate() > 9 ? date.getDate() : '0' + date.getDate()) +
-      '/' +
-      date.getFullYear();
+    // let c =
+    //   (date.getMonth() > 8
+    //     ? date.getMonth() + 1
+    //     : '0' + (date.getMonth() + 1)) +
+    //   '/' +
+    //   (date.getDate() > 9 ? date.getDate() : '0' + date.getDate()) +
+    //   '/' +
+    //   date.getFullYear();
 
-    setDate(c);
+    // setDate(c);
+
+    const formattedDate = `${('0' + date.getDate()).slice(-2)}/${(
+      '0' +
+      (date.getMonth() + 1)
+    ).slice(-2)}/${date.getFullYear()}`;
+
+    setDate(formattedDate);
 
     hideDatePicker();
   };

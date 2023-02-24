@@ -23,8 +23,8 @@ import Toast from 'react-native-simple-toast';
 const {height, width} = Dimensions.get('window');
 
 const TimeAndSlot = props => {
-  const [index, setIndex] = useState(1);
-  const [index2, setIndex2] = useState('');
+  // const [index, setIndex] = useState(1);
+  // const [index2, setIndex2] = useState('');
   const [selectionTime, setSelectionTime] = useState('');
   // const [timeslot, setTimeslot] = useState([]);
   const [startTime, setStartTime] = useState('');
@@ -110,16 +110,21 @@ const TimeAndSlot = props => {
   };
 
   const handleConfirm = date => {
-    let c =
-      (date.getMonth() > 8
-        ? date.getMonth() + 1
-        : '0' + (date.getMonth() + 1)) +
-      '/' +
-      (date.getDate() > 9 ? date.getDate() : '0' + date.getDate()) +
-      '/' +
-      date.getFullYear();
+    // let c =
+    //   (date.getMonth() > 8
+    //     ? date.getMonth() + 1
+    //     : '0' + (date.getMonth() + 1)) +
+    //   '/' +
+    //   (date.getDate() > 9 ? date.getDate() : '0' + date.getDate()) +
+    //   '/' +
+    //   date.getFullYear();
 
-    setDate(c);
+    const formattedDate = `${('0' + date.getDate()).slice(-2)}/${(
+      '0' +
+      (date.getMonth() + 1)
+    ).slice(-2)}/${date.getFullYear()}`;
+
+    setDate(formattedDate);
 
     hideDatePicker();
   };
@@ -496,6 +501,7 @@ const TimeAndSlot = props => {
             <DateTimePickerModal
               isVisible={isDatePickerVisible}
               mode="date"
+              format="DD-MM-YYYY"
               onConfirm={handleConfirm}
               onCancel={hideDatePicker}
             />
