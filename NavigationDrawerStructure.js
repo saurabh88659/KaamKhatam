@@ -14,7 +14,7 @@ import HomePage from './Source/screens/Home/Home';
 import HeaderDrawer from './Source/ReusableComponents/HeaderDrawer';
 import TabNavigationa from './Navigation/TabNavigation';
 // Import Custom Sidebar
-import CustomSidebarMenu from './CustomSidebarMenu';
+// import CustomSidebarMenu from './CustomSidebarMenu';
 import CustomDrawerMenu from './CustomDrawerMenu';
 
 const Stack = createStackNavigator();

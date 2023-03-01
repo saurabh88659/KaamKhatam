@@ -1,13 +1,15 @@
 import {
   View,
   Text,
-  FlatList,
   StyleSheet,
   Image,
   Dimensions,
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
+  Modal,
+  Alert,
+  TextInput,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Header from '../ReusableComponents/Header';
@@ -21,6 +23,8 @@ import Lorealcolor from '../Assets/Images/Lorealcolor.png';
 import {_getStorage} from '../Assets/utils/storage/Storage';
 import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
+import {Rating} from 'react-native-ratings';
+import Toast from 'react-native-simple-toast';
 
 const {height, width} = Dimensions.get('window');
 
@@ -28,6 +32,15 @@ const Viewdetails = props => {
   const bookinID = props.route.params;
   const [bookinviewdetails, setBookinviewdetails] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [modalVisible2, setModalVisible2] = useState(false);
+  const [rating, setRating] = useState('');
+  const [comments, setComments] = useState('');
+  const [vendorcomments, setVendorcomments] = useState('');
+  const [serviceid, setServiceId] = useState('');
+  const [packageId, setPackageId] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [vendorId, setVendorId] = useState('');
+  const [ratingvendor, setRatingvendor] = useState('');
 
   useEffect(() => {
     Viewdetailsbooking();
@@ -43,11 +56,109 @@ const Viewdetails = props => {
       .then(res => {
         console.log('Viewdetailsbooking', res.data.result);
         setBookinviewdetails(res.data.result);
+        setServiceId(res.data.result.serviceId);
+        setPackageId(res.data.result.packageId);
+        setVendorId(res.data.result.vendorId);
         setIsLoading(false);
       })
       .catch(error => {
         console.log('Viewdetailsbooking catch error', error.response.data);
         setIsLoading(false);
+      });
+  };
+
+  // const
+  // const ratingCompleted = () => {
+  //   Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
+
+  //   setTimeout(() => {
+  //     setModalVisible2(!modalVisible2);
+  //     Toast.showWithGravity(
+  //       'Thanks so much for sharing your experience with us.',
+  //       Toast.LONG,
+  //       Toast.BOTTOM,
+  //     );
+  //   }, 2000);
+  // };
+
+  const review = async () => {
+    const token = await _getStorage('token');
+    console.log('token', token);
+
+    const rateObj = {
+      serviceId: serviceid,
+      packageId: packageId,
+      comment: comments,
+      star: rating,
+    };
+    console.log('rateObj', rateObj);
+    axios
+      .post(BASE_URL + `/category/review`, rateObj, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(res => {
+        console.log('response rating', res.data);
+        if (
+          res.data.message == 'User have updated reviewed for this service' ||
+          'User Reviewed successfully'
+        ) {
+          setModalVisible2(!modalVisible2);
+          Toast.showWithGravity(
+            'Thanks so much for sharing your experience with us.',
+            Toast.LONG,
+            Toast.BOTTOM,
+          );
+        } else {
+          Toast.showWithGravity(
+            'Please Rate The Services',
+            Toast.LONG,
+            Toast.BOTTOM,
+          );
+        }
+      })
+      .catch(error => {
+        console.log('rating catch error', error);
+        Toast.showWithGravity('Please comment', Toast.LONG, Toast.BOTTOM);
+      });
+  };
+
+  const reviewVendor = async () => {
+    const token = await _getStorage('token');
+    console.log(token);
+
+    const vendorobj = {
+      comment: vendorcomments,
+      rating: ratingvendor,
+      id: vendorId,
+    };
+    console.log('vendorobj', vendorobj);
+    axios
+      .post(BASE_URL + `/vendor/review`, vendorobj, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(res => {
+        console.log('rate vendor response', res.data);
+        console.log('response rating', res.data);
+        if (
+          res.data.message == 'User have updated reviewed for this service' ||
+          'User Reviewed successfully'
+        ) {
+          setModalVisible(!modalVisible);
+          Toast.showWithGravity(
+            'Thanks so much for sharing your experience with us.',
+            Toast.LONG,
+            Toast.BOTTOM,
+          );
+        } else {
+          Toast.showWithGravity(
+            'Please Rate The Services',
+            Toast.LONG,
+            Toast.BOTTOM,
+          );
+        }
+      })
+      .catch(error => {
+        console.log(' vendor rate catch error ', error);
       });
   };
 
@@ -70,7 +181,7 @@ const Viewdetails = props => {
         </View>
       ) : (
         <ScrollView>
-          <View style={styles.cntrContainer}>
+          <View style={Styles.cntrContainer}>
             <View
               style={{
                 paddingVertical: 30,
@@ -88,7 +199,6 @@ const Viewdetails = props => {
                   <View
                     style={{
                       flexDirection: 'row',
-                      top: 5,
                     }}>
                     <FontAwesome5Icon
                       name="star"
@@ -96,6 +206,7 @@ const Viewdetails = props => {
                       size={hp('2%')}
                       color={Colors.lightYellow}
                     />
+
                     <Text style={{left: 5, color: Colors.black}}>
                       {bookinviewdetails.rating}
                     </Text>
@@ -303,7 +414,7 @@ const Viewdetails = props => {
           )}
 
           <TouchableOpacity
-            onPress={() => props.navigation.goBack()}
+            onPress={() => setModalVisible2(true)}
             style={{
               height: height / 16,
               backgroundColor: '#0EC01B',
@@ -314,14 +425,261 @@ const Viewdetails = props => {
               marginVertical: 10,
             }}>
             <Text style={{color: 'white', fontWeight: 'bold', fontSize: 16}}>
-              Done
+              Please Rate
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => setModalVisible(true)}
+            style={{
+              height: height / 16,
+              backgroundColor: '#0EC01B',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 5,
+              marginHorizontal: 15,
+              marginVertical: 10,
+            }}>
+            <Text style={{color: 'white', fontWeight: 'bold', fontSize: 16}}>
+              Please Rate Vendor
             </Text>
           </TouchableOpacity>
         </ScrollView>
       )}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible2}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible2(!modalVisible2);
+        }}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            backgroundColor: 'rgba(0,0,0,0.6)',
+          }}>
+          <View
+            style={{
+              backgroundColor: Colors.white,
+              paddingVertical: '10%',
+              marginHorizontal: 10,
+              borderRadius: 7,
+            }}>
+            <Text
+              style={{
+                color: Colors.black,
+                textAlign: 'center',
+                fontWeight: '500',
+                fontSize: 18,
+                top: -20,
+              }}>
+              Please Rate The Services
+            </Text>
+            <View
+              style={{
+                top: -15,
+              }}>
+              <Rating
+                defaultRating={2}
+                onFinishRating={rating => {
+                  // Alert.alert('Star Rating: ' + JSON.stringify(rating));
+                  setRating(JSON.stringify(rating));
+                }}
+                style={{paddingVertical: 10}}
+              />
+            </View>
+            <View>
+              <TextInput
+                placeholderTextColor={Colors.lightGray}
+                placeholder="Please comments"
+                value={comments}
+                onChangeText={text => setComments(text)}
+                style={{
+                  height: 45,
+                  borderWidth: 1,
+                  paddingHorizontal: 15,
+                  marginHorizontal: 15,
+                  top: -10,
+                  borderRadius: 10,
+                  color: Colors.black,
+                }}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginHorizontal: 30,
+                top: 5,
+              }}>
+              <TouchableOpacity
+                onPress={review}
+                style={{
+                  borderColor: '#0EC01B',
+                  backgroundColor: '#0EC01B',
+                  paddingHorizontal: 30,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 4,
+                  paddingVertical: 10,
+                }}>
+                <Text
+                  style={{
+                    color: 'white',
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                  }}>
+                  Submit
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setModalVisible2(!modalVisible2);
+                }}
+                style={{
+                  borderColor: '#0EC01B',
+                  paddingHorizontal: 30,
+                  paddingVertical: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 4,
+                  borderColor: '#0EC01B',
+                  borderWidth: 1,
+                }}>
+                <Text
+                  style={{
+                    color: '#0EC01B',
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                  }}>
+                  Cancel
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            backgroundColor: 'rgba(0,0,0,0.6)',
+          }}>
+          <View
+            style={{
+              backgroundColor: Colors.white,
+              paddingVertical: '10%',
+              marginHorizontal: 10,
+              borderRadius: 7,
+            }}>
+            <Text
+              style={{
+                color: Colors.black,
+                textAlign: 'center',
+                fontWeight: '500',
+                fontSize: 18,
+                top: -20,
+              }}>
+              Please Rate The Vendor
+            </Text>
+            <View
+              style={{
+                top: -15,
+              }}>
+              <Rating
+                defaultRating={2}
+                onFinishRating={rating => {
+                  // Alert.alert('Star Rating: ' + JSON.stringify(rating));
+                  setRatingvendor(JSON.stringify(rating));
+                }}
+                style={{paddingVertical: 10}}
+              />
+            </View>
+            <View>
+              <TextInput
+                placeholderTextColor={Colors.lightGray}
+                placeholder="Please comments"
+                value={vendorcomments}
+                onChangeText={text => setVendorcomments(text)}
+                style={{
+                  height: 45,
+                  borderWidth: 1,
+                  paddingHorizontal: 15,
+                  marginHorizontal: 15,
+                  top: -10,
+                  borderRadius: 10,
+                  color: Colors.black,
+                }}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginHorizontal: 30,
+                top: 5,
+              }}>
+              <TouchableOpacity
+                onPress={reviewVendor}
+                style={{
+                  borderColor: '#0EC01B',
+                  backgroundColor: '#0EC01B',
+                  paddingHorizontal: 30,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 4,
+                  paddingVertical: 10,
+                }}>
+                <Text
+                  style={{
+                    color: 'white',
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                  }}>
+                  Submit
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                }}
+                style={{
+                  borderColor: '#0EC01B',
+                  paddingHorizontal: 30,
+                  paddingVertical: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 4,
+                  borderColor: '#0EC01B',
+                  borderWidth: 1,
+                }}>
+                <Text
+                  style={{
+                    color: '#0EC01B',
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                  }}>
+                  Cancel
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 };
 
 export default Viewdetails;
-const styles = StyleSheet.create({});
+const Styles = StyleSheet.create({});

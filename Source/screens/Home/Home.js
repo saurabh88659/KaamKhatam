@@ -11,7 +11,7 @@ import {
   ActivityIndicator,
   StatusBar,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+// import LinearGradient from 'react-native-linear-gradient';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -19,24 +19,52 @@ import {
 import Colors from '../../Assets/Constants/Colors';
 import HeaderDrawer from '../../ReusableComponents/HeaderDrawer';
 import ServicesComp from './Component/ServicesComp';
-import BeautyServices from './Component/BeautyServices';
+// import BeautyServices from './Component/BeautyServices';
 import axios from 'axios';
 import Swiper from 'react-native-swiper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import {BASE_URL} from '../../Assets/utils/Restapi/Config';
 import {_getStorage} from '../../Assets/utils/storage/Storage';
+import Geocoder from 'react-native-geocoding';
+import Geolocation from '@react-native-community/geolocation';
+
+const API_KEY = 'AIzaSyD3Uol_-mBQSaZgIfuzVVK1oHXqBHPkrZE';
 
 function Home({navigation}) {
   const [category, setCategory] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [bannerUrl, setBannerUrl] = useState([]);
   const [searchText, setSearchText] = useState('');
+  const [state, setState] = useState('');
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
 
-  // console.log('hey-----------------', category);
+  // console.log('state-Homme--', state);
+  // const address = state.split(',');
+  // console.log('address----------->>>', address[5]);
+
+  const geoCoding = async () => {
+    Geocoder.init(API_KEY);
+    Geolocation.getCurrentPosition(data => {
+      setLatitude(data.coords.latitude), setLongitude(data.coords.longitude);
+      // console.log('data--------------->>>>', data);
+    });
+
+    Geocoder.from(latitude, longitude).then(json => {
+      // console.log('chack data=====', json.results.coords);
+      json.results[0].address_components.forEach((value, index) => {
+        setState(
+          json.results[0].formatted_address,
+          // tempAddress: json.results[0].formatted_address,
+        );
+      });
+    });
+  };
 
   useEffect(() => {
     getAllCategory();
     _getBanner();
+    geoCoding();
   }, []);
 
   const getAllCategory = async () => {
@@ -114,7 +142,7 @@ function Home({navigation}) {
 
       <HeaderDrawer
         Title="ALL IN ONE"
-        location="Sector 62"
+        // location={''}
         onPress={() => navigation.openDrawer()}
       />
       {isLoading ? (
@@ -129,6 +157,16 @@ function Home({navigation}) {
         </View>
       ) : (
         <View>
+          <Text
+            style={{
+              color: Colors.white,
+              textAlign: 'center',
+              backgroundColor: Colors.darkGreen,
+              fontWeight: '500',
+              paddingHorizontal: 10,
+            }}>
+            {state}
+          </Text>
           <View
             style={{
               height: 44,
@@ -200,7 +238,7 @@ function Home({navigation}) {
               </View>
             </View>
 
-            <View
+            {/* <View
               style={{
                 paddingVertical: hp('3%'),
 
@@ -307,7 +345,7 @@ function Home({navigation}) {
                   height: wp('40%'),
                 }}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </ScrollView>
         </View>
       )}

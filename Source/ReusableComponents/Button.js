@@ -5,10 +5,11 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import Colors from '../Assets/Constants/Colors';
-const CustomButton = props => {
+const Button = props => {
   return (
     <TouchableOpacity
       onPress={props.onPress}
+      disabled={props.disabled}
       style={{
         width: props.width,
         height: props.height,
@@ -39,4 +40,4 @@ const CustomButton = props => {
   );
 };
 
-export default CustomButton;
+export default Button;

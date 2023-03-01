@@ -340,8 +340,6 @@ const Login = props => {
   // ==============================FacebookLoginSocial===================
   const socialLoginFacebook = async () => {
     await onFbLogin();
-    // console.log('response', response);
-    // console.log(googleemail);
     // if (response) {
     console.log('api');
     axios
@@ -434,6 +432,7 @@ const Login = props => {
               height={hp('7%')}
               color={Colors.white}
               onPress={handleSubmit}
+              disabled={isSelected ? false : true}
             />
           )}
 

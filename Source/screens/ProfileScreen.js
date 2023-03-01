@@ -84,8 +84,10 @@ const ProfileScreen = ({navigation, route}) => {
     });
     profilePic.append('imageUrl');
 
+    console.log('profilePic', profilePic._parts[1]);
+
     axios
-      .put(BASE_URL + `/uploadImage`, profilePic, {
+      .post(BASE_URL + `/uploadImage`, profilePic, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -101,7 +103,7 @@ const ProfileScreen = ({navigation, route}) => {
         );
       })
       .catch(error => {
-        console.log('error in catch Profile image', error.response);
+        console.log('error in catch Profile image', error);
         Toast.showWithGravity('❗SERVER ERROR', Toast.LONG, Toast.BOTTOM);
       });
   };
@@ -115,6 +117,7 @@ const ProfileScreen = ({navigation, route}) => {
       .then(val => {
         setProfileData(val.data.result);
         setIsLoading(false);
+        console.log('profile response', val.data.result);
       })
       .catch(e => {
         console.log('in catch');

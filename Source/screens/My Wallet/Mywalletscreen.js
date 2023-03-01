@@ -113,6 +113,8 @@ export default function Mywalletscreen() {
       });
   };
 
+  console.log('recharge', recharge);
+
   return (
     <SafeAreaView>
       <View
@@ -148,7 +150,7 @@ export default function Mywalletscreen() {
           </View>
           <View style={{flexDirection: 'row', marginHorizontal: 10}}>
             <Text style={{left: 10, fontSize: 18, color: Colors.black}}>
-              INR {recharge.$numberDecimal}
+              INR {recharge}
             </Text>
           </View>
         </View>

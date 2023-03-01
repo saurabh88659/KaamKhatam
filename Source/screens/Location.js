@@ -11,16 +11,19 @@ import {_getStorage} from '../Assets/utils/storage/Storage';
 import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
-// import Geocoder from 'react-native-geocoding';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Geocoder from 'react-native-geocoding';
 
-// const API_KEY = 'AIzaSyD3Uol_-mBQSaZgIfuzVVK1oHXqBHPkrZE';
+const API_KEY = 'AIzaSyD3Uol_-mBQSaZgIfuzVVK1oHXqBHPkrZE';
 
 const Location = props => {
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
   // const [state, setState] = useState('');
+  // console.log('state---', state);
 
-  // console.log('state---', state.address);
+  // const address = state.split(',');
+  // console.log('address----------->>>', address[5]);
 
   const _getgeolocations = async () => {
     const token = await _getStorage('token');
@@ -51,18 +54,21 @@ const Location = props => {
         }
       })
       .catch(error => {
-        console.log('catch locations error', error.response.data.message);
+        console.log('catch locations error', error);
       });
   };
 
-  const onLocation = () => {
+  const onLocation = async () => {
+    // console.log('hey');
+    props.navigation.navigate('DrowerNavigation');
+
     Geolocation.getCurrentPosition(
       async position => {
         setLatitude(position.coords.latitude);
         setLongitude(position.coords.longitude);
       },
       async error => {
-        console.log('hey', error.message);
+        console.log('hey---------------', error.message);
         if (Platform.OS === 'android') {
           await _enableGPS();
           _getgeolocations();
@@ -82,9 +88,10 @@ const Location = props => {
         interval: 10000,
         fastInterval: 5000,
       }).then(data => {
-        // console.log('data------------->>>', data);
-        if (data == 'already-enabled') {
-        }
+        console.log('data------------->>>', data);
+        // if (data === 'already-enabled') {
+        //   props.navigation.navigate('DrowerNavigation');
+        // }
       });
 
       // do some action after the gps has been activated by the user
@@ -93,12 +100,12 @@ const Location = props => {
     }
   };
 
-  // useEffect(() => {
-  //   onLocation();
-  //   geoCoding();
-  // }, []);
+  useEffect(() => {
+    // onLocation();
+    // geoCoding();
+  }, []);
 
-  // const geoCoding = () => {
+  // const geoCoding = async () => {
   //   Geocoder.init(API_KEY);
   //   Geolocation.getCurrentPosition(data => {
   //     setLatitude(data.coords.latitude), setLongitude(data.coords.longitude);
@@ -106,12 +113,12 @@ const Location = props => {
   //   });
 
   //   Geocoder.from(latitude, longitude).then(json => {
-  //     console.log('chack data=====', json.results.coords);
+  //     // console.log('chack data=====', json.results.coords);
   //     json.results[0].address_components.forEach((value, index) => {
-  //       setState({
-  //         address: json.results[0].formatted_address,
-  //         tempAddress: json.results[0].formatted_address,
-  //       });
+  //       setState(
+  //         json.results[0].formatted_address,
+  //         // tempAddress: json.results[0].formatted_address,
+  //       );
   //     });
   //   });
   // };
@@ -130,8 +137,8 @@ const Location = props => {
           See Services around
         </Text>
         <CustomButton
-          // onPress={onLocation}
-          onPress={_getgeolocations}
+          onPress={onLocation}
+          // onPress={_getgeolocations}
           height={hp('7%')}
           width={wp('80%')}
           bgColor={Colors.black}

@@ -39,7 +39,7 @@ const CustomDrawerMenu = props => {
       })
       .then(val => {
         setProfileData(val.data.result);
-        // console.log('profile drower>', val.data.result);
+        console.log('profile drower>', val.data.result);
       })
       .catch(error => {
         console.log(' profile drower in catch', error.response.data);
@@ -125,8 +125,8 @@ const CustomDrawerMenu = props => {
             <View style={Styles.linesstyles}></View>
             <TouchableOpacity
               style={Styles.constyles}
-              // onPress={() => props.navigation.navigate('Support')}>
-              onPress={() => props.navigation.navigate('ChatBot')}>
+              onPress={() => props.navigation.navigate('Support')}>
+              {/* // onPress={() => props.navigation.navigate('ChatBot')}> */}
               <Image
                 source={require('./Source/Assets/Images/headphonesicone.png')}
                 style={Styles.iconestyles}

@@ -145,7 +145,8 @@ const MyCartScreen = props => {
       <HeaderDrawer
         Title="My Cart"
         location="Sector 62"
-        onPress={() => props.navigation.toggleDrawer()}
+        // onPress={() => props.navigation.toggleDrawer()}
+        onPress={() => props.navigation.openDrawer()}
       />
       <ScrollView
         refreshControl={
@@ -205,7 +206,7 @@ const MyCartScreen = props => {
                 paddingHorizontal: 10,
                 paddingVertical: 5,
               }}>
-              <Text style={{color: Colors.black}}>serviceId</Text>
+              <Text style={{color: Colors.black}}>Service ID</Text>
               <Text style={{color: Colors.lightGray}}>
                 {mycartname.serviceId}
               </Text>
@@ -217,7 +218,7 @@ const MyCartScreen = props => {
                 paddingHorizontal: 10,
                 paddingVertical: 5,
               }}>
-              <Text style={{color: Colors.black}}>packageId</Text>
+              <Text style={{color: Colors.black}}>Package ID</Text>
               <Text style={{color: Colors.lightGray}}>
                 {mycartname.packageId}
               </Text>
@@ -229,7 +230,7 @@ const MyCartScreen = props => {
                 paddingHorizontal: 10,
                 paddingVertical: 5,
               }}>
-              <Text style={{color: Colors.black}}>packageDescription</Text>
+              <Text style={{color: Colors.black}}>Package Type</Text>
               <Text style={{color: Colors.lightGray}}>
                 {mycartname.packageDescription}
               </Text>
@@ -249,6 +250,7 @@ const MyCartScreen = props => {
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 marginHorizontal: 10,
+                top: 5,
               }}>
               <TouchableOpacity
                 // onPress={() => props.navigation.navigate('Editaddress')}

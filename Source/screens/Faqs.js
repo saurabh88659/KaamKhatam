@@ -2,6 +2,8 @@ import {View, Text, SafeAreaView} from 'react-native';
 import React from 'react';
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
+// import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
+// import LinearGradient from 'react-native-linear-gradient';
 
 const Faqs = props => {
   return (
@@ -12,6 +14,7 @@ const Faqs = props => {
         title="FAQs"
         onPress={() => props.navigation.goBack('')}
       />
+      {/* <ShimmerPlaceHolder visible={false} LinearGradient={LinearGradient}> */}
       <View style={{flexDirection: 'row', margin: 20}}>
         <Text
           style={{
@@ -27,6 +30,8 @@ const Faqs = props => {
           centralizing application state.
         </Text>
       </View>
+      {/* </ShimmerPlaceHolder> */}
+
       <Text
         style={{
           fontSize: 15,
