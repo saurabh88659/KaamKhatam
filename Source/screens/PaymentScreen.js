@@ -110,7 +110,7 @@ const PaymentScreen = props => {
         }}>
         <Text style={{color: Colors.black, fontSize: 16}}>Cash</Text>
         <TouchableOpacity
-          onPress={() => props.navigation.navigate('Mybooking')}
+          onPress={() => props.navigation.navigate('Mybooking2')}
           style={{
             borderWidth: 1,
             paddingHorizontal: 15,

@@ -26,6 +26,7 @@ import MyCartScreen from '../../screens/MyCartScreen';
 import Mybooking from '../../screens/Mybooking';
 import Mybooking2 from '../../screens/Mybooking2';
 import ProfileScreen from '../../screens/ProfileScreen';
+import EditProfileScreen from '../../screens/EditProfileScreen';
 
 const Stack = createNativeStackNavigator();
 function AuthStack() {
@@ -156,6 +157,11 @@ function AuthStack() {
       <Stack.Screen
         name="ProfileScreen"
         component={ProfileScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="EditProfileScreen"
+        component={EditProfileScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

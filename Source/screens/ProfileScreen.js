@@ -188,7 +188,7 @@ const ProfileScreen = ({navigation, route}) => {
                   {profileData.firstName + ' ' + profileData.lastName}
                 </Text>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('RegisterAccount')}
+                  onPress={() => navigation.navigate('EditProfileScreen')}
                   style={{top: -55, left: 8}}>
                   <Image
                     source={require('../Assets/Images/Iconawesomeedit.png')}

@@ -93,10 +93,12 @@ function MobileOtp({navigation, route}) {
         onPress={() => navigation.goBack('')}
       />
       <View style={{marginHorizontal: 30, top: 30}}>
-        <Text style={{fontWeight: '500', fontSize: 20}}>Enter OTP</Text>
+        <Text style={{fontWeight: '500', fontSize: 20, color: Colors.black}}>
+          Enter OTP
+        </Text>
       </View>
       <View style={{marginHorizontal: 30, top: 30}}>
-        <Text style={{fontSize: 15}}>
+        <Text style={{fontSize: 15, color: Colors.black}}>
           We have sent an OTP mobile number +91 ******3234
         </Text>
       </View>

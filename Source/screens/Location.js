@@ -23,7 +23,12 @@ const Location = props => {
   // console.log('state---', state);
 
   // const address = state.split(',');
-  // console.log('address----------->>>', address[5]);
+  // console.log('address----------->>>', longitude, latitude);
+
+  useEffect(() => {
+    // onLocation();
+    // geoCoding();
+  }, []);
 
   const _getgeolocations = async () => {
     const token = await _getStorage('token');
@@ -37,16 +42,17 @@ const Location = props => {
     });
 
     const locobj = {
-      longitude: latitude,
       latitude: longitude,
+      longitude: latitude,
     };
-    console.log('locobj', locobj);
+
+    console.log('----------)))))))))))))0', 'locobj', locobj);
     axios
       .put(BASE_URL + `/coordinates`, locobj, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        console.log('Locations', res.data);
+        console.log('Locations--------------------------------', res.data);
         if (res.data.message === 'User coordinates Updated Successfully') {
           props.navigation.navigate('DrowerNavigation');
         } else {
@@ -99,11 +105,6 @@ const Location = props => {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    // onLocation();
-    // geoCoding();
-  }, []);
 
   // const geoCoding = async () => {
   //   Geocoder.init(API_KEY);

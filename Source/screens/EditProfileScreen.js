@@ -32,7 +32,7 @@ import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import Toast from 'react-native-simple-toast';
 import {_getStorage} from '../Assets/utils/storage/Storage';
 
-const RegisterAccount = props => {
+const EditProfileScreen = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
@@ -153,12 +153,11 @@ const RegisterAccount = props => {
     //   date.getFullYear();
 
     // setDate(c);
-    const formattedDate = `${('0' + date.getDate()).slice(-2)}/${(
-      '0' +
-      (date.getMonth() + 1)
-    ).slice(-2)}/${date.getFullYear()}`;
-
-    setDate(formattedDate);
+    const dt = new Date(date);
+    const x = dt.toISOString().split('T');
+    const x1 = x[0].split('-');
+    console.log(x1[2] + '/' + x1[1] + '/' + x1[0]);
+    setDate(x1[2] + '/' + x1[1] + '/' + x1[0]);
 
     hideDatePicker();
   };
@@ -246,7 +245,7 @@ const RegisterAccount = props => {
       <Header
         bgColor={Colors.darkOrange}
         color={Colors.white}
-        title="Register Account"
+        title="Edit Profile"
         onPress={() => props.navigation.goBack()}
       />
       {isLoading === true ? (
@@ -577,37 +576,37 @@ const RegisterAccount = props => {
                     <Text style={{color: 'white'}}> Get OTP</Text>
                   </TouchableOpacity>
                   {/* <TouchableOpacity
-                    onPress={LoginApisendmailotp}
-                    style={{
-                      position: 'absolute',
-                      backgroundColor: isVerified
-                        ? Colors.darkGreen
-                        : Colors.lightYellow,
-                      right: 10,
-                      paddingHorizontal: 14,
-                      paddingVertical: 7,
-                      borderRadius: 2,
-                      justifyContent: 'center',
-                      borderRadius: 6,
-                    }}>
-                    {isGettingOTP ? (
-                      <ActivityIndicator size={20} color={Colors.darkGreen} />
-                    ) : isVerified ? (
-                      <Text
-                        style={{
-                          color: 'black',
-                        }}>
-                        verifed
-                      </Text>
-                    ) : (
-                      <Text
-                        style={{
-                          color: 'black',
-                        }}>
-                        verify
-                      </Text>
-                    )}
-                  </TouchableOpacity> */}
+                      onPress={LoginApisendmailotp}
+                      style={{
+                        position: 'absolute',
+                        backgroundColor: isVerified
+                          ? Colors.darkGreen
+                          : Colors.lightYellow,
+                        right: 10,
+                        paddingHorizontal: 14,
+                        paddingVertical: 7,
+                        borderRadius: 2,
+                        justifyContent: 'center',
+                        borderRadius: 6,
+                      }}>
+                      {isGettingOTP ? (
+                        <ActivityIndicator size={20} color={Colors.darkGreen} />
+                      ) : isVerified ? (
+                        <Text
+                          style={{
+                            color: 'black',
+                          }}>
+                          verifed
+                        </Text>
+                      ) : (
+                        <Text
+                          style={{
+                            color: 'black',
+                          }}>
+                          verify
+                        </Text>
+                      )}
+                    </TouchableOpacity> */}
                 </View>
               </View>
               <View style={{marginHorizontal: 20}}>
@@ -742,7 +741,7 @@ const RegisterAccount = props => {
   );
 };
 
-export default RegisterAccount;
+export default EditProfileScreen;
 
 const Styles = StyleSheet.create({
   centeredView: {

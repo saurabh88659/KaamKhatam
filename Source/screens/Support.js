@@ -453,8 +453,9 @@ export default function Support({navigation}) {
         title="Chat Support"
         onPress={() => navigation.goBack()}
       />
-      {chat.map(val => (
+      {chat.map((val, index) => (
         <TouchableOpacity
+          key={index}
           onPress={() => _getChatById(val._id)}
           style={{
             marginHorizontal: 20,

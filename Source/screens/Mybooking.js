@@ -19,7 +19,7 @@ const {height, width} = Dimensions.get('window');
 function Mybooking({navigation}) {
   const [bookdetails, setBookdetails] = useState([]);
   const [noData, setNoData] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [refresh, setRfresh] = useState(false);
 
   useEffect(() => {
@@ -95,10 +95,12 @@ function Mybooking({navigation}) {
             <View
               key={index}
               style={{
-                height: height / 4.6,
+                height: height / 4.5,
+                // paddingVertical: '7%',
+                // height: '8%',
                 marginHorizontal: 10,
                 borderRadius: 7,
-                marginVertical: 10,
+                marginVertical: 8,
                 backgroundColor: Colors.white,
                 elevation: 5,
               }}>
@@ -129,7 +131,7 @@ function Mybooking({navigation}) {
                   style={{
                     width: '70%',
                     height: '100%',
-                    paddingVertical: 10,
+                    paddingVertical: 20,
                     paddingHorizontal: 10,
                   }}>
                   <View>
@@ -194,7 +196,7 @@ function Mybooking({navigation}) {
                   }}>
                   <Text
                     style={{
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: '500',
                       color: '#0EC01B',
                       color:

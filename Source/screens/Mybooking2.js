@@ -97,6 +97,7 @@ function Mybooking2({navigation}) {
               key={index}
               style={{
                 height: height / 4.6,
+                // height: '7%',
                 marginHorizontal: 10,
                 borderRadius: 7,
                 marginVertical: 10,
@@ -130,7 +131,7 @@ function Mybooking2({navigation}) {
                   style={{
                     width: '70%',
                     height: '100%',
-                    paddingVertical: 10,
+                    paddingVertical: 20,
                     paddingHorizontal: 10,
                   }}>
                   <View>
@@ -195,7 +196,7 @@ function Mybooking2({navigation}) {
                   }}>
                   <Text
                     style={{
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: '500',
                       color: '#0EC01B',
                       color:

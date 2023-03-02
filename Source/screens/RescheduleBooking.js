@@ -132,6 +132,8 @@ const RescheduleBooking = props => {
 
   const reschedule = async () => {
     const token = await _getStorage('token');
+    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
+
     // console.log('token-------->>', token);
     const rescheduleObj = {
       bookingId: bokingID,
@@ -150,6 +152,7 @@ const RescheduleBooking = props => {
           //   Viewdetailsbooking();
         }
         setIsLoading(false);
+        Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
       })
       .catch(error => {
         console.log('reschedule catch error,', error.response);
