@@ -104,13 +104,17 @@ const Subcategory = props => {
                 flexDirection: 'row',
                 marginHorizontal: 20,
                 marginVertical: 5,
+                alignItems: 'center',
               }}
               onPress={() => {
                 // props.navigation.navigate('Subcategory2', v);
                 // // setSubActive(v._id);
                 getSubCategoryWIseService(v._id, v.name);
               }}>
-              <Image source={v.imageUrl} style={{height: 70, width: 70}} />
+              <Image
+                source={{uri: v.imageUrl}}
+                style={{height: 65, width: 65, borderRadius: 100}}
+              />
               <Text
                 style={{
                   fontSize: 18,

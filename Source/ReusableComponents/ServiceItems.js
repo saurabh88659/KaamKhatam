@@ -32,7 +32,7 @@ const ServiceItems = props => {
             fontSize: hp('2.4%'),
             marginLeft: wp('2%'),
             fontWeight: 'bold',
-            marginTop: hp('1%'),
+            // marginTop: hp('1%'),
             color: Colors.black,
           }}>
           {props.title}

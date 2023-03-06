@@ -39,7 +39,7 @@ const CustomDrawerMenu = props => {
       })
       .then(val => {
         setProfileData(val.data.result);
-        console.log('profile drower>', val.data.result);
+        // console.log('profile drower>', val.data.result);
       })
       .catch(error => {
         console.log(' profile drower in catch', error.response.data);

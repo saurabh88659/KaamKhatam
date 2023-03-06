@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, Alert, Linking} from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -13,12 +13,14 @@ import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Geocoder from 'react-native-geocoding';
+import {PermissionsAndroid} from 'react-native';
+import Toast from 'react-native-simple-toast';
 
-const API_KEY = 'AIzaSyD3Uol_-mBQSaZgIfuzVVK1oHXqBHPkrZE';
+// const API_KEY = 'AIzaSyD3Uol_-mBQSaZgIfuzVVK1oHXqBHPkrZE';
 
 const Location = props => {
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
+  const [latitude, setLatitude] = useState('');
+  const [longitude, setLongitude] = useState('');
   // const [state, setState] = useState('');
   // console.log('state---', state);
 
@@ -32,28 +34,31 @@ const Location = props => {
 
   const _getgeolocations = async () => {
     const token = await _getStorage('token');
+    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
+
     Geolocation.getCurrentPosition(data => {
       setLatitude(data.coords.latitude), setLongitude(data.coords.longitude);
       console.log(
-        'data--------------->>>>',
+        'data-------fffff-------->>>>',
         data.coords.longitude,
         data.coords.latitude,
       );
     });
 
     const locobj = {
-      latitude: longitude,
-      longitude: latitude,
+      latitude: latitude,
+      longitude: longitude,
     };
 
-    console.log('----------)))))))))))))0', 'locobj', locobj);
+    console.log('locobj locations', locobj);
     axios
       .put(BASE_URL + `/coordinates`, locobj, {
         headers: {Authorization: `Bearer ${token}`},
       })
-      .then(res => {
+      .then(async res => {
         console.log('Locations--------------------------------', res.data);
         if (res.data.message === 'User coordinates Updated Successfully') {
+          Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
           props.navigation.navigate('DrowerNavigation');
         } else {
           console.log('else conditions');
@@ -65,7 +70,6 @@ const Location = props => {
   };
 
   const onLocation = async () => {
-    // console.log('hey');
     props.navigation.navigate('DrowerNavigation');
 
     Geolocation.getCurrentPosition(
@@ -77,7 +81,7 @@ const Location = props => {
         console.log('hey---------------', error.message);
         if (Platform.OS === 'android') {
           await _enableGPS();
-          _getgeolocations();
+          await _getgeolocations();
         }
       },
       {
@@ -94,10 +98,13 @@ const Location = props => {
         interval: 10000,
         fastInterval: 5000,
       }).then(data => {
-        console.log('data------------->>>', data);
-        // if (data === 'already-enabled') {
-        //   props.navigation.navigate('DrowerNavigation');
-        // }
+        // console.log('data------------->>>', data);
+        if (data === 'already-enabled') {
+          // props.navigation.navigate('DrowerNavigation');
+          // console.log('hey-------------------');
+        } else {
+          console.log('hey%%');
+        }
       });
 
       // do some action after the gps has been activated by the user
@@ -124,6 +131,36 @@ const Location = props => {
   //   });
   // };
 
+  function checkGPSStatus() {
+    Geolocation.getCurrentPosition(
+      position => {
+        console.log('GPS is enabled');
+        // Do something with the position data
+      },
+      error => {
+        console.log('GPS is disabled');
+        // Prompt the user to enable GPS
+        if (error.code === 2) {
+          Alert.alert(
+            'Location Services Required',
+            'Please enable location services to use this feature',
+            [
+              {
+                text: 'Cancel',
+                style: 'cancel',
+              },
+              {
+                text: 'OK',
+                onPress: () => Linking.openSettings(),
+              },
+            ],
+          );
+        }
+      },
+      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+    );
+  }
+
   return (
     <View style={styles.container}>
       <View
@@ -139,7 +176,7 @@ const Location = props => {
         </Text>
         <CustomButton
           onPress={onLocation}
-          // onPress={_getgeolocations}
+          // onPress={checkGPSStatus}
           height={hp('7%')}
           width={wp('80%')}
           bgColor={Colors.black}

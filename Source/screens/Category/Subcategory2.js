@@ -92,12 +92,15 @@ const Subcategory2 = props => {
           showsVerticalScrollIndicator={false}
           data={services}
           renderItem={({item, index}) => (
-            <ServiceItems
-              title={item.name}
-              image={item.imageUrl}
-              // click={() => props.navigation.navigate('Services', item)}
-              click={() => subCategorytwo(item._id, item.name)}
-            />
+            console.log('hey', item.imageUrl),
+            (
+              <ServiceItems
+                title={item.name}
+                image={{uri: item.imageUrl}}
+                // click={() => props.navigation.navigate('Services', item)}
+                click={() => subCategorytwo(item._id, item.name)}
+              />
+            )
           )}
         />
       )}

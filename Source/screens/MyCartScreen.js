@@ -24,6 +24,7 @@ import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import Geolocation from '@react-native-community/geolocation';
 import Toast from 'react-native-simple-toast';
+// import {useNavigation} from '@react-navigation/native';
 
 const MyCartScreen = props => {
   const [mycartname, setMycartname] = useState('');
@@ -31,8 +32,9 @@ const MyCartScreen = props => {
   const [delmess, setDelmess] = useState('');
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
-
   const [refresh, setRfresh] = useState(false);
+
+  // const navigation = useNavigation();
 
   // const Srt = [
   //   {
@@ -52,7 +54,9 @@ const MyCartScreen = props => {
   // console.log('mycartname', mycartname.cartId);
 
   useEffect(() => {
-    get_mycart();
+    setTimeout(() => {
+      get_mycart();
+    }, 1000);
   }, []);
 
   const get_mycart = async () => {
@@ -64,7 +68,7 @@ const MyCartScreen = props => {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        console.log('my cart--------------.', res.data.length);
+        // console.log('my cart--------------.', res.data);
         setMycartname(res.data.newResult);
         setDelmess('');
         setIsLoading(false);
@@ -150,7 +154,7 @@ const MyCartScreen = props => {
       />
       <ScrollView
         refreshControl={
-          <RefreshControl refreshing={refresh} onRefresh={() => get_mycart()} />
+          <RefreshControl refreshing={refresh} onRefresh={get_mycart} />
         }>
         {isLoading === true ? (
           <ActivityIndicator

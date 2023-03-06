@@ -185,7 +185,7 @@ const Viewdetails = props => {
             <View
               style={{
                 paddingVertical: 30,
-                marginVertical: 5,
+                marginVertical: 5,  
                 marginHorizontal: 10,
                 borderRadius: 6,
                 borderWidth: 1,

@@ -112,7 +112,7 @@ const Reusablecss = StyleSheet.create({
     backgroundColor: Colors.white,
     width: wp('22%'),
     height: hp('4.5%'),
-    marginTop: -hp('8.6%'),
+    marginTop: -hp('8%'),
     borderRadius: wp('2%'),
     // marginLeft: wp('3%'),
     shadowColor: '#000',

@@ -10,6 +10,7 @@ import {
   TextInput,
   ActivityIndicator,
   StatusBar,
+  RefreshControl,
 } from 'react-native';
 // import LinearGradient from 'react-native-linear-gradient';
 import {
@@ -38,10 +39,15 @@ function Home({navigation}) {
   const [state, setState] = useState('');
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
+  const [refresh, setRfresh] = useState(false);
 
   // console.log('state-Homme--', state);
   // const address = state.split(',');
   // console.log('address----------->>>', address[5]);
+
+  setTimeout(() => {
+    setRfresh(false);
+  }, 3000);
 
   const geoCoding = async () => {
     Geocoder.init(API_KEY);
@@ -64,7 +70,9 @@ function Home({navigation}) {
   useEffect(() => {
     getAllCategory();
     _getBanner();
-    geoCoding();
+    setTimeout(() => {
+      geoCoding();
+    }, 1000);
   }, []);
 
   const getAllCategory = async () => {
@@ -134,7 +142,6 @@ function Home({navigation}) {
   const filteredData = category.filter(item => {
     return item.name.toLowerCase().includes(searchText.toLowerCase());
   });
-  console.log('filteredData', filteredData);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -189,6 +196,9 @@ function Home({navigation}) {
             />
           </View>
           <ScrollView
+            refreshControl={
+              <RefreshControl refreshing={refresh} onRefresh={geoCoding} />
+            }
             contentContainerStyle={{paddingBottom: '55%'}}
             showsVerticalScrollIndicator={false}>
             <View>

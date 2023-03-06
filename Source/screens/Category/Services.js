@@ -40,7 +40,7 @@ const Services = props => {
 
   // const [service, setService] = useState([]);
 
-  const [services, setServices] = useState('');
+  // const [services, setServices] = useState('');
   const [getname, setGetname] = useState('');
   const [silver, setSilver] = useState('');
   const [platinum, setPlatinum] = useState('');
@@ -321,10 +321,11 @@ const Services = props => {
                       />
                       <Text style={Reusablecss.data}>{item.description}</Text>
                     </View>
+
                     <View style={Reusablecss.dataCntr}>
                       <Image
                         source={require('../../Assets/Images/Ellipse1.png')}
-                        style={{opacity: item.d2 === undefined ? 0 : 1}}
+                        // style={{opacity: item.d2 === undefined ? 0 : 1}}
                       />
                       <Text style={Reusablecss.data}>{item.description}</Text>
                     </View>
@@ -332,7 +333,7 @@ const Services = props => {
                   <View style={Reusablecss.imgCntr}>
                     <Image
                       resizeMode="contain"
-                      source={item.image}
+                      source={{uri: item.imageUrl}}
                       style={Reusablecss.innerImage}
                     />
                     <TouchableOpacity
