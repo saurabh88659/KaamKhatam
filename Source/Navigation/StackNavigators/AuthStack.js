@@ -27,6 +27,7 @@ import Mybooking from '../../screens/Mybooking';
 import Mybooking2 from '../../screens/Mybooking2';
 import ProfileScreen from '../../screens/ProfileScreen';
 import EditProfileScreen from '../../screens/EditProfileScreen';
+import ServicesRating from '../../screens/ServicesRating';
 
 const Stack = createNativeStackNavigator();
 function AuthStack() {
@@ -162,6 +163,11 @@ function AuthStack() {
       <Stack.Screen
         name="EditProfileScreen"
         component={EditProfileScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ServicesRating"
+        component={ServicesRating}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

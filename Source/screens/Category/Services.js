@@ -150,7 +150,10 @@ const Services = props => {
         setCatname(res.data.category);
       })
       .catch(error => {
-        console.log('catch error getPackagesByServiceId', error.response.data);
+        console.log(
+          'catch error getPackagesByServiceId---->>',
+          error.response.data.message,
+        );
       });
   };
 
@@ -432,6 +435,24 @@ const Services = props => {
                     }}>
                     INR {silver.price}
                   </Text>
+                  <TouchableOpacity
+                    onPress={() =>
+                      props.navigation.navigate('ServicesRating', {
+                        serviceID,
+                        silverID,
+                      })
+                    }
+                    style={{}}>
+                    <Text
+                      style={{
+                        marginHorizontal: 5,
+                        fontSize: 15,
+                        color: Colors.darkGray,
+                        color: Colors.darkGreen,
+                      }}>
+                      View rating
+                    </Text>
+                  </TouchableOpacity>
                 </View>
                 <View style={{top: 30}}>
                   <TouchableOpacity
@@ -516,6 +537,24 @@ const Services = props => {
                       }}>
                       INR {getname.price}
                     </Text>
+                    <TouchableOpacity
+                      onPress={() =>
+                        props.navigation.navigate('ServicesRating', {
+                          serviceID,
+                          goldID,
+                        })
+                      }
+                      style={{}}>
+                      <Text
+                        style={{
+                          marginHorizontal: 5,
+                          fontSize: 15,
+                          color: Colors.darkGray,
+                          color: Colors.darkGreen,
+                        }}>
+                        View rating
+                      </Text>
+                    </TouchableOpacity>
                   </View>
                   <View style={{top: 30}}>
                     <TouchableOpacity
@@ -599,6 +638,24 @@ const Services = props => {
                       }}>
                       INR {platinum.price}
                     </Text>
+                    <TouchableOpacity
+                      onPress={() =>
+                        props.navigation.navigate('ServicesRating', {
+                          serviceID,
+                          platinumID,
+                        })
+                      }
+                      style={{}}>
+                      <Text
+                        style={{
+                          marginHorizontal: 5,
+                          fontSize: 15,
+                          color: Colors.darkGray,
+                          color: Colors.darkGreen,
+                        }}>
+                        View rating
+                      </Text>
+                    </TouchableOpacity>
                   </View>
                   <View style={{top: 30}}>
                     <TouchableOpacity

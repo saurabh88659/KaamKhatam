@@ -41,6 +41,9 @@ const Viewdetails = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const [vendorId, setVendorId] = useState('');
   const [ratingvendor, setRatingvendor] = useState('');
+  const [bookingId, setBookingId] = useState('');
+
+  console.log('hey-----', bookingId);
 
   useEffect(() => {
     Viewdetailsbooking();
@@ -59,10 +62,11 @@ const Viewdetails = props => {
         setServiceId(res.data.result.serviceId);
         setPackageId(res.data.result.packageId);
         setVendorId(res.data.result.vendorId);
+        setBookingId(res.data.result.bookingId);
         setIsLoading(false);
       })
       .catch(error => {
-        console.log('Viewdetailsbooking catch error', error.response.data);
+        console.log('Viewdetailsbooking catch error', error);
         setIsLoading(false);
       });
   };
@@ -162,6 +166,34 @@ const Viewdetails = props => {
       });
   };
 
+  const cancelBooking = async () => {
+    const token = await _getStorage('token');
+    console.log('token', token);
+    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
+
+    let obj = {
+      bookingId: bookingId,
+    };
+    console.log('bookingId', bookingId);
+
+    axios
+      .put(BASE_URL + `/booking/cancel`, obj, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(res => {
+        console.log('cancel booking ', res.data);
+        Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
+      })
+      .catch(error => {
+        console.log('cancel booking catch error', error);
+        Toast.showWithGravity(
+          error.response.data.message,
+          Toast.LONG,
+          Toast.BOTTOM,
+        );
+      });
+  };
+
   return (
     <>
       <Header
@@ -185,7 +217,7 @@ const Viewdetails = props => {
             <View
               style={{
                 paddingVertical: 30,
-                marginVertical: 5,  
+                marginVertical: 5,
                 marginHorizontal: 10,
                 borderRadius: 6,
                 borderWidth: 1,
@@ -428,23 +460,71 @@ const Viewdetails = props => {
               </TouchableOpacity>
             </View>
           ) : (
-            <TouchableOpacity
-              onPress={() =>
-                props.navigation.navigate('RescheduleBooking', bookinID)
-              }
-              style={{
-                height: height / 16,
-                backgroundColor: '#0EC01B',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: 5,
-                marginHorizontal: 15,
-                // marginVertical,
-              }}>
-              <Text style={{color: 'white', fontWeight: 'bold', fontSize: 16}}>
-                Reschedule
-              </Text>
-            </TouchableOpacity>
+            <View>
+              {bookinviewdetails.bookingStatus === 'Cancelled' ? (
+                <TouchableOpacity
+                  onPress={cancelBooking}
+                  style={{
+                    height: height / 16,
+                    backgroundColor: '#0EC01B',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: 5,
+                    marginHorizontal: 15,
+                    marginVertical: 10,
+                  }}>
+                  <Text
+                    style={{color: 'white', fontWeight: 'bold', fontSize: 16}}>
+                    Cancel
+                  </Text>
+                </TouchableOpacity>
+              ) : (
+                <View>
+                  <TouchableOpacity
+                    onPress={() =>
+                      props.navigation.navigate('RescheduleBooking', bookinID)
+                    }
+                    style={{
+                      height: height / 16,
+                      backgroundColor: '#0EC01B',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      borderRadius: 5,
+                      marginHorizontal: 15,
+                      // marginVertical,
+                    }}>
+                    <Text
+                      style={{
+                        color: 'white',
+                        fontWeight: 'bold',
+                        fontSize: 16,
+                      }}>
+                      Reschedule
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={cancelBooking}
+                    style={{
+                      height: height / 16,
+                      backgroundColor: '#0EC01B',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      borderRadius: 5,
+                      marginHorizontal: 15,
+                      marginVertical: 10,
+                    }}>
+                    <Text
+                      style={{
+                        color: 'white',
+                        fontWeight: 'bold',
+                        fontSize: 16,
+                      }}>
+                      Cancel
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+            </View>
           )}
 
           {/* {bookinviewdetails.bookingStatus === 'Completed' ? (

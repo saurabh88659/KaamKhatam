@@ -39,62 +39,62 @@ const RescheduleBooking = props => {
   const TimeSlot = [
     {
       id: 0,
-      startTime: '09:00 AM',
-      endTime: '10:00 PM',
+      startTime: '09:00 AM -',
+      endTime: '10:00 AM',
     },
     {
       id: 1,
-      startTime: '10:00 AM',
-      endTime: '11:00 PM',
+      startTime: '10:00 AM -',
+      endTime: '11:00 AM',
     },
     {
       id: 2,
-      startTime: '11:00 PM',
+      startTime: '11:00 AM -',
       endTime: '12:00 PM',
     },
     {
       id: 3,
-      startTime: '12:00 PM',
+      startTime: '12:00 PM -',
       endTime: '01:00 PM',
     },
     {
       id: 4,
-      startTime: '01:00 PM',
+      startTime: '01:00 PM -',
       endTime: '02:00 PM',
     },
     {
       id: 5,
-      startTime: '02:00 PM',
+      startTime: '02:00 PM -',
       endTime: '03:00 PM',
     },
     {
       id: 6,
-      startTime: '03:00 PM',
+      startTime: '03:00 PM -',
       endTime: '04:00 PM',
     },
     {
       id: 7,
-      startTime: '04:00 PM',
+      startTime: '04:00 PM -',
       endTime: '05:00 PM',
     },
     {
       id: 8,
-      startTime: '05:00 PM',
+      startTime: '05:00 PM -',
       endTime: '06:00 PM',
     },
     {
       id: 9,
-      startTime: '06:00 PM',
+      startTime: '06:00 PM -',
       endTime: '07:00 PM',
     },
     {
       id: 10,
-      startTime: '07:00 PM',
+      startTime: '07:00 PM -',
       endTime: '08:00 PM',
     },
     {
       id: 11,
-      startTime: '08:00 PM',
+      startTime: '08:00 PM -',
       endTime: '09:00 PM',
     },
   ];
@@ -134,7 +134,6 @@ const RescheduleBooking = props => {
     const token = await _getStorage('token');
     Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
 
-    // console.log('token-------->>', token);
     const rescheduleObj = {
       bookingId: bokingID,
       start: startTime,
@@ -160,20 +159,36 @@ const RescheduleBooking = props => {
       });
   };
 
-  //   const Viewdetailsbooking = async () => {
-  //     const token = await _getStorage('token');
-  //     console.log('token', token);
-  //     axios
-  //       .get(BASE_URL + `/booking/${bokingID}`, {
-  //         headers: {Authorization: `Bearer ${token}`},
-  //       })
-  //       .then(res => {
-  //         console.log('reschedule', res.data.result);
-  //       })
-  //       .catch(error => {
-  //         console.log('reschedule catch error', error.response);
-  //       });
-  //   };
+  const chackDate = async () => {
+    const token = await _getStorage('token');
+    console.log('token', token);
+    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
+
+    let dt = date.split('/');
+    let d = `${dt[1]}/${dt[0]}/${dt[2]}`;
+    const obj = {
+      timeSlot: startTime + '' + endTime,
+      bookingDate: d,
+    };
+    console.log('obj', obj);
+    axios
+      .post(BASE_URL + `/booking/verifyTimeSlot`, obj, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(res => {
+        console.log('chackDate', res.data);
+        reschedule();
+        Toast.showWithGravity(res.data?.message, Toast.LONG, Toast.BOTTOM);
+      })
+      .catch(error => {
+        console.log('chackdate error', error.response.data.message);
+        Toast.showWithGravity(
+          error.response?.data?.message,
+          Toast.LONG,
+          Toast.BOTTOM,
+        );
+      });
+  };
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -261,7 +276,8 @@ const RescheduleBooking = props => {
         </View>
       ) : (
         <TouchableOpacity
-          onPress={reschedule}
+          onPress={chackDate}
+          disabled={date ? false : true}
           style={{
             backgroundColor: '#09bd39',
             justifyContent: 'center',

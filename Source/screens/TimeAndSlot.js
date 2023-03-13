@@ -29,71 +29,73 @@ const TimeAndSlot = props => {
   // const [timeslot, setTimeslot] = useState([]);
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
-  const [date, setDate] = useState('');
+  const [isdate, setIsdate] = useState('');
   const [getDate, setGetDate] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const cartID = props.route.params;
 
+  console.log('isdate', isdate);
+
   const TimeSlot = [
     {
       id: 0,
-      startTime: '09:00 AM',
-      endTime: '10:00 PM',
+      startTime: '09:00 AM -',
+      endTime: '10:00 AM',
     },
     {
       id: 1,
-      startTime: '10:00 AM',
-      endTime: '11:00 PM',
+      startTime: '10:00 AM -',
+      endTime: '11:00 AM',
     },
     {
       id: 2,
-      startTime: '11:00 PM',
+      startTime: '11:00 AM -',
       endTime: '12:00 PM',
     },
     {
       id: 3,
-      startTime: '12:00 PM',
+      startTime: '12:00 PM -',
       endTime: '01:00 PM',
     },
     {
       id: 4,
-      startTime: '01:00 PM',
+      startTime: '01:00 PM -',
       endTime: '02:00 PM',
     },
     {
       id: 5,
-      startTime: '02:00 PM',
+      startTime: '02:00 PM -',
       endTime: '03:00 PM',
     },
     {
       id: 6,
-      startTime: '03:00 PM',
+      startTime: '03:00 PM -',
       endTime: '04:00 PM',
     },
     {
       id: 7,
-      startTime: '04:00 PM',
+      startTime: '04:00 PM -',
       endTime: '05:00 PM',
     },
     {
       id: 8,
-      startTime: '05:00 PM',
+      startTime: '05:00 PM -',
       endTime: '06:00 PM',
     },
     {
       id: 9,
-      startTime: '06:00 PM',
+      startTime: '06:00 PM -',
       endTime: '07:00 PM',
     },
     {
       id: 10,
-      startTime: '07:00 PM',
+      startTime: '07:00 PM -',
       endTime: '08:00 PM',
     },
     {
       id: 11,
-      startTime: '08:00 PM',
+      startTime: '08:00 PM -',
       endTime: '09:00 PM',
     },
   ];
@@ -108,7 +110,6 @@ const TimeAndSlot = props => {
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
-
   const handleConfirm = date => {
     // let c =
     //   (date.getMonth() > 8
@@ -124,7 +125,7 @@ const TimeAndSlot = props => {
       (date.getMonth() + 1)
     ).slice(-2)}/${date.getFullYear()}`;
 
-    setDate(formattedDate);
+    setIsdate(formattedDate);
 
     hideDatePicker();
   };
@@ -135,7 +136,7 @@ const TimeAndSlot = props => {
       cartId: cartID?.cartId,
       start: startTime,
       end: endTime,
-      bookingDate: date,
+      bookingDate: isdate,
     };
     console.log('book', book);
 
@@ -158,67 +159,51 @@ const TimeAndSlot = props => {
           'add booking catch error---',
           error.response?.data?.message,
         );
-        Alert.alert(
-          'CartID 63d910519ed4b9ed75748a24',
-          'Booking Already Present, Please Clear You Cart having',
-          [
-            {
-              text: 'Cancel',
-              onPress: () => console.log('Cancel Pressed'),
-              style: 'cancel',
-            },
-            {text: 'OK', onPress: () => props.navigation.goBack()},
-          ],
+        Alert.alert('Booking Already Present, Please Clear You Cart having', [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'OK', onPress: () => props.navigation.goBack()},
+        ]);
+      });
+  };
+
+  const chackDate = async () => {
+    const token = await _getStorage('token');
+    console.log('token', token);
+    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
+
+    let dt = isdate.split('/');
+    let d = `${dt[1]}/${dt[0]}/${dt[2]}`;
+    const obj = {
+      timeSlot: startTime + '' + endTime,
+      bookingDate: d,
+    };
+    console.log('obj', obj);
+    axios
+      .post(BASE_URL + `/booking/verifyTimeSlot`, obj, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(res => {
+        console.log('chackDate', res.data);
+        conBooking();
+        Toast.showWithGravity(res.data?.message, Toast.LONG, Toast.BOTTOM);
+      })
+      .catch(error => {
+        console.log('chackdate error', error.response.data.message);
+        Toast.showWithGravity(
+          error.response?.data?.message,
+          Toast.LONG,
+          Toast.BOTTOM,
         );
       });
   };
 
-  // const upiPayment = () => {
-  //   // console.log('hey');
-  //   RNUpiPayment.initializePayment(
-  //     {
-  //       vpa: 'EXPLORETOBUY.62627320@hdfcbank',
-  //       payeeName: 'John Doe',
-  //       amount: '1',
-  //       transactionRef: 'aasf-332-aoei-fn',
-  //     },
-  //     successCallback,
-  //     failureCallback,
-  //   );
-  // };
-
-  // function successCallback(data) {
-  //   console.log('success');
-  // }
-
-  // function failureCallback(data) {
-  //   // do whatever with the data
-  //   console.log('failure');
-  // }
-
-  // const upiPayment = () => {
-  //   RNUpiPayment.initializePayment({
-  //     vpa: 'EXPLORETOBUY.62627320@hdfcbank', // or can be john@ybl or mobileNo@upi
-  //     payeeName: 'John Doe',
-  //     amount: '1',
-  //     transactionRef: 'aasf-332-aoei-fn',
-  //   });
-
-  //   switch (response.status) {
-  //     case 'success':
-  //       console.log('Transaction Successful:', response);
-  //       break;
-  //     case 'failed':
-  //       console.log('Transaction Failed:', response);
-  //       break;
-  //     case 'submitted':
-  //       console.log('Transaction Submitted:', response);
-  //       break;
-  //     default:
-  //       console.log('Transaction Failed:', response);
-  //       break;
-  //   }
-  // };
+  // useEffect(() => {
+  //   ();
+  // }, []);
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -496,7 +481,7 @@ const TimeAndSlot = props => {
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}>
-          <Text style={{color: Colors.black}}>{date}</Text>
+          <Text style={{color: Colors.black}}>{isdate}</Text>
           <View>
             <DateTimePickerModal
               isVisible={isDatePickerVisible}
@@ -548,10 +533,12 @@ const TimeAndSlot = props => {
       </ScrollView>
 
       <TouchableOpacity
-        onPress={conBooking}
+        onPress={chackDate}
+        disabled={isdate ? false : true}
         // onPress={() => props.navigation.navigate('PaymentScreen')}
         style={{
-          backgroundColor: '#09bd39',
+          // backgroundColor: {isdate ? 'grey':'red'},
+          backgroundColor: Colors.darkGreen,
           justifyContent: 'center',
           borderRadius: 7,
           paddingHorizontal: 20,
@@ -1009,7 +996,7 @@ const TimeAndSlot = props => {
             <Text style={{fontSize: 10, color: 'black'}}>Cancellaon</Text>
           </TouchableOpacity>
         </View>
-        
+
       </View> */}
     </SafeAreaView>
   );
