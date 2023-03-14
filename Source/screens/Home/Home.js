@@ -55,7 +55,6 @@ function Home({navigation}) {
       setLatitude(data.coords.latitude), setLongitude(data.coords.longitude);
       // console.log('data--------------->>>>', data);
     });
-
     Geocoder.from(latitude, longitude).then(json => {
       // console.log('chack data=====', json.results.coords);
       json.results[0].address_components.forEach((value, index) => {

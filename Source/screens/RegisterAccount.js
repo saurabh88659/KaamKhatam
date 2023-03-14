@@ -89,7 +89,7 @@ const RegisterAccount = props => {
         Toast.showWithGravity(val.data.message, Toast.LONG, Toast.BOTTOM);
       })
       .catch(error => {
-        console.log('in catch', error);
+        console.log('in catch', error.response.data.message);
         setIsLoading(false);
         Toast.showWithGravity('Server Error❗', Toast.LONG, Toast.BOTTOM);
       });
@@ -126,9 +126,8 @@ const RegisterAccount = props => {
         setIsLoading(false);
       })
 
-      .catch(e => {
-        console.log('in catch');
-        console.log('catch error in get profile', e);
+      .catch(error => {
+        console.log('catch error in get profile', error);
         setIsLoading(false);
       });
   };
@@ -143,22 +142,22 @@ const RegisterAccount = props => {
   };
 
   const handleConfirm = date => {
-    // let c =
-    //   (date.getMonth() > 8
-    //     ? date.getMonth() + 1
-    //     : '0' + (date.getMonth() + 1)) +
-    //   '/' +
-    //   (date.getDate() > 9 ? date.getDate() : '0' + date.getDate()) +
-    //   '/' +
-    //   date.getFullYear();
+    let c =
+      (date.getMonth() > 8
+        ? date.getMonth() + 1
+        : '0' + (date.getMonth() + 1)) +
+      '/' +
+      (date.getDate() > 9 ? date.getDate() : '0' + date.getDate()) +
+      '/' +
+      date.getFullYear();
 
-    // setDate(c);
-    const formattedDate = `${('0' + date.getDate()).slice(-2)}/${(
-      '0' +
-      (date.getMonth() + 1)
-    ).slice(-2)}/${date.getFullYear()}`;
+    setDate(c);
+    // const formattedDate = `${('0' + date.getDate()).slice(-2)}/${(
+    //   '0' +
+    //   (date.getMonth() + 1)
+    // ).slice(-2)}/${date.getFullYear()}`;
 
-    setDate(formattedDate);
+    // setDate(formattedDate);
 
     hideDatePicker();
   };
@@ -219,8 +218,6 @@ const RegisterAccount = props => {
 
   const resendemail = async () => {
     const token = await _getStorage('token');
-    // console.log('resend otp-------------.....>>>', token);
-
     const emailObj = {
       email,
     };

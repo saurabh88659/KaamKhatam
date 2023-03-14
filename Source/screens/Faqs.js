@@ -2,8 +2,6 @@ import {View, Text, SafeAreaView} from 'react-native';
 import React from 'react';
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
-// import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
-// import LinearGradient from 'react-native-linear-gradient';
 
 const Faqs = props => {
   return (

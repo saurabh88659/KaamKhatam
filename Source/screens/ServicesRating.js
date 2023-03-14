@@ -1,5 +1,5 @@
 import {View, Text, SafeAreaView, ScrollView} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Colors from '../Assets/Constants/Colors';
 import Header from '../ReusableComponents/Header';
 import {_getStorage} from '../Assets/utils/storage/Storage';
@@ -9,41 +9,91 @@ import {BASE_URL} from '../Assets/utils/Restapi/Config';
 export default function ServicesRating(props) {
   const preData = props.route.params;
 
+  const [ratingdata, setRatingdata] = useState([]);
+
   console.log('hey------', preData);
 
   useEffect(() => {
     allReviewsOfParticularPackage();
+    allReviewsOfParticularPackagePlatinum();
+    allReviewsOfParticularPackageGold();
   }, []);
 
   const allReviewsOfParticularPackage = async () => {
     const token = await _getStorage('token');
     console.log('token-------->>>', token);
-
-    const objId = {
-      serviceId: preData.serviceID,
-      packageId: preData.silverID,
-    };
-
-    console.log('objId', objId);
-
     axios
       .get(
-        BASE_URL + `/category/review/serviceId/packageId`,
+        BASE_URL + `/category/review/${preData.serviceID}/${preData.silverID}`,
         {
           headers: {Authorization: `Bearer ${token}`},
         },
-        objId,
       )
       .then(res => {
-        console.log('rating response', res);
+        console.log(
+          'silver rating response',
+          res.data.service[0].silver.rating,
+        );
+        setRatingdata(res.data.service[0].silver.rating);
       })
       .catch(error => {
-        console.log(
-          'all rating catch errro--------->>>',
-          error.response.data.message,
-        );
+        console.log(' silver all rating catch errro--------->>>', error);
       });
   };
+
+  const allReviewsOfParticularPackageGold = async () => {
+    const token = await _getStorage('token');
+    console.log('token-------->>>', token);
+    axios
+      .get(
+        BASE_URL + `/category/review/${preData.serviceID}/${preData.goldID}`,
+        {
+          headers: {Authorization: `Bearer ${token}`},
+        },
+      )
+      .then(res => {
+        console.log(' gold rating response', res.data);
+        setRatingdata(res.data.service[0].silver.rating);
+      })
+      .catch(error => {
+        console.log(' gold all rating catch errro--------->>>', error);
+      });
+  };
+
+  const allReviewsOfParticularPackagePlatinum = async () => {
+    const token = await _getStorage('token');
+    console.log('token-------->>>', token);
+    axios
+      .get(
+        BASE_URL +
+          `/category/review/${preData.serviceID}/${preData.platinumID}`,
+        {
+          headers: {Authorization: `Bearer ${token}`},
+        },
+      )
+      .then(res => {
+        console.log(' Platinum rating response', res.data);
+        setRatingdata(res.data.service[0].platinum.rating);
+      })
+      .catch(error => {
+        console.log(' platinum all rating catch errro--------->>>', error);
+      });
+  };
+
+  const Srt = [
+    {
+      name: 'dablu',
+    },
+    {
+      name: 'dablu',
+    },
+    {
+      name: 'dablu',
+    },
+    {
+      name: 'dablu',
+    },
+  ];
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: Colors.white}}>
@@ -54,58 +104,61 @@ export default function ServicesRating(props) {
         onPress={() => props.navigation.goBack()}
       />
       <ScrollView>
-        <View
-          style={{
-            borderWidth: 1,
-            borderRadius: 10,
-            marginHorizontal: 20,
-            marginTop: 20,
-          }}>
+        {Srt.map((value, index) => (
           <View
+            key={index}
             style={{
-              flexDirection: 'row',
-              paddingVertical: 10,
-              paddingHorizontal: 10,
+              borderWidth: 1,
+              borderRadius: 10,
+              marginHorizontal: 20,
+              marginTop: 20,
             }}>
-            <Text style={{color: Colors.black, paddingHorizontal: 10}}>
-              Name :
-            </Text>
-            <Text style={{color: Colors.black}}>ServicesRating</Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingVertical: 10,
+                paddingHorizontal: 10,
+              }}>
+              <Text style={{color: Colors.black, paddingHorizontal: 10}}>
+                Name :
+              </Text>
+              <Text style={{color: Colors.black}}>ServicesRating</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingVertical: 10,
+                paddingHorizontal: 10,
+              }}>
+              <Text style={{color: Colors.black, paddingHorizontal: 10}}>
+                Star :
+              </Text>
+              <Text style={{color: Colors.black}}>ServicesRating</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingVertical: 10,
+                paddingHorizontal: 10,
+              }}>
+              <Text style={{color: Colors.black, paddingHorizontal: 10}}>
+                Comment :
+              </Text>
+              <Text style={{color: Colors.black}}>ServicesRating</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingVertical: 10,
+                paddingHorizontal: 10,
+              }}>
+              <Text style={{color: Colors.black, paddingHorizontal: 10}}>
+                Rated By :
+              </Text>
+              <Text style={{color: Colors.black}}>ServicesRating</Text>
+            </View>
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              paddingVertical: 10,
-              paddingHorizontal: 10,
-            }}>
-            <Text style={{color: Colors.black, paddingHorizontal: 10}}>
-              Star :
-            </Text>
-            <Text style={{color: Colors.black}}>ServicesRating</Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              paddingVertical: 10,
-              paddingHorizontal: 10,
-            }}>
-            <Text style={{color: Colors.black, paddingHorizontal: 10}}>
-              Comment :
-            </Text>
-            <Text style={{color: Colors.black}}>ServicesRating</Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              paddingVertical: 10,
-              paddingHorizontal: 10,
-            }}>
-            <Text style={{color: Colors.black, paddingHorizontal: 10}}>
-              Rated By :
-            </Text>
-            <Text style={{color: Colors.black}}>ServicesRating</Text>
-          </View>
-        </View>
+        ))}
       </ScrollView>
     </SafeAreaView>
   );

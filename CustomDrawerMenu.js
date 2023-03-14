@@ -32,7 +32,6 @@ const CustomDrawerMenu = props => {
 
   const profileapi = async () => {
     const token = await _getStorage('token');
-    // console.log('token', token);
     axios
       .get(BASE_URL + `/profile`, {
         headers: {Authorization: `Bearer ${token}`},

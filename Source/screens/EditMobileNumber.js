@@ -49,11 +49,17 @@ function EditMobileNumber({navigation, route}) {
         onPress={() => navigation.goBack('')}
       />
       <View style={{margin: 20}}>
-        <Text style={{fontSize: 17, fontWeight: '500'}}>
+        <Text style={{fontSize: 17, fontWeight: '500', color: Colors.black}}>
           Changing Your Mobile Number
         </Text>
       </View>
-      <Text style={{marginHorizontal: 20, fontWeight: 'bold', fontSize: 15}}>
+      <Text
+        style={{
+          marginHorizontal: 20,
+          fontWeight: 'bold',
+          fontSize: 15,
+          color: Colors.black,
+        }}>
         Current Mobile Number
       </Text>
       <View
