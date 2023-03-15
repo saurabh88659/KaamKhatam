@@ -1,50 +1,13 @@
-import React, {Component, useEffect, useState} from 'react';
+import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-//import { DrawerActions } from '@react-navigation/routers';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Colors from '../Assets/Constants/Colors';
-// import Geocoder from 'react-native-geocoding';
-// import Geolocation from '@react-native-community/geolocation';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-// const API_KEY = 'AIzaSyD3Uol_-mBQSaZgIfuzVVK1oHXqBHPkrZE';
 
 const HeaderDrawer = props => {
-  // const [state, setState] = useState('');
-  // const [latitude, setLatitude] = useState(0);
-  // const [longitude, setLongitude] = useState(0);
-
-  // console.log('state---============', state);
-  // const myArray = state?.substring(45, 35);
-  // console.log('myArray', myArray);
-
-  // useEffect(() => {
-  //   geoCoding();
-  //   // const address = await AsyncStorage.getItem('address');
-  //   // console.log('address', address);
-  // }, []);
-
-  // const geoCoding = () => {
-  //   Geocoder.init(API_KEY);
-  //   Geolocation.getCurrentPosition(data => {
-  //     setLatitude(data.coords.latitude), setLongitude(data.coords.longitude);
-  //     // console.log('data--------------->>>------>', data);
-  //   });
-
-  //   Geocoder.from(latitude, longitude).then(json => {
-  //     // console.log('results--------->>>>>>>', json.results[0].formatted_address);
-  //     json.results[0].address_components.forEach((value, index) => {
-  //       setState(
-  //         json.results[0].formatted_address,
-  //         // tempAddress: json.results[0].formatted_address,
-  //       );
-  //     });
-  //   });
-  // };
-
   return (
     <View
       style={{
@@ -54,7 +17,7 @@ const HeaderDrawer = props => {
         paddingHorizontal: wp('3%'),
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        // justifyContent: 'space-between',
       }}>
       <TouchableOpacity onPress={props.onPress}>
         <FontAwesome5 name="bars" color={Colors.white} size={hp('3.5%')} />
@@ -66,6 +29,7 @@ const HeaderDrawer = props => {
           fontWeight: 'bold',
           fontSize: hp('2.5%'),
           color: 'white',
+          paddingHorizontal: 25,
         }}>
         {props.Title}
       </Text>
@@ -85,14 +49,13 @@ const HeaderDrawer = props => {
             color: 'white',
           }}>
           {props.location}
-          {/* {myArray} */}
         </Text>
 
-        <FontAwesome5
+        {/* <FontAwesome5
           name="map-marker-alt"
           color={Colors.white}
           size={hp('2%')}
-        />
+        /> */}
       </TouchableOpacity>
     </View>
   );

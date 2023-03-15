@@ -21,21 +21,8 @@ import Toast from 'react-native-simple-toast';
 const Location = props => {
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
-  // const [state, setState] = useState('');
-  // console.log('state---', state);
-
-  // const address = state.split(',');
-  // console.log('address----------->>>', longitude, latitude);
 
   useEffect(() => {
-    // onLocation();
-    // geoCoding();
-  }, []);
-
-  const _getgeolocations = async () => {
-    const token = await _getStorage('token');
-    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
-
     Geolocation.getCurrentPosition(data => {
       setLatitude(data.coords.latitude), setLongitude(data.coords.longitude);
       console.log(
@@ -44,6 +31,11 @@ const Location = props => {
         data.coords.latitude,
       );
     });
+  }, []);
+
+  const _getgeolocations = async () => {
+    const token = await _getStorage('token');
+    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
 
     const locobj = {
       latitude: latitude,
@@ -60,6 +52,7 @@ const Location = props => {
         if (res.data.message === 'User coordinates Updated Successfully') {
           Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
           props.navigation.navigate('DrowerNavigation');
+          onLocation();
         } else {
           console.log('else conditions');
         }
@@ -70,8 +63,6 @@ const Location = props => {
   };
 
   const onLocation = async () => {
-    props.navigation.navigate('DrowerNavigation');
-
     Geolocation.getCurrentPosition(
       async position => {
         setLatitude(position.coords.latitude);
@@ -81,7 +72,7 @@ const Location = props => {
         console.log('hey---------------', error.message);
         if (Platform.OS === 'android') {
           await _enableGPS();
-          await _getgeolocations();
+          _getgeolocations();
         }
       },
       {
@@ -112,24 +103,6 @@ const Location = props => {
       console.log(error);
     }
   };
-
-  // const geoCoding = async () => {
-  //   Geocoder.init(API_KEY);
-  //   Geolocation.getCurrentPosition(data => {
-  //     setLatitude(data.coords.latitude), setLongitude(data.coords.longitude);
-  //     // console.log('data--------------->>>>', data);
-  //   });
-
-  //   Geocoder.from(latitude, longitude).then(json => {
-  //     // console.log('chack data=====', json.results.coords);
-  //     json.results[0].address_components.forEach((value, index) => {
-  //       setState(
-  //         json.results[0].formatted_address,
-  //         // tempAddress: json.results[0].formatted_address,
-  //       );
-  //     });
-  //   });
-  // };
 
   function checkGPSStatus() {
     Geolocation.getCurrentPosition(
@@ -175,7 +148,7 @@ const Location = props => {
           See Services around
         </Text>
         <CustomButton
-          onPress={onLocation}
+          onPress={_getgeolocations}
           // onPress={checkGPSStatus}
           height={hp('7%')}
           width={wp('80%')}
@@ -184,7 +157,9 @@ const Location = props => {
           color={Colors.white}
         />
         {/* <CustomButton
-          onPress={onLocation}
+          onPress={() =>
+            Linking('https://www.npmjs.com/package/react-native-webbrowser')
+          }
           height={hp('7%')}
           width={wp('80%')}
           bgColor={Colors.white}

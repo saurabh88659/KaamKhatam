@@ -39,7 +39,7 @@ function Mybooking({navigation}) {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        console.log('bookingdetails', res.data.newData.length);
+        // console.log('bookingdetails', res.data.newData.length);
         if (res.data.message == 'No Data Found') {
           setNoData(res.data.message);
         } else {

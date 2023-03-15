@@ -437,7 +437,7 @@ const Services = props => {
                   </Text>
                   <TouchableOpacity
                     onPress={() =>
-                      props.navigation.navigate('ServicesRating', {
+                      props.navigation.navigate('ServicesRatingsilver', {
                         serviceID,
                         silverID,
                       })
@@ -539,7 +539,7 @@ const Services = props => {
                     </Text>
                     <TouchableOpacity
                       onPress={() =>
-                        props.navigation.navigate('ServicesRating', {
+                        props.navigation.navigate('ServicesRatingsilvergold', {
                           serviceID,
                           goldID,
                         })
@@ -640,7 +640,7 @@ const Services = props => {
                     </Text>
                     <TouchableOpacity
                       onPress={() =>
-                        props.navigation.navigate('ServicesRating', {
+                        props.navigation.navigate('ServicesRatingplatinum', {
                           serviceID,
                           platinumID,
                         })
