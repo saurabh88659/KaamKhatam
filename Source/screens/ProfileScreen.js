@@ -21,6 +21,8 @@ import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import {_getStorage} from '../Assets/utils/storage/Storage';
 import Toast from 'react-native-simple-toast';
 import Header from '../ReusableComponents/Header';
+import {getFirstLetters} from '../Assets/utils/Handler/NameAvatar';
+import {useIsFocused} from '@react-navigation/native';
 
 const {height, width} = Dimensions.get('window');
 const ProfileScreen = ({navigation, route}) => {
@@ -30,9 +32,19 @@ const ProfileScreen = ({navigation, route}) => {
   const [visible, setVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  const [state, setState] = useState({
+    profileImg: null,
+    isUpdateProfile: false,
+  });
+
+  const isFocused = useIsFocused();
+
   useEffect(() => {
     _getprofileapi();
+    getFirstLetters;
   }, []);
+
+  // console.log('getFirstLetters', getFirstLetters);
 
   const toggleBottomNavigationView = () => {
     setVisible(!visible);
@@ -44,6 +56,13 @@ const ProfileScreen = ({navigation, route}) => {
       quality: 1,
       mediaType: 'any',
     }).then(image => {
+      // setState({
+      //   ...state,
+      //   profileImg: image,
+      //   isPicker: false,
+      // }).catch(error => {
+      //   console.log('❗❗❗camera error--->>>', error);
+      // });
       setImageUrlPath(image.path);
       // setImageUrlData(image);
       _updateProfilePic(image);
@@ -70,9 +89,11 @@ const ProfileScreen = ({navigation, route}) => {
 
     var filename = data?.path?.replace(/^.*[\\\/]/, '');
 
-    console.log('filename', filename);
+    console.log('filename---------', filename);
 
     const profilePic = new FormData();
+
+    // console.log('profilePic------>>>', profilePic);
 
     profilePic.append('image', {
       name: filename,
@@ -82,9 +103,10 @@ const ProfileScreen = ({navigation, route}) => {
           ? data.path
           : data.path.replace('file://', ''),
     });
-    profilePic.append('imageUrl');
 
-    console.log('profilePic', profilePic._parts[1]);
+    profilePic.append('image');
+
+    console.log('profilePic', profilePic._parts);
 
     axios
       .post(BASE_URL + `/uploadImage`, profilePic, {
@@ -94,8 +116,8 @@ const ProfileScreen = ({navigation, route}) => {
         },
       })
       .then(res => {
-        console.log('Profile image--------->>', res.data.imageUrl);
-        setImage(res.data.imageUrl);
+        console.log('Profile image--------->>', res.data);
+        // setImage(res.data);
         Toast.showWithGravity(
           'Image Updated Successfully',
           Toast.LONG,

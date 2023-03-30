@@ -18,6 +18,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Colors from './Source/Assets/Constants/Colors';
 import {Rating} from 'react-native-ratings';
 import Toast from 'react-native-simple-toast';
+import {getFirstLetters} from './Source/Assets/utils/Handler/NameAvatar';
 
 const {height, width} = Dimensions.get('screen');
 
@@ -25,6 +26,14 @@ const CustomDrawerMenu = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
   const [profileData, setProfileData] = useState({});
+
+  const [state, setState] = useState({
+    isLogoutClicked: false,
+    loggedOut: false,
+    profileImg: null,
+    isPicker: false,
+    isUpdateProfile: false,
+  });
 
   useEffect(() => {
     profileapi();
@@ -38,7 +47,7 @@ const CustomDrawerMenu = props => {
       })
       .then(val => {
         setProfileData(val.data.result);
-        // console.log('profile drower>', val.data.result);
+        console.log('profile drower>', val.data.result);
       })
       .catch(error => {
         console.log(' profile drower in catch', error.response.data);
@@ -77,13 +86,43 @@ const CustomDrawerMenu = props => {
               width: 80,
               borderRadius: 50,
               alignSelf: 'center',
-              borderWidth: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: Colors.lightGray,
             }}
             onPress={() => props.navigation.navigate('ProfileScreen')}>
-            <Image
+            {state.profileImg || profileData?.imageUrl ? (
+              <Image
+                style={{
+                  height: '100%',
+                  width: '100%',
+                  borderRadius: 100,
+                  resizeMode: 'cover',
+                }}
+                source={
+                  state.profileImg
+                    ? {uri: state.profileImg.path}
+                    : {uri: profileData?.imageUrl}
+                }
+              />
+            ) : (
+              <Text
+                style={{
+                  color: Colors.lightGreen,
+                  fontSize: 40,
+                  fontWeight: '600',
+                }}>
+                {getFirstLetters(profileData?.firstName || '')}
+              </Text>
+            )}
+
+            {/* <Text style={{color: '#000'}}>
+              {getFirstLetters(profileData?.firstName || '')}
+            </Text> */}
+            {/* <Image
               source={{uri: profileData.imageUrl}}
               style={Styles.iconestyle}
-            />
+            /> */}
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {

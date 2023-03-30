@@ -668,7 +668,7 @@ const EditProfileScreen = props => {
               ) : (
                 <View style={{alignItems: 'center'}}>
                   <CustomButton
-                    title={'SUBMIT'}
+                    title={'Update Profile'}
                     bgColor={Colors.darkGreen}
                     width={wp('90%')}
                     height={hp('6.6%')}

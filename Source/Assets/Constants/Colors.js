@@ -17,4 +17,5 @@ export default {
   darkgold: '#544C26',
   lightblue: '#576C85',
   darkblue: '#304759',
+  red: '#fc0303',
 };

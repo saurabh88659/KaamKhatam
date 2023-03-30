@@ -130,8 +130,8 @@ function Home({navigation}) {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        // console.log('banner response', res.data);
-        setBannerUrl(res.data.banner);
+        console.log('banner response', res.data.banner);
+        setBannerUrl(res.data?.banner);
       })
       .catch(error => {
         console.log('banner catch error', error);

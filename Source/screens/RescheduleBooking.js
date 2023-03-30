@@ -15,13 +15,13 @@ import Header from '../ReusableComponents/Header';
 import {_getStorage} from '../Assets/utils/storage/Storage';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import moment from 'moment/moment';
+// import moment from 'moment/moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import Toast from 'react-native-simple-toast';
 
-const {height, width} = Dimensions.get('window');
+// const {height, width} = Dimensions.get('window');
 
 const RescheduleBooking = props => {
   const [selectionTime, setSelectionTime] = useState('');
