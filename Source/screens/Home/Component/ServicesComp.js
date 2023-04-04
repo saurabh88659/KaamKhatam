@@ -24,6 +24,7 @@ const ServicesComp = props => {
           width: props.newStyle ? wp('16%') : wp('20%'),
           height: wp('16%'),
           borderRadius: wp('25%'),
+          resizeMode: 'contain',
         }}
       />
       <Text

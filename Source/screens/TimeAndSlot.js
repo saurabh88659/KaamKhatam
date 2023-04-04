@@ -33,9 +33,9 @@ const TimeAndSlot = props => {
   const [getDate, setGetDate] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
-  const cartID = props.route.params;
+  const [iseeror, setIserror] = useState('');
 
-  console.log('isdate', isdate);
+  const cartID = props.route.params;
 
   const TimeSlot = [
     {
@@ -100,8 +100,6 @@ const TimeAndSlot = props => {
     },
   ];
 
-  //TODO console.log('TimeSlot-------------', index2, startTime, endTime);
-
   const showDatePicker = () => {
     setDatePickerVisibility(true);
     AsyncStorage.getItem('Date').then(value => setGetDate(value));
@@ -159,14 +157,17 @@ const TimeAndSlot = props => {
           'add booking catch error---',
           error.response?.data?.message,
         );
-        Alert.alert('Booking Already Present, Please Clear You Cart having', [
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-          {text: 'OK', onPress: () => props.navigation.goBack()},
-        ]);
+        setIserror(error.response?.data?.message);
+        if (error.response?.data?.message == iseeror) {
+          Alert.alert('Booking Already Present, Please Clear You Cart having', [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'OK', onPress: () => props.navigation.goBack()},
+          ]);
+        }
       });
   };
 
@@ -200,10 +201,6 @@ const TimeAndSlot = props => {
         );
       });
   };
-
-  // useEffect(() => {
-  //   ();
-  // }, []);
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -531,7 +528,7 @@ const TimeAndSlot = props => {
           </View>
         ))}
       </ScrollView>
-
+      {/* {isdate === false ? ( */}
       <TouchableOpacity
         onPress={chackDate}
         disabled={isdate ? false : true}
@@ -550,6 +547,7 @@ const TimeAndSlot = props => {
           Proceed to pay
         </Text>
       </TouchableOpacity>
+      {/* ) : null} */}
 
       <View
         style={{

@@ -24,7 +24,9 @@ import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import Geolocation from '@react-native-community/geolocation';
 import Toast from 'react-native-simple-toast';
+import Header from '../ReusableComponents/Header';
 // import {useNavigation} from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 
 const MyCartScreen = props => {
   const [mycartname, setMycartname] = useState('');
@@ -33,6 +35,7 @@ const MyCartScreen = props => {
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
   const [refresh, setRfresh] = useState(false);
+  const isFocused = useIsFocused();
 
   // const navigation = useNavigation();
 
@@ -54,10 +57,10 @@ const MyCartScreen = props => {
   // console.log('mycartname', mycartname.cartId);
 
   useEffect(() => {
-    setTimeout(() => {
+    if (isFocused) {
       get_mycart();
-    }, 1000);
-  }, []);
+    }
+  }, [isFocused]);
 
   const get_mycart = async () => {
     const token = await _getStorage('token');
@@ -146,11 +149,17 @@ const MyCartScreen = props => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <HeaderDrawer
+      {/* <HeaderDrawer
         Title="My Cart"
         location="Sector 62"
         // onPress={() => props.navigation.toggleDrawer()}
         onPress={() => props.navigation.openDrawer()}
+      /> */}
+      <Header
+        bgColor={Colors.darkOrange}
+        color={Colors.white}
+        title="My Cart"
+        onPress={() => props.navigation.goBack('')}
       />
       <ScrollView
         refreshControl={

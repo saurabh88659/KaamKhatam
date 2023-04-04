@@ -28,6 +28,7 @@ import {BASE_URL} from '../../Assets/utils/Restapi/Config';
 import {_getStorage} from '../../Assets/utils/storage/Storage';
 import Geocoder from 'react-native-geocoding';
 import Geolocation from '@react-native-community/geolocation';
+import {useIsFocused} from '@react-navigation/native';
 
 const API_KEY = 'AIzaSyD3Uol_-mBQSaZgIfuzVVK1oHXqBHPkrZE';
 
@@ -44,6 +45,7 @@ function Home({navigation}) {
   // console.log('state-Homme--', state);
   // const address = state.split(',');
   // console.log('address----------->>>', address[5]);
+  const isFocused = useIsFocused();
 
   setTimeout(() => {
     setRfresh(false);
@@ -67,12 +69,12 @@ function Home({navigation}) {
   };
 
   useEffect(() => {
-    getAllCategory();
-    _getBanner();
-    setTimeout(() => {
+    if (isFocused) {
+      getAllCategory();
+      _getBanner();
       geoCoding();
-    }, 1000);
-  }, []);
+    }
+  }, [isFocused]);
 
   const getAllCategory = async () => {
     const token = await _getStorage('token');
@@ -93,8 +95,6 @@ function Home({navigation}) {
 
   const getCategoryWiseService = async (id, name) => {
     const token = await _getStorage('token');
-    // console.log('home id', id);
-    // console.log('name', name);
 
     axios
       .get(BASE_URL + `/category/categoryService/${id}`, {
@@ -124,14 +124,14 @@ function Home({navigation}) {
 
   const _getBanner = async () => {
     const token = await _getStorage('token');
-    console.log('token', token);
+    // console.log('token', token);
     axios
       .get(BASE_URL + `/banner`, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        console.log('banner response', res.data.banner);
-        setBannerUrl(res.data?.banner);
+        // console.log('banner response', res?.data?.banner);
+        setBannerUrl(res?.data?.banner);
       })
       .catch(error => {
         console.log('banner catch error', error);
@@ -389,5 +389,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '100%',
     height: hp('25%'),
+    // resizeMode: 'cover',
   },
 });

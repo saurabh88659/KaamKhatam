@@ -25,6 +25,7 @@ import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import {Rating} from 'react-native-ratings';
 import Toast from 'react-native-simple-toast';
+import {useIsFocused} from '@react-navigation/native';
 
 const {height, width} = Dimensions.get('window');
 
@@ -42,10 +43,13 @@ const Viewdetails = props => {
   const [vendorId, setVendorId] = useState('');
   const [ratingvendor, setRatingvendor] = useState('');
   const [bookingId, setBookingId] = useState('');
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    Viewdetailsbooking();
-  }, []);
+    if (isFocused) {
+      Viewdetailsbooking();
+    }
+  }, [isFocused]);
 
   const Viewdetailsbooking = async () => {
     const token = await _getStorage('token');
@@ -165,7 +169,7 @@ const Viewdetails = props => {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        console.log('cancel booking ', res.data);
+        // console.log('cancel booking ', res.data);
         Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
       })
       .catch(error => {
@@ -445,18 +449,7 @@ const Viewdetails = props => {
             </View>
           ) : (
             <View>
-              {bookinviewdetails.bookingStatus ===
-              'Cancelled' ? //     height: height / 16, //   style={{ //   onPress={cancelBooking} // <TouchableOpacity
-              //     // backgroundColor: '#0EC01B',
-              //     alignItems: 'center',
-              //     justifyContent: 'center',
-              //     borderRadius: 5,
-              //     marginHorizontal: 15,
-              //     marginVertical: 10,
-              //   }}>
-              //   <Text
-              //     style={{color: 'white', fontWeight: 'bold', fontSize: 16}}>
-              //     Cancel
+              {bookinviewdetails.bookingStatus === 'Cancelled' ? //     Cancel //     style={{color: 'white', fontWeight: 'bold', fontSize: 16}}> //   <Text //   }}> //     marginVertical: 10, //     marginHorizontal: 15, //     borderRadius: 5, //     justifyContent: 'center', //     alignItems: 'center', //     // backgroundColor: '#0EC01B', //     height: height / 16, //   style={{ //   onPress={cancelBooking} // <TouchableOpacity
               //   </Text>
               // </TouchableOpacity>
               null : (
@@ -501,7 +494,7 @@ const Viewdetails = props => {
                         fontWeight: 'bold',
                         fontSize: 16,
                       }}>
-                      Cancel
+                      Booking Cancel
                     </Text>
                   </TouchableOpacity>
                 </View>
