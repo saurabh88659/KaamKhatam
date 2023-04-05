@@ -88,10 +88,6 @@ const Login = props => {
     }
   };
 
-  // console.log('googleemail------>>>', googleemail);
-
-  // ======================?
-
   const fbLogin = resCallback => {
     LoginManager.logOut();
     return LoginManager.logInWithPermissions(['email', 'public_profile']).then(
@@ -144,62 +140,8 @@ const Login = props => {
       // await AsyncStorage.setItem('email', userData.email);
 
       return userData;
-      // if (userData == ' ') {
-      //   alert('user data is not get');
-      // } else {
-      //   // props.navigation.navigate('Location');
-      // }
     }
   };
-
-  // const onFbLogin = () => {
-  //   LoginManager.logInWithPermissions(['public_profile', 'email']).then(
-  //     result => {
-  //       console.log('result-----------', result);
-  //       if (result.isCancelled) {
-  //         console.log('Login cancelled', result);
-  //       } else {
-  //         console.log(
-  //           'Login success with permissions: ' +
-  //             result.grantedPermissions.toString(),
-  //         );
-  //         AccessToken.getCurrentAccessToken().then(data => {
-  //           console.log('hey', data.accessToken.toString());
-  //         });
-  //       }
-  //     },
-  //     error => {
-  //       console.log('Login fail with error: ' + error);
-  //     },
-  //   );
-  // };
-
-  // // async function onFacebookButtonPress() {
-  // //   // Attempt login with permissions
-  // //   const result = await LoginManager.logInWithPermissions([
-  // //     'public_profile',
-  // //     'email',
-  // //   ]);
-
-  //   if (result.isCancelled) {
-  //     throw 'User cancelled the login process';
-  //   }
-
-  //   // Once signed in, get the users AccesToken
-  //   const data = await AccessToken.getCurrentAccessToken();
-
-  //   if (!data) {
-  //     throw 'Something went wrong obtaining access token';
-  //   }
-
-  //   // Create a Firebase credential with the AccessToken
-  //   const facebookCredential = auth.FacebookAuthProvider.credential(
-  //     data.accessToken,
-  //   );
-
-  //   // Sign-in the user with the credential
-  //   return auth().signInWithCredential(facebookCredential);
-  // }
 
   // +++++++++++++++++++++++++++++=======================
 
@@ -230,10 +172,9 @@ const Login = props => {
     axios
       .post(BASE_URL + `/sendOTP`, SubmitDAta)
       .then(res => {
-        // console.log('response', res.data);
-        if (res.data.Status == 200) {
+        if (res?.data?.Status == 200) {
           alert('Number is not ');
-        } else if (res.data) {
+        } else if (res?.data) {
           props.navigation.navigate('Otp', {
             phone: MobileNumber,
           });
@@ -242,9 +183,9 @@ const Login = props => {
         }
       })
       .catch(error => {
-        console.log(error.response);
+        console.log(error.response.data.message);
         Toast.showWithGravity(
-          'Please fill The Number',
+          error?.response?.data?.message,
           Toast.LONG,
           Toast.BOTTOM,
         );

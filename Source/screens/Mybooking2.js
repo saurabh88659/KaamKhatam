@@ -15,16 +15,20 @@ import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import Header from '../ReusableComponents/Header';
 const {height, width} = Dimensions.get('window');
+import {useIsFocused} from '@react-navigation/native';
 
 function Mybooking2({navigation}) {
   const [bookdetails, setBookdetails] = useState([]);
   const [noData, setNoData] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [refresh, setRfresh] = useState(false);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    bookingDetails();
-  }, []);
+    if (isFocused) {
+      bookingDetails();
+    }
+  }, [isFocused]);
 
   setTimeout(() => {
     setRfresh(false);

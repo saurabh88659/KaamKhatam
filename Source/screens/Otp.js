@@ -58,14 +58,14 @@ const Otp = ({navigation, route}) => {
             },
           })
           .then(res => {
-            if (res.data?.result.firstName) {
+            if (res.data?.result?.firstName) {
               navigation.navigate('Location');
             } else {
               navigation.navigate('RegisterAccount');
             }
           })
           .catch(err => {
-            if (err.response.data?.message == "User Doesn't Exists") {
+            if (err.response?.data?.message == "User Doesn't Exists") {
               navigation.navigate('RegisterAccount');
             }
           });
@@ -78,7 +78,7 @@ const Otp = ({navigation, route}) => {
         // }
       })
       .catch(e => {
-        console.log('otp screen catch error', e.response.data);
+        console.log('otp screen catch error', e);
         Toast.showWithGravity(
           e.response?.data?.message,
           Toast.LONG,

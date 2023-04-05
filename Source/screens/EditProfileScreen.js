@@ -75,7 +75,6 @@ const EditProfileScreen = props => {
       state,
       address: address,
     };
-    console.log(token);
     console.log('newOBJ', newObj);
     setIsLoading(true);
     axios
@@ -127,7 +126,6 @@ const EditProfileScreen = props => {
       })
 
       .catch(e => {
-        console.log('in catch');
         console.log('catch error in get profile', e);
         setIsLoading(false);
       });

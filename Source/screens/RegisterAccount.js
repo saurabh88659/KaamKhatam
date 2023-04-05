@@ -184,7 +184,12 @@ const RegisterAccount = props => {
         Toast.showWithGravity(value.data.message, Toast.LONG, Toast.BOTTOM);
       })
       .catch(error => {
-        console.log(error.response.data);
+        console.log('Email catch error ', error.response.data);
+        Toast.showWithGravity(
+          error.response.data.message,
+          Toast.LONG,
+          Toast.BOTTOM,
+        );
       });
   };
 

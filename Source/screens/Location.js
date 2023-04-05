@@ -48,7 +48,7 @@ const Location = props => {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(async res => {
-        console.log('Locations--------------------------------', res.data);
+        // console.log('Locations--------------------------------', res.data);
         if (res.data.message === 'User coordinates Updated Successfully') {
           Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
           props.navigation.navigate('DrowerNavigation');

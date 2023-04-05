@@ -255,14 +255,16 @@ const ProfileScreen = ({navigation, route}) => {
                     }}
                   />
                 ) : (
-                  <Text
-                    style={{
-                      color: Colors.lightGreen,
-                      fontSize: 40,
-                      fontWeight: '600',
-                    }}>
-                    {getFirstLetters(profileData?.firstName || '')}
-                  </Text>
+                  // <Text
+                  //   style={{
+                  //     color: Colors.lightGreen,
+                  //     fontSize: 40,
+                  //     fontWeight: '600',
+                  //     textAlign: 'center',
+                  //   }}>
+                  //   {getFirstLetters(profileData?.firstName || '')}
+                  // </Text>
+                  <Image source={{uri: imageUrlPath}} />
                 )}
                 {/* {imageUrlPath && (
                   <Image
@@ -529,6 +531,7 @@ const Styles = StyleSheet.create({
     borderColor: 'grey',
     backgroundColor: 'white',
     borderColor: 'grey',
+    justifyContent: 'center',
   },
 
   cameraicone: {

@@ -281,9 +281,9 @@ const RescheduleBooking = props => {
       ) : (
         <TouchableOpacity
           onPress={chackDate}
-          disabled={date ? false : true}
+          // disabled={date ? Colors.darkGreen : Colors.darkGray}
           style={{
-            backgroundColor: '#09bd39',
+            backgroundColor: date ? Colors.darkGreen : Colors.darkGray,
             justifyContent: 'center',
             borderRadius: 7,
             paddingHorizontal: 20,

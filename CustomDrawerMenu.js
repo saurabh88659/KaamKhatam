@@ -76,7 +76,7 @@ const CustomDrawerMenu = props => {
   };
 
   return (
-    <ScrollView style={{flex: 1, backgroundColor: Colors.lightOrange}}>
+    <ScrollView style={{flex: 1, backgroundColor: Colors.white}}>
       <DrawerContentScrollView
         {...props}
         contentContainerStyle={{backgroundColor: Colors.white}}>

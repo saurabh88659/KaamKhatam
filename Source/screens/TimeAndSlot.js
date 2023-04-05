@@ -528,14 +528,11 @@ const TimeAndSlot = props => {
           </View>
         ))}
       </ScrollView>
-      {/* {isdate === false ? ( */}
       <TouchableOpacity
         onPress={chackDate}
-        disabled={isdate ? false : true}
-        // onPress={() => props.navigation.navigate('PaymentScreen')}
+        // disabled={isdate ? false : true}
         style={{
-          // backgroundColor: {isdate ? 'grey':'red'},
-          backgroundColor: Colors.darkGreen,
+          backgroundColor: isdate ? Colors.darkGreen : Colors.lightGray,
           justifyContent: 'center',
           borderRadius: 7,
           paddingHorizontal: 20,
@@ -547,7 +544,6 @@ const TimeAndSlot = props => {
           Proceed to pay
         </Text>
       </TouchableOpacity>
-      {/* ) : null} */}
 
       <View
         style={{
