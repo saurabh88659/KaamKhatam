@@ -104,18 +104,40 @@ import moment from 'moment';
 import Colors from '../Assets/Constants/Colors';
 import {useEffect} from 'react';
 import {useState} from 'react';
+import {log} from 'react-native-reanimated';
 
 export default function Faqs() {
-  const [time, setTime] = useState(false);
+  const [time, setTime] = useState('');
 
   useEffect(() => {
     // const currentTime = moment().format('h:mm A');
+    // var now = new Date();
+    // now.setHours(now.getHours() + 1);
+    // var formattedTime = now.toLocaleTimeString();
+    // setTime(formattedTime);
+    // console.log('Current time plus 1 hour: ' + formattedTime);
+
+    // if(formattedTime== true){
+    //   setTime()
+    // }
+
+    // var now = new Date();
+    // now.setHours(now.getHours() + 1);
+
+    // var currentTime = new Date().getTime();
+    // var newTime = now.getTime();
+    // var isAfter = newTime > currentTime;
+    // console.log('Is the new time after the current time? ' + isAfter);
+    // setTime(isAfter);
+    // Get the current date and time
+
     var now = new Date();
     now.setHours(now.getHours() + 1);
-    var formattedTime = now.toLocaleTimeString();
-    setTime(formattedTime);
-    console.log('Current time plus 1 hour: ' + formattedTime);
+    var isValidTime = !isNaN(now.getTime());
+    console.log('New time is valid: ', isValidTime);
+    setTime(isValidTime);
   }, []);
+  console.log('time---------', time);
 
   const availableDates = [
     {
@@ -126,12 +148,12 @@ export default function Faqs() {
         {
           startTime: '8:00 AM',
           endTime: '9:00 AM',
-          isAvailable: time ? true : false,
+          isAvailable: time,
         },
         {
           startTime: '9:00 AM',
           endTime: '10:00 AM',
-          isAvailable: time ? true : false,
+          isAvailable: time,
         },
         {startTime: '10:00 AM', endTime: '11:00 AM', isAvailable: true},
         {startTime: '11:00 AM', endTime: '12:00 AM', isAvailable: true},

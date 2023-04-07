@@ -35,7 +35,7 @@ export default function ServicesRatingplatinum(props) {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        console.log('silver rating response', res.data);
+        console.log('gold rating response------------', res.data);
         if (res.data.service[0].gold.rating.length === 0) {
           setLengthzero(meassage);
         } else {
@@ -43,7 +43,10 @@ export default function ServicesRatingplatinum(props) {
         }
       })
       .catch(error => {
-        console.log(' silver all rating catch errro--------->>>', error);
+        console.log('gold all rating catch errro--------->>>', error);
+        if (error) {
+          setLengthzero(meassage);
+        }
       });
   };
 

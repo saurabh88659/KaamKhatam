@@ -28,7 +28,7 @@ export default function ServicesRatingsilver(props) {
       packageId: preData.silverID,
     };
 
-    console.log('data', data);
+    // console.log('data', data);
 
     let meassage = 'Data Not Found';
 
@@ -49,6 +49,9 @@ export default function ServicesRatingsilver(props) {
       })
       .catch(error => {
         console.log('silver all rating catch errro--------->>>', error);
+        if (error) {
+          setLengthzero(meassage);
+        }
       });
   };
 

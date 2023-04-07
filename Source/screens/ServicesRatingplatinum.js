@@ -45,6 +45,9 @@ export default function ServicesRatingplatinum(props) {
       })
       .catch(error => {
         console.log(' silver all rating catch errro--------->>>', error);
+        if (error) {
+          setLengthzero(meassage);
+        }
       });
   };
 
