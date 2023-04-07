@@ -100,11 +100,10 @@
 
 import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import React from 'react';
-import moment from 'moment';
+// import moment from 'moment';
 import Colors from '../Assets/Constants/Colors';
 import {useEffect} from 'react';
 import {useState} from 'react';
-import {log} from 'react-native-reanimated';
 
 export default function Faqs() {
   const [time, setTime] = useState('');
