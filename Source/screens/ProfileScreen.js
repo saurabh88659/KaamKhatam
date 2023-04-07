@@ -14,7 +14,7 @@ import React, {useEffect, useState} from 'react';
 import Colors from '../Assets/Constants/Colors';
 import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-crop-picker';
-import HeaderDrawer from '../ReusableComponents/HeaderDrawer';
+// import HeaderDrawer from '../ReusableComponents/HeaderDrawer';
 import {BottomSheet} from 'react-native-btr';
 import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
@@ -26,25 +26,25 @@ import {useIsFocused} from '@react-navigation/native';
 
 const {height, width} = Dimensions.get('window');
 const ProfileScreen = ({navigation, route}) => {
-  const [imageUrlPath, setImageUrlPath] = useState(null);
-  const [imageUrlData, setImageUrlData] = useState('');
-  const [profileData, setProfileData] = useState({});
+  const [profileData, setProfileData] = useState('');
   const [visible, setVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [state, setState] = useState({
-    profileImg: null,
-    isUpdateProfile: false,
-  });
+  const [imageUrlPath, setImageUrlPath] = useState(null);
+  const [imageData, setImageData] = useState(null);
+  const [profileUrl, setProfileUrl] = useState('');
+  const [isImage, setIsImage] = useState('');
+
+  // console.log('isImage', isImage);
 
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    _getprofileapi();
-    getFirstLetters;
-  }, []);
-
-  // console.log('getFirstLetters', getFirstLetters);
+    if (isFocused) {
+      _getprofileapi();
+      getFirstLetters;
+    }
+  }, [isFocused]);
 
   const toggleBottomNavigationView = () => {
     setVisible(!visible);
@@ -55,58 +55,54 @@ const ProfileScreen = ({navigation, route}) => {
       cropping: true,
       quality: 1,
       mediaType: 'any',
-    }).then(image => {
-      // setState({
-      //   ...state,
-      //   profileImg: image,
-      //   isPicker: false,
-      // }).catch(error => {
-      //   console.log('❗❗❗camera error--->>>', error);
-      // });
-      setImageUrlPath(image.path);
-      // setImageUrlData(image);
-      _updateProfilePic(image);
-    });
+    })
+      .then(image => {
+        setImageUrlPath(image.path);
+        setImageData(image);
+        setVisible(!visible);
+      })
+      .catch(err => {
+        console.log('Img picker Error--->>>', err);
+      });
   };
 
   const onCamera = () => {
     ImagePicker.openCamera({
       cropping: true,
-      quality: 1,
       mediaType: 'any',
-    }).then(image => {
-      setImageUrlPath(image.path);
-      // setImageUrlData(image);
-      _updateProfilePic(image);
-    });
+      width: 300,
+      height: 400,
+    })
+      .then(image => {
+        setImageUrlPath(image.path);
+        setImageData(image);
+        setVisible(!visible);
+
+        console.log('hey', image);
+      })
+      .catch(err => {
+        console.log('Img picker Error--->>>', err);
+      });
   };
 
-  const _updateProfilePic = async data => {
+  const _updateProfilePic = async () => {
     const token = await _getStorage('token');
     Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
+    console.log('imageData==========', imageData);
 
-    console.log('data', data);
-
-    var filename = data?.path?.replace(/^.*[\\\/]/, '');
-
-    console.log('filename---------', filename);
+    var filename = imageData?.path?.replace(/^.*[\\\/]/, '');
+    // console.log('filename', filename);
 
     const profilePic = new FormData();
-
-    // console.log('profilePic------>>>', profilePic);
-
     profilePic.append('image', {
       name: filename,
-      type: data.mime,
+      type: imageData.mime,
       uri:
         Platform.OS === 'android'
-          ? data.path
-          : data.path.replace('file://', ''),
+          ? imageData.path
+          : imageData.path.replace('file://', ''),
     });
-
-    profilePic.append('image');
-
-    console.log('profilePic', profilePic._parts);
+    // profilePic.append('image', 'imageUrl');
 
     axios
       .post(BASE_URL + `/uploadImage`, profilePic, {
@@ -116,8 +112,11 @@ const ProfileScreen = ({navigation, route}) => {
         },
       })
       .then(res => {
-        console.log('Profile image--------->>', res.data);
-        // setImage(res.data);
+        setIsLoading(false);
+        setImageData(null);
+        setImageUrlPath(null);
+        console.log('Profile image--------->>', res.data.imageUrl);
+
         Toast.showWithGravity(
           'Image Updated Successfully',
           Toast.LONG,
@@ -125,10 +124,59 @@ const ProfileScreen = ({navigation, route}) => {
         );
       })
       .catch(error => {
+        setIsLoading(false);
+
         console.log('error in catch Profile image', error);
         Toast.showWithGravity('❗SERVER ERROR', Toast.LONG, Toast.BOTTOM);
       });
   };
+
+  // const _updateProfilePic = async data => {
+  //   const token = await _getStorage('token');
+  //   Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
+
+  //   console.log('data', data);
+
+  //   var filename = data?.path?.replace(/^.*[\\\/]/, '');
+
+  //   console.log('filename---------', filename);
+
+  //   const profilePic = new FormData();
+
+  //   // console.log('profilePic------>>>', profilePic);
+
+  //   profilePic.append('image', {
+  //     name: filename,
+  //     type: data.mime,
+  //     uri:
+  //       Platform.OS === 'android'
+  //         ? data.path
+  //         : data.path.replace('file://', ''),
+  //   });
+
+  //   // profilePic.append('image');
+  //   profilePic.append('image', 'data');
+
+  //   axios
+  //     .post(BASE_URL + `/uploadImage`, profilePic, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //         'Content-Type': 'multipart/form-data',
+  //       },
+  //     })
+  //     .then(res => {
+  //       console.log('Profile image--------->>>>>>>> ', res.data);
+  //       Toast.showWithGravity(
+  //         'Image Updated Successfully',
+  //         Toast.LONG,
+  //         Toast.BOTTOM,
+  //       );
+  //     })
+  //     .catch(error => {
+  //       console.log('error in catch Profile image', error);
+  //       Toast.showWithGravity('❗SERVER ERROR', Toast.LONG, Toast.BOTTOM);
+  //     });
+  // };
 
   const _getprofileapi = async () => {
     const token = await _getStorage('token');
@@ -137,7 +185,16 @@ const ProfileScreen = ({navigation, route}) => {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(val => {
+        console.log('hey', val.data?.result?.imageUrl);
+
+        // setImageUrlPath(val.data?.result?.imageUrl);
+
+        val.data?.result?.imageUrl
+          ? setProfileUrl(val.data?.result?.imageUrl)
+          : setProfileUrl(null);
+
         setProfileData(val.data.result);
+        setIsImage(val.data?.result?.imageUrl);
         setIsLoading(false);
         console.log('profile response', val.data.result);
       })
@@ -175,7 +232,7 @@ const ProfileScreen = ({navigation, route}) => {
         <View>
           <ScrollView
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{paddingBottom: 40}}>
+            contentContainerStyle={{paddingBottom: 70}}>
             <LinearGradient
               colors={['#8690DD', '#5D56B4']}
               start={{x: 0, y: 0}}
@@ -184,13 +241,38 @@ const ProfileScreen = ({navigation, route}) => {
               <ImageBackground
                 source={require('../Assets/Images/profilePicture123.png')}
                 style={Styles.imagebox}>
-                {profileData && (
+                {profileUrl || imageUrlPath ? (
                   <Image
-                    source={{uri: profileData.imageUrl}}
-                    style={{width: 98, height: 100, borderRadius: 100}}
+                    source={
+                      imageUrlPath ? {uri: imageUrlPath} : {uri: profileUrl}
+                    }
+                    style={{
+                      width: 100,
+                      height: 100,
+                      borderRadius: 50,
+                      resizeMode: 'cover',
+                    }}
                   />
+                ) : (
+                  // <Text
+                  //   style={{
+                  //     color: Colors.lightGreen,
+                  //     fontSize: 40,
+                  //     fontWeight: '600',
+                  //     textAlign: 'center',
+                  //   }}>
+                  //   {getFirstLetters(profileData?.firstName || '')}
+                  // </Text>
+                  <Image source={{uri: imageUrlPath}} />
                 )}
+                {/* {imageUrlPath && (
+                  <Image
+                    source={{uri: imageUrlPath}}
+                    style={{height: 100, width: 100, borderRadius: 100}}
+                  />
+                )} */}
               </ImageBackground>
+
               <TouchableOpacity
                 style={{top: -55, alignSelf: 'center', margin: 20, left: 36}}
                 onPress={toggleBottomNavigationView}>
@@ -332,6 +414,27 @@ const ProfileScreen = ({navigation, route}) => {
                 </View>
               </View>
             </View>
+            {imageData && (
+              <TouchableOpacity
+                onPress={_updateProfilePic}
+                style={{
+                  backgroundColor: Colors.lightOrange,
+                  marginHorizontal: 70,
+                  borderRadius: 7,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  paddingVertical: 8,
+                }}>
+                <Text
+                  style={{
+                    color: Colors.white,
+                    fontSize: 17,
+                    fontWeight: 'bold',
+                  }}>
+                  Update
+                </Text>
+              </TouchableOpacity>
+            )}
           </ScrollView>
         </View>
       )}
@@ -427,6 +530,7 @@ const Styles = StyleSheet.create({
     borderColor: 'grey',
     backgroundColor: 'white',
     borderColor: 'grey',
+    justifyContent: 'center',
   },
 
   cameraicone: {

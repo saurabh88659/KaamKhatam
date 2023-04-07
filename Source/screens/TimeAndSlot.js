@@ -23,8 +23,8 @@ import Toast from 'react-native-simple-toast';
 const {height, width} = Dimensions.get('window');
 
 const TimeAndSlot = props => {
-  // const [index, setIndex] = useState(1);
-  // const [index2, setIndex2] = useState('');
+  const [index, setIndex] = useState(1);
+  const [index2, setIndex2] = useState('');
   const [selectionTime, setSelectionTime] = useState('');
   // const [timeslot, setTimeslot] = useState([]);
   const [startTime, setStartTime] = useState('');
@@ -32,10 +32,8 @@ const TimeAndSlot = props => {
   const [isdate, setIsdate] = useState('');
   const [getDate, setGetDate] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
+  const [iseeror, setIserror] = useState('');
   const cartID = props.route.params;
-
-  console.log('isdate', isdate);
 
   const TimeSlot = [
     {
@@ -100,8 +98,6 @@ const TimeAndSlot = props => {
     },
   ];
 
-  //TODO console.log('TimeSlot-------------', index2, startTime, endTime);
-
   const showDatePicker = () => {
     setDatePickerVisibility(true);
     AsyncStorage.getItem('Date').then(value => setGetDate(value));
@@ -146,8 +142,8 @@ const TimeAndSlot = props => {
       })
       .then(res => {
         console.log('add booking', res.data);
-        let bookinId = res.data?.bookingId;
-        let price = res.data?.total;
+        let bookinId = res?.data?.bookingId;
+        let price = res?.data?.total;
         if (res.data) {
           props.navigation.navigate('PaymentScreen', {bookinId, price});
         } else {
@@ -157,16 +153,19 @@ const TimeAndSlot = props => {
       .catch(error => {
         console.log(
           'add booking catch error---',
-          error.response?.data?.message,
+          error?.response?.data?.message,
         );
-        Alert.alert('Booking Already Present, Please Clear You Cart having', [
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-          {text: 'OK', onPress: () => props.navigation.goBack()},
-        ]);
+        setIserror(error?.response?.data?.message);
+        if (error.response?.data?.message == iseeror) {
+          Alert.alert('Booking Already Present, Please Clear You Cart having', [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'OK', onPress: () => props.navigation.goBack()},
+          ]);
+        }
       });
   };
 
@@ -201,10 +200,6 @@ const TimeAndSlot = props => {
       });
   };
 
-  // useEffect(() => {
-  //   ();
-  // }, []);
-
   return (
     <SafeAreaView style={{flex: 1}}>
       <Header
@@ -214,44 +209,9 @@ const TimeAndSlot = props => {
         onPress={() => props.navigation.goBack('Home')}
       />
 
-      {/* <View>
-        <Text style={{color: 'grey', marginHorizontal: 20}}>
-          Address for service
-        </Text>
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-evenly',
-          borderWidth: 1,
-          borderTopWidth: 0,
-        }}>
-        <View
-          style={{
-            backgroundColor: '#09bd39',
-            marginHorizontal: 10,
-            width: 10,
-            height: 18,
-            width: 60,
-            alignItems: 'center',
-            borderRadius: 5,
-          }}>
-          <Text style={{color: 'white', fontWeight: '500', fontSize: 14}}>
-            OFFICE
-          </Text>
-        </View>
-        <Text style={{fontSize: 14, right: 8}}>
-          office 906,A-140,A Block Sector 62..
-        </Text>
-        <TouchableOpacity
-          onPress={() => props.navigation.navigate('Editaddress')}>
-          <Text style={{fontSize: 18, color: 'blue', fontWeight: '500'}}>
-            Change
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <View style={{alignItems: 'center', marginVertical: 20}}>
-        <Text style={{fontSize: 16, fontWeight: 'bold', color: Colors.lightGray}}>
+      {/* <View style={{alignItems: 'center', marginVertical: 20}}>
+        <Text
+          style={{fontSize: 16, fontWeight: 'bold', color: Colors.lightGray}}>
           When would you like your service?
         </Text>
       </View>
@@ -531,14 +491,11 @@ const TimeAndSlot = props => {
           </View>
         ))}
       </ScrollView>
-
       <TouchableOpacity
         onPress={chackDate}
-        disabled={isdate ? false : true}
-        // onPress={() => props.navigation.navigate('PaymentScreen')}
+        // disabled={isdate ? false : true}
         style={{
-          // backgroundColor: {isdate ? 'grey':'red'},
-          backgroundColor: Colors.darkGreen,
+          backgroundColor: isdate ? Colors.darkGreen : Colors.lightGray,
           justifyContent: 'center',
           borderRadius: 7,
           paddingHorizontal: 20,
@@ -576,8 +533,7 @@ const TimeAndSlot = props => {
         </TouchableOpacity>
       </View>
 
-      {/*
-      <Text
+      {/* <Text
         style={{textAlign: 'center', marginVertical: 10, fontWeight: '500'}}>
         Select Time
       </Text>
@@ -592,7 +548,12 @@ const TimeAndSlot = props => {
             marginVertical: 10,
           }}>
           <Text
-            style={{textAlign: 'center', marginVertical: 5, fontWeight: '500'}}>
+            style={{
+              textAlign: 'center',
+              marginVertical: 5,
+              fontWeight: '500',
+              color: Colors.black,
+            }}>
             Morning
           </Text>
           <View
@@ -711,7 +672,12 @@ const TimeAndSlot = props => {
             marginVertical: 20,
           }}>
           <Text
-            style={{textAlign: 'center', marginVertical: 5, fontWeight: '500'}}>
+            style={{
+              textAlign: 'center',
+              marginVertical: 5,
+              fontWeight: '500',
+              color: Colors.black,
+            }}>
             Afternoon
           </Text>
           <View
@@ -829,7 +795,12 @@ const TimeAndSlot = props => {
             marginVertical: 20,
           }}>
           <Text
-            style={{textAlign: 'center', marginVertical: 5, fontWeight: '500'}}>
+            style={{
+              textAlign: 'center',
+              marginVertical: 5,
+              fontWeight: '500',
+              color: Colors.black,
+            }}>
             Evening
           </Text>
           <View
@@ -953,7 +924,7 @@ const TimeAndSlot = props => {
             marginHorizontal: 20,
           }}>
           <View>
-            <Text>$547</Text>
+            <Text style={{color: Colors.black}}>$547</Text>
             <TouchableOpacity>
               <Text style={{fontWeight: '500', color: 'blue'}}>
                 View Details
@@ -996,7 +967,6 @@ const TimeAndSlot = props => {
             <Text style={{fontSize: 10, color: 'black'}}>Cancellaon</Text>
           </TouchableOpacity>
         </View>
-
       </View> */}
     </SafeAreaView>
   );

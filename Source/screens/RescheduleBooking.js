@@ -30,7 +30,7 @@ const RescheduleBooking = props => {
   const [date, setDate] = useState('');
   const [getDate, setGetDate] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const bokingID = props.route.params;
 
@@ -140,6 +140,7 @@ const RescheduleBooking = props => {
       end: endTime,
       bookingDate: date,
     };
+    console.log('rescheduleObj', rescheduleObj);
     axios
       .put(BASE_URL + `/booking/reschedule`, rescheduleObj, {
         headers: {Authorization: `Bearer ${token}`},
@@ -179,9 +180,12 @@ const RescheduleBooking = props => {
         console.log('chackDate', res.data);
         reschedule();
         Toast.showWithGravity(res.data?.message, Toast.LONG, Toast.BOTTOM);
+        setIsLoading(false);
       })
       .catch(error => {
         console.log('chackdate error', error.response.data.message);
+        setIsLoading(false);
+
         Toast.showWithGravity(
           error.response?.data?.message,
           Toast.LONG,
@@ -266,7 +270,7 @@ const RescheduleBooking = props => {
           </View>
         ))}
       </ScrollView>
-      {isLoading === false ? (
+      {isLoading === true ? (
         <View
           style={{
             justifyContent: 'center',
@@ -277,9 +281,9 @@ const RescheduleBooking = props => {
       ) : (
         <TouchableOpacity
           onPress={chackDate}
-          disabled={date ? false : true}
+          // disabled={date ? Colors.darkGreen : Colors.darkGray}
           style={{
-            backgroundColor: '#09bd39',
+            backgroundColor: date ? Colors.darkGreen : Colors.darkGray,
             justifyContent: 'center',
             borderRadius: 7,
             paddingHorizontal: 20,

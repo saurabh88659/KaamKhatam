@@ -14,6 +14,7 @@ import HeaderDrawer from '../ReusableComponents/HeaderDrawer';
 import {_getStorage} from '../Assets/utils/storage/Storage';
 import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
+import {useIsFocused} from '@react-navigation/native';
 const {height, width} = Dimensions.get('window');
 
 function Mybooking({navigation}) {
@@ -22,9 +23,13 @@ function Mybooking({navigation}) {
   const [isLoading, setIsLoading] = useState(false);
   const [refresh, setRfresh] = useState(false);
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    bookingDetails();
-  }, []);
+    if (isFocused) {
+      bookingDetails();
+    }
+  }, [isFocused]);
 
   setTimeout(() => {
     setRfresh(false);
@@ -61,7 +66,7 @@ function Mybooking({navigation}) {
     <SafeAreaView style={{flex: 1}}>
       <HeaderDrawer
         Title="My Bookings"
-        location="Sector 62"
+        // location="Sector 62"
         onPress={() => navigation.toggleDrawer()}
       />
       <ScrollView

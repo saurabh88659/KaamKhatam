@@ -9,6 +9,7 @@ import {
   Modal,
   Dimensions,
   Alert,
+  ImageBackground,
 } from 'react-native';
 import {DrawerContentScrollView} from '@react-navigation/drawer';
 import {_getStorage} from './Source/Assets/utils/storage/Storage';
@@ -75,7 +76,7 @@ const CustomDrawerMenu = props => {
   };
 
   return (
-    <ScrollView style={{flex: 1, backgroundColor: Colors.lightOrange}}>
+    <ScrollView style={{flex: 1, backgroundColor: Colors.white}}>
       <DrawerContentScrollView
         {...props}
         contentContainerStyle={{backgroundColor: Colors.white}}>
@@ -91,7 +92,7 @@ const CustomDrawerMenu = props => {
               backgroundColor: Colors.lightGray,
             }}
             onPress={() => props.navigation.navigate('ProfileScreen')}>
-            {state.profileImg || profileData?.imageUrl ? (
+            {profileData ? (
               <Image
                 style={{
                   height: '100%',
@@ -99,11 +100,7 @@ const CustomDrawerMenu = props => {
                   borderRadius: 100,
                   resizeMode: 'cover',
                 }}
-                source={
-                  state.profileImg
-                    ? {uri: state.profileImg.path}
-                    : {uri: profileData?.imageUrl}
-                }
+                source={{uri: profileData?.imageUrl}}
               />
             ) : (
               <Text

@@ -2,9 +2,9 @@ import {View, Text, TextInput, TouchableOpacity, Keyboard} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
+import Toast from 'react-native-simple-toast';
 
 function EditMobileNumber({navigation, route}) {
   const [changenumber, setChangenubmer] = useState();
@@ -15,6 +15,8 @@ function EditMobileNumber({navigation, route}) {
   // console.log('preData', preData);
 
   const handleSendOTP = async () => {
+    Toast.showWithGravity('Please Wait...', Toast.LONG, Toast.BOTTOM);
+
     axios
       .post(BASE_URL + `/sendOTP`, {
         phone: changenumber,
@@ -22,23 +24,23 @@ function EditMobileNumber({navigation, route}) {
       .then(res => {
         console.log(res.data);
         if (res.data) {
-          // AsyncStorage.setItem('DetailsId', res.data.details);
           navigation.navigate('MobileOtp', {
-            // details: res.data.details,
             phone: changenumber,
           });
+          Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
         } else {
           console.log('else condtion');
         }
       })
       .catch(error => {
         console.log('mobail nuember otp catch error', error.response.data);
+        Toast.showWithGravity(
+          error.response.data.message,
+          Toast.LONG,
+          Toast.BOTTOM,
+        );
       });
   };
-
-  // useEffect(() => {
-  //   AsyncStorage.getItem('DetailsId').then(value => setGetDetailsId(value));
-  // }, []);
 
   return (
     <>
