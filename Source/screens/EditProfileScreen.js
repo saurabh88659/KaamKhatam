@@ -31,6 +31,7 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import Toast from 'react-native-simple-toast';
 import {_getStorage} from '../Assets/utils/storage/Storage';
+import {useIsFocused} from '@react-navigation/native';
 
 const EditProfileScreen = props => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -50,15 +51,21 @@ const EditProfileScreen = props => {
   const [dataupdate, setDataupdate] = useState({});
   const [getDate, setGetDate] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [counter, setCounter] = React.useState(30);
 
   //! ================working on ==============
   const [isGettingOTP, setIsGettingOTP] = useState(false);
   const [isVerifyingOTP, setIsVerifyingOTP] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     profiledata();
-  }, []);
+
+    const timer =
+      counter > 0 && setInterval(() => setCounter(counter - 1), 1000);
+    return () => clearInterval(timer);
+  }, [counter]);
 
   const handleSubmit = async () => {
     const token = await _getStorage('token');
@@ -183,18 +190,19 @@ const EditProfileScreen = props => {
       })
       .catch(error => {
         console.log(error.response.data);
+        Toast.showWithGravity(
+          error.response.data.message,
+          Toast.LONG,
+          Toast.BOTTOM,
+        );
       });
   };
 
   const LoginApisendmailotp = async () => {
     const token = await _getStorage('token');
-    // console.log('email-------------.....>>>', token);
-
     const emailObj = {
       email,
     };
-    // console.log('emailObj', emailObj);
-
     axios
       .put(BASE_URL + `/sendMail`, emailObj, {
         headers: {Authorization: `Bearer ${token}`},
@@ -211,18 +219,19 @@ const EditProfileScreen = props => {
       .catch(error => {
         console.log('email send otp catch error', error.response.data.message);
         setIsGettingOTP(false);
+        Toast.showWithGravity(
+          error.response.data.message,
+          Toast.LONG,
+          Toast.BOTTOM,
+        );
       });
   };
 
   const resendemail = async () => {
     const token = await _getStorage('token');
-    // console.log('resend otp-------------.....>>>', token);
-
     const emailObj = {
       email,
     };
-    // console.log('emailObj', emailObj);
-
     axios
       .put(BASE_URL + `/sendMail`, emailObj, {
         headers: {Authorization: `Bearer ${token}`},
@@ -231,10 +240,16 @@ const EditProfileScreen = props => {
       .then(res => {
         console.log('email response', res.data);
         setemailOtp(res.data.id);
+        Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
       })
 
       .catch(error => {
         console.log('email send otp catch error', error.response.data.message);
+        Toast.showWithGravity(
+          error.response.data.message,
+          Toast.LONG,
+          Toast.BOTTOM,
+        );
       });
   };
 
@@ -684,7 +699,7 @@ const EditProfileScreen = props => {
                 Alert.alert('Modal has been closed.');
                 setModalVisible(!modalVisible);
               }}>
-              <View style={Styles.centeredView}>
+              {/* <View style={Styles.centeredView}>
                 <View style={Styles.modalView}>
                   <OTPInputView
                     style={{width: '80%', height: 200}}
@@ -730,6 +745,65 @@ const EditProfileScreen = props => {
                     <Text style={{color: 'white'}}>Okay</Text>
                   </TouchableOpacity>
                 </View>
+              </View> */}
+              <View style={Styles.centeredView}>
+                <View style={Styles.modalView}>
+                  <TouchableOpacity
+                    onPress={() => setModalVisible(false)}
+                    style={{alignItems: 'flex-end', top: '-10%'}}>
+                    <Text>❌</Text>
+                  </TouchableOpacity>
+                  <TextInput
+                    style={{
+                      borderWidth: 1,
+                      borderColor: '#aaa',
+                      color: '#000',
+                      paddingLeft: 10,
+                      height: 40,
+                    }}
+                    value={code}
+                    onChangeText={val => setCode(val)}
+                    placeholder="Enter OTP"
+                    placeholderTextColor={'#aaa'}
+                  />
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                    }}>
+                    <Text style={{color: 'grey'}}>Time remaining</Text>
+                    <View>
+                      {counter !== 0 ? (
+                        <Text style={{color: 'black'}}>{counter}s</Text>
+                      ) : (
+                        <TouchableOpacity onPress={resendemail} style={{}}>
+                          <Text style={{color: 'grey'}}>Resend code</Text>
+                        </TouchableOpacity>
+                      )}
+                    </View>
+                  </View>
+
+                  <TouchableOpacity
+                    onPress={_verifyMailotp}
+                    disabled={code ? false : true}
+                    style={{
+                      backgroundColor: code
+                        ? Colors.darkGreen
+                        : Colors.lightGray,
+                      paddingVertical: 4,
+                      marginTop: 20,
+                      borderRadius: 4,
+                    }}>
+                    <Text
+                      style={{
+                        textAlign: 'center',
+                        fontWeight: '700',
+                        color: '#fff',
+                      }}>
+                      SUBMIT
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </Modal>
           </ScrollView>
@@ -745,17 +819,17 @@ const Styles = StyleSheet.create({
   centeredView: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalView: {
     backgroundColor: 'white',
-    borderRadius: 20,
-    alignItems: 'center',
-    height: height / 3.6,
-    width: width / 1,
+    marginHorizontal: 15,
+    borderRadius: 7,
+    padding: 25,
+    shadowColor: '#000',
+    shadowRadius: 4,
+    elevation: 5,
   },
-
   underlineStyleBase: {
     width: 40,
     borderWidth: 0,

@@ -14,7 +14,6 @@ import {
 import React, {useState, useEffect} from 'react';
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
-import OTPInputView from '@twotalltotems/react-native-otp-input';
 import CustomButton from '../ReusableComponents/Button';
 // import DatePicker from 'react-native-neat-date-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -50,6 +49,7 @@ const RegisterAccount = props => {
   const [dataupdate, setDataupdate] = useState({});
   const [getDate, setGetDate] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [counter, setCounter] = React.useState(30);
 
   //! ================working on ==============
   const [isGettingOTP, setIsGettingOTP] = useState(false);
@@ -58,11 +58,13 @@ const RegisterAccount = props => {
 
   useEffect(() => {
     profiledata();
-  }, []);
+    const timer =
+      counter > 0 && setInterval(() => setCounter(counter - 1), 1000);
+    return () => clearInterval(timer);
+  }, [counter]);
 
   const handleSubmit = async () => {
     const token = await _getStorage('token');
-
     Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
 
     let newObj = {
@@ -85,7 +87,7 @@ const RegisterAccount = props => {
       .then(val => {
         console.log(val.data);
         setIsLoading(false);
-        props.navigation.navigate('DrowerNavigation');
+        props.navigation.navigate('Location');
         Toast.showWithGravity(val.data.message, Toast.LONG, Toast.BOTTOM);
       })
       .catch(error => {
@@ -218,6 +220,11 @@ const RegisterAccount = props => {
       .catch(error => {
         console.log('email send otp catch error', error.response.data.message);
         setIsGettingOTP(false);
+        Toast.showWithGravity(
+          error.response.data.message,
+          Toast.LONG,
+          Toast.BOTTOM,
+        );
       });
   };
 
@@ -226,8 +233,6 @@ const RegisterAccount = props => {
     const emailObj = {
       email,
     };
-    // console.log('emailObj', emailObj);
-
     axios
       .put(BASE_URL + `/sendMail`, emailObj, {
         headers: {Authorization: `Bearer ${token}`},
@@ -236,10 +241,15 @@ const RegisterAccount = props => {
       .then(res => {
         console.log('email response', res.data);
         setemailOtp(res.data.id);
+        Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
       })
-
       .catch(error => {
         console.log('email send otp catch error', error.response.data.message);
+        Toast.showWithGravity(
+          error.response.data.message,
+          Toast.LONG,
+          Toast.BOTTOM,
+        );
       });
   };
 
@@ -681,6 +691,7 @@ const RegisterAccount = props => {
                 </View>
               )}
             </View>
+
             <Modal
               animationType="slide"
               transparent={true}
@@ -689,7 +700,7 @@ const RegisterAccount = props => {
                 Alert.alert('Modal has been closed.');
                 setModalVisible(!modalVisible);
               }}>
-              <View style={Styles.centeredView}>
+              {/* <View style={Styles.centeredView}>
                 <View style={Styles.modalView}>
                   <OTPInputView
                     style={{width: '80%', height: 200}}
@@ -735,6 +746,65 @@ const RegisterAccount = props => {
                     <Text style={{color: 'white'}}>Okay</Text>
                   </TouchableOpacity>
                 </View>
+              </View> */}
+              <View style={Styles.centeredView}>
+                <View style={Styles.modalView}>
+                  <TouchableOpacity
+                    onPress={() => setModalVisible(false)}
+                    style={{alignItems: 'flex-end', top: '-10%'}}>
+                    <Text>❌</Text>
+                  </TouchableOpacity>
+                  <TextInput
+                    style={{
+                      borderWidth: 1,
+                      borderColor: '#aaa',
+                      color: '#000',
+                      paddingLeft: 10,
+                      height: 40,
+                    }}
+                    value={code}
+                    onChangeText={val => setCode(val)}
+                    placeholder="Enter OTP"
+                    placeholderTextColor={'#aaa'}
+                  />
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                    }}>
+                    <Text style={{color: 'grey'}}>Time remaining</Text>
+                    <View>
+                      {counter !== 0 ? (
+                        <Text style={{color: 'black'}}>{counter}s</Text>
+                      ) : (
+                        <TouchableOpacity onPress={resendemail} style={{}}>
+                          <Text style={{color: 'grey'}}>Resend code</Text>
+                        </TouchableOpacity>
+                      )}
+                    </View>
+                  </View>
+
+                  <TouchableOpacity
+                    onPress={_verifyMailotp}
+                    disabled={code ? false : true}
+                    style={{
+                      backgroundColor: code
+                        ? Colors.darkGreen
+                        : Colors.lightGray,
+                      paddingVertical: 4,
+                      marginTop: 20,
+                      borderRadius: 4,
+                    }}>
+                    <Text
+                      style={{
+                        textAlign: 'center',
+                        fontWeight: '700',
+                        color: '#fff',
+                      }}>
+                      SUBMIT
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </Modal>
           </ScrollView>
@@ -750,15 +820,7 @@ const Styles = StyleSheet.create({
   centeredView: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
-  },
-  modalView: {
-    backgroundColor: 'white',
-    borderRadius: 20,
-    alignItems: 'center',
-    height: height / 3.6,
-    width: width / 1,
   },
 
   underlineStyleBase: {
@@ -773,5 +835,15 @@ const Styles = StyleSheet.create({
 
   underlineStyleHighLighted: {
     borderColor: '#03DAC6',
+  },
+  modalView: {
+    backgroundColor: 'white',
+    marginHorizontal: 15,
+    borderRadius: 7,
+    padding: 25,
+    // alignItems: 'center',
+    shadowColor: '#000',
+    shadowRadius: 4,
+    elevation: 5,
   },
 });

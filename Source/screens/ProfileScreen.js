@@ -33,10 +33,9 @@ const ProfileScreen = ({navigation, route}) => {
   const [imageUrlPath, setImageUrlPath] = useState(null);
   const [imageData, setImageData] = useState(null);
   const [profileUrl, setProfileUrl] = useState('');
-
   const [isImage, setIsImage] = useState('');
 
-  console.log('isImage', isImage);
+  // console.log('isImage', isImage);
 
   const isFocused = useIsFocused();
 

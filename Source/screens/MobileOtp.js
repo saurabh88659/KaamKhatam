@@ -16,14 +16,20 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import {_getStorage} from '../Assets/utils/storage/Storage';
+import Toast from 'react-native-simple-toast';
 
 function MobileOtp({navigation, route}) {
   const [pin, setPin] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [changenumber, setChangenubmer] = useState('');
+
+  const phonenum = route.params.phone;
+
+  const fNumber = phonenum.split('', 6);
+
+  // console.log('fNumber', fNumber);
 
   const handleSubmit = async () => {
     const token = await _getStorage('token');
@@ -40,7 +46,7 @@ function MobileOtp({navigation, route}) {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(val => {
-        if (val.data.message === 'Updated successfully') {
+        if (val.data?.message === 'Updated successfully') {
           setIsLoading(true);
 
           navigation.navigate('RegisterAccount'),
@@ -51,12 +57,25 @@ function MobileOtp({navigation, route}) {
         }
       })
       .catch(error => {
-        console.log('otp mobail otp catch error', error.response.data);
+        console.log('Mobile Otp Catch Error', error.response.data);
+        if (error.response.data.message == 'OTP Expired') {
+          Toast.showWithGravity(
+            error?.response?.data?.message,
+            Toast.LONG,
+            Toast.BOTTOM,
+          );
+        } else {
+          Toast.showWithGravity(
+            'This Number Already Verified In Database',
+            Toast.LONG,
+            Toast.BOTTOM,
+          );
+        }
       });
   };
 
   // ===========================resendOTP++++++++++===============
-  const [counter, setCounter] = React.useState(5);
+  const [counter, setCounter] = React.useState(30);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   useEffect(() => {
@@ -74,13 +93,19 @@ function MobileOtp({navigation, route}) {
       })
       .then(res => {
         console.log('jayguhio', res.data);
-        if (res.data) {
+        if (res?.data) {
         } else {
           console.log('else condtion');
         }
+        Toast.showWithGravity(res?.data?.message, Toast.LONG, Toast.BOTTOM);
       })
       .catch(function (error) {
-        console.log(error.response.data);
+        console.log(error?.response?.data);
+        Toast.showWithGravity(
+          error?.response?.data?.message,
+          Toast.LONG,
+          Toast.BOTTOM,
+        );
       });
   };
 
@@ -99,17 +124,10 @@ function MobileOtp({navigation, route}) {
       </View>
       <View style={{marginHorizontal: 30, top: 30}}>
         <Text style={{fontSize: 15, color: Colors.black}}>
-          We have sent an OTP mobile number +91 ******3234
+          We have sent an OTP mobile number +91 {fNumber}****
         </Text>
       </View>
       <View style={{alignItems: 'center'}}>
-        {/* <OtpInputs
-          handleChange={code => setPin(code)}
-          numberOfInputs={6}
-          keyboardType="phone-pad"
-          inputStyles={styles.input}
-          style={{flexDirection: 'row'}}
-        /> */}
         <OTPInputView
           style={{width: '80%', height: 200}}
           pinCount={6}
