@@ -57,7 +57,7 @@ const EditProfileScreen = props => {
   const [isGettingOTP, setIsGettingOTP] = useState(false);
   const [isVerifyingOTP, setIsVerifyingOTP] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
-  const isFocused = useIsFocused();
+  // const isFocused = useIsFocused();
 
   useEffect(() => {
     profiledata();

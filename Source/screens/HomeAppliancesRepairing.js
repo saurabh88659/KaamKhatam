@@ -1,21 +1,15 @@
 import React from 'react';
 import {
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
+   View,
   FlatList,
   StyleSheet,
 } from 'react-native';
-
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
-
 import refrigeratorappliancerepair from '../Assets/Images/refrigeratorappliancerepair.png';
 import television from '../Assets/Images/television.png';
 import washing from '../Assets/Images/washing.png';
 import rorepair2 from '../Assets/Images/rorepair2.png';
-
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,

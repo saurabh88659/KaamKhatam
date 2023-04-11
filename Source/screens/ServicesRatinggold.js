@@ -7,7 +7,7 @@ import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import {_getStorage} from '../Assets/utils/storage/Storage';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
-export default function ServicesRatingplatinum(props) {
+export default function ServicesRatinggold(props) {
   const preData = props.route.params;
   console.log('hey', preData);
 
@@ -44,9 +44,9 @@ export default function ServicesRatingplatinum(props) {
       })
       .catch(error => {
         console.log('gold all rating catch errro--------->>>', error);
-        if (error) {
-          setLengthzero(meassage);
-        }
+        // if (error) {
+        //   setLengthzero(meassage);
+        // }
       });
   };
 
