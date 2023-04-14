@@ -234,9 +234,10 @@ const ProfileScreen = ({navigation, route}) => {
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{paddingBottom: 70}}>
             <LinearGradient
-              colors={['#8690DD', '#5D56B4']}
+              
+              colors={['#92CD28', '#FFA034']}
               start={{x: 0, y: 0}}
-              end={{x: 1, y: 0}}
+              end={{x: 0, y: 1}}
               style={{backgroundColor: 'grey', flex: 0.4}}>
               <ImageBackground
                 source={require('../Assets/Images/profilePicture123.png')}
@@ -301,7 +302,7 @@ const ProfileScreen = ({navigation, route}) => {
                 </TouchableOpacity>
               </View>
             </LinearGradient>
-            <View style={{backgroundColor: 'white', flex: 0.6}}>
+            <View style={{backgroundColor: 'white', flex: 0.6,marginTop:6}}>
               <View style={Styles.box}>
                 <View
                   style={{
@@ -546,7 +547,7 @@ const Styles = StyleSheet.create({
     width: 20,
   },
   box: {
-    height: height / 11,
+    height: height / 13,
     marginHorizontal: 20,
     backgroundColor: Colors.white,
     elevation: 5,
@@ -555,7 +556,7 @@ const Styles = StyleSheet.create({
     borderRadius: 4,
   },
   box2: {
-    height: height / 11,
+    height: height / 13,
     marginHorizontal: 20,
     backgroundColor: Colors.white,
     elevation: 5,

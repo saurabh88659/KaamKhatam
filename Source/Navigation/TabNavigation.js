@@ -57,16 +57,18 @@ function TabNavigation() {
   // };
 
   return (
+
+   
     <Tab.Navigator
       screenOptions={{
         showLabel: false,
         headerShown: true,
-        tabBarActiveTintColor: Colors.blue,
+        tabBarActiveTintColor: Colors.black,
         // tabBarShowLabel: false,
         tabBarHideOnKeyboard: true,
 
         tabBarStyle: {
-          backgroundColor: Colors.darkOrange,
+          backgroundColor: Colors.darkGreen,
           height: 55,
         },
         tabBarLabelStyle: {
@@ -79,7 +81,7 @@ function TabNavigation() {
         component={Home}
         options={{
           headerShown: false,
-          tabBarColor: Colors.blue,
+          tabBarColor: '#fcbf14',
           tabBarIcon: ({color, size, focused}) => (
             // <Image
             //   source={homeicone}
@@ -92,7 +94,7 @@ function TabNavigation() {
             // />
             <FontAwesome5
               name="home"
-              color={focused ? 'blue' : Colors.black}
+              color={focused ? '#ffa33f' : Colors.black}
               size={30}
             />
           ),
@@ -104,7 +106,7 @@ function TabNavigation() {
         component={Mybooking}
         options={{
           headerShown: false,
-          tabBarColor: Colors.blue,
+          tabBarColor: Colors.darkGreen,
           tabBarIcon: ({focused}) => (
             // <Image
             //   source={calendar22}
@@ -117,7 +119,7 @@ function TabNavigation() {
             // />
             <FontAwesome5
               name="calendar-alt"
-              color={focused ? 'blue' : Colors.black}
+              color={focused ? '#ffa33f' : Colors.black}
               size={28}
             />
           ),
@@ -154,7 +156,7 @@ function TabNavigation() {
             // </View>
             <FontAwesome5
               name="shopping-cart"
-              color={focused ? 'blue' : Colors.black}
+              color={focused ? '#ffa33f' : Colors.black}
               size={25}
             />
           ),
@@ -177,7 +179,7 @@ function TabNavigation() {
             // />
             <Feather
               name="user"
-              color={focused ? 'blue' : Colors.black}
+              color={focused ? '#ffa33f' : Colors.black}
               size={30}
             />
           ),

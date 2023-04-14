@@ -171,7 +171,7 @@ const RescheduleBooking = props => {
       timeSlot: startTime + '' + endTime,
       bookingDate: d,
     };
-    console.log('obj', obj);
+    console.log('obj ', obj);
     axios
       .post(BASE_URL + `/booking/verifyTimeSlot`, obj, {
         headers: {Authorization: `Bearer ${token}`},
@@ -240,7 +240,7 @@ const RescheduleBooking = props => {
       <ScrollView
         // horizontal={true}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{backgroundColor: 'red'}}>
+        contentContainerStyle={{backgroundColor: 'white'}}>
         {TimeSlot.map((timeSlot, index) => (
           <View key={index}>
             <TouchableOpacity

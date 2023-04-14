@@ -1,18 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  SafeAreaView,
-  StyleSheet,
-  Image,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  TextInput,
-  ActivityIndicator,
-  StatusBar,
+import {  View, SafeAreaView, StyleSheet, Text,
+  ScrollView, TouchableOpacity,
+  TextInput,Image,  ActivityIndicator,
+  StatusBar,Dimensions,
   RefreshControl,
-} from 'react-native';
-// import LinearGradient from 'react-native-linear-gradient';
+ } from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -20,7 +12,6 @@ import {
 import Colors from '../../Assets/Constants/Colors';
 import HeaderDrawer from '../../ReusableComponents/HeaderDrawer';
 import ServicesComp from './Component/ServicesComp';
-// import BeautyServices from './Component/BeautyServices';
 import axios from 'axios';
 import Swiper from 'react-native-swiper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
@@ -31,6 +22,7 @@ import Geolocation from '@react-native-community/geolocation';
 import {useIsFocused} from '@react-navigation/native';
 
 const API_KEY = 'AIzaSyD3Uol_-mBQSaZgIfuzVVK1oHXqBHPkrZE';
+const {height, width} = Dimensions.get('window');
 
 function Home({navigation}) {
   const [category, setCategory] = useState([]);
@@ -41,11 +33,8 @@ function Home({navigation}) {
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
   const [refresh, setRfresh] = useState(false);
-
-  // console.log('state-Homme--', state);
-  // const address = state.split(',');
-  // console.log('address----------->>>', address[5]);
   const isFocused = useIsFocused();
+
 
   setTimeout(() => {
     setRfresh(false);
@@ -208,12 +197,12 @@ function Home({navigation}) {
                 showsPagination={false}
                 style={styles.scroll}>
                 {bannerUrl.map((value, index) => (
-                  <TouchableOpacity key={index}>
+                   <TouchableOpacity key={index}>
                     <Image
                       source={{uri: value.imageUrl}}
                       style={styles.imgSlider}
                     />
-                  </TouchableOpacity>
+                   </TouchableOpacity>
                 ))}
               </Swiper>
             </View>
@@ -246,116 +235,7 @@ function Home({navigation}) {
                 ))}
               </View>
             </View>
-
-            {/* <View
-              style={{
-                paddingVertical: hp('3%'),
-
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <View
-                style={{
-                  width: wp('90%'),
-                  borderRadius: hp('3%'),
-                  backgroundColor: Colors.white,
-                  paddingBottom: hp('2%'),
-                  elevation: 10,
-                }}>
-                <LinearGradient
-                  start={{x: 0.0, y: 0.25}}
-                  end={{x: 0.9, y: 1.0}}
-                  colors={[
-                    Colors.lightOrange,
-                    Colors.lightOrange,
-                    Colors.lightGreen,
-                  ]}
-                  style={{
-                    padding: hp('3%'),
-                    alignItems: 'center',
-                    borderTopLeftRadius: hp('3%'),
-                    borderTopRightRadius: hp('3%'),
-                  }}>
-                  <Text
-                    style={{
-                      color: Colors.white,
-                      fontWeight: 'bold',
-                      fontSize: hp('2.4%'),
-                    }}>
-                    India's Safest At Home Beauty Services
-                  </Text>
-                </LinearGradient>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-around',
-                  }}>
-                  <BeautyServices
-                    title="Classic Mani & Pedi"
-                    image={require('../../Assets/Images/hairdressing2.png')}
-                    // onPress={() => props.navigation.navigate('Manicure', props)}
-                  />
-                  <BeautyServices
-                    // onPress={() => {
-                    //   // props.navigation.navigate('Bleach', props);
-                    // }}
-                    title="Clean up + Bleach"
-                    image={require('../../Assets/Images/Massage1.png')}
-                  />
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-around',
-                    paddingBottom: hp('2%'),
-                  }}>
-                  <BeautyServices
-                    title="Chocolate Wax"
-                    image={require('../../Assets/Images/Massage3.png')}
-                    // onPress={() => {
-                    //   props.navigation.navigate('Chocolatewax', props);
-                    // }}
-                  />
-                  <BeautyServices
-                    title="Skin Brightening"
-                    image={require('../../Assets/Images/Massage4.png')}
-                    // onPress={() => {
-                    //   props.navigation.navigate('Cleanup', props);
-                    // }}
-                  />
-                </View>
-                <TouchableOpacity
-                  style={{
-                    alignItems: 'center',
-                    paddingHorizontal: wp('15%'),
-                    borderRadius: hp('3%'),
-                    padding: hp('1%'),
-                    backgroundColor: Colors.lightGreen,
-                    alignSelf: 'center',
-                  }}
-                  // onPress={() => props.navigation.navigate('SalonWomen')}
-                >
-                  <Text
-                    style={{
-                      fontWeight: 'bold',
-                      fontSize: hp('2%'),
-                      color: Colors.white,
-                    }}>
-                    Book Now
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <TouchableOpacity>
-              <Image
-                source={require('../../Assets/Images/hairdressing2.png')}
-                style={{
-                  width: wp('100%'),
-                  height: wp('40%'),
-                }}
-              />
-            </TouchableOpacity> */}
-          </ScrollView>
+                     </ScrollView>
         </View>
       )}
     </SafeAreaView>
@@ -376,19 +256,25 @@ const styles = StyleSheet.create({
     padding: wp('1%'),
   },
   scroll: {
-    paddingVertical: hp('3%'),
-    backgroundColor: Colors.white,
-    height: hp('30%'),
-    top: -25,
+    
+    backgroundColor: '#fff',
+    height: hp('37%'),
+   
     borderRadius: 20,
+   
   },
   imgSlider: {
     alignSelf: 'center',
-    borderWidth: 3,
+    borderWidth: 2,
     borderColor: Colors.white,
     borderRadius: 10,
-    width: '100%',
-    height: hp('25%'),
-    // resizeMode: 'cover',
+    width: '96%',
+    height:'94%',
+    marginVertical:3,
+    
+   
+    
+    resizeMode:'stretch'
+    // resizeMode:'contain'
   },
 });

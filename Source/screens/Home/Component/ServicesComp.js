@@ -13,10 +13,12 @@ const ServicesComp = props => {
       onPress={props.onPress}
       style={{
         alignItems: 'center',
-        justifyContent: 'center',
+       justifyContent:'space-between',
+        // flexWrap:'wrap',
         marginTop: hp('3%'),
         width: wp('20%'),
-        marginHorizontal: '4%',
+        marginHorizontal: '2%',
+        // backgroundColor:'pink'
       }}>
       <Image
         source={props.image}

@@ -14,7 +14,7 @@ export default function ServicesRatingsilver(props) {
   const [ratingdata, setRatingdata] = useState([]);
   const [lengthzero, setLengthzero] = useState('');
 
-  console.log('lengthzero--->>>', lengthzero);
+  // console.log('lengthzero--->>>', lengthzero);
 
   useEffect(() => {
     allReviewsOfParticularPackage();

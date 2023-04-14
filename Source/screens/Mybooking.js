@@ -218,7 +218,7 @@ function Mybooking({navigation}) {
                       navigation.navigate('Viewdetails', value.bookingId)
                     }
                     style={{
-                      backgroundColor: Colors.lightGreen,
+                      backgroundColor: Colors.darkGreen,
                       padding: 5,
                       top: 25,
                       borderRadius: 7,
