@@ -24,8 +24,9 @@ const Reusablecss = StyleSheet.create({
   },
 
   cntrContainer: {
-    height: hp('78.5%'),
-    paddingBottom: hp('2.5%'),
+    // height: hp('88.5%'),
+    paddingBottom: hp('20%'),
+    
   },
   card: {
     // width: '100%',

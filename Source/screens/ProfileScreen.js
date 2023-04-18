@@ -34,6 +34,7 @@ const ProfileScreen = ({navigation, route}) => {
   const [imageData, setImageData] = useState(null);
   const [profileUrl, setProfileUrl] = useState('');
   const [isImage, setIsImage] = useState('');
+  const [onUpdateImage, setOnUpdateImage] = useState(Math.random());
 
   // console.log('isImage', isImage);
 
@@ -86,6 +87,8 @@ const ProfileScreen = ({navigation, route}) => {
   };
 
   const _updateProfilePic = async () => {
+    setOnUpdateImage(Math.random());
+
     const token = await _getStorage('token');
     Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
     console.log('imageData==========', imageData);
@@ -245,7 +248,7 @@ const ProfileScreen = ({navigation, route}) => {
                 {profileUrl || imageUrlPath ? (
                   <Image
                     source={
-                      imageUrlPath ? {uri: imageUrlPath} : {uri: profileUrl}
+                      imageUrlPath ? {uri: imageUrlPath} : {uri: profileUrl + '?' + onUpdateImage}
                     }
                     style={{
                       width: 100,

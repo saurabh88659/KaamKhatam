@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   RefreshControl,
+  BackHandler,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Colors from '../Assets/Constants/Colors';
@@ -34,6 +35,21 @@ function Mybooking({navigation}) {
   setTimeout(() => {
     setRfresh(false);
   }, 3000);
+
+
+  function handleBackButtonClick() {
+    navigation.navigate("Home");
+    return true;
+  }
+
+  useEffect(() => {
+    BackHandler.addEventListener('Home', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener('Home', handleBackButtonClick);
+    };
+  }, []);
+
+
 
   const bookingDetails = async () => {
     const token = await _getStorage('token');

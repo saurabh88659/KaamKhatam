@@ -35,66 +35,65 @@ const RescheduleBooking = props => {
   const bokingID = props.route.params;
 
   //   console.log('bbokingID', bokingID);
-
   const TimeSlot = [
     {
       id: 0,
-      startTime: '09:00 AM -',
+      startTime: '09:00 AM',
       endTime: '10:00 AM',
     },
     {
       id: 1,
-      startTime: '10:00 AM -',
+      startTime: '10:00 AM',
       endTime: '11:00 AM',
     },
     {
       id: 2,
-      startTime: '11:00 AM -',
+      startTime: '11:00 AM',
       endTime: '12:00 PM',
     },
     {
       id: 3,
-      startTime: '12:00 PM -',
+      startTime: '12:00 PM',
       endTime: '01:00 PM',
     },
     {
       id: 4,
-      startTime: '01:00 PM -',
+      startTime: '01:00 PM',
       endTime: '02:00 PM',
     },
     {
       id: 5,
-      startTime: '02:00 PM -',
+      startTime: '02:00 PM',
       endTime: '03:00 PM',
     },
     {
       id: 6,
-      startTime: '03:00 PM -',
+      startTime: '03:00 PM',
       endTime: '04:00 PM',
     },
     {
       id: 7,
-      startTime: '04:00 PM -',
+      startTime: '04:00 PM',
       endTime: '05:00 PM',
     },
     {
       id: 8,
-      startTime: '05:00 PM -',
+      startTime: '05:00 PM',
       endTime: '06:00 PM',
     },
     {
       id: 9,
-      startTime: '06:00 PM -',
+      startTime: '06:00 PM',
       endTime: '07:00 PM',
     },
     {
       id: 10,
-      startTime: '07:00 PM -',
+      startTime: '07:00 PM',
       endTime: '08:00 PM',
     },
     {
       id: 11,
-      startTime: '08:00 PM -',
+      startTime: '08:00 PM',
       endTime: '09:00 PM',
     },
   ];
@@ -168,7 +167,8 @@ const RescheduleBooking = props => {
     let dt = date.split('/');
     let d = `${dt[1]}/${dt[0]}/${dt[2]}`;
     const obj = {
-      timeSlot: startTime + '' + endTime,
+      // timeSlot: startTime + '' + endTime,
+      timeSlot: `${startTime}-${endTime}`,
       bookingDate: d,
     };
     console.log('obj ', obj);
@@ -213,7 +213,8 @@ const RescheduleBooking = props => {
           paddingHorizontal: 13,
           borderColor: 'grey',
         }}>
-        <View
+        <TouchableOpacity
+        onPress={showDatePicker}
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -235,40 +236,61 @@ const RescheduleBooking = props => {
               />
             </TouchableOpacity>
           </View>
-        </View>
+        </TouchableOpacity>
       </View>
       <ScrollView
         // horizontal={true}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{backgroundColor: 'white'}}>
-        {TimeSlot.map((timeSlot, index) => (
-          <View key={index}>
-            <TouchableOpacity
-              onPress={() => {
-                setSelectionTime(timeSlot.id);
-                setEndTime(timeSlot.endTime);
-                setStartTime(timeSlot.startTime);
-              }}
-              style={{
-                flexDirection: 'row',
-                backgroundColor: selectionTime === index ? '#0EC01B' : 'white',
-                paddingVertical: 10,
-                paddingHorizontal: 20,
-                marginVertical: 10,
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: 10,
-                marginHorizontal: 10,
-              }}>
-              <Text style={{color: Colors.black, fontSize: 20}}>
-                {timeSlot.startTime}
-              </Text>
-              <Text style={{color: Colors.black, fontSize: 20, left: 5}}>
-                {timeSlot.endTime}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        ))}
+        contentContainerStyle={{}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+          }}>
+          {TimeSlot.map((timeSlot, index) => (
+            <View key={index}>
+              <TouchableOpacity
+                onPress={() => {
+                  setSelectionTime(timeSlot.id);
+                  setEndTime(timeSlot.endTime);
+                  setStartTime(timeSlot.startTime);
+                }}
+                style={{
+                  flexDirection: 'row',
+                  backgroundColor:
+                    selectionTime === index ? '#0EC01B' : 'white',
+                  paddingVertical: 10,
+                  marginVertical: 10,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: 7,
+                  marginHorizontal: 20,
+                  width: 140,
+                }}>
+                <Text
+                  style={{
+                    color:
+                      selectionTime === index ? Colors.white : Colors.black,
+                    fontSize: 13,
+                    fontWeight: '500',
+                  }}>
+                  {`${timeSlot.startTime} `}
+                </Text>
+
+                <Text
+                  style={{
+                    color:
+                      selectionTime === index ? Colors.white : Colors.black,
+                    fontSize: 13,
+                    fontWeight: '500',
+                  }}>
+                  {timeSlot.endTime}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ))}
+        </View>
       </ScrollView>
       {isLoading === true ? (
         <View
@@ -281,14 +303,16 @@ const RescheduleBooking = props => {
       ) : (
         <TouchableOpacity
           onPress={chackDate}
-          // disabled={date ? Colors.darkGreen : Colors.darkGray}
+          // disabled={date ? false : true}
           style={{
-            backgroundColor: date ? Colors.darkGreen : Colors.darkGray,
+            backgroundColor: date ? Colors.darkGreen : Colors.darkOrange,
             justifyContent: 'center',
             borderRadius: 7,
             paddingHorizontal: 20,
             paddingVertical: 15,
             alignItems: 'center',
+            marginHorizontal:15,
+            top:"-20%"
           }}>
           <Text
             style={{alignSelf: 'center', color: 'white', fontWeight: 'bold'}}>

@@ -53,7 +53,6 @@ const Viewdetails = props => {
 
   const Viewdetailsbooking = async () => {
     const token = await _getStorage('token');
-    console.log('token', token);
     axios
       .get(BASE_URL + `/booking/${bookinID}`, {
         headers: {Authorization: `Bearer ${token}`},
@@ -75,8 +74,6 @@ const Viewdetails = props => {
 
   const review = async () => {
     const token = await _getStorage('token');
-    console.log('token', token);
-
     const rateObj = {
       serviceId: serviceid,
       packageId: packageId,
@@ -116,7 +113,6 @@ const Viewdetails = props => {
 
   const reviewVendor = async () => {
     const token = await _getStorage('token');
-    console.log(token);
 
     const vendorobj = {
       comment: vendorcomments,
@@ -156,7 +152,6 @@ const Viewdetails = props => {
 
   const cancelBooking = async () => {
     const token = await _getStorage('token');
-    console.log('token', token);
     Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
 
     let obj = {
@@ -169,8 +164,8 @@ const Viewdetails = props => {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        // console.log('cancel booking ', res.data);
         Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
+        props.navigation.navigate('Home')
       })
       .catch(error => {
         console.log('cancel booking catch error', error);

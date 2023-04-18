@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   RefreshControl,
+  BackHandler,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Colors from '../Assets/Constants/Colors';
@@ -33,6 +34,20 @@ function Mybooking2({navigation}) {
   setTimeout(() => {
     setRfresh(false);
   }, 3000);
+
+
+  function handleBackButtonClick() {
+    navigation.navigate("Home");
+    return true;
+  }
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
+    };
+  }, []);
+
 
   const bookingDetails = async () => {
     const token = await _getStorage('token');
@@ -67,7 +82,7 @@ function Mybooking2({navigation}) {
         bgColor={Colors.darkOrange}
         color={Colors.white}
         title="My Bookings"
-        onPress={() => navigation.goBack()}
+        onPress={() => navigation.navigate("Home")}
       />
       <ScrollView
         refreshControl={

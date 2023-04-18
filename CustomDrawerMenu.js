@@ -27,20 +27,18 @@ const CustomDrawerMenu = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
   const [profileData, setProfileData] = useState({});
+  const [imgUrl,setImagee] =useState()
+  const [onUpdateImage, setOnUpdateImage] = useState(Math.random());
 
-  const [state, setState] = useState({
-    isLogoutClicked: false,
-    loggedOut: false,
-    profileImg: null,
-    isPicker: false,
-    isUpdateProfile: false,
-  });
+  
 
   useEffect(() => {
+    // console.log("useEffect----")
     profileapi();
-  }, []);
+  }, [imgUrl]);
 
   const profileapi = async () => {
+    setOnUpdateImage(Math.random());
     const token = await _getStorage('token');
     axios
       .get(BASE_URL + `/profile`, {
@@ -48,7 +46,8 @@ const CustomDrawerMenu = props => {
       })
       .then(val => {
         setProfileData(val.data.result);
-        console.log('profile drower>', val.data.result);
+        setImagee(val.data.result.imageUrl)
+        console.log('profile drower>', val.data.result.imageUrl);
       })
       .catch(error => {
         console.log(' profile drower in catch', error.response.data);
@@ -74,7 +73,7 @@ const CustomDrawerMenu = props => {
       );
     }, 2000);
   };
-
+console.log("img url ---",imgUrl)
   return (
     <ScrollView style={{flex: 1, backgroundColor: Colors.white}}>
       <DrawerContentScrollView
@@ -92,7 +91,9 @@ const CustomDrawerMenu = props => {
               backgroundColor: Colors.lightGray,
             }}
             onPress={() => props.navigation.navigate('ProfileScreen')}>
+               {console.log("ddddddddddddddddddddddddddddd",imgUrl)}
             {profileData ? (
+             
               <Image
                 style={{
                   height: '100%',
@@ -100,7 +101,8 @@ const CustomDrawerMenu = props => {
                   borderRadius: 100,
                   resizeMode: 'cover',
                 }}
-                source={{uri: profileData?.imageUrl}}
+                source={{uri: imgUrl+ '?' + onUpdateImage}}
+                
               />
             ) : (
               <Text

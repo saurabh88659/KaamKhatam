@@ -113,7 +113,6 @@ function Home({navigation}) {
 
   const _getBanner = async () => {
     const token = await _getStorage('token');
-    // console.log('token', token);
     axios
       .get(BASE_URL + `/banner`, {
         headers: {Authorization: `Bearer ${token}`},
@@ -235,7 +234,7 @@ function Home({navigation}) {
                 ))}
               </View>
             </View>
-                     </ScrollView>
+            </ScrollView>
         </View>
       )}
     </SafeAreaView>
@@ -256,10 +255,8 @@ const styles = StyleSheet.create({
     padding: wp('1%'),
   },
   scroll: {
-    
     backgroundColor: '#fff',
     height: hp('37%'),
-   
     borderRadius: 20,
    
   },
@@ -270,11 +267,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '96%',
     height:'94%',
-    marginVertical:3,
-    
-   
-    
-    resizeMode:'stretch'
-    // resizeMode:'contain'
+    marginVertical:3,  
+    // resizeMode:'stretch'
+    resizeMode:'contain'
   },
 });
