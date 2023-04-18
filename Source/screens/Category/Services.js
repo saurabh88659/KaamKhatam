@@ -309,12 +309,12 @@ const Services = props => {
                       />
                       <Text style={Reusablecss.ratingBar}>{item.rating}</Text>
                     </View>
-                    <View style={Reusablecss.priceCntr}>
+                    {/* <View style={Reusablecss.priceCntr}>
                       <Text style={Reusablecss.img}>INR</Text>
 
                       <Text style={Reusablecss.priceBar}>{item.price}</Text>
                       <Text style={Reusablecss.timing}>{item.time}</Text>
-                    </View>
+                    </View> */}
                     <Text style={{top: -5, color: Colors.black}}>
                       .........................................................
                     </Text>

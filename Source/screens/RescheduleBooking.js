@@ -178,8 +178,9 @@ const RescheduleBooking = props => {
       })
       .then(res => {
         console.log('chackDate', res.data);
-        reschedule();
+        
         Toast.showWithGravity(res.data?.message, Toast.LONG, Toast.BOTTOM);
+        reschedule();
         setIsLoading(false);
       })
       .catch(error => {

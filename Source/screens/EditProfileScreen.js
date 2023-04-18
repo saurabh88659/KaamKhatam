@@ -52,6 +52,7 @@ const EditProfileScreen = props => {
   const [getDate, setGetDate] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [counter, setCounter] = React.useState(30);
+  const isFocused = useIsFocused();
 
   //! ================working on ==============
   const [isGettingOTP, setIsGettingOTP] = useState(false);
@@ -59,8 +60,16 @@ const EditProfileScreen = props => {
   const [isVerified, setIsVerified] = useState(false);
   // const isFocused = useIsFocused();
 
+
+  useEffect(() =>{
+
+    if(isFocused){
+      profiledata();
+    }  
+  },[isFocused]);
+
   useEffect(() => {
-    profiledata();
+    
 
     const timer =
       counter > 0 && setInterval(() => setCounter(counter - 1), 1000);

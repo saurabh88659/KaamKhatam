@@ -489,7 +489,7 @@ const Viewdetails = props => {
                         fontWeight: 'bold',
                         fontSize: 16,
                       }}>
-                      Booking Cancel
+                       Cancel Booking
                     </Text>
                   </TouchableOpacity>
                 </View>

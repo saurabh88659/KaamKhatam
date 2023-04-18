@@ -188,8 +188,9 @@ const TimeAndSlot = props => {
       })
       .then(res => {
         console.log('chackDate', res.data);
-        conBooking();
+       
         Toast.showWithGravity(res.data?.message, Toast.LONG, Toast.BOTTOM);
+        conBooking();
       })
       .catch(error => {
         console.log('chackdate error', error.response.data.message);
