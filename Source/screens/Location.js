@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, Image, Alert, Linking} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Image, Alert, Linking } from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -7,13 +7,10 @@ import {
 import Colors from '../Assets/Constants/Colors';
 import CustomButton from '../ReusableComponents/Button';
 import Geolocation from '@react-native-community/geolocation';
-import {_getStorage} from '../Assets/utils/storage/Storage';
+import { _getStorage } from '../Assets/utils/storage/Storage';
 import axios from 'axios';
-import {BASE_URL} from '../Assets/utils/Restapi/Config';
+import { BASE_URL } from '../Assets/utils/Restapi/Config';
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import Geocoder from 'react-native-geocoding';
-import {PermissionsAndroid} from 'react-native';
 import Toast from 'react-native-simple-toast';
 
 // const API_KEY = 'AIzaSyD3Uol_-mBQSaZgIfuzVVK1oHXqBHPkrZE';
@@ -45,10 +42,9 @@ const Location = props => {
     console.log('locobj locations', locobj);
     axios
       .put(BASE_URL + `/coordinates`, locobj, {
-        headers: {Authorization: `Bearer ${token}`},
+        headers: { Authorization: `Bearer ${token}` },
       })
       .then(async res => {
-        // console.log('Locations--------------------------------', res.data);
         if (res.data.message === 'User coordinates Updated Successfully') {
           Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
           props.navigation.navigate('DrowerNavigation');
@@ -89,16 +85,11 @@ const Location = props => {
         interval: 10000,
         fastInterval: 5000,
       }).then(data => {
-        // console.log('data------------->>>', data);
         if (data === 'already-enabled') {
-          // props.navigation.navigate('DrowerNavigation');
-          // console.log('hey-------------------');
         } else {
           console.log('hey%%');
         }
       });
-
-      // do some action after the gps has been activated by the user
     } catch (error) {
       console.log(error);
     }
@@ -130,7 +121,7 @@ const Location = props => {
           );
         }
       },
-      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
     );
   }
 
@@ -144,7 +135,7 @@ const Location = props => {
           justifyContent: 'center',
         }}>
         <Image source={require('../Assets/Images/map.png')} />
-        <Text style={{fontWeight: 'bold', fontSize: hp('2.5%')}}>
+        <Text style={{ fontWeight: 'bold', fontSize: hp('2.5%') }}>
           See Services around
         </Text>
         <CustomButton
@@ -156,19 +147,8 @@ const Location = props => {
           title="Your Current Location"
           color={Colors.white}
         />
-        {/* <CustomButton
-          onPress={() =>
-            Linking('https://www.npmjs.com/package/react-native-webbrowser')
-          }
-          height={hp('7%')}
-          width={wp('80%')}
-          bgColor={Colors.white}
-          title="Enter Location Manually"
-          color={Colors.black}
-        /> */}
       </View>
-
-      <View style={{width: wp('100%'), height: hp('20%')}}>
+      <View style={{ width: wp('100%'), height: hp('20%') }}>
         <Image
           source={require('../Assets/Images/city.png')}
           style={styles.bottomImg}

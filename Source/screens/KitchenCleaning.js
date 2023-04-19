@@ -7,7 +7,6 @@ import {
   FlatList,
   StyleSheet,
 } from 'react-native';
-
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
 import AddCart from '../ReusableComponents/AddCart';
@@ -22,7 +21,6 @@ import kitchenceaning2 from '../Assets/Images/kitchenceaning2.png';
 import kitchenceaning from '../Assets/Images/kitchenceaning.png';
 import kitchenceaning3 from '../Assets/Images/kitchenceaning3.png';
 import Reusablecss from '../Assets/Css/Reusablecss';
-
 import {useNavigation} from '@react-navigation/native';
 
 export default function KitchenCleaning() {

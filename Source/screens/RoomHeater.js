@@ -5,7 +5,6 @@ import doublebattery from '../Assets/Images/doublebattery.png';
 import Stabtilizer from '../Assets/Images/Stabtilizer.png';
 import batteryservices from '../Assets/Images/batteryservices.png';
 import glassfuse from '../Assets/Images/glassfuse.png';
-
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
 import AddCart from '../ReusableComponents/AddCart';
@@ -14,7 +13,6 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-
 import Reusablecss from '../Assets/Css/Reusablecss';
 import GreenHeader from '../ReusableComponents/GreenHeader';
 

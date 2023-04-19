@@ -28,13 +28,8 @@ export default function App() {
             d2: `20 mins of Head & Shoulder pain therapy`,
             d3: `Stress Relief Muscle relaxation, Pain relief`
         },
-
-
-
-
     ]
     return (
-
 
         <View style={styles.container}>
             <Header bgColor={Colors.darkOrange} color={Colors.black} title='Salon for Women' />

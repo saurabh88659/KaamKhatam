@@ -147,7 +147,8 @@ const RescheduleBooking = props => {
       .then(res => {
         console.log('reschedule response', res.data);
         if (res.data.message == 'Booking Rescheduled') {
-          props.navigation.goBack();
+          props.navigation.navigate('Home')
+          // props.navigation.goBack();
           //   Viewdetailsbooking();
         }
         setIsLoading(false);

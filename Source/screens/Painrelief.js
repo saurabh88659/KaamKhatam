@@ -1,9 +1,7 @@
-
 import React from 'react';
 import { Text, View, Image, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import ServiceCard from '../ReusableComponents/ServiceCard';
 import PainReliefTherapy from '../Assets/Images/Painrelieftherapy.png';
-
 import GrayHeader from '../ReusableComponents/GrayHeader';
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
@@ -25,9 +23,7 @@ export default function App() {
 
     ]
     return (
-
-
-        <View style={styles.container}>
+       <View style={styles.container}>
             <Header bgColor={Colors.darkOrange} color={Colors.black} title='Salon for Men' />
             <GrayHeader title='Pain Relief Therapy ' />
 

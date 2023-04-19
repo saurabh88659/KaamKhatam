@@ -12,9 +12,8 @@ import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
 import Modal from 'react-native-modal';
 
-const {width, height} = Dimensions.get('window');
-
-const Editaddress = props => {
+  const {width, height} = Dimensions.get('window');
+  const Editaddress = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const [index, setIndex] = useState(0);
 

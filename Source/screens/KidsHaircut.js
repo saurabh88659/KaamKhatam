@@ -28,10 +28,6 @@ export default function App() {
             d1: `Basic hair trimming by experts trained to cut kid's hair`,
             d2: `Girls age btw 3-12 years of age`
         },
-
-
-
-
     ]
     return (
 

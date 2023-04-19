@@ -20,9 +20,7 @@ export default function ServicesRatinggold(props) {
 
   const allReviewsOfParticularPackage = async () => {
     const token = await _getStorage('token');
-    // console.log('token-------->>>', token);
-
-    const data = {
+      const data = {
       serviceId: preData.serviceID,
       packageId: preData.goldID,
     };
@@ -44,9 +42,7 @@ export default function ServicesRatinggold(props) {
       })
       .catch(error => {
         console.log('gold all rating catch errro--------->>>', error);
-        // if (error) {
-        //   setLengthzero(meassage);
-        // }
+      
       });
   };
 

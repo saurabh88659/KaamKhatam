@@ -11,9 +11,7 @@ import {
   ScrollView,
   RefreshControl,
 } from 'react-native';
-
 import Colors from '../Assets/Constants/Colors';
-
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -25,7 +23,6 @@ import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import Geolocation from '@react-native-community/geolocation';
 import Toast from 'react-native-simple-toast';
 import Header from '../ReusableComponents/Header';
-// import {useNavigation} from '@react-navigation/native';
 import {useIsFocused} from '@react-navigation/native';
 
 const MyCartScreen = props => {
@@ -37,24 +34,10 @@ const MyCartScreen = props => {
   const [refresh, setRfresh] = useState(false);
   const isFocused = useIsFocused();
 
-  // const navigation = useNavigation();
-
-  // const Srt = [
-  //   {
-  //     title: 'Hair Color Application ',
-  //     price: `₹69 `,
-  //   },
-  // ];
-
-  // const pullMe = () => {
-  //   setRfresh(true);
-  // };
 
   setTimeout(() => {
     setRfresh(false);
   }, 3000);
-
-  // console.log('mycartname', mycartname.cartId);
 
   useEffect(() => {
     if (isFocused) {
@@ -76,8 +59,6 @@ const MyCartScreen = props => {
         setDelmess('');
         setIsLoading(false);
         setRfresh(false);
-
-        // console.log('cart id ---------', res.data.newResult);
       })
       .catch(error => {
         if (error.response.data?.message === 'No Result Found ') {
@@ -103,8 +84,7 @@ const MyCartScreen = props => {
         data: {cartId: mycartname.cartId},
       })
       .then(rep => {
-        // console.log('delete my cart', rep.data);
-        get_mycart();
+              get_mycart();
         Toast.showWithGravity(rep.data?.message, Toast.LONG, Toast.BOTTOM);
       })
       .catch(error => {
@@ -149,13 +129,7 @@ const MyCartScreen = props => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <HeaderDrawer
-        Title="My Cart"
-        location="Sector 62"
-        // onPress={() => props.navigation.toggleDrawer()}
-        onPress={() => props.navigation.openDrawer()}
-      /> */}
-      <Header
+           <Header
         bgColor={Colors.darkOrange}
         color={Colors.white}
         title="My Cart"
@@ -298,181 +272,7 @@ const MyCartScreen = props => {
           </View>
         )}
       </ScrollView>
-
-      {/* <View style={{flex: 1}}>
-        <FlatList
-          contentContainerStyle={{paddingBottom: 60}}
-          keyExtractor={(item, index) => index.toString()}
-          showsVerticalScrollIndicator={false}
-          data={Srt}
-          renderItem={({item}) => (
-            // <View
-            //   style={{
-            //     height: '100%',
-            //     borderWidth: 1,
-            //     marginVertical: 10,
-            //   }}></View>
-
-            <View
-              style={{
-                borderBottomWidth: 1,
-                borderColor: '#BDBDBD',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                height: 80,
-                alignItems: 'center',
-              }}>
-              <Text style={styles.title}>{item.title}</Text>
-              <View
-                style={{
-                  borderColor: 'blue',
-                  width: 80,
-                  borderRadius: 10,
-                }}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}>
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: '#FF8B20',
-                      width: 30,
-                      borderBottomLeftRadius: 10,
-                      borderTopLeftRadius: 10,
-                      height: 40,
-                    }}
-                    onPress={decNum}>
-                    <Text
-                      style={{
-                        fontSize: 30,
-                        fontWeight: 'bold',
-                        color: 'white',
-                        marginHorizontal: 10,
-                      }}>
-                      -
-                    </Text>
-                  </TouchableOpacity>
-                  <Text
-                    style={{
-                      fontSize: 15,
-                      fontWeight: 'bold',
-                      color: '#FF8B20',
-                    }}>
-                    {num}
-                  </Text>
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: '#FF8B20',
-                      borderBottomRightRadius: 10,
-                      borderTopRightRadius: 10,
-                      width: 30,
-                    }}>
-                    <Text
-                      style={{
-                        fontSize: 30,
-                        fontWeight: 'bold',
-                        color: 'white',
-                        marginHorizontal: 5,
-                      }}
-                      onPress={incNum}>
-                      +
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-              <Text style={styles.priceBar}>{item.price}</Text>
-            </View>
-          )}
-        />
-
-        <View
-          style={{
-            backgroundColor: 'white',
-            bottom: '14%',
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            marginVertical: -16,
-          }}>
-          <View
-            style={{
-              borderTopWidth: 2,
-            }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginHorizontal: 20,
-                marginVertical: 15,
-              }}>
-              <Text style={{fontWeight: 'bold', color: 'grey'}}>
-                Item total
-              </Text>
-              <Text style={{fontWeight: 'bold'}}>₹449</Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginHorizontal: 20,
-              }}>
-              <Text style={{fontWeight: 'bold', color: 'grey'}}>
-                Safety & Partner Welfare Fees
-              </Text>
-              <Text style={{fontWeight: 'bold'}}>₹49</Text>
-            </View>
-          </View>
-          <View
-            style={{
-              borderColor: 'grey',
-              borderTopWidth: 1,
-              marginVertical: 20,
-              marginHorizontal: 20,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}>
-            <Text style={{fontWeight: 'bold', fontSize: 17, marginVertical: 5}}>
-              Total
-            </Text>
-            <Text style={{fontWeight: 'bold', fontSize: 17, marginVertical: 5}}>
-              ₹547
-            </Text>
-          </View>
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate('Editaddress')}
-            style={{
-              height: 45,
-              backgroundColor: '#0EC01B',
-              marginHorizontal: 10,
-              borderRadius: 7,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                fontSize: 17,
-                color: 'white',
-                left: 7,
-              }}>
-              ₹547
-            </Text>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                fontSize: 17,
-                color: 'white',
-                right: 7,
-              }}>
-              Continue
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View> */}
-    </SafeAreaView>
+         </SafeAreaView>
   );
 };
 
@@ -480,24 +280,10 @@ export default MyCartScreen;
 
 const styles = StyleSheet.create({
   container: {
-    // width: wp('100%'),
     height: hp('100%'),
   },
-  // greyHeader: {
-  //   width: wp('100%'),
-  //   height: hp('12%'),
-  //   marginTop: hp('1.5%'),
-  //   justifyContent: 'flex-start',
-  //   alignItems: 'center',
-  //   flexDirection: 'row',
-  //   paddingBottom: 5,
-  //   backgroundColor: Colors.lightGray,
-  // },
-
   cntrContainer: {
-    // height: hp('78.5%'),
-    // paddingBottom: hp('40%'),
-    flex: 1,
+       flex: 1,
   },
   card: {
     width: '100%',

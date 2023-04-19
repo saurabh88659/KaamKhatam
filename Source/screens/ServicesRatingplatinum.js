@@ -10,7 +10,6 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 export default function ServicesRatingplatinum(props) {
   const preData = props.route.params;
   console.log('hey', preData);
-
   const [ratingdata, setRatingdata] = useState([]);
   const [lengthzero, setLengthzero] = useState('');
 
@@ -20,9 +19,7 @@ export default function ServicesRatingplatinum(props) {
 
   const allReviewsOfParticularPackage = async () => {
     const token = await _getStorage('token');
-    // console.log('token-------->>>', token);
-
-    const data = {
+       const data = {
       serviceId: preData.serviceID,
       packageId: preData.platinumID,
     };
@@ -45,9 +42,7 @@ export default function ServicesRatingplatinum(props) {
       })
       .catch(error => {
         console.log(' silver all rating catch errro--------->>>', error);
-        // if (error) {
-        //   setLengthzero(meassage);
-        // }
+      
       });
   };
 

@@ -11,7 +11,6 @@ import {
 import nosound from '../Assets/Images/nosound.png';
 import sound2 from '../Assets/Images/sound2.png';
 import sound3 from '../Assets/Images/sound3.png';
-
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
 import AddCart from '../ReusableComponents/AddCart';
@@ -22,7 +21,6 @@ import {
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import GreenHeader from '../ReusableComponents/GreenHeader';
 import GrayHeader from '../ReusableComponents/GrayHeader';
-
 import {useNavigation} from '@react-navigation/native';
 
 export default function SpeakerSoundScreen() {

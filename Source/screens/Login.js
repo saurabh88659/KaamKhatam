@@ -58,20 +58,8 @@ const Login = props => {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       setGoggleemail(userInfo.user.email);
-      // await AsyncStorage.setItem('email', userInfo.user.email);
-
-      return userInfo;
-      // props.navigation.navigate('Otp')
-      //   this.setState({ userInfo });
-      // console.log('user info', userInfo.user.email);
-      // // setData(userInfo);
-      // if (userInfo == '') {
-      //   alert('user data not found');
-      // } else {
-      //   // props.navigation.navigate('DrowerNavigation');
-      //   console.log('api');
-      // }
-    } catch (error) {
+            return userInfo;
+       } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         console.log(error);
         // user cancelled the login flow

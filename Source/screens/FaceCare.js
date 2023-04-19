@@ -6,7 +6,6 @@ import TanRemoval from '../Assets/Images/Tanremoval.png';
 import ActiveDetox from '../Assets/Images/Activedetox.png';
 import CharcoalPeel from '../Assets/Images/Charcoalpeel.png';
 import FruitFacial from '../Assets/Images/Fruitfacial.png';
-
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
 import AddCart from '../ReusableComponents/AddCart';

@@ -11,7 +11,6 @@ import NeckBleach from '../Assets/Images/Neckbleach.png';
 import FullBodyBleach from '../Assets/Images/Fullbodybleach.png';
 import ArmsBleach from '../Assets/Images/Armsbleach.png';
 import LegsBleach from '../Assets/Images/Legsbleach.png';
-
 import Colors from '../Assets/Constants/Colors';
 import AddCart from '../ReusableComponents/AddCart';
 import {

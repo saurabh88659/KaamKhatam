@@ -7,13 +7,11 @@ import {
   FlatList,
   StyleSheet,
 } from 'react-native';
-
 import invertericone from '../Assets/Images/invertericone.png';
 import heater from '../Assets/Images/heater.png';
 import Mcbicone from '../Assets/Images/Mcbicone.png';
 import ceilingfanrepair from '../Assets/Images/ceilingfanrepair.png';
 import switchicone from '../Assets/Images/switchicone.png';
-
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
 import {

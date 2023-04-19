@@ -60,8 +60,7 @@ function Mybooking({navigation}) {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        // console.log('bookingdetails', res.data.newData.length);
-        if (res.data.message == 'No Data Found') {
+              if (res.data.message == 'No Data Found') {
           setNoData(res.data.message);
         } else {
           setBookdetails(res.data.newData);
@@ -82,8 +81,7 @@ function Mybooking({navigation}) {
     <SafeAreaView style={{flex: 1}}>
       <HeaderDrawer
         Title="My Bookings"
-        // location="Sector 62"
-        onPress={() => navigation.toggleDrawer()}
+               onPress={() => navigation.toggleDrawer()}
       />
       <ScrollView
         refreshControl={

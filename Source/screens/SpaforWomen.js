@@ -7,7 +7,6 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 import Header from '../ReusableComponents/Header';
@@ -27,30 +26,9 @@ import {_getStorage} from '../Assets/utils/storage/Storage';
 
 const SpaforWomen = props => {
   const preData = props.route.params;
-  // console.log('SUB--2222', preData);
+
   const [services, setServices] = useState('');
 
-  // console.log('subCategory2============333333333333333333==============');
-  // console.log('hey--------------', preData);
-
-  // useEffect(() => {
-  //   axios
-  //     .get(
-  //       BASE_URL + `/category/subcategoryService/${preData._id}`,
-
-  //       {
-  //         headers: {Authorization: ''},
-  //       },
-  //     )
-  //     .then(resp => {
-  //       console.log('heeeeeeeeeeeeeeeeeeeee', resp.data);
-  //       setServices(resp.data.result);
-  //     })
-  //     .catch(e => {
-  //       console.log('in catch');
-  //       console.log(e);
-  //     });
-  // }, []);
 
   useEffect(() => {
     subservice();
@@ -95,7 +73,7 @@ const SpaforWomen = props => {
               }}
             />
           }
-          // keyExtractor={(subCategory2, index) => index.toString()}
+      
           showsVerticalScrollIndicator={false}
           data={services}
           renderItem={({item, index}) => (

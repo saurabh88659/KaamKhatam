@@ -20,11 +20,8 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import GreenHeader from '../ReusableComponents/GreenHeader';
 import Reusablecss from '../Assets/Css/Reusablecss';
 
-// import {useNavigation} from '@react-navigation/native';
-
 export default function PainReliefTherapies({props}) {
-  // const navigation = useNavigation();
-
+  
   const Srt = [
     {
       title: 'Pain Relief Deep Tissue Therapy',

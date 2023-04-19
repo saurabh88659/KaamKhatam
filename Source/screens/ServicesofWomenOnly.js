@@ -10,8 +10,6 @@ const ServicesofWomenOnly = props => {
   const [subCategory, setSubcategory] = useState([]);
   const predata = props.route.params;
 
-  // console.log('subCategory========2222222222232333=========', predata._id);
-
   useEffect(() => {
     subCategoryscreen();
   }, []);
@@ -25,13 +23,10 @@ const ServicesofWomenOnly = props => {
       })
       .then(resp => {
         setSubcategory(resp.data.result.subCategory);
-        // console.log('subCategory-------->>>', resp.data.result.subCategory);
-        // setIsLoading(false);
-      })
+             })
       .catch(error => {
         console.log('in catch error data', error.response.data);
-        // setIsLoading(false);
-      });
+             });
   };
 
   return (
@@ -44,8 +39,7 @@ const ServicesofWomenOnly = props => {
       />
       <View>
         {subCategory.map((v, index) => (
-          // console.log('v--------------->>>', v),
-          <TouchableOpacity
+                   <TouchableOpacity
             key={index}
             style={{
               flexDirection: 'row',

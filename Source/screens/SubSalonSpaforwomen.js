@@ -21,14 +21,12 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-
-const {width, height} = Dimensions.get('window');
-
 import Modal from 'react-native-modal';
 import {RadioButton} from 'react-native-paper';
 import CustomButton from '../ReusableComponents/Button';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import {_getStorage} from '../Assets/utils/storage/Storage';
+const {width, height} = Dimensions.get('window');
 
 const SubSalonSpaforwomen = props => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -356,21 +354,7 @@ const SubSalonSpaforwomen = props => {
             </View>
           </View>
         </View>
-        {/* <View style={{alignItems: 'center'}}>
-          <TouchableOpacity
-            style={{
-              backgroundColor: Colors.darkOrange,
-              alignItems: 'center',
-              height: 35,
-              justifyContent: 'center',
-              width: 70,
-              borderRadius: 4,
-            }}>
-            <Text style={{color: 'white'}}>Next</Text>
-          </TouchableOpacity>
-        </View> */}
-
-        <View style={{alignItems: 'center', top: '1%'}}>
+           <View style={{alignItems: 'center', top: '1%'}}>
           <CustomButton
             title={'Next'}
             bgColor={Colors.darkGreen}

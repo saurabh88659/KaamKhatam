@@ -41,16 +41,11 @@ const Otp = ({navigation, route}) => {
 
     axios
       .post(BASE_URL + `/verifyOTP`, verifyObj)
-
       .then(async response => {
         await AsyncStorage.setItem('token', response.data.token);
         await AsyncStorage.setItem('refreshToken', response.data.refreshToken);
         await AsyncStorage.setItem('user_id', response.data.user_id);
-        // console.log(response.data);
-        // if (response.data.message == 'Registered successful') {
-        //   navigation.navigate('RegisterAccount');
-        // }
-        console.log(response.data);
+             console.log(response.data);
         axios
           .get(BASE_URL + `/profile`, {
             headers: {
@@ -69,14 +64,7 @@ const Otp = ({navigation, route}) => {
               navigation.navigate('RegisterAccount');
             }
           });
-        // if (response.data.message === 'Registered successful') {
-        //   navigation.navigate('RegisterAccount');
-        // } else {
-        //   navigation
-        //     .navigate('TabNavigation')
-        //     .finally(() => setIsLoading(false));
-        // }
-      })
+         })
       .catch(e => {
         console.log('otp screen catch error', e);
         Toast.showWithGravity(

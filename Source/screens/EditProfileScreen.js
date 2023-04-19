@@ -157,17 +157,7 @@ const EditProfileScreen = props => {
   };
 
   const handleConfirm = date => {
-    // let c =
-    //   (date.getMonth() > 8
-    //     ? date.getMonth() + 1
-    //     : '0' + (date.getMonth() + 1)) +
-    //   '/' +
-    //   (date.getDate() > 9 ? date.getDate() : '0' + date.getDate()) +
-    //   '/' +
-    //   date.getFullYear();
-
-    // setDate(c);
-    const dt = new Date(date);
+      const dt = new Date(date);
     const x = dt.toISOString().split('T');
     const x1 = x[0].split('-');
     console.log(x1[2] + '/' + x1[1] + '/' + x1[0]);
@@ -597,39 +587,7 @@ const EditProfileScreen = props => {
                     }}>
                     <Text style={{color: 'white'}}> Get OTP</Text>
                   </TouchableOpacity>
-                  {/* <TouchableOpacity
-                      onPress={LoginApisendmailotp}
-                      style={{
-                        position: 'absolute',
-                        backgroundColor: isVerified
-                          ? Colors.darkGreen
-                          : Colors.lightYellow,
-                        right: 10,
-                        paddingHorizontal: 14,
-                        paddingVertical: 7,
-                        borderRadius: 2,
-                        justifyContent: 'center',
-                        borderRadius: 6,
-                      }}>
-                      {isGettingOTP ? (
-                        <ActivityIndicator size={20} color={Colors.darkGreen} />
-                      ) : isVerified ? (
-                        <Text
-                          style={{
-                            color: 'black',
-                          }}>
-                          verifed
-                        </Text>
-                      ) : (
-                        <Text
-                          style={{
-                            color: 'black',
-                          }}>
-                          verify
-                        </Text>
-                      )}
-                    </TouchableOpacity> */}
-                </View>
+                              </View>
               </View>
               <View style={{marginHorizontal: 20}}>
                 <Text

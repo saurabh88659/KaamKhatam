@@ -10,25 +10,19 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 export default function ServicesRatingsilver(props) {
   const preData = props.route.params;
   console.log('hey', preData);
-
   const [ratingdata, setRatingdata] = useState([]);
   const [lengthzero, setLengthzero] = useState('');
 
-  // console.log('lengthzero--->>>', lengthzero);
-
-  useEffect(() => {
+    useEffect(() => {
     allReviewsOfParticularPackage();
   }, []);
 
   const allReviewsOfParticularPackage = async () => {
     const token = await _getStorage('token');
-
     const data = {
       serviceId: preData.serviceID,
       packageId: preData.silverID,
     };
-
-    // console.log('data', data);
 
     let meassage = 'Data Not Found';
 
@@ -49,10 +43,7 @@ export default function ServicesRatingsilver(props) {
       })
       .catch(error => {
         console.log('silver all rating catch errro--------->>>', error);
-        // if (error) {
-        //   setLengthzero(meassage);
-        // }
-      });
+             });
   };
 
   return (

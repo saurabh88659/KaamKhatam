@@ -7,7 +7,6 @@ import {
   FlatList,
   StyleSheet,
 } from 'react-native';
-
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
 import AddCart from '../ReusableComponents/AddCart';
@@ -132,7 +131,6 @@ export default function SafaFurnitureCleaning() {
           )}
         />
       </View>
-
       {showcart === true ? <AddCart items={2} /> : null}
     </View>
   );

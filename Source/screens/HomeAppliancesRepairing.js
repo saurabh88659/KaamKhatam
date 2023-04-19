@@ -15,10 +15,7 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import ServiceItems from '../ReusableComponents/ServiceItems';
-import Television from './Television';
-import RefrigeratorInstallation from './RefrigeratorInstallation';
-import WashingMachine from './WashingMachine';
-import WaterPurifier from './WaterPurifier';
+
 
 const HomeAppliancesRepairing = props => {
   const preData = props.route.params;

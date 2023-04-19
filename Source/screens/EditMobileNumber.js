@@ -9,7 +9,6 @@ import Toast from 'react-native-simple-toast';
 function EditMobileNumber({navigation, route}) {
   const [changenumber, setChangenubmer] = useState();
   const [getDetailsId, setGetDetailsId] = useState('');
-
   const preData = route.params;
 
   // console.log('preData', preData);

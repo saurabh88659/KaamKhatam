@@ -1,7 +1,6 @@
 import React from 'react'
 import { View, SafeAreaView, StyleSheet, Image, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-// import Colors from '../Assets/Constants/Colors';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 const DrawerScreen = () => {

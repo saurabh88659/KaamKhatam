@@ -11,7 +11,6 @@ import disolay1tv from '../Assets/Images/disolay1tv.png';
 import displaytv2 from '../Assets/Images/displaytv2.png';
 import display3tv from '../Assets/Images/display3tv.png';
 import displaytv4 from '../Assets/Images/displaytv4.png';
-
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
 import AddCart from '../ReusableComponents/AddCart';
@@ -22,7 +21,6 @@ import {
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import GreenHeader from '../ReusableComponents/GreenHeader';
 import GrayHeader from '../ReusableComponents/GrayHeader';
-
 import {useNavigation} from '@react-navigation/native';
 
 export default function DisplayScreen() {

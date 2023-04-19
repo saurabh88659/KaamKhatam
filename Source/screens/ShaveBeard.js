@@ -5,8 +5,6 @@ import ServiceCard from '../ReusableComponents/ServiceCard';
 import ShaveBeard1 from '../Assets/Images/Shavebeard1.png';
 import ShaveBeard2 from '../Assets/Images/Shavebeard2.png';
 import GrayHeader from '../ReusableComponents/GrayHeader';
-
-
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
 import AddCart from '../ReusableComponents/AddCart';
@@ -27,18 +25,11 @@ export default function App() {
             rating: 4.76, price: `149`, time: '20 min', image: ShaveBeard2,
             d1: `Ustra shave with a single use blade for the smooth shave`
         },
-
-
-
-
     ]
     return (
-
-
         <View style={styles.container}>
             <Header bgColor={Colors.darkOrange} color={Colors.black} title='Salon for Men' />
             <GrayHeader title='Shave & Beard' />
-
             <View style={styles.cntrContainer} >
                 <FlatList
                     keyExtractor={(item, index) => index.toString()}

@@ -29,9 +29,6 @@ export default function App() {
             d3: `Stress Relief Muscle relaxation, Pain relief`
         },
 
-
-
-
     ]
     return (
 

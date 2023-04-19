@@ -1,9 +1,7 @@
-
 import React from 'react';
 import { Text, View, Image, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import ServiceCard from '../ReusableComponents/ServiceCard';
 import Cupping from '../Assets/Images/cupping.png';
-
 import GrayHeader from '../ReusableComponents/GrayHeader';
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';

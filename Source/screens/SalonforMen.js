@@ -7,14 +7,12 @@ import {
   FlatList,
   StyleSheet,
 } from 'react-native';
-
 import Salonformen1 from '../Assets/Images/Salonformen1.png';
 import Salonformen2 from '../Assets/Images/Salonformen2.png';
 import Salonformen3 from '../Assets/Images/Salonformen3.png';
 import Salonformen6 from '../Assets/Images/Salonformen6.png';
 import Salonformen4 from '../Assets/Images/Salonformen4.png';
 import Salonformen5 from '../Assets/Images/Salonformen5.png';
-
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
 import {
@@ -22,8 +20,6 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import ServiceItems from '../ReusableComponents/ServiceItems';
-
-// import { propsFlattener } from 'native-base/lib/typescript/hooks/useThemeProps/propsFlattener';
 
 const SalonforMen = props => {
   const preData = props.route.params;

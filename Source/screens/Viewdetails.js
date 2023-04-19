@@ -496,61 +496,7 @@ const Viewdetails = props => {
               )}
             </View>
           )}
-
-          {/* {bookinviewdetails.bookingStatus === 'Completed' ? (
-            <Text style={{color: 'black'}}>hello</Text>
-          ) : (
-            <TouchableOpacity
-              onPress={() =>
-                props.navigation.navigate('RescheduleBooking', bookinID)
-              }
-              style={{
-                height: height / 16,
-                backgroundColor: '#0EC01B',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: 5,
-                marginHorizontal: 15,
-                // marginVertical,
-              }}>
-              <Text style={{color: 'white', fontWeight: 'bold', fontSize: 16}}>
-                Reschedule
-              </Text>
-            </TouchableOpacity>
-          )}
-
-          <TouchableOpacity
-            onPress={() => setModalVisible2(true)}
-            style={{
-              height: height / 16,
-              backgroundColor: '#0EC01B',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 5,
-              marginHorizontal: 15,
-              marginVertical: 10,
-            }}>
-            <Text style={{color: 'white', fontWeight: 'bold', fontSize: 16}}>
-              Please Rate
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => setModalVisible(true)}
-            style={{
-              height: height / 16,
-              backgroundColor: '#0EC01B',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 5,
-              marginHorizontal: 15,
-              marginVertical: 10,
-            }}>
-            <Text style={{color: 'white', fontWeight: 'bold', fontSize: 16}}>
-              Please Rate Vendor
-            </Text>
-          </TouchableOpacity> */}
-        </ScrollView>
+                 </ScrollView>
       )}
       <Modal
         animationType="slide"

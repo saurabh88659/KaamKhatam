@@ -10,7 +10,6 @@ import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import CustomButton from '../ReusableComponents/Button';
-// import OtpInputs from 'react-native-otp-inputs';
 import axios from 'axios';
 import {
   heightPercentageToDP as hp,
@@ -24,12 +23,9 @@ function MobileOtp({navigation, route}) {
   const [pin, setPin] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [changenumber, setChangenubmer] = useState('');
-
   const phonenum = route.params.phone;
-
   const fNumber = phonenum.split('', 6);
 
-  // console.log('fNumber', fNumber);
 
   const handleSubmit = async () => {
     const token = await _getStorage('token');

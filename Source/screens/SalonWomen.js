@@ -1,13 +1,9 @@
 import React from 'react';
 import {
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  FlatList,
+   View,
+   FlatList,
   StyleSheet,
 } from 'react-native';
-
 import HairCare123 from '../Assets/Images/Haircare.png';
 import Manicure22 from '../Assets/Images/Manicure.png';
 import Pedicure123 from '../Assets/Images/Pedicure.png';
@@ -15,7 +11,6 @@ import BleachDetan123 from '../Assets/Images/Bleach.png';
 import Cleanup123 from '../Assets/Images/Cleanup.png';
 import Threading123 from '../Assets/Images/Threading.png';
 import Chocolate123 from '../Assets/Images/Chocolate.png';
-
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
 import {
@@ -23,8 +18,6 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import ServiceItems from '../ReusableComponents/ServiceItems';
-
-// import { propsFlattener } from 'native-base/lib/typescript/hooks/useThemeProps/propsFlattener';
 
 const SalonWomen = props => {
   const preData = props.route.params;

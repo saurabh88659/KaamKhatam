@@ -10,7 +10,6 @@ import {
 } from 'react-native-responsive-screen';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import GreenHeader from '../ReusableComponents/GreenHeader';
-// import GrayHeader from '../ReusableComponents/GrayHeader';
 import carceaning3 from '../Assets/Images/carceaning3.png';
 import carceaning1 from '../Assets/Images/carceaning1.png';
 import carceaning2 from '../Assets/Images/carceaning2.png';

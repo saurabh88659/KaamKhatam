@@ -1,55 +1,3 @@
-// import {View, Text} from 'react-native';
-// import React from 'react';
-// import IntenseDeepCleaning from './IntenseDeepCleaning';
-// import FullHomeCleaningScreen from './FullHomeCleaningScreen';
-// import SafaFurnitureCleaning from './SafaFurnitureCleaning';
-// import KitchenCleaning from './KitchenCleaning';
-// import CarCleaning from './CarCleaning';
-
-// export default function SubCleaning(props) {
-//   const preData = props.route.params;
-
-//   console.log('hello======================/////////////', preData);
-
-//   if (preData === 0) {
-//     return (
-//       <>
-//         <IntenseDeepCleaning props={props} />
-//       </>
-//     );
-//   }
-//   if (preData === 1) {
-//     return (
-//       <>
-//         <FullHomeCleaningScreen props={props} />
-//       </>
-//     );
-//   }
-//   if (preData === 2) {
-//     return (
-//       <>
-//         <SafaFurnitureCleaning props={props} />
-//       </>
-//     );
-//   }
-//   if (preData === 3) {
-//     return (
-//       <>
-//         <KitchenCleaning props={props} />
-//       </>
-//     );
-//   }
-//   if (preData === 4) {
-//     return (
-//       <>
-//         <CarCleaning props={props} />
-//       </>
-//     );
-//   }
-
-//   return <View></View>;
-// }
-
 import React, {useState} from 'react';
 import {
   Text,
@@ -61,7 +9,6 @@ import {
 } from 'react-native';
 import Cleaning1 from '../Assets/Images/Cleaning1.png';
 import cleaning2 from '../Assets/Images/cleaning2.png';
-
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
 import AddCart from '../ReusableComponents/AddCart';
