@@ -7,14 +7,12 @@ import {
   ScrollView,
   Modal,
   StyleSheet,
-  Dimensions,
   ActivityIndicator,
   Image,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
-import OTPInputView from '@twotalltotems/react-native-otp-input';
 import CustomButton from '../ReusableComponents/Button';
 // import DatePicker from 'react-native-neat-date-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -25,13 +23,13 @@ import {
 } from 'react-native-responsive-screen';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const {height, width} = Dimensions.get('window');
 import {RadioButton} from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import Toast from 'react-native-simple-toast';
 import {_getStorage} from '../Assets/utils/storage/Storage';
 import {useIsFocused} from '@react-navigation/native';
+import InternetInfoall from '../Assets/utils/Handler/InternetInfoall';
 
 const EditProfileScreen = props => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -51,34 +49,36 @@ const EditProfileScreen = props => {
   const [dataupdate, setDataupdate] = useState({});
   const [getDate, setGetDate] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [counter, setCounter] = React.useState(30);
   const isFocused = useIsFocused();
 
   //! ================working on ==============
   const [isGettingOTP, setIsGettingOTP] = useState(false);
   const [isVerifyingOTP, setIsVerifyingOTP] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
-  // const isFocused = useIsFocused();
+  const maxDate = new Date(); // Set maximum date to 31st December 2023
 
-
-  useEffect(() =>{
-
-    if(isFocused){
-      profiledata();
-    }  
-  },[isFocused]);
+  const [timer, setTimer] = useState(60); // set initial timer to 60 seconds
+  const [disabled, setDisabled] = useState(false); // enable resend button by default
 
   useEffect(() => {
-    
+    if (isFocused) {
+      profiledata();
+    }
+  }, [isFocused]);
 
-    const timer =
-      counter > 0 && setInterval(() => setCounter(counter - 1), 1000);
-    return () => clearInterval(timer);
-  }, [counter]);
+  useEffect(() => {
+    if (timer > 0) {
+      const intervalId = setInterval(() => {
+        setTimer(previousTime => previousTime - 1);
+      }, 1000);
+      return () => clearInterval(intervalId);
+    } else {
+      setDisabled(false);
+    }
+  }, [timer]);
 
   const handleSubmit = async () => {
     const token = await _getStorage('token');
-
     Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
 
     let newObj = {
@@ -157,7 +157,7 @@ const EditProfileScreen = props => {
   };
 
   const handleConfirm = date => {
-      const dt = new Date(date);
+    const dt = new Date(date);
     const x = dt.toISOString().split('T');
     const x1 = x[0].split('-');
     console.log(x1[2] + '/' + x1[1] + '/' + x1[0]);
@@ -228,6 +228,8 @@ const EditProfileScreen = props => {
 
   const resendemail = async () => {
     const token = await _getStorage('token');
+    setTimer(60); // reset timer
+    setDisabled(true);
     const emailObj = {
       email,
     };
@@ -239,18 +241,34 @@ const EditProfileScreen = props => {
       .then(res => {
         console.log('email response', res.data);
         setemailOtp(res.data.id);
-        Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
+        Toast.showWithGravity(res.data?.message, Toast.LONG, Toast.BOTTOM);
+        setCounter(30);
       })
 
       .catch(error => {
-        console.log('email send otp catch error', error.response.data.message);
+        console.log(
+          'email send otp catch error',
+          error?.response?.data?.message,
+        );
         Toast.showWithGravity(
-          error.response.data.message,
+          error?.response?.data?.message,
           Toast.LONG,
           Toast.BOTTOM,
         );
       });
   };
+
+  const [counter, setCounter] = React.useState(30);
+
+  useEffect(() => {
+    const timer =
+      counter > 0 &&
+      setInterval(() => {
+        let newTime = ('0' + (counter - 1).toString()).slice(-2);
+        setCounter(newTime);
+      }, 1000);
+    return () => clearInterval(timer);
+  }, [counter]);
 
   return (
     <SafeAreaView>
@@ -362,6 +380,8 @@ const EditProfileScreen = props => {
                       mode="date"
                       onConfirm={handleConfirm}
                       onCancel={hideDatePicker}
+                      // minDate={new Date()}
+                      maximumDate={maxDate}
                     />
                     <TouchableOpacity onPress={showDatePicker}>
                       <FontAwesome5Icon
@@ -396,6 +416,7 @@ const EditProfileScreen = props => {
                   <RadioButton
                     name="male"
                     value="male"
+                    color={Colors.darkOrange}
                     status={gender === 'male' ? 'checked' : 'unchecked'}
                     onPress={() => setGender('male')}
                   />
@@ -407,6 +428,7 @@ const EditProfileScreen = props => {
                 <View style={{flexDirection: 'row'}}>
                   <RadioButton
                     value="female"
+                    color={Colors.darkOrange}
                     status={gender === 'female' ? 'checked' : 'unchecked'}
                     onPress={() => setGender('female')}
                   />
@@ -523,6 +545,7 @@ const EditProfileScreen = props => {
                   placeholderTextColor="grey"
                   value={pincode}
                   keyboardType="numeric"
+                  maxLength={6}
                   onChangeText={text => {
                     setPincode(text);
                   }}
@@ -571,23 +594,30 @@ const EditProfileScreen = props => {
                       paddingHorizontal: 15,
                     }}
                   />
+
                   <TouchableOpacity
                     onPress={LoginApisendmailotp}
-                    // onPress={() => setModalVisible(!modalVisible)}
                     style={{
                       borderWidth: 1,
-                      borderColor: 'green',
-                      height: '65%',
+                      borderColor: Colors.darkGreen,
                       marginHorizontal: 8,
+                      paddingVertical: 8,
                       alignItems: 'center',
                       justifyContent: 'center',
-                      width: '25%',
+                      width: '23%',
                       borderRadius: 7,
-                      backgroundColor: '#138F00',
+                      backgroundColor: Colors.darkGreen,
                     }}>
-                    <Text style={{color: 'white'}}> Get OTP</Text>
+                    <Text
+                      style={{
+                        color: Colors.white,
+                        fontWeight: '500',
+                        fontSize: 13,
+                      }}>
+                      Get OTP
+                    </Text>
                   </TouchableOpacity>
-                              </View>
+                </View>
               </View>
               <View style={{marginHorizontal: 20}}>
                 <Text
@@ -666,53 +696,6 @@ const EditProfileScreen = props => {
                 Alert.alert('Modal has been closed.');
                 setModalVisible(!modalVisible);
               }}>
-              {/* <View style={Styles.centeredView}>
-                <View style={Styles.modalView}>
-                  <OTPInputView
-                    style={{width: '80%', height: 200}}
-                    pinCount={6}
-                    autoFocusOnLoad
-                    codeInputFieldStyle={Styles.underlineStyleBase}
-                    codeInputHighlightStyle={Styles.underlineStyleHighLighted}
-                    onCodeFilled={code => {
-                      setCode(code);
-                      console.log(`Code is ${code}, you are good to go!`);
-                    }}
-                  />
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}>
-                    <Text style={{color: 'grey', top: -130, right: 60}}>
-                      Time remaining
-                    </Text>
-                    <Text style={{color: 'black', top: -130, right: 55}}>
-                      00:30s
-                    </Text>
-                    <TouchableOpacity
-                      onPress={resendemail}
-                      style={{top: -130, left: 60}}>
-                      <Text style={{color: 'grey'}}>Resend code</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <TouchableOpacity
-                    // onPress={() => setModalVisible(!modalVisible)}
-                    onPress={_verifyMailotp}
-                    // onPress={formdata}
-                    style={{
-                      backgroundColor: '#138F00',
-                      height: height / 20,
-                      width: width / 3,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      borderRadius: 7,
-                      top: -80,
-                    }}>
-                    <Text style={{color: 'white'}}>Okay</Text>
-                  </TouchableOpacity>
-                </View>
-              </View> */}
               <View style={Styles.centeredView}>
                 <View style={Styles.modalView}>
                   <TouchableOpacity
@@ -731,22 +714,57 @@ const EditProfileScreen = props => {
                     value={code}
                     onChangeText={val => setCode(val)}
                     placeholder="Enter OTP"
+                    maxLength={6}
                     placeholderTextColor={'#aaa'}
+                    keyboardType="number-pad"
                   />
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}>
-                    <Text style={{color: 'grey'}}>Time remaining</Text>
-                    <View>
-                      {counter !== 0 ? (
-                        <Text style={{color: 'black'}}>{counter}s</Text>
+                  <View>
+                    {/* <TouchableOpacity onPress={resendemail} disabled={disabled}>
+                      {disabled ? (
+                        <Text style={{color: Colors.black, top: 5}}>
+                          {timer > 0 ? `Time remaining:  ${timer} seconds` : ''}
+                        </Text>
                       ) : (
-                        <TouchableOpacity onPress={resendemail} style={{}}>
-                          <Text style={{color: 'grey'}}>Resend code</Text>
-                        </TouchableOpacity>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                          }}>
+                          <Text style={{color: Colors.black, top: 5}}>
+                            {timer > 0 ? `Time remaining: in ${timer} s` : ''}
+                          </Text>
+                          <Text
+                            style={{
+                              color: disabled ? Colors.lightGray : Colors.black,
+                              top: 5,
+                            }}>
+                            Resend OTP
+                          </Text>
+                        </View>
                       )}
+                    </TouchableOpacity> */}
+
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        top: 3,
+                      }}>
+                      <Text style={Styles.respontextstyles2}>
+                        Time remaining: 00:{counter}
+                      </Text>
+                      <TouchableOpacity
+                        onPress={counter == 0 ? resendemail : () => {}}>
+                        <Text
+                          style={[
+                            Styles.respontextstyles3,
+                            counter != 0
+                              ? {color: Colors.lightGray}
+                              : {color: Colors.black},
+                          ]}>
+                          Resend code
+                        </Text>
+                      </TouchableOpacity>
                     </View>
                   </View>
 
@@ -757,7 +775,7 @@ const EditProfileScreen = props => {
                       backgroundColor: code
                         ? Colors.darkGreen
                         : Colors.lightGray,
-                      paddingVertical: 4,
+                      paddingVertical: 10,
                       marginTop: 20,
                       borderRadius: 4,
                     }}>
@@ -776,6 +794,7 @@ const EditProfileScreen = props => {
           </ScrollView>
         </View>
       )}
+      <InternetInfoall />
     </SafeAreaView>
   );
 };
@@ -809,5 +828,24 @@ const Styles = StyleSheet.create({
 
   underlineStyleHighLighted: {
     borderColor: '#03DAC6',
+  },
+  timestyles: {
+    color: 'grey',
+    fontWeight: '500',
+    fontSize: 15,
+  },
+  respontextstyles: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+  },
+  respontextstyles2: {
+    color: 'grey',
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  respontextstyles3: {
+    fontSize: 15,
+    fontWeight: '500',
   },
 });

@@ -30,6 +30,7 @@ import EditProfileScreen from '../../screens/EditProfileScreen';
 import ServicesRatingsilver from '../../screens/ServicesRatingsilver';
 import ServicesRatinggold from '../../screens/ServicesRatinggold';
 import ServicesRatingplatinum from '../../screens/ServicesRatingplatinum';
+import CancelBooking from '../../screens/CancelBooking';
 
 const Stack = createNativeStackNavigator();
 function AuthStack() {
@@ -100,6 +101,11 @@ function AuthStack() {
       <Stack.Screen
         name="Viewdetails"
         component={Viewdetails}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="CancelBooking"
+        component={CancelBooking}
         options={{headerShown: false}}
       />
       <Stack.Screen

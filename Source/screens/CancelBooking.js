@@ -1,133 +1,109 @@
-import {View, Text, Dimensions} from 'react-native';
-import React from 'react';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
+import React, {useState} from 'react';
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
 import {RadioButton} from 'react-native-paper';
-import CustomButton from '../ReusableComponents/Button';
-import {
-  heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
-} from 'react-native-responsive-screen';
-
-const {height, width} = Dimensions.get('screen');
+import {_getStorage} from '../Assets/utils/storage/Storage';
+import {BASE_URL} from '../Assets/utils/Restapi/Config';
+import Toast from 'react-native-simple-toast';
+import axios from 'axios';
 
 export default function CancelBooking(props) {
-  const [checked, setChecked] = React.useState(0);
+  const [checked, setChecked] = useState(0);
+  const bookingid = props.route.params;
+
+  const Srtdata = [
+    'Not available on that day',
+    'Not available on that time',
+    'Change of Plan3',
+    'Wrong Booking',
+    'Out of Station',
+    'Change of Plan6',
+    'Change of Plan7',
+    'Change of Plan8',
+  ];
+
+  const cancelBooking = async () => {
+    const token = await _getStorage('token');
+    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
+    let obj = {
+      bookingId: bookingid,
+      cancelledReason: checked,
+    };
+    axios
+      .put(BASE_URL + `/booking/cancel`, obj, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(res => {
+        console.log('response', res.data);
+        Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
+        props.navigation.goBack();
+      })
+      .catch(error => {
+        console.log('cancel booking catch error', error.response.data.message);
+        Toast.showWithGravity(
+          error.response.data.message,
+          Toast.LONG,
+          Toast.BOTTOM,
+        );
+      });
+  };
 
   return (
-    <View>
+    <SafeAreaView style={{flex: 1, backgroundColor: Colors.white}}>
       <Header
         bgColor={Colors.darkOrange}
         color={Colors.white}
         title="Cancel Booking"
         onPress={() => props.navigation.goBack()}
       />
-      <View
-        style={{
-          margin: 10,
-          height: height / 1.9,
-          backgroundColor: '#DFDFDF',
-          borderRadius: 15,
-        }}>
-        <View style={{margin: 15}}>
-          <Text style={{fontSize: 18}}>Reason for Cancellation</Text>
-        </View>
-
+      <ScrollView>
         <View
           style={{
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            marginHorizontal: 15,
-          }}>
-          <RadioButton
-            value="first"
-            status={checked === 'first' ? 'checked' : 'unchecked'}
-            onPress={() => setChecked('first')}
-          />
-          <Text style={{top: 6}}>Change of Plan</Text>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            marginHorizontal: 15,
-          }}>
-          <RadioButton
-            value="second"
-            status={checked === 'second' ? 'checked' : 'unchecked'}
-            onPress={() => setChecked('second')}
-          />
-          <Text style={{top: 6}}>Change of Plan</Text>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            marginHorizontal: 15,
-          }}>
-          <RadioButton
-            value="three"
-            status={checked === 'three' ? 'checked' : 'unchecked'}
-            onPress={() => setChecked('three')}
-          />
-          <Text style={{top: 6}}>Change of Plan</Text>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            marginHorizontal: 15,
-          }}>
-          <RadioButton
-            value="4"
-            status={checked === '4' ? 'checked' : 'unchecked'}
-            onPress={() => setChecked('4')}
-          />
-          <Text style={{top: 6}}>Change of Plan</Text>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            marginHorizontal: 15,
-          }}>
-          <RadioButton
-            value="5"
-            status={checked === '5' ? 'checked' : 'unchecked'}
-            onPress={() => setChecked('5')}
-          />
-          <Text style={{top: 6}}>Change of Plan</Text>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            marginHorizontal: 15,
-          }}>
-          <RadioButton
-            value="6"
-            status={checked === '6' ? 'checked' : 'unchecked'}
-            onPress={() => setChecked('6')}
-          />
-          <Text style={{top: 6}}>Change of Plan</Text>
-        </View>
-        <View
-          style={{
-            alignItems: 'center',
-            justifyContent: 'flex-end',
+            margin: 10,
+            backgroundColor: '#E3E3E3',
+            borderRadius: 10,
+            elevation: 10,
             justifyContent: 'center',
           }}>
-          <CustomButton
-            // onPress={()=>}
-            title={'Submit'}
-            bgColor={Colors.lightGreen}
-            width={wp('80%')}
-            height={hp('7%')}
-            color={Colors.white}
-            onPress={() => props.navigation.navigate('DrowerNavigation')}
-          />
+          {Srtdata.map((value, index) => (
+            <RadioButton.Item
+              color={Colors.darkGreen}
+              key={index}
+              label={value}
+              value={value}
+              status={checked === value ? 'checked' : 'unchecked'}
+              onPress={() => setChecked(value)}
+            />
+          ))}
         </View>
-      </View>
-    </View>
+        <TouchableOpacity
+          onPress={cancelBooking}
+          style={{
+            backgroundColor: Colors.darkGreen,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 5,
+            marginHorizontal: 15,
+            marginVertical: 10,
+            paddingVertical: 10,
+          }}>
+          <Text
+            style={{
+              color: 'white',
+              fontWeight: 'bold',
+              fontSize: 16,
+            }}>
+            Submit
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </SafeAreaView>
   );
 }

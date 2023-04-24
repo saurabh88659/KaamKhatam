@@ -34,69 +34,94 @@ const TimeAndSlot = props => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [iseeror, setIserror] = useState('');
   const cartID = props.route.params;
+  const [_Isdate, set_Isdate] = useState('');
 
-  const TimeSlot = [
-    {
-      id: 0,
-      startTime: '09:00 AM',
-      endTime: '10:00 AM',
-    },
-    {
-      id: 1,
-      startTime: '10:00 AM',
-      endTime: '11:00 AM',
-    },
-    {
-      id: 2,
-      startTime: '11:00 AM',
-      endTime: '12:00 PM',
-    },
-    {
-      id: 3,
-      startTime: '12:00 PM',
-      endTime: '01:00 PM',
-    },
-    {
-      id: 4,
-      startTime: '01:00 PM',
-      endTime: '02:00 PM',
-    },
-    {
-      id: 5,
-      startTime: '02:00 PM',
-      endTime: '03:00 PM',
-    },
-    {
-      id: 6,
-      startTime: '03:00 PM',
-      endTime: '04:00 PM',
-    },
-    {
-      id: 7,
-      startTime: '04:00 PM',
-      endTime: '05:00 PM',
-    },
-    {
-      id: 8,
-      startTime: '05:00 PM',
-      endTime: '06:00 PM',
-    },
-    {
-      id: 9,
-      startTime: '06:00 PM',
-      endTime: '07:00 PM',
-    },
-    {
-      id: 10,
-      startTime: '07:00 PM',
-      endTime: '08:00 PM',
-    },
-    {
-      id: 11,
-      startTime: '08:00 PM',
-      endTime: '09:00 PM',
-    },
-  ];
+  // const TimeSlot = [
+  //   {
+  //     id: 0,
+  //     startTime: '09:00 AM',
+  //     endTime: '10:00 AM',
+  //   },
+  //   {
+  //     id: 1,
+  //     startTime: '10:00 AM',
+  //     endTime: '11:00 AM',
+  //   },
+  //   {
+  //     id: 2,
+  //     startTime: '11:00 AM',
+  //     endTime: '12:00 PM',
+  //   },
+  //   {
+  //     id: 3,
+  //     startTime: '12:00 PM',
+  //     endTime: '01:00 PM',
+  //   },
+  //   {
+  //     id: 4,
+  //     startTime: '01:00 PM',
+  //     endTime: '02:00 PM',
+  //   },
+  //   {
+  //     id: 5,
+  //     startTime: '02:00 PM',
+  //     endTime: '03:00 PM',
+  //   },
+  //   {
+  //     id: 6,
+  //     startTime: '03:00 PM',
+  //     endTime: '04:00 PM',
+  //   },
+  //   {
+  //     id: 7,
+  //     startTime: '04:00 PM',
+  //     endTime: '05:00 PM',
+  //   },
+  //   {
+  //     id: 8,
+  //     startTime: '05:00 PM',
+  //     endTime: '06:00 PM',
+  //   },
+  //   {
+  //     id: 9,
+  //     startTime: '06:00 PM',
+  //     endTime: '07:00 PM',
+  //   },
+  //   {
+  //     id: 10,
+  //     startTime: '07:00 PM',
+  //     endTime: '08:00 PM',
+  //   },
+  //   {
+  //     id: 11,
+  //     startTime: '08:00 PM',
+  //     endTime: '09:00 PM',
+  //   },
+  // ];
+
+  const [timeSlots, setTimeSlots] = useState([
+    {startTime: '09:00 AM', endTime: '10:00 AM', id: 1},
+    {startTime: '10:00 AM', endTime: '11:00 AM', id: 2},
+    {startTime: '11:00 AM', endTime: '12:00 PM', id: 3},
+    {startTime: '01:00 PM', endTime: '02:00 PM', id: 4},
+    {startTime: '02:00 PM', endTime: '03:00 PM', id: 5},
+    {startTime: '03:00 PM', endTime: '04:00 PM', id: 6},
+    {startTime: '04:00 PM', endTime: '05:00 PM', id: 7},
+    {startTime: '05:00 PM', endTime: '06:00 PM', id: 8},
+    {startTime: '06:00 PM', endTime: '07:00 PM', id: 9},
+    {startTime: '07:00 PM', endTime: '08:00 PM', id: 10},
+    {startTime: '08:00 PM', endTime: '09:00 PM', id: 11},
+    {startTime: '09:00 PM', endTime: '10:00 PM', id: 12},
+  ]);
+
+  var currentDate = moment().format('DD/MM/YYYY');
+  const getCurrentTime = () => {
+    const date = new Date();
+
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  };
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -106,22 +131,14 @@ const TimeAndSlot = props => {
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
-  const handleConfirm = date => {
-    // let c =
-    //   (date.getMonth() > 8
-    //     ? date.getMonth() + 1
-    //     : '0' + (date.getMonth() + 1)) +
-    //   '/' +
-    //   (date.getDate() > 9 ? date.getDate() : '0' + date.getDate()) +
-    //   '/' +
-    //   date.getFullYear();
 
+  const handleConfirm = date => {
     const formattedDate = `${('0' + date.getDate()).slice(-2)}/${(
       '0' +
       (date.getMonth() + 1)
     ).slice(-2)}/${date.getFullYear()}`;
 
-    setIsdate(formattedDate);
+    set_Isdate(formattedDate);
 
     hideDatePicker();
   };
@@ -132,10 +149,9 @@ const TimeAndSlot = props => {
       cartId: cartID?.cartId,
       start: startTime,
       end: endTime,
-      bookingDate: isdate,
+      bookingDate: _Isdate,
     };
     console.log('book', book);
-
     axios
       .post(BASE_URL + `/booking`, book, {
         headers: {Authorization: `Bearer ${token}`},
@@ -152,7 +168,7 @@ const TimeAndSlot = props => {
       })
       .catch(error => {
         console.log(
-          'add booking catch error---',
+          'add booking catch error---+++++++++++=>',
           error?.response?.data?.message,
         );
         setIserror(error?.response?.data?.message);
@@ -174,8 +190,9 @@ const TimeAndSlot = props => {
     console.log('token', token);
     Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
 
-    let dt = isdate.split('/');
+    let dt = _Isdate.split('/');
     let d = `${dt[1]}/${dt[0]}/${dt[2]}`;
+
     const obj = {
       // timeSlot: startTime + '' + endTime,
       timeSlot: `${startTime}-${endTime}`,
@@ -188,7 +205,7 @@ const TimeAndSlot = props => {
       })
       .then(res => {
         console.log('chackDate', res.data);
-       
+
         Toast.showWithGravity(res.data?.message, Toast.LONG, Toast.BOTTOM);
         conBooking();
       })
@@ -210,7 +227,7 @@ const TimeAndSlot = props => {
         title="Date & Time"
         onPress={() => props.navigation.goBack('Home')}
       />
-          <View
+      <View
         style={{
           height: 45,
           borderWidth: 1,
@@ -222,12 +239,12 @@ const TimeAndSlot = props => {
           borderColor: 'grey',
         }}>
         <TouchableOpacity
-        onPress={showDatePicker}
+          onPress={showDatePicker}
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}>
-          <Text style={{color: Colors.black}}>{isdate}</Text>
+          <Text style={{color: Colors.black}}>{_Isdate}</Text>
           <View>
             <DateTimePickerModal
               isVisible={isDatePickerVisible}
@@ -235,6 +252,7 @@ const TimeAndSlot = props => {
               format="DD-MM-YYYY"
               onConfirm={handleConfirm}
               onCancel={hideDatePicker}
+              minimumDate={new Date()}
             />
             <TouchableOpacity onPress={showDatePicker}>
               <FontAwesome5Icon
@@ -248,10 +266,87 @@ const TimeAndSlot = props => {
         </TouchableOpacity>
       </View>
       <ScrollView
-        // horizontal={true}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{}}>
         <View
+          style={{
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            flexDirection: 'row',
+            marginHorizontal: 20,
+          }}>
+          {timeSlots.map((timeSlot, index) => {
+            const currentTime = getCurrentTime();
+
+            if (timeSlot.startTime > currentTime && currentDate == _Isdate) {
+              return (
+                <TouchableOpacity
+                  style={{
+                    paddingVertical: 10,
+                    marginTop: 20,
+                    width: 150,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor:
+                      selectionTime === timeSlot.id ? '#0EC01B' : 'white',
+                  }}
+                  // onPress={() =>
+                  //   console.log(`${timeSlot.startTime} - ${timeSlot.endTime}`)
+                  // }
+                  onPress={() => {
+                    setSelectionTime(timeSlot.id);
+                    setEndTime(timeSlot.endTime);
+                    setStartTime(`${timeSlot.startTime} `);
+                    console.log(timeSlot.id);
+                  }}
+                  disabled={currentTime ? true : false}>
+                  <Text
+                    style={{
+                      color: currentTime ? Colors.lightGray : Colors.darkGreen,
+                    }}>
+                    {/* {`${timeSlot.startTime} - ${timeSlot.endTime}`} */}
+                    {`${timeSlot.startTime} `} - {timeSlot.endTime}
+                  </Text>
+                </TouchableOpacity>
+              );
+            }
+
+            return (
+              <View key={index}>
+                <TouchableOpacity
+                  style={{
+                    paddingVertical: 10,
+                    marginTop: 20,
+                    width: 150,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor:
+                      selectionTime === timeSlot.id ? '#0EC01B' : 'white',
+                    borderRadius: 7,
+                  }}
+                  // onPress={() =>
+                  //   console.log(`${timeSlot.startTime} - ${timeSlot.endTime}`)
+                  // }
+                  onPress={() => {
+                    setSelectionTime(timeSlot.id);
+                    setEndTime(timeSlot.endTime);
+                    setStartTime(timeSlot.startTime);
+                    console.log(timeSlot.endTime, timeSlot.startTime);
+                  }}>
+                  <Text
+                    style={{
+                      color: currentTime ? Colors.black : Colors.darkGreen,
+                    }}>
+                    {/* {`${timeSlot.startTime} - ${timeSlot.endTime}`} */}
+                    {`${timeSlot.startTime} `} - {timeSlot.endTime}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            );
+          })}
+        </View>
+
+        {/* <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -299,13 +394,13 @@ const TimeAndSlot = props => {
               </TouchableOpacity>
             </View>
           ))}
-        </View>
+        </View> */}
       </ScrollView>
       <TouchableOpacity
         onPress={chackDate}
         // disabled={isdate ? false : true}
         style={{
-          backgroundColor: isdate ? Colors.darkGreen : Colors.lightGray,
+          backgroundColor: _Isdate ? Colors.darkGreen : Colors.lightGray,
           justifyContent: 'center',
           borderRadius: 7,
           paddingHorizontal: 20,
@@ -342,7 +437,7 @@ const TimeAndSlot = props => {
           <Text style={{fontSize: 13, color: 'black'}}>Cancellaon</Text>
         </TouchableOpacity>
       </View>
-         </SafeAreaView>
+    </SafeAreaView>
   );
 };
 

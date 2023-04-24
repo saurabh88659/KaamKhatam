@@ -150,33 +150,6 @@ const Viewdetails = props => {
       });
   };
 
-  const cancelBooking = async () => {
-    const token = await _getStorage('token');
-    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
-
-    let obj = {
-      bookingId: bookingId,
-    };
-    console.log('bookingId', bookingId);
-
-    axios
-      .put(BASE_URL + `/booking/cancel`, obj, {
-        headers: {Authorization: `Bearer ${token}`},
-      })
-      .then(res => {
-        Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
-        props.navigation.navigate('Home')
-      })
-      .catch(error => {
-        console.log('cancel booking catch error', error);
-        Toast.showWithGravity(
-          error.response.data.message,
-          Toast.LONG,
-          Toast.BOTTOM,
-        );
-      });
-  };
-
   return (
     <>
       <Header
@@ -444,10 +417,7 @@ const Viewdetails = props => {
             </View>
           ) : (
             <View>
-              {bookinviewdetails.bookingStatus === 'Cancelled' ? //     Cancel //     style={{color: 'white', fontWeight: 'bold', fontSize: 16}}> //   <Text //   }}> //     marginVertical: 10, //     marginHorizontal: 15, //     borderRadius: 5, //     justifyContent: 'center', //     alignItems: 'center', //     // backgroundColor: '#0EC01B', //     height: height / 16, //   style={{ //   onPress={cancelBooking} // <TouchableOpacity
-              //   </Text>
-              // </TouchableOpacity>
-              null : (
+              {bookinviewdetails.bookingStatus === 'Cancelled' ? null : ( // </TouchableOpacity> //   </Text> //     Cancel //     style={{color: 'white', fontWeight: 'bold', fontSize: 16}}> //   <Text //   }}> //     marginVertical: 10, //     marginHorizontal: 15, //     borderRadius: 5, //     justifyContent: 'center', //     alignItems: 'center', //     // backgroundColor: '#0EC01B', //     height: height / 16, //   style={{ //   onPress={cancelBooking} // <TouchableOpacity
                 <View>
                   <TouchableOpacity
                     onPress={() =>
@@ -468,12 +438,15 @@ const Viewdetails = props => {
                         fontWeight: 'bold',
                         fontSize: 16,
                       }}>
-                      Reschedule
+                      Reschedule Booking
                     </Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    onPress={cancelBooking}
+                    // onPress={cancelBooking}
+                    onPress={() =>
+                      props.navigation.navigate('CancelBooking', bookingId)
+                    }
                     style={{
                       height: height / 16,
                       backgroundColor: '#0EC01B',
@@ -489,14 +462,14 @@ const Viewdetails = props => {
                         fontWeight: 'bold',
                         fontSize: 16,
                       }}>
-                       Cancel Booking
+                      Cancel Booking
                     </Text>
                   </TouchableOpacity>
                 </View>
               )}
             </View>
           )}
-                 </ScrollView>
+        </ScrollView>
       )}
       <Modal
         animationType="slide"

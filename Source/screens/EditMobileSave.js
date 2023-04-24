@@ -20,7 +20,7 @@ EditMobileSave = props => {
       />
       <View style={{margin: 20}}>
         <Text style={{fontSize: 17, fontWeight: '500'}}>
-          Changing Your Mobile Number
+          Change Your Mobile Number
         </Text>
       </View>
       <Text style={{marginHorizontal: 20, fontWeight: 'bold', fontSize: 15}}>

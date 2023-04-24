@@ -17,6 +17,7 @@ import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import Header from '../ReusableComponents/Header';
 const {height, width} = Dimensions.get('window');
 import {useIsFocused} from '@react-navigation/native';
+import InternetInfoall from '../Assets/utils/Handler/InternetInfoall';
 
 function Mybooking2({navigation}) {
   const [bookdetails, setBookdetails] = useState([]);
@@ -35,19 +36,20 @@ function Mybooking2({navigation}) {
     setRfresh(false);
   }, 3000);
 
-
   function handleBackButtonClick() {
-    navigation.navigate("Home");
+    navigation.navigate('Home');
     return true;
   }
 
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
-      BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
     };
   }, []);
-
 
   const bookingDetails = async () => {
     const token = await _getStorage('token');
@@ -78,11 +80,12 @@ function Mybooking2({navigation}) {
 
   return (
     <SafeAreaView style={{flex: 1}}>
+      <InternetInfoall />
       <Header
         bgColor={Colors.darkOrange}
         color={Colors.white}
         title="My Bookings"
-        onPress={() => navigation.navigate("Home")}
+        onPress={() => navigation.navigate('Home')}
       />
       <ScrollView
         refreshControl={

@@ -23,6 +23,7 @@ import Toast from 'react-native-simple-toast';
 import Header from '../ReusableComponents/Header';
 import {getFirstLetters} from '../Assets/utils/Handler/NameAvatar';
 import {useIsFocused} from '@react-navigation/native';
+import InternetInfoall from '../Assets/utils/Handler/InternetInfoall';
 
 const {height, width} = Dimensions.get('window');
 const ProfileScreen = ({navigation, route}) => {
@@ -210,11 +211,6 @@ const ProfileScreen = ({navigation, route}) => {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-      {/* <HeaderDrawer
-        Title="My Profile"
-        location="Sector 62"
-        onPress={() => navigation.toggleDrawer()}
-      /> */}
       <Header
         bgColor={Colors.darkOrange}
         color={Colors.white}
@@ -237,7 +233,6 @@ const ProfileScreen = ({navigation, route}) => {
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{paddingBottom: 70}}>
             <LinearGradient
-              
               colors={['#92CD28', '#FFA034']}
               start={{x: 0, y: 0}}
               end={{x: 0, y: 1}}
@@ -248,7 +243,9 @@ const ProfileScreen = ({navigation, route}) => {
                 {profileUrl || imageUrlPath ? (
                   <Image
                     source={
-                      imageUrlPath ? {uri: imageUrlPath} : {uri: profileUrl + '?' + onUpdateImage}
+                      imageUrlPath
+                        ? {uri: imageUrlPath}
+                        : {uri: profileUrl + '?' + onUpdateImage}
                     }
                     style={{
                       width: 100,
@@ -305,7 +302,7 @@ const ProfileScreen = ({navigation, route}) => {
                 </TouchableOpacity>
               </View>
             </LinearGradient>
-            <View style={{backgroundColor: 'white', flex: 0.6,marginTop:6}}>
+            <View style={{backgroundColor: 'white', flex: 0.6, marginTop: 6}}>
               <View style={Styles.box}>
                 <View
                   style={{
@@ -516,6 +513,7 @@ const ProfileScreen = ({navigation, route}) => {
           </TouchableOpacity>
         </View>
       </BottomSheet>
+      <InternetInfoall />
     </SafeAreaView>
   );
 };

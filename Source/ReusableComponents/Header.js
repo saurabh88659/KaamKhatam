@@ -16,7 +16,7 @@ const Header = props => {
         flexDirection: 'row',
         alignItems: 'center',
       }}>
-      <TouchableOpacity onPress={props.onPress}>
+      <TouchableOpacity style={{width: 20}} onPress={props.onPress}>
         <FontAwesome5 name="angle-left" color={props.color} size={hp('3.7%')} />
       </TouchableOpacity>
       <View>

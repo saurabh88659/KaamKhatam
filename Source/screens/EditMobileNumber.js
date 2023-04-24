@@ -51,7 +51,7 @@ function EditMobileNumber({navigation, route}) {
       />
       <View style={{margin: 20}}>
         <Text style={{fontSize: 17, fontWeight: '500', color: Colors.black}}>
-          Changing Your Mobile Number
+          Change Your Mobile Number
         </Text>
       </View>
       <Text

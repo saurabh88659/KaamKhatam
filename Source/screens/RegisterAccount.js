@@ -51,17 +51,14 @@ const RegisterAccount = props => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [counter, setCounter] = React.useState(30);
 
-  //! ================working on ==============
+  //! ================ ==============
   const [isGettingOTP, setIsGettingOTP] = useState(false);
   const [isVerifyingOTP, setIsVerifyingOTP] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
 
   useEffect(() => {
     profiledata();
-    const timer =
-      counter > 0 && setInterval(() => setCounter(counter - 1), 1000);
-    return () => clearInterval(timer);
-  }, [counter]);
+  }, []);
 
   const handleSubmit = async () => {
     const token = await _getStorage('token');
@@ -242,6 +239,7 @@ const RegisterAccount = props => {
         console.log('email response', res.data);
         setemailOtp(res.data.id);
         Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
+        setCounter(30);
       })
       .catch(error => {
         console.log('email send otp catch error', error.response.data.message);
@@ -252,6 +250,16 @@ const RegisterAccount = props => {
         );
       });
   };
+
+  useEffect(() => {
+    const timer =
+      counter > 0 &&
+      setInterval(() => {
+        let newTime = ('0' + (counter - 1).toString()).slice(-2);
+        setCounter(newTime);
+      }, 1000);
+    return () => clearInterval(timer);
+  }, [counter]);
 
   return (
     <SafeAreaView>
@@ -351,7 +359,8 @@ const RegisterAccount = props => {
                   paddingHorizontal: 13,
                   borderColor: 'grey',
                 }}>
-                <View
+                <TouchableOpacity
+                  onPress={showDatePicker}
                   style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
@@ -373,14 +382,13 @@ const RegisterAccount = props => {
                       />
                     </TouchableOpacity>
                   </View>
-                </View>
+                </TouchableOpacity>
               </View>
               <Text
                 style={{
                   marginHorizontal: 20,
                   fontWeight: 'bold',
                   fontSize: 15,
-                  // top: 5,
                   color: Colors.black,
                 }}>
                 Gender
@@ -588,38 +596,6 @@ const RegisterAccount = props => {
                     }}>
                     <Text style={{color: 'white'}}> Get OTP</Text>
                   </TouchableOpacity>
-                  {/* <TouchableOpacity
-                    onPress={LoginApisendmailotp}
-                    style={{
-                      position: 'absolute',
-                      backgroundColor: isVerified
-                        ? Colors.darkGreen
-                        : Colors.lightYellow,
-                      right: 10,
-                      paddingHorizontal: 14,
-                      paddingVertical: 7,
-                      borderRadius: 2,
-                      justifyContent: 'center',
-                      borderRadius: 6,
-                    }}>
-                    {isGettingOTP ? (
-                      <ActivityIndicator size={20} color={Colors.darkGreen} />
-                    ) : isVerified ? (
-                      <Text
-                        style={{
-                          color: 'black',
-                        }}>
-                        verifed
-                      </Text>
-                    ) : (
-                      <Text
-                        style={{
-                          color: 'black',
-                        }}>
-                        verify
-                      </Text>
-                    )}
-                  </TouchableOpacity> */}
                 </View>
               </View>
               <View style={{marginHorizontal: 20}}>
@@ -700,53 +676,6 @@ const RegisterAccount = props => {
                 Alert.alert('Modal has been closed.');
                 setModalVisible(!modalVisible);
               }}>
-              {/* <View style={Styles.centeredView}>
-                <View style={Styles.modalView}>
-                  <OTPInputView
-                    style={{width: '80%', height: 200}}
-                    pinCount={6}
-                    autoFocusOnLoad
-                    codeInputFieldStyle={Styles.underlineStyleBase}
-                    codeInputHighlightStyle={Styles.underlineStyleHighLighted}
-                    onCodeFilled={code => {
-                      setCode(code);
-                      console.log(`Code is ${code}, you are good to go!`);
-                    }}
-                  />
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}>
-                    <Text style={{color: 'grey', top: -130, right: 60}}>
-                      Time remaining
-                    </Text>
-                    <Text style={{color: 'black', top: -130, right: 55}}>
-                      00:30s
-                    </Text>
-                    <TouchableOpacity
-                      onPress={resendemail}
-                      style={{top: -130, left: 60}}>
-                      <Text style={{color: 'grey'}}>Resend code</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <TouchableOpacity
-                    // onPress={() => setModalVisible(!modalVisible)}
-                    onPress={_verifyMailotp}
-                    // onPress={formdata}
-                    style={{
-                      backgroundColor: '#138F00',
-                      height: height / 20,
-                      width: width / 3,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      borderRadius: 7,
-                      top: -80,
-                    }}>
-                    <Text style={{color: 'white'}}>Okay</Text>
-                  </TouchableOpacity>
-                </View>
-              </View> */}
               <View style={Styles.centeredView}>
                 <View style={Styles.modalView}>
                   <TouchableOpacity
@@ -765,22 +694,43 @@ const RegisterAccount = props => {
                     value={code}
                     onChangeText={val => setCode(val)}
                     placeholder="Enter OTP"
+                    maxLength={6}
                     placeholderTextColor={'#aaa'}
                   />
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}>
-                    <Text style={{color: 'grey'}}>Time remaining</Text>
-                    <View>
-                      {counter !== 0 ? (
-                        <Text style={{color: 'black'}}>{counter}s</Text>
-                      ) : (
-                        <TouchableOpacity onPress={resendemail} style={{}}>
-                          <Text style={{color: 'grey'}}>Resend code</Text>
-                        </TouchableOpacity>
-                      )}
+
+                  <View>
+                    {/* <TouchableOpacity onPress={resendemail} disabled={disabled}>
+                      <Text
+                        style={{
+                          color: disabled ? Colors.lightGray : Colors.black,
+                          alignSelf: 'flex-end',
+                          top: 5,
+                        }}>
+                        Resend OTP{timer > 0 ? ` in ${timer} seconds` : ''}
+                      </Text>
+                    </TouchableOpacity> */}
+
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        top: 3,
+                      }}>
+                      <Text style={Styles.respontextstyles2}>
+                        Time remaining: 00:{counter}
+                      </Text>
+                      <TouchableOpacity
+                        onPress={counter == 0 ? resendemail : () => {}}>
+                        <Text
+                          style={[
+                            Styles.respontextstyles3,
+                            counter != 0
+                              ? {color: Colors.lightGray}
+                              : {color: Colors.black},
+                          ]}>
+                          Resend code
+                        </Text>
+                      </TouchableOpacity>
                     </View>
                   </View>
 
@@ -791,7 +741,7 @@ const RegisterAccount = props => {
                       backgroundColor: code
                         ? Colors.darkGreen
                         : Colors.lightGray,
-                      paddingVertical: 4,
+                      paddingVertical: 10,
                       marginTop: 20,
                       borderRadius: 4,
                     }}>

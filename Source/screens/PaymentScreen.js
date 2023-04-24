@@ -1,4 +1,4 @@
-import {View, Text, SafeAreaView, TouchableOpacity} from 'react-native';
+import {View, Text, SafeAreaView, TouchableOpacity, Image} from 'react-native';
 import React, {useState} from 'react';
 import Colors from '../Assets/Constants/Colors';
 import Header from '../ReusableComponents/Header';
@@ -7,6 +7,7 @@ import uuid from 'react-native-uuid';
 import {_getStorage} from '../Assets/utils/storage/Storage';
 import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
+import {VPA} from '../Assets/utils/Handler/PaymentInfo';
 
 const PaymentScreen = props => {
   const bookingIdPrice = props.route.params;
@@ -15,11 +16,10 @@ const PaymentScreen = props => {
 
   const upiPayment = () => {
     let newStr = uuid.v4().slice(20);
-    // console.log('newStr-->', newStr);
 
     RNUpiPayment.initializePayment(
       {
-        vpa: 'EXPLORETOBUY.62627320@hdfcbank',
+        vpa: VPA,
         payeeName: bookingIdPrice?.bookinId,
         amount: bookingIdPrice?.price,
         transactionRef: newStr,
@@ -93,7 +93,7 @@ const PaymentScreen = props => {
       <Header
         bgColor={Colors.darkOrange}
         color={Colors.white}
-        title="Choose your Payment"
+        title="Choose your Method"
         onPress={() => props.navigation.goBack('Home')}
       />
       <View
@@ -102,47 +102,78 @@ const PaymentScreen = props => {
           justifyContent: 'space-between',
           paddingHorizontal: 20,
           borderRadius: 5,
-          borderWidth: 1,
           paddingVertical: 15,
           marginVertical: 30,
           marginHorizontal: 20,
           alignItems: 'center',
+          backgroundColor: '#F9FAFD',
         }}>
-        <Text style={{color: Colors.black, fontSize: 16}}>Cash</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            right: 8,
+          }}>
+          <Image
+            source={require('../Assets/Images/cash.png')}
+            style={{resizeMode: 'cover', height: 35, width: 35}}
+          />
+          <Text style={{color: Colors.black, fontSize: 16, left: 10}}>
+            Cash
+          </Text>
+        </View>
         <TouchableOpacity
           onPress={() => props.navigation.navigate('Mybooking2')}
           style={{
-            borderWidth: 1,
-            paddingHorizontal: 15,
-            paddingVertical: 5,
+            paddingVertical: 7,
             borderRadius: 7,
             backgroundColor: Colors.darkGreen,
+            width: 70,
+            alignItems: 'center',
+            alignSelf: 'flex-end',
+            left: 10,
           }}>
-          <Text style={{color: Colors.white}}>Pay</Text>
+          <Text style={{color: Colors.white, fontWeight: '500'}}>Pay</Text>
         </TouchableOpacity>
       </View>
       <View
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
-          paddingHorizontal: 20,
+          paddingHorizontal: 10,
           borderRadius: 5,
-          borderWidth: 1,
           paddingVertical: 15,
           marginHorizontal: 20,
           alignItems: 'center',
+          backgroundColor: '#F9FAFD',
         }}>
-        <Text style={{color: Colors.black, fontSize: 16}}>UPI Payment</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Image
+            source={require('../Assets/Images/Upi.png')}
+            style={{resizeMode: 'cover', height: 35, width: 35}}
+          />
+          <Text style={{color: Colors.black, fontSize: 16, left: 10}}>
+            UPI Payment
+          </Text>
+        </View>
         <TouchableOpacity
           onPress={upiPayment}
           style={{
-            borderWidth: 1,
             paddingHorizontal: 15,
-            paddingVertical: 5,
+            paddingVertical: 7,
             borderRadius: 7,
             backgroundColor: Colors.darkGreen,
+            width: 70,
+            alignItems: 'center',
+            alignSelf: 'flex-end',
           }}>
-          <Text style={{color: Colors.white}}>Pay</Text>
+          <Text style={{color: Colors.white, fontWeight: '500'}}>Pay</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

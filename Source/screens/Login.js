@@ -11,6 +11,8 @@ import {
   Dimensions,
   ActivityIndicator,
   ImageBackground,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
@@ -35,9 +37,10 @@ const {height, width} = Dimensions.get('screen');
 import Toast from 'react-native-simple-toast';
 import Modal from 'react-native-modal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {_getStorage} from '../Assets/utils/storage/Storage';
 
 const Login = props => {
-  const [isSelected, setSelection] = useState(false);
+  const [isSelected, setSelection] = useState(true);
   const [MobileNumber, setMobileNumber] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMobileNumber, setErrorMobileNumber] = useState(null);
@@ -48,6 +51,8 @@ const Login = props => {
 
   const [googleemail, setGoggleemail] = useState('');
   const [googlephone, setGooglephone] = useState('');
+  const [timer, setTimer] = useState(60); // set initial timer to 60 seconds
+  const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
     GoogleSignin.configure();
@@ -58,8 +63,8 @@ const Login = props => {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       setGoggleemail(userInfo.user.email);
-            return userInfo;
-       } catch (error) {
+      return userInfo;
+    } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         console.log(error);
         // user cancelled the login flow
@@ -173,7 +178,8 @@ const Login = props => {
       .catch(error => {
         console.log(error.response.data.message);
         Toast.showWithGravity(
-          error?.response?.data?.message,
+          // error?.response?.data?.message,
+          "'Please Enter valid mobile number..",
           Toast.LONG,
           Toast.BOTTOM,
         );
@@ -228,7 +234,7 @@ const Login = props => {
         await AsyncStorage.setItem('user_id', response.data.user_id);
 
         console.log('google sigin otp', response.data);
-        props.navigation.navigate('Location');
+        props.navigation.navigate('RegisterAccount');
         setModalVisibleOtp(!modalVisibleOtp);
       })
       .catch(error => {
@@ -238,6 +244,7 @@ const Login = props => {
 
   const socialLoginGoogle = async () => {
     const response = await signIn();
+    const token = await _getStorage('token');
     if (response) {
       console.log('api');
       axios
@@ -252,7 +259,7 @@ const Login = props => {
           ) {
             setModalVisible(!modalVisible);
           } else {
-            console.log('else conditions');
+            if (token) console.log('else conditions');
             console.log('hey-------', res.data);
             await AsyncStorage.setItem('token', res.data.token);
             await AsyncStorage.setItem('refreshToken', res.data.refreshToken);
@@ -294,264 +301,326 @@ const Login = props => {
     console.log('hey');
   };
 
+  const handlePress = () => {
+    Keyboard.dismiss();
+  };
+
+  const resendemail = () => {
+    const SubmitDAta = {
+      phone: googlephone,
+      email: googleemail,
+    };
+    console.log('phone number', SubmitDAta);
+    axios
+      .post(BASE_URL + `/socialPhoneLogin`, SubmitDAta)
+      .then(res => {
+        setTimer(60); // reset timer
+        setDisabled(true);
+        if (res.data.Status == 200) {
+          alert('Number is not ');
+        } else {
+          console.log('else condtion');
+        }
+      })
+      .catch(error => {
+        console.log('google login with phone', error);
+        Toast.showWithGravity(
+          'Please feel The Number',
+          Toast.LONG,
+          Toast.BOTTOM,
+        );
+      });
+  };
+
+  useEffect(() => {
+    if (timer > 0) {
+      const intervalId = setInterval(() => {
+        setTimer(previousTime => previousTime - 1);
+      }, 1000);
+      return () => clearInterval(intervalId);
+    } else {
+      setDisabled(false);
+    }
+  }, [timer]);
+
   return (
-    <SafeAreaView>
-      <View style={styles.container}>
-        <Image
-          source={require('../Assets/Images/SplashOrangeBar.png')}
-          style={styles.img}
-        />
-        <KeyboardAvoidingView
-          behavior="padding"
-          style={{
-            alignItems: 'center',
-            alignSelf: 'center',
-          }}>
-          <View style={{flexDirection: 'row'}}>
-            <Image
-              source={require('../Assets/Images/logo2.png')}
-              style={styles.logo}
-            />
-            <View style={{top: 8}}>
-              <Text style={styles.yellowTxt}>
-                All<Text style={styles.blackTxt}> in</Text> One
-              </Text>
-              <Text style={styles.blackTxt}>SERVICES</Text>
-            </View>
-          </View>
-          <Text style={[styles.blackTxt, {fontSize: hp('2.5%')}]}>
-            Your Home Services Expert
-          </Text>
-          <View style={styles.textInputCntnr}>
-            <Text style={[styles.blackTxt, {fontSize: hp('2.2%')}]}>+91</Text>
-            <TextInput
-              placeholder="Mobile Number"
-              placeholderTextColor={Colors.darkGray}
-              style={styles.input}
-              keyboardType="number-pad"
-              maxLength={10}
-              value={MobileNumber}
-              onChangeText={text => {
-                setMobileNumber(text), _validateMobileNumber(text);
-              }}
-            />
-          </View>
-          {errorMobileNumber != null ? (
-            <View
-              style={{
-                height: height * 0.02,
-                width: width * 1,
-              }}>
-              <Text style={{color: 'red', fontSize: 13, marginLeft: 40}}>
-                {errorMobileNumber}
-              </Text>
-            </View>
-          ) : null}
-          {isLoading ? (
-            <ActivityIndicator
-              color="#FFA034"
-              size="large"
-              style={{alignSelf: 'center', top: 20}}
-            />
-          ) : (
-            <CustomButton
-              title={'Login / Sign Up'}
-              bgColor={Colors.lightGreen}
-              width={wp('80%')}
-              height={hp('7%')}
-              color={Colors.white}
-              onPress={handleSubmit}
-              disabled={isSelected ? false : true}
-            />
-          )}
-
-          <View style={{flexDirection: 'row'}}>
-            <View
-              style={{
-                borderBottomWidth: 1,
-                borderColor: 'grey',
-                width: wp('25%'),
-                top: 20,
-                paddingHorizontal: 25,
-                right: 10,
-              }}></View>
-            <View style={{top: 27}}>
-              <Text style={{fontSize: 16, color: 'black'}}>Or Login with</Text>
-            </View>
-            <View
-              style={{
-                borderColor: 'grey',
-                width: wp('25%'),
-                borderBottomWidth: 1,
-                top: 20,
-                paddingHorizontal: 25,
-                left: 10,
-              }}></View>
-          </View>
-        </KeyboardAvoidingView>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            top: 35,
-            marginHorizontal: 60,
-          }}>
-          <TouchableOpacity
-            onPress={socialLoginGoogle}
-            // onPress={_socialloginGoogle}
-
-            // onPress={() => setModalVisible(!modalVisible)}
-          >
-            <Image
-              source={require('../Assets/Images/google.png')}
-              style={{height: hp('10%'), width: wp('20%')}}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={socialLoginFacebook} style={{top: 10}}>
-            <Image
-              source={require('../Assets/Images/facebook.png')}
-              style={{height: hp('8%'), width: wp('15%')}}
-            />
-          </TouchableOpacity>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            top: hp('12%'),
-            marginHorizontal: wp('5%'),
-            alignItems: 'center',
-            right: wp('5%'),
-          }}>
-          <CheckBox
-            value={isSelected}
-            onValueChange={setSelection}
-            tintColors
-            style={{left: wp('3%')}}
+    <TouchableWithoutFeedback onPress={handlePress}>
+      <View>
+        <View style={styles.container}>
+          <Image
+            source={require('../Assets/Images/SplashOrangeBar.png')}
+            style={styles.img}
           />
+          <KeyboardAvoidingView
+            behavior="padding"
+            style={{
+              alignItems: 'center',
+              alignSelf: 'center',
+            }}>
+            <View style={{flexDirection: 'row'}}>
+              <Image
+                source={require('../Assets/Images/logo2.png')}
+                style={styles.logo}
+              />
+              <View style={{top: 8}}>
+                <Text style={styles.yellowTxt}>
+                  All<Text style={styles.blackTxt}> in</Text> One
+                </Text>
+                <Text style={styles.blackTxt}>SERVICES</Text>
+              </View>
+            </View>
+            <Text style={[styles.blackTxt, {fontSize: hp('2.5%')}]}>
+              Your Home Services Expert
+            </Text>
+            <View style={styles.textInputCntnr}>
+              <Text style={[styles.blackTxt, {fontSize: hp('2.2%')}]}>+91</Text>
+              <TextInput
+                placeholder="Mobile Number"
+                placeholderTextColor={Colors.darkGray}
+                style={styles.input}
+                keyboardType="number-pad"
+                maxLength={10}
+                value={MobileNumber}
+                onChangeText={text => {
+                  setMobileNumber(text), _validateMobileNumber(text);
+                }}
+              />
+            </View>
+            {errorMobileNumber != null ? (
+              <View
+                style={{
+                  height: height * 0.02,
+                  width: width * 1,
+                }}>
+                <Text style={{color: 'red', fontSize: 13, marginLeft: 40}}>
+                  {errorMobileNumber}
+                </Text>
+              </View>
+            ) : null}
+            {isLoading ? (
+              <ActivityIndicator
+                color="#FFA034"
+                size="large"
+                style={{alignSelf: 'center', top: 20}}
+              />
+            ) : (
+              <CustomButton
+                title={'Login / Sign Up'}
+                bgColor={Colors.lightGreen}
+                width={wp('80%')}
+                height={hp('7%')}
+                color={Colors.white}
+                onPress={handleSubmit}
+                disabled={isSelected ? false : true}
+              />
+            )}
+
+            <View style={{flexDirection: 'row'}}>
+              <View
+                style={{
+                  borderBottomWidth: 1,
+                  borderColor: 'grey',
+                  width: wp('25%'),
+                  top: 20,
+                  paddingHorizontal: 25,
+                  right: 10,
+                }}></View>
+              <View style={{top: 27}}>
+                <Text style={{fontSize: 16, color: 'black'}}>
+                  Or Login with
+                </Text>
+              </View>
+              <View
+                style={{
+                  borderColor: 'grey',
+                  width: wp('25%'),
+                  borderBottomWidth: 1,
+                  top: 20,
+                  paddingHorizontal: 25,
+                  left: 10,
+                }}></View>
+            </View>
+          </KeyboardAvoidingView>
           <View
             style={{
               flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              top: 8,
+              justifyContent: 'space-between',
+              top: 35,
+              marginHorizontal: 60,
             }}>
-            <Text
-              style={{fontSize: 15, fontWeight: '500', color: Colors.black}}>
-              By proceeding, you agree to
-            </Text>
             <TouchableOpacity
-              onPress={() => props.navigation.navigate('Termsandconditions')}>
-              <Text style={{color: Colors.blue, fontWeight: '500', left: 2}}>
-                Terms & Conditions
-              </Text>
+              onPress={socialLoginGoogle}
+              // onPress={_socialloginGoogle}
+
+              // onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Image
+                source={require('../Assets/Images/google.png')}
+                style={{height: hp('10%'), width: wp('20%')}}
+              />
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => props.navigation.navigate('PrivacyPolicies')}>
+            <TouchableOpacity onPress={socialLoginFacebook} style={{top: 10}}>
+              <Image
+                source={require('../Assets/Images/facebook.png')}
+                style={{height: hp('8%'), width: wp('15%')}}
+              />
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              top: hp('12%'),
+              marginHorizontal: wp('5%'),
+              alignItems: 'center',
+              right: wp('5%'),
+            }}>
+            <CheckBox
+              value={isSelected}
+              onValueChange={setSelection}
+              style={{left: wp('3%')}}
+            />
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                top: 8,
+              }}>
               <Text
+                style={{fontSize: 15, fontWeight: '500', color: Colors.black}}>
+                By proceeding, you agree to
+              </Text>
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate('Termsandconditions')}>
+                <Text style={{color: Colors.blue, fontWeight: '500', left: 2}}>
+                  Terms & Conditions
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate('PrivacyPolicies')}>
+                <Text
+                  style={{
+                    color: Colors.blue,
+                    fontWeight: '500',
+                  }}>
+                  Privacy Policy
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          {/* <View
+            style={{alignItems: 'center', justifyContent: 'flex-end', flex: 1}}>
+            <ImageBackground
+              source={require('../Assets/Images/SplashGreenBar.png')}
+              style={[styles.img]}
+            />
+          </View> */}
+        </View>
+        <Modal
+          animationIn="slideInUp"
+          animationOut="slideOutDown"
+          transparent={true}
+          isVisible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(false);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <TextInput
                 style={{
-                  color: Colors.blue,
-                  fontWeight: '500',
+                  borderWidth: 1,
+                  borderColor: '#aaa',
+                  color: '#000',
+                  paddingLeft: 10,
+                  height: 40,
+                }}
+                value={googlephone}
+                onChangeText={val => setGooglephone(val)}
+                placeholder="Enter Phone Number"
+                placeholderTextColor={'#aaa'}
+                maxLength={10}
+                keyboardType="number-pad"
+              />
+              <TouchableOpacity
+                onPress={_socialloginGoogle}
+                // disabled={otp_email ? false : true}
+                style={{
+                  backgroundColor: Colors.darkGreen,
+                  paddingVertical: 10,
+                  marginTop: 20,
+                  borderRadius: 4,
                 }}>
-                Privacy Policy
-              </Text>
-            </TouchableOpacity>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontWeight: '700',
+                    color: '#fff',
+                  }}>
+                  sendOTP
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-        {/* <ImageBackground
-          source={require('../Assets/Images/SplashGreenBar.png')}
-          style={[styles.img]}
-        /> */}
-        {/* <ImageBackground
-          source={require('../Assets/Images/indian-flag.png')}
-          style={styles.img}
-        /> */}
+        </Modal>
+        <Modal
+          animationIn="slideInUp"
+          animationOut="slideOutDown"
+          transparent={true}
+          isVisible={modalVisibleOtp}
+          onRequestClose={() => {
+            setModalVisibleOtp(false);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <TextInput
+                style={{
+                  borderWidth: 1,
+                  borderColor: '#aaa',
+                  color: '#000',
+                  paddingLeft: 10,
+                  height: 40,
+                }}
+                value={googleOtp}
+                onChangeText={val => setGoogleOtp(val)}
+                placeholder="Enter OTP"
+                placeholderTextColor={'#aaa'}
+                maxLength={6}
+                keyboardType="number-pad"
+              />
+              <TouchableOpacity onPress={resendemail} disabled={disabled}>
+                <Text
+                  style={{
+                    color: disabled ? Colors.lightGray : Colors.black,
+                    alignSelf: 'flex-end',
+                    top: 5,
+                  }}>
+                  Resend OTP{timer > 0 ? ` in ${timer} seconds` : ''}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={verifySocialPhoneOTP}
+                disabled={googleOtp ? false : true}
+                style={{
+                  backgroundColor: Colors.darkGreen,
+                  paddingVertical: 10,
+                  marginTop: 20,
+                  borderRadius: 4,
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontWeight: '700',
+                    color: '#fff',
+                  }}>
+                  Verify
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </View>
-      <Modal
-        animationIn="slideInUp"
-        animationOut="slideOutDown"
-        transparent={true}
-        isVisible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(false);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <TextInput
-              style={{
-                borderWidth: 1,
-                borderColor: '#aaa',
-                color: '#000',
-                paddingLeft: 10,
-                height: 40,
-              }}
-              value={googlephone}
-              onChangeText={val => setGooglephone(val)}
-              placeholder="Enter Phone Number"
-              placeholderTextColor={'#aaa'}
-              maxLength={10}
-              keyboardType="number-pad"
-            />
-            <TouchableOpacity
-              onPress={_socialloginGoogle}
-              // disabled={otp_email ? false : true}
-              style={{
-                backgroundColor: 'green',
-                paddingVertical: 4,
-                marginTop: 20,
-                borderRadius: 4,
-              }}>
-              <Text
-                style={{textAlign: 'center', fontWeight: '700', color: '#fff'}}>
-                sendOTP
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-      <Modal
-        animationIn="slideInUp"
-        animationOut="slideOutDown"
-        transparent={true}
-        isVisible={modalVisibleOtp}
-        onRequestClose={() => {
-          setModalVisibleOtp(false);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <TextInput
-              style={{
-                borderWidth: 1,
-                borderColor: '#aaa',
-                color: '#000',
-                paddingLeft: 10,
-                height: 40,
-              }}
-              value={googleOtp}
-              onChangeText={val => setGoogleOtp(val)}
-              placeholder="Enter OTP"
-              placeholderTextColor={'#aaa'}
-              maxLength={6}
-              keyboardType="number-pad"
-            />
-            <TouchableOpacity
-              onPress={verifySocialPhoneOTP}
-              disabled={googleOtp ? false : true}
-              style={{
-                backgroundColor: 'green',
-                paddingVertical: 4,
-                marginTop: 20,
-                borderRadius: 4,
-              }}>
-              <Text
-                style={{textAlign: 'center', fontWeight: '700', color: '#fff'}}>
-                Verify
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-    </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -568,6 +637,7 @@ const styles = StyleSheet.create({
     width: wp('100%'),
     alignSelf: 'flex-end',
     zIndex: -1,
+    resizeMode: 'cover',
   },
   logo: {
     height: hp('12%'),

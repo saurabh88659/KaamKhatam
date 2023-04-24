@@ -10,7 +10,7 @@ const Abouts = props => {
         bgColor={Colors.darkOrange}
         color={Colors.white}
         title="About Us"
-        onPress={() => props.navigation.goBack('Home')}
+        onPress={() => props.navigation.goBack()}
       />
       <ScrollView
         contentContainerStyle={{marginTop: 15, paddingBottom: 100}}

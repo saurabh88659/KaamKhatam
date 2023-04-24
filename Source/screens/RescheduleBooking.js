@@ -15,7 +15,6 @@ import Header from '../ReusableComponents/Header';
 import {_getStorage} from '../Assets/utils/storage/Storage';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-// import moment from 'moment/moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
@@ -147,8 +146,8 @@ const RescheduleBooking = props => {
       .then(res => {
         console.log('reschedule response', res.data);
         if (res.data.message == 'Booking Rescheduled') {
-          props.navigation.navigate('Home')
-          // props.navigation.goBack();
+          // props.navigation.navigate('Home');
+          props.navigation.goBack();
           //   Viewdetailsbooking();
         }
         setIsLoading(false);
@@ -172,14 +171,14 @@ const RescheduleBooking = props => {
       timeSlot: `${startTime}-${endTime}`,
       bookingDate: d,
     };
-    console.log('obj ', obj);
+    // console.log('obj ===========+++++++', obj);
     axios
       .post(BASE_URL + `/booking/verifyTimeSlot`, obj, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
         console.log('chackDate', res.data);
-        
+
         Toast.showWithGravity(res.data?.message, Toast.LONG, Toast.BOTTOM);
         reschedule();
         setIsLoading(false);
@@ -216,7 +215,7 @@ const RescheduleBooking = props => {
           borderColor: 'grey',
         }}>
         <TouchableOpacity
-        onPress={showDatePicker}
+          onPress={showDatePicker}
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -228,6 +227,7 @@ const RescheduleBooking = props => {
               mode="date"
               onConfirm={handleConfirm}
               onCancel={hideDatePicker}
+              minimumDate={new Date()}
             />
             <TouchableOpacity onPress={showDatePicker}>
               <FontAwesome5Icon
@@ -313,8 +313,8 @@ const RescheduleBooking = props => {
             paddingHorizontal: 20,
             paddingVertical: 15,
             alignItems: 'center',
-            marginHorizontal:15,
-            top:"-20%"
+            marginHorizontal: 15,
+            top: '-15%',
           }}>
           <Text
             style={{alignSelf: 'center', color: 'white', fontWeight: 'bold'}}>

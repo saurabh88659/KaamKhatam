@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Image, Alert, Linking } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, Text, View, Image, Alert, Linking} from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -7,11 +7,12 @@ import {
 import Colors from '../Assets/Constants/Colors';
 import CustomButton from '../ReusableComponents/Button';
 import Geolocation from '@react-native-community/geolocation';
-import { _getStorage } from '../Assets/utils/storage/Storage';
+import {_getStorage} from '../Assets/utils/storage/Storage';
 import axios from 'axios';
-import { BASE_URL } from '../Assets/utils/Restapi/Config';
+import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 import Toast from 'react-native-simple-toast';
+import InternetInfoall from '../Assets/utils/Handler/InternetInfoall';
 
 // const API_KEY = 'AIzaSyD3Uol_-mBQSaZgIfuzVVK1oHXqBHPkrZE';
 
@@ -42,7 +43,7 @@ const Location = props => {
     console.log('locobj locations', locobj);
     axios
       .put(BASE_URL + `/coordinates`, locobj, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {Authorization: `Bearer ${token}`},
       })
       .then(async res => {
         if (res.data.message === 'User coordinates Updated Successfully') {
@@ -121,12 +122,13 @@ const Location = props => {
           );
         }
       },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
+      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
     );
   }
 
   return (
     <View style={styles.container}>
+      <InternetInfoall />
       <View
         style={{
           width: wp('100%'),
@@ -135,7 +137,7 @@ const Location = props => {
           justifyContent: 'center',
         }}>
         <Image source={require('../Assets/Images/map.png')} />
-        <Text style={{ fontWeight: 'bold', fontSize: hp('2.5%') }}>
+        <Text style={{fontWeight: 'bold', fontSize: hp('2.5%')}}>
           See Services around
         </Text>
         <CustomButton
@@ -148,7 +150,7 @@ const Location = props => {
           color={Colors.white}
         />
       </View>
-      <View style={{ width: wp('100%'), height: hp('20%') }}>
+      <View style={{width: wp('100%'), height: hp('20%')}}>
         <Image
           source={require('../Assets/Images/city.png')}
           style={styles.bottomImg}

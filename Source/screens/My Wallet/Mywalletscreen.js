@@ -15,6 +15,7 @@ import uuid from 'react-native-uuid';
 import {BASE_URL} from '../../Assets/utils/Restapi/Config';
 import axios from 'axios';
 import {_getStorage} from '../../Assets/utils/storage/Storage';
+import {PAYEE_NAME, VPA} from '../../Assets/utils/Handler/PaymentInfo';
 
 export default function Mywalletscreen() {
   const [selectAmount, setSelectAmount] = useState('');
@@ -28,8 +29,8 @@ export default function Mywalletscreen() {
 
     RNUpiPayment.initializePayment(
       {
-        vpa: 'EXPLORETOBUY.62627320@hdfcbank',
-        payeeName: 'dablu',
+        vpa: VPA,
+        payeeName: PAYEE_NAME,
         amount: selectAmount,
         transactionRef: newStr,
       },

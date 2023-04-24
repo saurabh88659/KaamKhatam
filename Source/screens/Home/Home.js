@@ -1,10 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {  View, SafeAreaView, StyleSheet, Text,
-  ScrollView, TouchableOpacity,
-  TextInput,Image,  ActivityIndicator,
-  StatusBar,Dimensions,
+import {
+  View,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  TextInput,
+  Image,
+  ActivityIndicator,
+  StatusBar,
+  Dimensions,
   RefreshControl,
- } from 'react-native';
+} from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -20,9 +28,11 @@ import {_getStorage} from '../../Assets/utils/storage/Storage';
 import Geocoder from 'react-native-geocoding';
 import Geolocation from '@react-native-community/geolocation';
 import {useIsFocused} from '@react-navigation/native';
+import InternetInfoall from '../../Assets/utils/Handler/InternetInfoall';
+import LinearGradient from 'react-native-linear-gradient';
+import BeautyServices from './Component/BeautyServices';
 
 const API_KEY = 'AIzaSyD3Uol_-mBQSaZgIfuzVVK1oHXqBHPkrZE';
-const {height, width} = Dimensions.get('window');
 
 function Home({navigation}) {
   const [category, setCategory] = useState([]);
@@ -34,7 +44,6 @@ function Home({navigation}) {
   const [longitude, setLongitude] = useState(0);
   const [refresh, setRfresh] = useState(false);
   const isFocused = useIsFocused();
-
 
   setTimeout(() => {
     setRfresh(false);
@@ -133,7 +142,6 @@ function Home({navigation}) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={Colors.darkGreen} barStyle={Colors.white} />
-
       <HeaderDrawer
         Title="ALL IN ONE"
         // location={''}
@@ -151,7 +159,7 @@ function Home({navigation}) {
         </View>
       ) : (
         <View>
-          <Text
+          {/* <Text
             style={{
               color: Colors.white,
               textAlign: 'center',
@@ -160,7 +168,7 @@ function Home({navigation}) {
               paddingHorizontal: 10,
             }}>
             {state}
-          </Text>
+          </Text> */}
           <View
             style={{
               height: 44,
@@ -196,12 +204,12 @@ function Home({navigation}) {
                 showsPagination={false}
                 style={styles.scroll}>
                 {bannerUrl.map((value, index) => (
-                   <TouchableOpacity key={index}>
+                  <TouchableOpacity key={index}>
                     <Image
                       source={{uri: value.imageUrl}}
                       style={styles.imgSlider}
                     />
-                   </TouchableOpacity>
+                  </TouchableOpacity>
                 ))}
               </Swiper>
             </View>
@@ -234,9 +242,112 @@ function Home({navigation}) {
                 ))}
               </View>
             </View>
-            </ScrollView>
+
+            <View
+              style={{
+                paddingVertical: hp('3%'),
+                // backgroundColor: Colors.lightGray,
+
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <View
+                style={{
+                  width: wp('90%'),
+                  borderRadius: hp('3%'),
+                  backgroundColor: Colors.white,
+                  paddingBottom: hp('2%'),
+                  elevation: 10,
+                }}>
+                <LinearGradient
+                  start={{x: 0.0, y: 0.25}}
+                  end={{x: 0.9, y: 1.0}}
+                  // locations={[0, 0.8, 0.6]}
+                  colors={[
+                    Colors.lightOrange,
+                    Colors.lightOrange,
+                    Colors.lightGreen,
+                  ]}
+                  style={{
+                    padding: hp('3%'),
+                    alignItems: 'center',
+                    borderTopLeftRadius: hp('3%'),
+                    borderTopRightRadius: hp('3%'),
+                  }}>
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontWeight: 'bold',
+                      fontSize: hp('2.4%'),
+                    }}>
+                    India's Safest At Home Beauty Services
+                  </Text>
+                </LinearGradient>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
+                  }}>
+                  <BeautyServices
+                    title="Classic Mani & Pedi"
+                    image={require('../../Assets/Images/hairdressing2.png')}
+                    // onPress={() => props.navigation.navigate('Manicure', props)}
+                  />
+                  <BeautyServices
+                    onPress={() => {
+                      // props.navigation.navigate('Bleach', props);
+                    }}
+                    title="Clean up + Bleach"
+                    image={require('../../Assets/Images/Massage1.png')}
+                  />
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
+                    paddingBottom: hp('2%'),
+                  }}>
+                  <BeautyServices
+                    title="Chocolate Wax"
+                    image={require('../../Assets/Images/Massage3.png')}
+                    // onPress={() => {
+                    //   props.navigation.navigate('Chocolatewax', props);
+                    // }}
+                  />
+                  <BeautyServices
+                    title="Skin Brightening"
+                    image={require('../../Assets/Images/Massage4.png')}
+                    // onPress={() => {
+                    //   props.navigation.navigate('Cleanup', props);
+                    // }}
+                  />
+                </View>
+                <TouchableOpacity
+                  style={{
+                    alignItems: 'center',
+                    paddingHorizontal: wp('15%'),
+                    borderRadius: hp('3%'),
+                    padding: hp('1%'),
+                    backgroundColor: Colors.lightGreen,
+                    alignSelf: 'center',
+                  }}
+                  // onPress={() => props.navigation.navigate('SalonWomen')}
+                >
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      fontSize: hp('2%'),
+                      color: Colors.white,
+                    }}>
+                    Book Now
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </ScrollView>
         </View>
       )}
+      <InternetInfoall />
     </SafeAreaView>
   );
 }
@@ -258,7 +369,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     height: hp('37%'),
     borderRadius: 20,
-   
   },
   imgSlider: {
     alignSelf: 'center',
@@ -266,9 +376,9 @@ const styles = StyleSheet.create({
     borderColor: Colors.white,
     borderRadius: 10,
     width: '96%',
-    height:'94%',
-    marginVertical:3,  
+    height: '94%',
+    marginVertical: 3,
     // resizeMode:'stretch'
-    resizeMode:'contain'
+    resizeMode: 'contain',
   },
 });

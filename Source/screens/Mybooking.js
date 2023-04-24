@@ -16,6 +16,7 @@ import {_getStorage} from '../Assets/utils/storage/Storage';
 import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import {useIsFocused} from '@react-navigation/native';
+import InternetInfoall from '../Assets/utils/Handler/InternetInfoall';
 const {height, width} = Dimensions.get('window');
 
 function Mybooking({navigation}) {
@@ -36,9 +37,8 @@ function Mybooking({navigation}) {
     setRfresh(false);
   }, 3000);
 
-
   function handleBackButtonClick() {
-    navigation.navigate("Home");
+    navigation.navigate('Home');
     return true;
   }
 
@@ -49,8 +49,6 @@ function Mybooking({navigation}) {
     };
   }, []);
 
-
-
   const bookingDetails = async () => {
     const token = await _getStorage('token');
     console.log(token);
@@ -60,7 +58,7 @@ function Mybooking({navigation}) {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-              if (res.data.message == 'No Data Found') {
+        if (res.data.message == 'No Data Found') {
           setNoData(res.data.message);
         } else {
           setBookdetails(res.data.newData);
@@ -81,7 +79,7 @@ function Mybooking({navigation}) {
     <SafeAreaView style={{flex: 1}}>
       <HeaderDrawer
         Title="My Bookings"
-               onPress={() => navigation.toggleDrawer()}
+        onPress={() => navigation.toggleDrawer()}
       />
       <ScrollView
         refreshControl={
@@ -249,6 +247,7 @@ function Mybooking({navigation}) {
           ))
         )}
       </ScrollView>
+      <InternetInfoall />
     </SafeAreaView>
   );
 }

@@ -24,7 +24,6 @@ const Splash = ({navigation}) => {
   const [hasInternet, setHasInternet] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  
   useEffect(() => {
     splashhandle();
   }, []);
@@ -33,7 +32,7 @@ const Splash = ({navigation}) => {
     const token = await _getStorage('token');
     console.log('token==========..', token);
 
-     const isInternet = await checkInternetConnection();
+    const isInternet = await checkInternetConnection();
 
     // console.log('isInternet', isInternet);
 
@@ -77,7 +76,6 @@ const Splash = ({navigation}) => {
                       'refreshToken',
                       res.data.refreshToken,
                     );
-                  
                   })
 
                   .catch(error => {

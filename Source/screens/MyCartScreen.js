@@ -24,6 +24,7 @@ import Geolocation from '@react-native-community/geolocation';
 import Toast from 'react-native-simple-toast';
 import Header from '../ReusableComponents/Header';
 import {useIsFocused} from '@react-navigation/native';
+import InternetInfoall from '../Assets/utils/Handler/InternetInfoall';
 
 const MyCartScreen = props => {
   const [mycartname, setMycartname] = useState('');
@@ -33,7 +34,6 @@ const MyCartScreen = props => {
   const [longitude, setLongitude] = useState(0);
   const [refresh, setRfresh] = useState(false);
   const isFocused = useIsFocused();
-
 
   setTimeout(() => {
     setRfresh(false);
@@ -84,7 +84,7 @@ const MyCartScreen = props => {
         data: {cartId: mycartname.cartId},
       })
       .then(rep => {
-              get_mycart();
+        get_mycart();
         Toast.showWithGravity(rep.data?.message, Toast.LONG, Toast.BOTTOM);
       })
       .catch(error => {
@@ -129,7 +129,7 @@ const MyCartScreen = props => {
 
   return (
     <SafeAreaView style={styles.container}>
-           <Header
+      <Header
         bgColor={Colors.darkOrange}
         color={Colors.white}
         title="My Cart"
@@ -272,7 +272,8 @@ const MyCartScreen = props => {
           </View>
         )}
       </ScrollView>
-         </SafeAreaView>
+      <InternetInfoall />
+    </SafeAreaView>
   );
 };
 
@@ -283,7 +284,7 @@ const styles = StyleSheet.create({
     height: hp('100%'),
   },
   cntrContainer: {
-       flex: 1,
+    flex: 1,
   },
   card: {
     width: '100%',

@@ -2,7 +2,7 @@ export default {
   blue: '#0B12E2',
   darkOrange: '#fcbf14',
   lightOrange: '#FFA034',
-  darkGreen: '#92CD28',
+  darkGreen: '#fcbf14',
   lightGreen: '#00A90B',
   darkGray: '#707070',
   lightGray: '#B3B3B3',
