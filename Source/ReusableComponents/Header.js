@@ -17,7 +17,11 @@ const Header = props => {
         alignItems: 'center',
       }}>
       <TouchableOpacity style={{width: 20}} onPress={props.onPress}>
-        <FontAwesome5 name="angle-left" color={props.color} size={hp('3.7%')} />
+        <FontAwesome5
+          name="arrow-alt-circle-left"
+          color={props.color}
+          size={hp('3.7%')}
+        />
       </TouchableOpacity>
       <View>
         <Text

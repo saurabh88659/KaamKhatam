@@ -32,7 +32,29 @@ import InternetInfoall from '../../Assets/utils/Handler/InternetInfoall';
 import LinearGradient from 'react-native-linear-gradient';
 import BeautyServices from './Component/BeautyServices';
 
+import MapmyIndiaGL from 'mapmyindia-map-react-native-beta';
+import Mapmyindia from 'mapmyindia-restapi-react-native-beta';
+
 const API_KEY = 'AIzaSyD3Uol_-mBQSaZgIfuzVVK1oHXqBHPkrZE';
+
+MapmyIndiaGL.setMapSDKKey('2f6202dc7a5105bc4e863818cf6bb8bd'); //place your mapsdkKey
+MapmyIndiaGL.setRestAPIKey('2f6202dc7a5105bc4e863818cf6bb8bd'); //your restApiKey
+MapmyIndiaGL.setAtlasClientId(
+  '33OkryzDZsINNUKLtouGXDuMmyarRjHCpMqepZrjyJtohZ_anWX8b1U3lPyf3IVPPmR9grAaNwt1IKFH7RXrNg==',
+); //your atlasClientId key
+MapmyIndiaGL.setAtlasClientSecret(
+  '33OkryzDZsINNUKLtouGXDuMmyarRjHCpMqepZrjyJtohZ_anWX8b1U3lPyf3IVPPmR9grAaNwt1IKFH7RXrNg==',
+); //your atlasClientSecret key
+
+Mapmyindia.setRestApiKey('2f6202dc7a5105bc4e863818cf6bb8bd');
+
+Mapmyindia.setClientId(
+  '33OkryzDZsINNUKLtouGXDuMmyarRjHCpMqepZrjyJtohZ_anWX8b1U3lPyf3IVPPmR9grAaNwt1IKFH7RXrNg==',
+);
+
+Mapmyindia.setClientSecret(
+  'lrFxI-iSEg9kBDbCfT1afavfbfpy6Rm4PAHGUT4MDFatmVzQTa3VI59QvrhU2dOLoebGhYGD4S6uZ4io5udOKfI2O6uSGJUC',
+);
 
 function Home({navigation}) {
   const [category, setCategory] = useState([]);
@@ -44,6 +66,8 @@ function Home({navigation}) {
   const [longitude, setLongitude] = useState(0);
   const [refresh, setRfresh] = useState(false);
   const isFocused = useIsFocused();
+  const [address, setAddress] = useState('');
+  const [Coordinates, setCoordinates] = useState('');
 
   setTimeout(() => {
     setRfresh(false);
@@ -70,7 +94,10 @@ function Home({navigation}) {
     if (isFocused) {
       getAllCategory();
       _getBanner();
-      geoCoding();
+      // geoCoding();
+
+      _locationGeocoder();
+      _revGeoCodeApi;
     }
   }, [isFocused]);
 
@@ -139,12 +166,28 @@ function Home({navigation}) {
     return item.name.toLowerCase().includes(searchText.toLowerCase());
   });
 
+  const _locationGeocoder = () => {
+    Geolocation.getCurrentPosition(data => {
+      setCoordinates(data.coords);
+    });
+  };
+
+  const _revGeoCodeApi = () => {
+    Mapmyindia.rev_geocode(
+      {lat: Coordinates.latitude, lng: Coordinates.longitude},
+      response => {
+        setAddress(response?.results[0]);
+        console.log('response++++++++++++++++++DG', response);
+      },
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={Colors.darkGreen} barStyle={Colors.white} />
       <HeaderDrawer
         Title="ALL IN ONE"
-        // location={''}
+        location={address.subLocality}
         onPress={() => navigation.openDrawer()}
       />
       {isLoading ? (
@@ -192,7 +235,7 @@ function Home({navigation}) {
           </View>
           <ScrollView
             refreshControl={
-              <RefreshControl refreshing={refresh} onRefresh={geoCoding} />
+              <RefreshControl refreshing={refresh} onRefresh={_revGeoCodeApi} />
             }
             contentContainerStyle={{paddingBottom: '55%'}}
             showsVerticalScrollIndicator={false}>

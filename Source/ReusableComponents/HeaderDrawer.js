@@ -17,23 +17,24 @@ const HeaderDrawer = props => {
         paddingHorizontal: wp('3%'),
         flexDirection: 'row',
         alignItems: 'center',
-        // justifyContent: 'space-between',
+        justifyContent: 'space-between',
       }}>
-      <TouchableOpacity onPress={props.onPress}>
-        <FontAwesome5 name="bars" color={Colors.white} size={hp('3.5%')} />
-      </TouchableOpacity>
-      <Text
-        numberOfLines={1}
-        style={{
-          width: wp('58%'),
-          fontWeight: 'bold',
-          fontSize: hp('2.5%'),
-          color: 'white',
-          paddingHorizontal: 25,
-        }}>
-        {props.Title}
-      </Text>
-
+      <View style={{flexDirection: 'row'}}>
+        <TouchableOpacity onPress={props.onPress}>
+          <FontAwesome5 name="bars" color={Colors.white} size={hp('3.5%')} />
+        </TouchableOpacity>
+        <Text
+          numberOfLines={1}
+          style={{
+            width: wp('58%'),
+            fontWeight: 'bold',
+            fontSize: hp('2.5%'),
+            color: 'white',
+            paddingHorizontal: 20,
+          }}>
+          {props.Title}
+        </Text>
+      </View>
       <TouchableOpacity
         style={{
           flexDirection: 'row',
@@ -49,13 +50,14 @@ const HeaderDrawer = props => {
             color: 'white',
           }}>
           {props.location}
+          {/* {address.subLocality} */}
         </Text>
 
-        {/* <FontAwesome5
+        <FontAwesome5
           name="map-marker-alt"
           color={Colors.white}
           size={hp('2%')}
-        /> */}
+        />
       </TouchableOpacity>
     </View>
   );
