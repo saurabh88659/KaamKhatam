@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "allonone.app"
-               BlueprintName = "allonone"
-               ReferencedContainer = "container:allonone.xcodeproj">
+               BuildableName = "Kaamkhatam.app"
+               BlueprintName = "Kaamkhatam"
+               ReferencedContainer = "container:Kaamkhatam.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "allononeTests.xctest"
-               BlueprintName = "allononeTests"
-               ReferencedContainer = "container:allonone.xcodeproj">
+               BuildableName = "KaamkhatamTests.xctest"
+               BlueprintName = "KaamkhatamTests"
+               ReferencedContainer = "container:Kaamkhatam.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "allonone.app"
-            BlueprintName = "allonone"
-            ReferencedContainer = "container:allonone.xcodeproj">
+            BuildableName = "Kaamkhatam.app"
+            BlueprintName = "Kaamkhatam"
+            ReferencedContainer = "container:Kaamkhatam.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "allonone.app"
-            BlueprintName = "allonone"
-            ReferencedContainer = "container:allonone.xcodeproj">
+            BuildableName = "Kaamkhatam.app"
+            BlueprintName = "Kaamkhatam"
+            ReferencedContainer = "container:Kaamkhatam.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
