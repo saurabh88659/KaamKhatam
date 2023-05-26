@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Kaamkhatam</string>
+    <string name="app_name">kaamkhatam</string>
     <string name="facebook_app_id">1823998357979792</string>
      <string name="fb_login_protocol_scheme">fb1823998357979792</string>
     <string name="facebook_client_token">62c9113009e5823b0b2e0508bfd84a2b</string>
