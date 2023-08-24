@@ -32,7 +32,7 @@ const ServicesofWomenOnly = props => {
   return (
     <View>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.black}
         title={predata.name}
         onPress={() => props.navigation.goBack()}

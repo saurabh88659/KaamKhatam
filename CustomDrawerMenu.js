@@ -27,10 +27,8 @@ const CustomDrawerMenu = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
   const [profileData, setProfileData] = useState({});
-  const [imgUrl,setImagee] =useState()
+  const [imgUrl, setImagee] = useState();
   const [onUpdateImage, setOnUpdateImage] = useState(Math.random());
-
-  
 
   useEffect(() => {
     // console.log("useEffect----")
@@ -46,7 +44,7 @@ const CustomDrawerMenu = props => {
       })
       .then(val => {
         setProfileData(val.data.result);
-        setImagee(val.data.result.imageUrl)
+        setImagee(val.data.result.imageUrl);
         console.log('profile drower>', val.data.result.imageUrl);
       })
       .catch(error => {
@@ -73,7 +71,7 @@ const CustomDrawerMenu = props => {
       );
     }, 2000);
   };
-console.log("img url ---",imgUrl)
+  console.log('img url ---', imgUrl);
   return (
     <ScrollView style={{flex: 1, backgroundColor: Colors.white}}>
       <DrawerContentScrollView
@@ -91,9 +89,8 @@ console.log("img url ---",imgUrl)
               backgroundColor: Colors.lightGray,
             }}
             onPress={() => props.navigation.navigate('ProfileScreen')}>
-               {console.log("ddddddddddddddddddddddddddddd",imgUrl)}
+            {console.log('ddddddddddddddddddddddddddddd', imgUrl)}
             {profileData ? (
-             
               <Image
                 style={{
                   height: '100%',
@@ -101,13 +98,12 @@ console.log("img url ---",imgUrl)
                   borderRadius: 100,
                   resizeMode: 'cover',
                 }}
-                source={{uri: imgUrl+ '?' + onUpdateImage}}
-                
+                source={{uri: imgUrl + '?' + onUpdateImage}}
               />
             ) : (
               <Text
                 style={{
-                  color: Colors.lightGreen,
+                  color: Colors.purple,
                   fontSize: 40,
                   fontWeight: '600',
                 }}>
@@ -284,8 +280,8 @@ console.log("img url ---",imgUrl)
                 }}>
                 <TouchableOpacity
                   style={{
-                    borderColor: '#0EC01B',
-                    backgroundColor: '#0EC01B',
+                    borderColor: Colors.purple,
+                    backgroundColor: Colors.purple,
                     height: height / 18,
                     width: width / 3.5,
                     justifyContent: 'center',
@@ -309,13 +305,13 @@ console.log("img url ---",imgUrl)
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={{
-                    borderColor: '#0EC01B',
+                    borderColor: Colors.purple,
                     height: height / 18,
                     width: width / 3.5,
                     justifyContent: 'center',
                     alignItems: 'center',
                     borderRadius: 4,
-                    borderColor: '#0EC01B',
+                    // borderColor: '#0EC01B',
                     borderWidth: 1,
                   }}
                   onPress={() => {
@@ -323,7 +319,7 @@ console.log("img url ---",imgUrl)
                   }}>
                   <Text
                     style={{
-                      color: '#0EC01B',
+                      color: Colors.purple,
                       fontWeight: 'bold',
                       textAlign: 'center',
                     }}>
@@ -383,7 +379,7 @@ console.log("img url ---",imgUrl)
                   onPress={ratingCompleted}
                   style={{
                     borderColor: '#0EC01B',
-                    backgroundColor: '#0EC01B',
+                    backgroundColor: Colors.purple,
                     paddingHorizontal: 30,
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -404,18 +400,17 @@ console.log("img url ---",imgUrl)
                     setModalVisible2(!modalVisible2);
                   }}
                   style={{
-                    borderColor: '#0EC01B',
+                    borderColor: Colors.purple,
                     paddingHorizontal: 30,
                     paddingVertical: 10,
                     justifyContent: 'center',
                     alignItems: 'center',
                     borderRadius: 4,
-                    borderColor: '#0EC01B',
                     borderWidth: 1,
                   }}>
                   <Text
                     style={{
-                      color: '#0EC01B',
+                      color: Colors.purple,
                       fontWeight: 'bold',
                       textAlign: 'center',
                     }}>

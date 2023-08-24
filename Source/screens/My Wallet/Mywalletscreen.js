@@ -168,7 +168,7 @@ export default function Mywalletscreen() {
             color: Colors.black,
             textAlign: 'center',
             borderRadius: 7,
-            borderColor: Colors.darkOrange,
+            borderColor: Colors.lightGray,
             fontWeight: '500',
             fontSize: 18,
           }}
@@ -182,7 +182,7 @@ export default function Mywalletscreen() {
           alignItems: 'center',
           justifyContent: 'center',
           // top: 60,
-          backgroundColor: '#0EC01B',
+          backgroundColor:Colors.purple,
           height: height / 14,
           marginHorizontal: 10,
           borderRadius: 4,

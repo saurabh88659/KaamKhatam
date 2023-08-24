@@ -198,7 +198,7 @@ const RescheduleBooking = props => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.white}
         title="Reschedule Booking"
         onPress={() => props.navigation.goBack('Home')}
@@ -261,7 +261,7 @@ const RescheduleBooking = props => {
                 style={{
                   flexDirection: 'row',
                   backgroundColor:
-                    selectionTime === index ? '#0EC01B' : 'white',
+                    selectionTime === index ? Colors.purple : 'white',
                   paddingVertical: 10,
                   marginVertical: 10,
                   alignItems: 'center',
@@ -300,14 +300,14 @@ const RescheduleBooking = props => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <ActivityIndicator color={Colors.darkOrange} size="large" />
+          <ActivityIndicator color={Colors.purple} size="large" />
         </View>
       ) : (
         <TouchableOpacity
           onPress={chackDate}
           // disabled={date ? false : true}
           style={{
-            backgroundColor: date ? Colors.darkGreen : Colors.darkOrange,
+            backgroundColor: date ? Colors.purple : Colors.darkGray,
             justifyContent: 'center',
             borderRadius: 7,
             paddingHorizontal: 20,

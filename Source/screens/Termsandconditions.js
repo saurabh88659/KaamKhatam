@@ -7,7 +7,7 @@ const Termsandconditions = props => {
   return (
     <SafeAreaView>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.white}
         title="Terms and Conditions"
         onPress={() => props.navigation.goBack('Home')}

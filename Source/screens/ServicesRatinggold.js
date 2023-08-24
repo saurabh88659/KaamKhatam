@@ -49,7 +49,7 @@ export default function ServicesRatinggold(props) {
   return (
     <SafeAreaView style={{flex: 1}}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.white}
         title="View Rating"
         onPress={() => props.navigation.goBack()}

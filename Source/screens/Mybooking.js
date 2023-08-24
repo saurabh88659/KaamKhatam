@@ -156,7 +156,7 @@ function Mybooking({navigation}) {
                       style={{
                         fontSize: 15,
                         fontWeight: '900',
-                        color: '#ff8000',
+                        color: '#5E2DC4',
                       }}>
                       {value.serviceName}
                     </Text>
@@ -218,7 +218,7 @@ function Mybooking({navigation}) {
                       color: '#0EC01B',
                       color:
                         value.bookingStatus === 'Pending'
-                          ? '#F1C114'
+                          ? '#5E2DC4'
                           : value.bookingStatus === 'Completed'
                           ? '#0EC01B'
                           : '#F21313',
@@ -230,7 +230,7 @@ function Mybooking({navigation}) {
                       navigation.navigate('Viewdetails', value.bookingId)
                     }
                     style={{
-                      backgroundColor: Colors.darkGreen,
+                      backgroundColor: Colors.purple,
                       padding: 5,
                       top: 25,
                       borderRadius: 7,

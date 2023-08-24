@@ -273,7 +273,7 @@ const Services = props => {
   return (
     <View style={Reusablecss.container}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.black}
         title={preData.navData.name}
         onPress={() => props.navigation.goBack('')}
@@ -286,7 +286,7 @@ const Services = props => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <ActivityIndicator color={Colors.darkOrange} size="large" />
+          <ActivityIndicator color={Colors.purple} size="large" />
         </View>
       ) : (
         <View>
@@ -305,7 +305,7 @@ const Services = props => {
                         name="star"
                         solid
                         size={hp('2%')}
-                        color={Colors.lightYellow}
+                        color={Colors.lightGray}
                       />
                       <Text style={Reusablecss.ratingBar}>{item.rating}</Text>
                     </View>
@@ -448,7 +448,7 @@ const Services = props => {
                         marginHorizontal: 5,
                         fontSize: 15,
                         color: Colors.darkGray,
-                        color: Colors.darkGreen,
+                        color: Colors.purple,
                       }}>
                       View rating
                     </Text>
@@ -463,7 +463,7 @@ const Services = props => {
                       borderRadius: 5,
                       alignItems: 'center',
                       justifyContent: 'center',
-                      backgroundColor: Colors.darkGreen,
+                      backgroundColor: Colors.purple,
                       elevation: 7,
                     }}>
                     <Text style={{color: Colors.white, fontWeight: '500'}}>
@@ -550,7 +550,7 @@ const Services = props => {
                           marginHorizontal: 5,
                           fontSize: 15,
                           color: Colors.darkGray,
-                          color: Colors.darkGreen,
+                          color: Colors.purple,
                         }}>
                         View rating
                       </Text>
@@ -565,7 +565,7 @@ const Services = props => {
                         borderRadius: 5,
                         alignItems: 'center',
                         justifyContent: 'center',
-                        backgroundColor: Colors.darkGreen,
+                        backgroundColor: Colors.purple,
                         elevation: 7,
                       }}>
                       <Text style={{color: Colors.white, fontWeight: '500'}}>
@@ -651,7 +651,7 @@ const Services = props => {
                           marginHorizontal: 5,
                           fontSize: 15,
                           color: Colors.darkGray,
-                          color: Colors.darkGreen,
+                          color: Colors.purple,
                         }}>
                         View rating
                       </Text>
@@ -666,7 +666,7 @@ const Services = props => {
                         borderRadius: 5,
                         alignItems: 'center',
                         justifyContent: 'center',
-                        backgroundColor: Colors.darkGreen,
+                        backgroundColor: Colors.purple,
                         elevation: 7,
                       }}>
                       <Text style={{color: Colors.white, fontWeight: '500'}}>

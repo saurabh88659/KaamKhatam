@@ -55,7 +55,7 @@ export default function Cleanup({props, route}) {
   return (
     <View style={styles.container}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.black}
         title="Services for Women Only"
         // onPress={() => props.navigation.goBack('')}

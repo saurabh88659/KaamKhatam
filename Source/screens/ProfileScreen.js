@@ -212,7 +212,7 @@ const ProfileScreen = ({navigation, route}) => {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.white}
         title="My Profile"
         onPress={() => navigation.goBack('')}
@@ -225,7 +225,7 @@ const ProfileScreen = ({navigation, route}) => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <ActivityIndicator color={Colors.darkOrange} size="large" />
+          <ActivityIndicator color={Colors.purple} size="large" />
         </View>
       ) : (
         <View>
@@ -233,9 +233,9 @@ const ProfileScreen = ({navigation, route}) => {
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{paddingBottom: 70}}>
             <LinearGradient
-              colors={['#92CD28', '#FFA034']}
-              start={{x: 0, y: 0}}
-              end={{x: 0, y: 1}}
+              colors={['#5E2DC4', '#320F52']}
+              start={{x: 0, y: 0.5}}
+              end={{x: 1.0, y: 0.5}}
               style={{backgroundColor: 'grey', flex: 0.4}}>
               <ImageBackground
                 source={require('../Assets/Images/profilePicture123.png')}

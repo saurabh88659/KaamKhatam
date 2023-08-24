@@ -65,7 +65,7 @@ const ChatBot = ({navigation}) => {
   return (
     <View style={{flex: 1}}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.white}
         title="Chat Support"
         onPress={() => navigation.goBack('')}
@@ -94,7 +94,7 @@ const ChatBot = ({navigation}) => {
         <TouchableOpacity
           style={[
             Styles.sendBtn,
-            {backgroundColor: msg ? Colors.darkOrange : 'grey'},
+            {backgroundColor: msg ? Colors.purple : 'grey'},
           ]}
           disabled={msg ? false : true}
           onPress={() => onSendMsg()}>

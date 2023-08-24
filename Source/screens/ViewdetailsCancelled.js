@@ -38,7 +38,7 @@ const ViewdetailsCancelled = props => {
   return (
     <>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.white}
         title="View Details"
         onPress={() => props.navigation.goBack()}

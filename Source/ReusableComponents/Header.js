@@ -4,7 +4,7 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome5 from 'react-native-vector-icons/MaterialIcons';
 const Header = props => {
   return (
     <View
@@ -18,7 +18,7 @@ const Header = props => {
       }}>
       <TouchableOpacity style={{width: 20}} onPress={props.onPress}>
         <FontAwesome5
-          name="arrow-alt-circle-left"
+          name="keyboard-backspace"
           color={props.color}
           size={hp('3.7%')}
         />

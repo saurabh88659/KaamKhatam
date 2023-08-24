@@ -49,7 +49,7 @@ export default function App() {
 
 
         <View style={styles.container}>
-            <Header bgColor={Colors.darkOrange} color={Colors.black} title='Salon for Men' />
+            <Header bgColor={Colors.topNavbarColor} color={Colors.black} title='Salon for Men' />
             <GrayHeader title='Face Care' />
             <GreenHeader title='Hydrating Range of skin services for powerful look' />
             <View style={styles.cntrContainer} >

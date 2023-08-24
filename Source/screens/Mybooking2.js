@@ -82,7 +82,7 @@ function Mybooking2({navigation}) {
     <SafeAreaView style={{flex: 1}}>
       <InternetInfoall />
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.white}
         title="My Bookings"
         onPress={() => navigation.navigate('Home')}
@@ -161,7 +161,7 @@ function Mybooking2({navigation}) {
                       style={{
                         fontSize: 15,
                         fontWeight: '900',
-                        color: '#ff8000',
+                        color: Colors.purple,
                       }}>
                       {value.serviceName}
                     </Text>
@@ -223,7 +223,7 @@ function Mybooking2({navigation}) {
                       color: '#0EC01B',
                       color:
                         value.bookingStatus === 'Pending'
-                          ? '#F1C114'
+                          ? '#5E2DC4'
                           : value.bookingStatus === 'Completed'
                           ? '#0EC01B'
                           : '#F21313',
@@ -235,7 +235,7 @@ function Mybooking2({navigation}) {
                       navigation.navigate('Viewdetails', value.bookingId)
                     }
                     style={{
-                      backgroundColor: Colors.darkGreen,
+                      backgroundColor: Colors.purple,
                       padding: 5,
                       top: 25,
                       borderRadius: 7,

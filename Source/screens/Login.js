@@ -13,6 +13,8 @@ import {
   ImageBackground,
   TouchableWithoutFeedback,
   Keyboard,
+  StatusBar,
+  Linking,
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
@@ -347,10 +349,11 @@ const Login = props => {
     <TouchableWithoutFeedback onPress={handlePress}>
       <View>
         <View style={styles.container}>
-          <Image
+          {/* <StatusBar backgroundColor={'#fff'} /> */}
+          {/* <Image
             source={require('../Assets/Images/SplashOrangeBar.png')}
             style={styles.img}
-          />
+          /> */}
           <KeyboardAvoidingView
             behavior="padding"
             style={{
@@ -362,14 +365,12 @@ const Login = props => {
                 source={require('../Assets/Images/logo2.png')}
                 style={styles.logo}
               />
-              <View style={{top: 8}}>
-                <Text style={styles.yellowTxt}>
-                  All<Text style={styles.blackTxt}> in</Text> One
-                </Text>
+              {/* <View style={{top: 8}}>
+                <Text style={styles.yellowTxt}>Kaam Khatam</Text>
                 <Text style={styles.blackTxt}>SERVICES</Text>
-              </View>
+              </View> */}
             </View>
-            <Text style={[styles.blackTxt, {fontSize: hp('2.5%')}]}>
+            <Text style={[styles.blackTxt, {fontSize: hp('2%')}]}>
               Your Home Services Expert
             </Text>
             <View style={styles.textInputCntnr}>
@@ -406,7 +407,7 @@ const Login = props => {
             ) : (
               <CustomButton
                 title={'Login / Sign Up'}
-                bgColor={Colors.lightGreen}
+                bgColor={Colors.purple}
                 width={wp('80%')}
                 height={hp('7%')}
                 color={Colors.white}
@@ -456,14 +457,17 @@ const Login = props => {
             >
               <Image
                 source={require('../Assets/Images/google.png')}
-                style={{height: hp('10%'), width: wp('20%')}}
+                style={{height: hp('9%'), width: wp('15%')}}
               />
+               <Text style={{marginLeft:hp('2%'),fontSize: 14, color: 'black'}}>Google</Text>
             </TouchableOpacity>
+           
             <TouchableOpacity onPress={socialLoginFacebook} style={{top: 10}}>
               <Image
                 source={require('../Assets/Images/facebook.png')}
                 style={{height: hp('8%'), width: wp('15%')}}
               />
+               <Text style={{fontSize: 14, color: 'black'}}>Facebook</Text>
             </TouchableOpacity>
           </View>
           <View
@@ -492,13 +496,22 @@ const Login = props => {
                 By proceeding, you agree to
               </Text>
               <TouchableOpacity
-                onPress={() => props.navigation.navigate('Termsandconditions')}>
+                onPress={() =>
+                  Linking.openURL('https://privacykaam.kaamkhatam.com/terms')
+                }>
+                {/* // onPress= */}
+                {/* {() => props.navigation.navigate('Termsandconditions')} */}
+                {/* > */}
                 <Text style={{color: Colors.blue, fontWeight: '500', left: 2}}>
                   Terms & Conditions
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => props.navigation.navigate('PrivacyPolicies')}>
+                onPress={() =>
+                  Linking.openURL('https://privacykaam.kaamkhatam.com/privacy')
+                }>
+                {/* onPress={() => props.navigation.navigate('PrivacyPolicies')} */}
+                {/* > */}
                 <Text
                   style={{
                     color: Colors.blue,
@@ -640,8 +653,9 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   logo: {
-    height: hp('12%'),
-    width: hp('12%'),
+    height: hp('25%'),
+    width: hp('25%'),
+    marginTop: hp('16%'),
   },
   input: {
     width: wp('64%'),
@@ -655,13 +669,13 @@ const styles = StyleSheet.create({
     color: Colors.lightYellow,
   },
   blackTxt: {
-    fontSize: hp('4%'),
-    fontWeight: 'bold',
+    fontSize: hp('3%'),
+    // fontWeight: 'bold',
     color: Colors.black,
   },
   textInputCntnr: {
     borderWidth: 1,
-    marginTop: hp('1%'),
+    marginTop: hp('4%'),
     borderColor: Colors.black,
     flexDirection: 'row',
     alignItems: 'center',

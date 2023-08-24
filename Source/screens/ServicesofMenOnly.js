@@ -7,7 +7,7 @@ const ServicesofMenOnly = props => {
   return (
     <View>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.black}
         title="Services of Men Only"
         onPress={() => props.navigation.goBack('')}

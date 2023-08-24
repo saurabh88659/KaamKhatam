@@ -71,7 +71,7 @@ const SubCleaning = props => {
   return (
     <View style={Reusablecss.container}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.black}
         title="Bathroom Cleaning"
         onPress={() => navigation.goBack('')}

@@ -33,12 +33,12 @@ function TabNavigation() {
       screenOptions={{
         showLabel: false,
         headerShown: true,
-        tabBarActiveTintColor: Colors.black,
+        tabBarActiveTintColor: '#7A33C2',
         // tabBarShowLabel: false,
         tabBarHideOnKeyboard: true,
 
         tabBarStyle: {
-          backgroundColor: Colors.darkGreen,
+          backgroundColor: '#e2d7fa',
           height: 55,
         },
         tabBarLabelStyle: {
@@ -55,7 +55,7 @@ function TabNavigation() {
           tabBarIcon: ({color, size, focused}) => (
             <FontAwesome5
               name="home"
-              color={focused ? '#ffa33f' : Colors.black}
+              color={focused ? '#7A33C2' : Colors.black}
               size={30}
             />
           ),
@@ -67,11 +67,11 @@ function TabNavigation() {
         component={Mybooking}
         options={{
           headerShown: false,
-          tabBarColor: Colors.darkGreen,
+          tabBarColor: '',
           tabBarIcon: ({focused}) => (
             <FontAwesome5
               name="calendar-alt"
-              color={focused ? '#ffa33f' : Colors.black}
+              color={focused ? '#7A33C2' : Colors.black}
               size={28}
             />
           ),
@@ -86,7 +86,7 @@ function TabNavigation() {
           tabBarIcon: ({focused}) => (
             <FontAwesome5
               name="shopping-cart"
-              color={focused ? '#ffa33f' : Colors.black}
+              color={focused ? '#7A33C2' : Colors.black}
               size={25}
             />
           ),
@@ -100,7 +100,7 @@ function TabNavigation() {
           tabBarIcon: ({focused}) => (
             <Feather
               name="user"
-              color={focused ? '#ffa33f' : Colors.black}
+              color={focused ? '#7A33C2' : Colors.black}
               size={30}
             />
           ),

@@ -130,7 +130,7 @@ const MyCartScreen = props => {
   return (
     <SafeAreaView style={styles.container}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.white}
         title="My Cart"
         onPress={() => props.navigation.goBack('')}
@@ -206,7 +206,7 @@ const MyCartScreen = props => {
                 paddingVertical: 5,
               }}>
               <Text style={{color: Colors.black}}>Package ID</Text>
-              <Text style={{color: Colors.lightGray}}>
+              <Text style={{color: Colors.purple}}>
                 {mycartname.packageId}
               </Text>
             </View>
@@ -243,7 +243,7 @@ const MyCartScreen = props => {
                 // onPress={() => props.navigation.navigate('Editaddress')}
                 onPress={_getgeolocations}
                 style={{
-                  backgroundColor: Colors.darkGreen,
+                  backgroundColor: Colors.purple,
                   padding: 8,
                   borderRadius: 7,
                   alignItems: 'center',

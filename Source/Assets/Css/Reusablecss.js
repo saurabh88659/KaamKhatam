@@ -127,7 +127,7 @@ const Reusablecss = StyleSheet.create({
   },
   btnText: {
     fontWeight: '900',
-    color: Colors.darkOrange,
+    color: Colors.purple,
     fontSize: hp('2%'),
   },
 });

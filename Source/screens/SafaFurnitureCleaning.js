@@ -68,7 +68,7 @@ export default function SafaFurnitureCleaning() {
   return (
     <View style={Reusablecss.container}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.black}
         title="Sofa & Furniture Cleaning"
         onPress={() => navigation.goBack('')}

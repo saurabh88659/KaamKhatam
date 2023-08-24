@@ -67,7 +67,7 @@ const SubSalonSpaforwomen = props => {
   return (
     <View style={Reusablecss.container}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.black}
         title={preData.name}
         onPress={() => props.navigation.goBack('')}
@@ -80,7 +80,7 @@ const SubSalonSpaforwomen = props => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <ActivityIndicator color={Colors.darkOrange} size="large" />
+          <ActivityIndicator color={Colors.purple} size="large" />
         </View>
       ) : (
         <View>
@@ -357,7 +357,7 @@ const SubSalonSpaforwomen = props => {
            <View style={{alignItems: 'center', top: '1%'}}>
           <CustomButton
             title={'Next'}
-            bgColor={Colors.darkGreen}
+            bgColor={Colors.purple}
             width={wp('90%')}
             height={hp('7%')}
             color={Colors.white}

@@ -20,7 +20,7 @@ import Modal from 'react-native-modal';
   return (
     <SafeAreaView>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.black}
         title="My address"
         onPress={() => props.navigation.goBack('')}
@@ -205,7 +205,7 @@ import Modal from 'react-native-modal';
             <TouchableOpacity
               onPress={() => props.navigation.navigate('Salonforwomen')}
               style={{
-                backgroundColor: '#0EC01B',
+                backgroundColor: Colors.purple,
                 alignItems: 'center',
                 height: '10%',
                 justifyContent: 'center',

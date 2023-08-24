@@ -39,7 +39,7 @@ export default function MyModal({isModal, backPress, type}) {
             </Text>
             <Pressable
               style={{
-                backgroundColor: Colors.lightGreen,
+                backgroundColor: Colors.purple,
                 paddingVertical: 5,
                 paddingHorizontal: 25,
                 borderRadius: 2,

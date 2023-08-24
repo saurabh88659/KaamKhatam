@@ -34,7 +34,7 @@ export default function FacecareMen({props}) {
   return (
     <View style={styles.container}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.black}
         title="Services for Men only"
         onPress={() => props.navigation.goBack('')}

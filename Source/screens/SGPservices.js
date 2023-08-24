@@ -20,7 +20,7 @@ const SGPservices = ({props}) => {
   return (
     <SafeAreaView>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.black}
         title="Choose Your Service Plan"
         onPress={() => props.navigation.goBack('')}

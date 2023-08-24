@@ -115,17 +115,18 @@ const Otp = ({navigation, route}) => {
           height: hp('100%'),
           backgroundColor: Colors.white,
         }}>
-        <Image
+        {/* <Image
           source={require('../Assets/Images/SplashOrangeBar.png')}
           style={styles.img}
-        />
-        <View style={{justifyContent: 'center', top: '10%'}}>
-          <View style={{alignItems: 'center', marginTop: -hp('50%')}}>
+        /> */}
+        <View style={{justifyContent: 'center', top: '20%'}}>
+          <View style={{alignItems: 'center', }}>
             <Text
               style={{
                 fontWeight: 'bold',
-                fontSize: hp('4%'),
+                fontSize: hp('3.5%'),
                 color: Colors.black,
+                marginLeft:hp('-2%')
               }}>
               Enter Verification Code
             </Text>
@@ -141,23 +142,6 @@ const Otp = ({navigation, route}) => {
                 style={{flexDirection: 'row'}}
               />
             </View>
-            {isLoading ? (
-              <ActivityIndicator
-                color="#FFA034"
-                size="large"
-                style={{alignSelf: 'center', top: 20}}
-              />
-            ) : (
-              <CustomButton
-                title={'Verify Code'}
-                bgColor={Colors.black}
-                width={wp('90%')}
-                height={hp('7%')}
-                color={Colors.white}
-                onPress={onPressotpVerification}
-              />
-            )}
-
             <View
               style={{
                 width: wp('90%'),
@@ -171,7 +155,7 @@ const Otp = ({navigation, route}) => {
                 <Text
                   style={{
                     color: Colors.black,
-                    fontSize: hp('2.3%'),
+                    fontSize: hp('1.8%'),
                     fontWeight: '500',
                   }}>
                   Didn't recieved OTP?
@@ -181,7 +165,7 @@ const Otp = ({navigation, route}) => {
                 <Text
                   style={{
                     color: Colors.darkGray,
-                    fontSize: hp('2.2%'),
+                    fontSize: hp('1.8%'),
                     textAlign: 'center',
                     fontWeight: 'normal',
                   }}>
@@ -196,7 +180,7 @@ const Otp = ({navigation, route}) => {
                     <Text
                       style={{
                         color: Colors.black,
-                        fontSize: hp('2.2%'),
+                        fontSize: hp('1.8%'),
                         textAlign: 'center',
                         fontWeight: 'normal',
                       }}>
@@ -206,12 +190,30 @@ const Otp = ({navigation, route}) => {
                 )
               )}
             </View>
+            {isLoading ? (
+              <ActivityIndicator
+                color="#FFA034"
+                size="large"
+                style={{alignSelf: 'center', top: 20}}
+              />
+            ) : (
+              <CustomButton
+                title={'Submit'}
+                bgColor={Colors.purple}
+                width={wp('90%')}
+                height={hp('7%')}
+                color={Colors.white}
+                onPress={onPressotpVerification}
+              />
+            )}
+
+           
           </View>
         </View>
-        <Image
+        {/* <Image
           source={require('../Assets/Images/SplashGreenBar.png')}
           style={styles.img}
-        />
+        /> */}
       </View>
     </SafeAreaView>
   );

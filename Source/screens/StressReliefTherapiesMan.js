@@ -53,7 +53,7 @@ const StressReliefTherapiesMan = ({props}) => {
   return (
     <View style={Reusablecss.container}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.black}
         title="Services for Men only"
         onPress={() => props.navigation.goBack('')}

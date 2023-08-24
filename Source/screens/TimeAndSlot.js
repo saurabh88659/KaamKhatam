@@ -222,7 +222,7 @@ const TimeAndSlot = props => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.white}
         title="Date & Time"
         onPress={() => props.navigation.goBack('Home')}
@@ -302,7 +302,7 @@ const TimeAndSlot = props => {
                   disabled={currentTime ? true : false}>
                   <Text
                     style={{
-                      color: currentTime ? Colors.lightGray : Colors.darkGreen,
+                      color: currentTime ? Colors.white : Colors.purple,
                     }}>
                     {/* {`${timeSlot.startTime} - ${timeSlot.endTime}`} */}
                     {`${timeSlot.startTime} `} - {timeSlot.endTime}
@@ -321,7 +321,7 @@ const TimeAndSlot = props => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     backgroundColor:
-                      selectionTime === timeSlot.id ? '#0EC01B' : 'white',
+                      selectionTime === timeSlot.id ? '#583592' : Colors.white,
                     borderRadius: 7,
                   }}
                   // onPress={() =>
@@ -335,7 +335,10 @@ const TimeAndSlot = props => {
                   }}>
                   <Text
                     style={{
-                      color: currentTime ? Colors.black : Colors.darkGreen,
+                      color:
+                        selectionTime === timeSlot.id
+                          ? Colors.white
+                          : Colors.black,
                     }}>
                     {/* {`${timeSlot.startTime} - ${timeSlot.endTime}`} */}
                     {`${timeSlot.startTime} `} - {timeSlot.endTime}
@@ -400,7 +403,7 @@ const TimeAndSlot = props => {
         onPress={chackDate}
         // disabled={isdate ? false : true}
         style={{
-          backgroundColor: _Isdate ? Colors.darkGreen : Colors.lightGray,
+          backgroundColor: _Isdate ? Colors.purple : Colors.lightGray,
           justifyContent: 'center',
           borderRadius: 7,
           paddingHorizontal: 20,

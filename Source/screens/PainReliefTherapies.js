@@ -55,7 +55,7 @@ export default function PainReliefTherapies({props}) {
   return (
     <View style={Reusablecss.container}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.black}
         title="Services for Women only"
         onPress={() => props.navigation.goBack('')}

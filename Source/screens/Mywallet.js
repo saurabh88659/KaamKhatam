@@ -11,7 +11,7 @@ const Mywallet = props => {
   return (
     <>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.white}
         title="My Wallet"
         onPress={() => props.navigation.goBack('Home')}
@@ -21,7 +21,7 @@ const Mywallet = props => {
         screenOptions={{
           tabBarLabelStyle: {fontSize: 14, fontWeight: 'bold'},
           tabBarIndicatorStyle: {
-            borderBottomColor: Colors.darkGreen,
+            borderBottomColor: Colors.purple,
             borderBottomWidth: 3,
           },
         }}>

@@ -13,7 +13,7 @@ const HeaderDrawer = props => {
       style={{
         width: wp('100%'),
         height: hp('7%'),
-        backgroundColor: Colors.darkOrange,
+        backgroundColor: Colors.topNavbarColor,
         paddingHorizontal: wp('3%'),
         flexDirection: 'row',
         alignItems: 'center',

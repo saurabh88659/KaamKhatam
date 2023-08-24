@@ -46,7 +46,7 @@ const TherapiesWomen = props => {
   return (
     <View style={styles.container}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.black}
         title="Spa for Men"
         onPress={() => props.navigation.goBack('')}

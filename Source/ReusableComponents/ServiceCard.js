@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     },
     btnText: {
         fontWeight: 'bold',
-        color: Colors.darkOrange,
+        color: Colors.purple,
         fontSize: hp('2%')
     }
 

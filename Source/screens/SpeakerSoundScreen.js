@@ -56,7 +56,7 @@ export default function SpeakerSoundScreen() {
   return (
     <View style={styles.container}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.black}
         title="Television"
         onPress={() => navigation.goBack('')}

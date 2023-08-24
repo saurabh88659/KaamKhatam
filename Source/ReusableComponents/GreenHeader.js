@@ -18,7 +18,7 @@ const GreenHeader = props => {
         flexDirection: 'row',
         paddingBottom: 5,
         borderRadius: hp('0.3%'),
-        backgroundColor: Colors.lightGreen,
+        backgroundColor: Colors.purple,
       }}>
       <Text
         style={{

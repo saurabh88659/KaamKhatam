@@ -7,7 +7,7 @@ const Faqs = props => {
   return (
     <SafeAreaView>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.white}
         title="FAQs"
         onPress={() => props.navigation.goBack()}

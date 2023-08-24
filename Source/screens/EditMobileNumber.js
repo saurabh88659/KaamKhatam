@@ -44,7 +44,7 @@ function EditMobileNumber({navigation, route}) {
   return (
     <>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.white}
         title="Register Account"
         onPress={() => navigation.goBack('')}

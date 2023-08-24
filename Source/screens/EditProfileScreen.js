@@ -273,7 +273,7 @@ const EditProfileScreen = props => {
   return (
     <SafeAreaView>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.white}
         title="Edit Profile"
         onPress={() => props.navigation.goBack()}
@@ -416,7 +416,7 @@ const EditProfileScreen = props => {
                   <RadioButton
                     name="male"
                     value="male"
-                    color={Colors.darkOrange}
+                    color={Colors.purple}
                     status={gender === 'male' ? 'checked' : 'unchecked'}
                     onPress={() => setGender('male')}
                   />
@@ -428,7 +428,7 @@ const EditProfileScreen = props => {
                 <View style={{flexDirection: 'row'}}>
                   <RadioButton
                     value="female"
-                    color={Colors.darkOrange}
+                    color={Colors.purple}
                     status={gender === 'female' ? 'checked' : 'unchecked'}
                     onPress={() => setGender('female')}
                   />
@@ -599,14 +599,14 @@ const EditProfileScreen = props => {
                     onPress={LoginApisendmailotp}
                     style={{
                       borderWidth: 1,
-                      borderColor: Colors.darkGreen,
+                      borderColor: Colors.purple,
                       marginHorizontal: 8,
                       paddingVertical: 8,
                       alignItems: 'center',
                       justifyContent: 'center',
                       width: '23%',
                       borderRadius: 7,
-                      backgroundColor: Colors.darkGreen,
+                      backgroundColor: Colors.purple,
                     }}>
                     <Text
                       style={{
@@ -679,7 +679,7 @@ const EditProfileScreen = props => {
                 <View style={{alignItems: 'center'}}>
                   <CustomButton
                     title={'Update Profile'}
-                    bgColor={Colors.darkGreen}
+                    bgColor={Colors.purple}
                     width={wp('90%')}
                     height={hp('6.6%')}
                     color={Colors.white}

@@ -104,25 +104,10 @@ const Splash = ({navigation}) => {
             backgroundColor: Colors.white,
           }}>
           <Image
-            source={require('../Assets/Images/SplashOrangeBar.png')}
+            source={require('../Assets/Images/Splash.png')}
             style={styles.img}
           />
-          <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-            <Image
-              source={require('../Assets/Images/logo2.png')}
-              style={styles.logo}
-            />
-            <View style={{top: 8}}>
-              <Text style={styles.yellowTxt}>
-                All<Text style={styles.blackTxt}> in</Text> One
-              </Text>
-              <Text style={styles.blackTxt}>SERVICES</Text>
-            </View>
-          </View>
-          <Image
-            source={require('../Assets/Images/SplashGreenBar.png')}
-            style={styles.img}
-          />
+         
         </View>
       ) : (
         !hasInternet && <MyModal type={'internet'} isModal={!hasInternet} />
@@ -134,7 +119,7 @@ const Splash = ({navigation}) => {
 export default Splash;
 const styles = StyleSheet.create({
   img: {
-    height: hp('30%'),
+    height: hp('100%'),
     width: wp('100%'),
   },
   midContainer: {
@@ -142,8 +127,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   logo: {
-    height: hp('12%'),
-    width: hp('12%'),
+    height: hp('25%'),
+    width: hp('25%'),
+   
+    justifyContent: 'center',
   },
   logoCntnr: {
     alignItems: 'center',
@@ -152,7 +139,7 @@ const styles = StyleSheet.create({
   yellowTxt: {
     fontSize: hp('4%'),
     fontWeight: 'bold',
-    color: Colors.lightYellow,
+    // color: Colors.lightYellow,
   },
   blackTxt: {
     fontSize: hp('4%'),

@@ -184,7 +184,10 @@ function Home({navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={Colors.darkGreen} barStyle={Colors.white} />
+      <StatusBar
+        backgroundColor={Colors.topNavbarColor}
+        barStyle={Colors.white}
+      />
       <HeaderDrawer
         Title="ALL IN ONE"
         location={address.subLocality}
@@ -198,7 +201,7 @@ function Home({navigation}) {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <ActivityIndicator color={Colors.darkOrange} size="large" />
+          <ActivityIndicator color={Colors.purple} size="large" />
         </View>
       ) : (
         <View>
@@ -306,11 +309,7 @@ function Home({navigation}) {
                   start={{x: 0.0, y: 0.25}}
                   end={{x: 0.9, y: 1.0}}
                   // locations={[0, 0.8, 0.6]}
-                  colors={[
-                    Colors.lightOrange,
-                    Colors.lightOrange,
-                    Colors.lightGreen,
-                  ]}
+                  colors={['#5E2DC4', '#7A33C2', '#320F52']}
                   style={{
                     padding: hp('3%'),
                     alignItems: 'center',

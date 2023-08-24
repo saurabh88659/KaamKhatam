@@ -79,7 +79,7 @@ const Subcategory = props => {
   return (
     <View>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.black}
         title={predata.name}
         onPress={() => props.navigation.goBack()}
@@ -93,7 +93,7 @@ const Subcategory = props => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <ActivityIndicator color={Colors.darkOrange} size="large" />
+          <ActivityIndicator color={Colors.purple} size="large" />
         </View>
       ) : (
         <View>

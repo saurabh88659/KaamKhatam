@@ -35,7 +35,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.black}
         title="Salon for Men"
       />

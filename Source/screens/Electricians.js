@@ -49,7 +49,7 @@ const Electricians = props => {
   return (
     <View style={styles.container}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.black}
         title="Electricians"
         onPress={() => props.navigation.goBack()}

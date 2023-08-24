@@ -60,7 +60,7 @@ const Subcategory2 = props => {
   return (
     <View style={styles.container}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.black}
         title={preData.name}
         onPress={() => props.navigation.goBack()}
@@ -73,7 +73,7 @@ const Subcategory2 = props => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <ActivityIndicator color={Colors.darkOrange} size="large" />
+          <ActivityIndicator color={Colors.purple} size="large" />
         </View>
       ) : (
         <FlatList

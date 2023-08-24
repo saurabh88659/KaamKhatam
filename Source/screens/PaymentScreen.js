@@ -91,7 +91,7 @@ const PaymentScreen = props => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.white}
         title="Choose your Method"
         onPress={() => props.navigation.goBack('Home')}
@@ -128,7 +128,7 @@ const PaymentScreen = props => {
           style={{
             paddingVertical: 7,
             borderRadius: 7,
-            backgroundColor: Colors.darkGreen,
+            backgroundColor: Colors.purple,
             width: 70,
             alignItems: 'center',
             alignSelf: 'flex-end',
@@ -168,7 +168,7 @@ const PaymentScreen = props => {
             paddingHorizontal: 15,
             paddingVertical: 7,
             borderRadius: 7,
-            backgroundColor: Colors.darkGreen,
+            backgroundColor: Colors.purple,
             width: 70,
             alignItems: 'center',
             alignSelf: 'flex-end',

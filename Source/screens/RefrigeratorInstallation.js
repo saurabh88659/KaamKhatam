@@ -122,7 +122,7 @@ export default function RefrigeratorInstallation() {
   return (
     <View style={Reusablecss.Reusablecss}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.black}
         title=" Refrigerator"
         onPress={() => navigation.goBack('')}

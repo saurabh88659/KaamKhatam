@@ -1,23 +1,20 @@
 import {
-  View,
-  Text,
-  SafeAreaView,
+  View, SafeAreaView,
   TextInput,
-  TouchableOpacity,
-  ScrollView,
-  Modal,
+  TouchableOpacity,Modal,
   StyleSheet,
   Dimensions,
   ActivityIndicator,
   Image,
-} from 'react-native';
+  ScrollView,
+  Text,
+ } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
 import CustomButton from '../ReusableComponents/Button';
 // import DatePicker from 'react-native-neat-date-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -264,7 +261,7 @@ const RegisterAccount = props => {
   return (
     <SafeAreaView>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.white}
         title="Register Account"
         onPress={() => props.navigation.goBack()}
@@ -277,7 +274,7 @@ const RegisterAccount = props => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <ActivityIndicator color={Colors.darkOrange} size="large" />
+          <ActivityIndicator color={Colors.purple} size="large" />
         </View>
       ) : (
         <View>
@@ -585,14 +582,14 @@ const RegisterAccount = props => {
                     // onPress={() => setModalVisible(!modalVisible)}
                     style={{
                       borderWidth: 1,
-                      borderColor: 'green',
+                      borderColor: Colors.purple,
                       height: '65%',
                       marginHorizontal: 8,
                       alignItems: 'center',
                       justifyContent: 'center',
                       width: '25%',
                       borderRadius: 7,
-                      backgroundColor: '#138F00',
+                      backgroundColor: Colors.purple,
                     }}>
                     <Text style={{color: 'white'}}> Get OTP</Text>
                   </TouchableOpacity>
@@ -658,7 +655,7 @@ const RegisterAccount = props => {
                 <View style={{alignItems: 'center'}}>
                   <CustomButton
                     title={'SUBMIT'}
-                    bgColor={Colors.darkGreen}
+                    bgColor={Colors.purple}
                     width={wp('90%')}
                     height={hp('6.6%')}
                     color={Colors.white}
@@ -739,7 +736,7 @@ const RegisterAccount = props => {
                     disabled={code ? false : true}
                     style={{
                       backgroundColor: code
-                        ? Colors.darkGreen
+                        ? Colors.purple
                         : Colors.lightGray,
                       paddingVertical: 10,
                       marginTop: 20,

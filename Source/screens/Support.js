@@ -58,7 +58,7 @@ export default function Support({navigation}) {
   return (
     <SafeAreaView style={{flex: 1}}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.white}
         title="Chat Support"
         onPress={() => navigation.goBack()}
@@ -73,7 +73,7 @@ export default function Support({navigation}) {
             borderRadius: 5,
             paddingHorizontal: 10,
             paddingVertical: 10,
-            backgroundColor: Colors.darkOrange,
+            backgroundColor: Colors.lightpurple,
           }}>
           <Text style={{color: 'white', fontSize: 15}}>{val.question}</Text>
         </TouchableOpacity>

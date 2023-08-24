@@ -114,7 +114,7 @@ export default function TranscationsScreen() {
                   <Text
                     style={{
                       fontSize: 16,
-                      color: Colors.lightOrange,
+                      color: Colors.lightpurple,
                       textAlign: 'center',
                       marginVertical: 15,
                       fontWeight: 'bold',

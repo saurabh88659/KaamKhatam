@@ -55,7 +55,7 @@ const SpaforWomen = props => {
   return (
     <View style={styles.container}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.black}
         title={preData.name}
         onPress={() => props.navigation.goBack()}
@@ -102,7 +102,7 @@ const SpaforWomen = props => {
                       name="star"
                       solid
                       size={hp('2%')}
-                      color={Colors.lightYellow}
+                      color={Colors.lightpurple}
                     />
                     <Text style={Reusablecss.ratingBar}>{item.rating}</Text>
                   </View>

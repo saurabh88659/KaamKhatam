@@ -153,7 +153,7 @@ const Viewdetails = props => {
   return (
     <>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.white}
         title="View Details"
         onPress={() => props.navigation.goBack()}
@@ -165,7 +165,7 @@ const Viewdetails = props => {
             alignItems: 'center',
             marginTop: '65%',
           }}>
-          <ActivityIndicator color={Colors.darkOrange} size="large" />
+          <ActivityIndicator color={Colors.purple} size="large" />
         </View>
       ) : (
         <ScrollView>
@@ -255,7 +255,7 @@ const Viewdetails = props => {
                 height: height / 28,
               }}>
               <Text
-                style={{color: '#FC8009', fontSize: 17, fontWeight: 'bold'}}>
+                style={{color: Colors.purple, fontSize: 17, fontWeight: 'bold'}}>
                 Booking Details
               </Text>
             </View>
@@ -425,7 +425,7 @@ const Viewdetails = props => {
                     }
                     style={{
                       height: height / 16,
-                      backgroundColor: '#0EC01B',
+                      backgroundColor: Colors.purple,
                       alignItems: 'center',
                       justifyContent: 'center',
                       borderRadius: 5,
@@ -449,7 +449,7 @@ const Viewdetails = props => {
                     }
                     style={{
                       height: height / 16,
-                      backgroundColor: '#0EC01B',
+                      backgroundColor: Colors.purple,
                       alignItems: 'center',
                       justifyContent: 'center',
                       borderRadius: 5,

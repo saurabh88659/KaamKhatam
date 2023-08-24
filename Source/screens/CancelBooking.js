@@ -58,7 +58,7 @@ export default function CancelBooking(props) {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: Colors.white}}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.white}
         title="Cancel Booking"
         onPress={() => props.navigation.goBack()}
@@ -74,7 +74,7 @@ export default function CancelBooking(props) {
           }}>
           {Srtdata.map((value, index) => (
             <RadioButton.Item
-              color={Colors.darkGreen}
+              color={Colors.purple}
               key={index}
               label={value}
               value={value}
@@ -86,7 +86,7 @@ export default function CancelBooking(props) {
         <TouchableOpacity
           onPress={cancelBooking}
           style={{
-            backgroundColor: Colors.darkGreen,
+            backgroundColor: Colors.purple,
             alignItems: 'center',
             justifyContent: 'center',
             borderRadius: 5,

@@ -58,7 +58,7 @@ const Repair = ({props}) => {
   return (
     <View style={Reusablecss.container}>
       <Header
-        bgColor={Colors.darkOrange}
+        bgColor={Colors.topNavbarColor}
         color={Colors.black}
         title="Repair"
         onPress={() => props.navigation.goBack()}

@@ -32,7 +32,7 @@ export default function App() {
     return (
 
         <View style={styles.container}>
-            <Header bgColor={Colors.darkOrange} color={Colors.black} title='Salon for Women' />
+            <Header bgColor={Colors.topNavbarColor} color={Colors.black} title='Salon for Women' />
             <GrayHeader title='Stress Relief Therapy ' />
 
             <View style={styles.cntrContainer} >

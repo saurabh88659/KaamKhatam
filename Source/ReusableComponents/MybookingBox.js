@@ -69,7 +69,7 @@ export default function MybookingBox({onClick}) {
                 style={{
                   fontSize: 12,
                   fontWeight: '500',
-                  color: '#0EC01B',
+                  color: '#5E2DC4',
                 }}>
                 COMPLETED
               </Text>
@@ -77,7 +77,7 @@ export default function MybookingBox({onClick}) {
                 onPress={onClick}
                 style={{
                   top: 20,
-                  backgroundColor: '#0EC01B',
+                  backgroundColor: '#5E2DC4',
                   alignItems: 'center',
                   justifyContent: 'center',
                   height: height / 30,
