@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
   ScrollView,
   RefreshControl,
+  Dimensions,
 } from 'react-native';
 import Colors from '../Assets/Constants/Colors';
 import {
@@ -25,6 +26,10 @@ import Toast from 'react-native-simple-toast';
 import Header from '../ReusableComponents/Header';
 import {useIsFocused} from '@react-navigation/native';
 import InternetInfoall from '../Assets/utils/Handler/InternetInfoall';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Feather from 'react-native-vector-icons/Feather';
+
+const {height, width} = Dimensions.get('window');
 
 const MyCartScreen = props => {
   const [mycartname, setMycartname] = useState('');
@@ -127,13 +132,21 @@ const MyCartScreen = props => {
       });
   };
 
+  const getTotalAmountWithGST = amount => {
+    return amount + amount * 0.18;
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <Header
+      {/* <Header
         bgColor={Colors.topNavbarColor}
         color={Colors.white}
         title="My Cart"
         onPress={() => props.navigation.goBack('')}
+      /> */}
+      <HeaderDrawer
+        Title="My Cart"
+        onPress={() => props?.navigation.toggleDrawer()}
       />
       <ScrollView
         refreshControl={
@@ -161,14 +174,24 @@ const MyCartScreen = props => {
         ) : (
           <View
             style={{
-              height: '100%',
-              backgroundColor: Colors.white,
-              borderRadius: 10,
-              marginHorizontal: 10,
-              marginVertical: 10,
-              paddingVertical: 10,
+              flex: 1,
+              height,
+              alignItems: 'center',
+              justifyContent: 'space-between',
             }}>
             <View
+              style={{
+                height: 150,
+                backgroundColor: Colors.white,
+                borderRadius: 5,
+                marginHorizontal: 10,
+                marginVertical: 10,
+                paddingVertical: 10,
+                paddingHorizontal: 15,
+                flexDirection: 'row',
+                position: 'relative',
+              }}>
+              {/* <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
@@ -206,9 +229,7 @@ const MyCartScreen = props => {
                 paddingVertical: 5,
               }}>
               <Text style={{color: Colors.black}}>Package ID</Text>
-              <Text style={{color: Colors.purple}}>
-                {mycartname.packageId}
-              </Text>
+              <Text style={{color: Colors.purple}}>{mycartname.packageId}</Text>
             </View>
             <View
               style={{
@@ -266,6 +287,200 @@ const MyCartScreen = props => {
                 }}>
                 <Text style={{color: Colors.white, fontWeight: '500'}}>
                   Delete
+                </Text>
+              </TouchableOpacity>
+            </View> */}
+              <View style={{width: '70%'}}>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: '800',
+                    color: Colors.black,
+                  }}>
+                  {mycartname?.serviceName}
+                </Text>
+                <View style={{flexDirection: 'row', marginTop: 4}}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      color: Colors.black,
+                    }}>
+                    {'\u20B9'}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      color: Colors.black,
+                      textDecorationLine: 'line-through',
+                      marginLeft: 2,
+                    }}>
+                    {mycartname?.price}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      color: Colors.black,
+                      marginLeft: 5,
+                    }}>
+                    {mycartname?.price}
+                  </Text>
+                </View>
+                <Text style={{fontSize: 14, color: Colors.black, marginTop: 4}}>
+                  {mycartname?.serviceDescripton}
+                </Text>
+                <View style={{flexDirection: 'row', marginTop: 4}}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontWeight: '700',
+                      color: Colors.black,
+                    }}>
+                    Service Type:{' '}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      color: Colors.black,
+                    }}>
+                    {mycartname?.packageDescription}
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{
+                  width: '30%',
+                  height: '100%',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <View
+                  style={{
+                    width: '90%',
+                    height: 90,
+                    backgroundColor: '#F4F4F4',
+                    borderRadius: 5,
+                  }}></View>
+              </View>
+              <View
+                style={{
+                  position: 'absolute',
+                  right: 0,
+                  top: 0,
+                  backgroundColor: '#F4F4F4',
+                  borderBottomLeftRadius: 8,
+                  paddingHorizontal: 10,
+                  paddingVertical: 2,
+                }}>
+                <TouchableOpacity>
+                  <MaterialCommunityIcons
+                    onPress={delete_My_Cart}
+                    name="delete"
+                    color={Colors.black}
+                    size={18}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View
+              style={{
+                marginBottom: 120,
+                width: '100%',
+                padding: 5,
+              }}>
+              <View
+                style={{
+                  borderWidth: 1,
+                  borderColor: Colors.darkGray,
+                  borderRadius: 5,
+                  padding: 10,
+                }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }}>
+                  <Text style={{color: Colors.darkGray, fontWeight: '500'}}>
+                    Item total
+                  </Text>
+                  <Text style={{color: Colors.darkGray, fontWeight: '500'}}>
+                    {'\u20B9'} {mycartname?.price}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    marginTop: 10,
+                  }}>
+                  <Text style={{color: Colors.darkGray, fontWeight: '500'}}>
+                    GST
+                  </Text>
+                  <Text style={{color: Colors.darkGray, fontWeight: '500'}}>
+                    18%
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    marginTop: 25,
+                    height: 1,
+                    backgroundColor: Colors.darkGray,
+                    marginHorizontal: 5,
+                  }}></View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    marginTop: 10,
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      color: Colors.black,
+                      fontWeight: '700',
+                    }}>
+                    Total
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      color: Colors.black,
+                      fontWeight: '700',
+                    }}>
+                    {'\u20B9'} {getTotalAmountWithGST(mycartname?.price)}
+                  </Text>
+                </View>
+              </View>
+              <TouchableOpacity
+                onPress={_getgeolocations}
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  backgroundColor: Colors.purple,
+                  marginTop: 10,
+                  paddingHorizontal: 10,
+                  paddingVertical: 15,
+                  borderRadius: 5,
+                }}>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: '600',
+                  }}>
+                  {'\u20B9'} {getTotalAmountWithGST(mycartname?.price)}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: '600',
+                  }}>
+                  Continue
+                  <Feather name="arrow-right" color={Colors.white} size={18} />
                 </Text>
               </TouchableOpacity>
             </View>

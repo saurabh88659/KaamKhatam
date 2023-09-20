@@ -34,7 +34,7 @@ const Splash = ({navigation}) => {
 
     const isInternet = await checkInternetConnection();
 
-    // console.log('isInternet', isInternet);
+    console.log('isInternet', isInternet);
 
     if (isInternet) {
       if (token) {
@@ -53,6 +53,7 @@ const Splash = ({navigation}) => {
             }
           })
           .catch(async err => {
+            console.log("Error: " + err.response.data?.message)
             if (err.response?.data) {
               if (err.response?.data?.message == "User Doesn't Exists") {
                 navigation.navigate('RegisterAccount');

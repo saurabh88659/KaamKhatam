@@ -35,6 +35,8 @@ const TimeAndSlot = props => {
   const [iseeror, setIserror] = useState('');
   const cartID = props.route.params;
   const [_Isdate, set_Isdate] = useState('');
+  const [selectedTimeFrame, setSelectedTimeFrame] = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
 
   // const TimeSlot = [
   //   {
@@ -113,6 +115,57 @@ const TimeAndSlot = props => {
     {startTime: '08:00 PM', endTime: '09:00 PM', id: 11},
     {startTime: '09:00 PM', endTime: '10:00 PM', id: 12},
   ]);
+
+  let morningTimeSlots = [
+    {startTime: '08:00', endTime: '09:00 AM', id: 1},
+    {startTime: '09:00', endTime: '10:00 AM', id: 2},
+    {startTime: '10:00', endTime: '11:00 AM', id: 3},
+    {startTime: '11:00', endTime: '12:00 AM', id: 4},
+  ];
+
+  let afternoonTimeSlots = [
+    {startTime: '12:00', endTime: '01:00 PM', id: 5},
+    {startTime: '01:00', endTime: '02:00 PM', id: 6},
+    {startTime: '02:00', endTime: '03:00 PM', id: 7},
+    {startTime: '03:00', endTime: '04:00 PM', id: 8},
+  ];
+  let eveningTimeSlots = [
+    {startTime: '04:00', endTime: '05:00 PM', id: 9},
+    {startTime: '05:00', endTime: '06:00 PM', id: 10},
+    {startTime: '06:00', endTime: '07:00 PM', id: 11},
+    {startTime: '07:00', endTime: '08:00 PM', id: 23},
+  ];
+
+  let dates = [
+    {
+      day: 'Mon',
+      date: 18,
+    },
+    {
+      day: 'Tue',
+      date: 19,
+    },
+    {
+      day: 'Wed',
+      date: 20,
+    },
+    {
+      day: 'Thu',
+      date: 21,
+    },
+    {
+      day: 'Fri',
+      date: 22,
+    },
+    {
+      day: 'Sat',
+      date: 23,
+    },
+    {
+      day: 'Sun',
+      date: 24,
+    },
+  ];
 
   var currentDate = moment().format('DD/MM/YYYY');
   const getCurrentTime = () => {
@@ -219,6 +272,75 @@ const TimeAndSlot = props => {
       });
   };
 
+  const getNext7Days = () => {
+    let days = [];
+    let finalDays = [];
+    let daysRequired = 7;
+
+    for (let i = 0; i < daysRequired; i++) {
+      if (i == 0) {
+        days.push(moment().format('dddd, D MMMM YYYY'));
+      } else {
+        days.push(moment().add(i, 'days').format('dddd, D MMMM YYYY'));
+      }
+    }
+
+    for (let x = 0; x < days.length; x++) {
+      var dayLetter = moment(days[x], 'dddd, D MMMM YYYY').format('ddd');
+      var dayNumber = moment(days[x], 'dddd, D MMMM YYYY').format('D');
+      finalDays.push({
+        dayLetter: dayLetter,
+        dayNumber: dayNumber,
+      });
+    }
+
+    return finalDays;
+  };
+
+  getNext7Days();
+
+  const renderTimeSlotView = timeSlot => {
+    return (
+      <TouchableOpacity
+        style={{
+          padding: 10,
+          margin: 10,
+          width: 140,
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderColor: Colors.purple,
+          borderWidth: 1,
+          backgroundColor:
+            selectionTime === timeSlot.id ? '#583592' : Colors.white,
+          borderRadius: 7,
+        }}
+        // onPress={() =>
+        //   console.log(`${timeSlot.startTime} - ${timeSlot.endTime}`)
+        // }
+        onPress={() => {
+          setSelectionTime(timeSlot.id);
+          setSelectedTimeFrame(
+            timeSlot.id > 0 && timeSlot.id < 5
+              ? 'morning'
+              : timeSlot.id > 4 && timeSlot.id < 9
+              ? 'afternoon'
+              : 'evening',
+          );
+          setEndTime(timeSlot.endTime);
+          setStartTime(timeSlot.startTime);
+          console.log(timeSlot.endTime, timeSlot.startTime);
+        }}>
+        <Text
+          style={{
+            color: selectionTime === timeSlot.id ? Colors.white : Colors.black,
+          }}>
+          {/* {`${timeSlot.startTime} - ${timeSlot.endTime}`} */}
+          {`${timeSlot.startTime}`} - {timeSlot.endTime}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <Header
@@ -227,7 +349,142 @@ const TimeAndSlot = props => {
         title="Date & Time"
         onPress={() => props.navigation.goBack('Home')}
       />
-      <View
+      <View style={{alignItems: 'center'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            borderBottomColor: Colors.darkGray,
+            borderBottomWidth: 1,
+            width: '100%',
+            paddingHorizontal: 10,
+            paddingVertical: 5,
+          }}>
+          <View style={{width: '80%'}}>
+            <Text
+              style={{
+                color: Colors.black,
+                fontWeight: '600',
+              }}>
+              Address for service
+            </Text>
+            <View style={{flexDirection: 'row', width: '85%'}}>
+              <Text
+                style={{
+                  color: Colors.white,
+                  fontWeight: '600',
+                  marginRight: 5,
+                  backgroundColor: Colors.purple,
+                  borderRadius: 5,
+                  paddingHorizontal: 5,
+                  textTransform: 'uppercase',
+                  fontSize: 12,
+                }}>
+                Office
+              </Text>
+              <Text
+                numberOfLines={1}
+                style={{
+                  color: Colors.black,
+                  fontWeight: '600',
+                }}>
+                office 906, A-140, A Block Sector 62 Noida, Uttar Pradesh
+              </Text>
+            </View>
+          </View>
+          <TouchableOpacity>
+            <Text
+              style={{
+                color: Colors.purple,
+                fontWeight: '600',
+              }}>
+              Change
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <Text
+          style={{
+            color: Colors.black,
+            fontWeight: '600',
+            textAlign: 'center',
+            fontSize: 15,
+            marginTop: 20,
+          }}>
+          When would you like your service?
+        </Text>
+        <View
+          style={{
+            width: '100%',
+            paddingHorizontal: 15,
+            marginVertical: 20,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
+          {getNext7Days().length > 0 &&
+            getNext7Days().map((date, i) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => setSelectedDate(date?.dayNumber)}
+                  style={{
+                    paddingHorizontal: 5,
+                    paddingVertical: 5,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderColor: Colors.purple,
+                    borderWidth: 1,
+                    backgroundColor: Colors.white,
+                    borderRadius: 7,
+                    backgroundColor:
+                      selectedDate === date?.dayNumber
+                        ? '#583592'
+                        : Colors.white,
+                  }}>
+                  <Text
+                    style={{
+                      color:
+                        selectedDate === date?.dayNumber
+                          ? Colors.white
+                          : Colors.black,
+                      fontWeight: '500',
+                    }}>
+                    {date?.dayLetter}
+                  </Text>
+                  <Text
+                    style={{
+                      color:
+                        selectedDate === date?.dayNumber
+                          ? Colors.white
+                          : Colors.black,
+                      fontWeight: '500',
+                    }}>
+                    {date?.dayNumber}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          <View>
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="date"
+              format="DD-MM-YYYY"
+              onConfirm={handleConfirm}
+              onCancel={hideDatePicker}
+              minimumDate={new Date()}
+            />
+            <TouchableOpacity onPress={showDatePicker}>
+              <FontAwesome5Icon
+                name="calendar-alt"
+                color="#a9a9a9"
+                size={20}
+                style={{marginRight: '1%'}}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+      {/* <View
         style={{
           height: 45,
           borderWidth: 1,
@@ -264,89 +521,215 @@ const TimeAndSlot = props => {
             </TouchableOpacity>
           </View>
         </TouchableOpacity>
-      </View>
+      </View> */}
       <ScrollView
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{}}>
+        <Text
+          style={{
+            color: Colors.black,
+            fontWeight: '600',
+            textAlign: 'center',
+            fontSize: 15,
+          }}>
+          Select Time
+        </Text>
         <View
           style={{
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            flexDirection: 'row',
-            marginHorizontal: 20,
+            alignItems: 'center',
+            marginHorizontal: 10,
+            marginVertical: 15,
+            borderColor:
+              selectedTimeFrame === 'morning' ? Colors.purple : Colors.darkGray,
+            borderWidth: selectedTimeFrame === 'morning' ? 2 : 1.5,
+            borderRadius: 10,
           }}>
-          {timeSlots.map((timeSlot, index) => {
-            const currentTime = getCurrentTime();
+          <Text style={{color: Colors.black, fontWeight: '600'}}>Morning</Text>
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              flexDirection: 'row',
+            }}>
+            {morningTimeSlots.map((timeSlot, index) => {
+              const currentTime = getCurrentTime();
 
-            if (timeSlot.startTime > currentTime && currentDate == _Isdate) {
-              return (
-                <TouchableOpacity
-                  style={{
-                    paddingVertical: 10,
-                    marginTop: 20,
-                    width: 150,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor:
-                      selectionTime === timeSlot.id ? '#0EC01B' : 'white',
-                  }}
-                  // onPress={() =>
-                  //   console.log(`${timeSlot.startTime} - ${timeSlot.endTime}`)
-                  // }
-                  onPress={() => {
-                    setSelectionTime(timeSlot.id);
-                    setEndTime(timeSlot.endTime);
-                    setStartTime(`${timeSlot.startTime} `);
-                    console.log(timeSlot.id);
-                  }}
-                  disabled={currentTime ? true : false}>
-                  <Text
+              if (timeSlot.startTime > currentTime && currentDate == _Isdate) {
+                return (
+                  <TouchableOpacity
                     style={{
-                      color: currentTime ? Colors.white : Colors.purple,
-                    }}>
-                    {/* {`${timeSlot.startTime} - ${timeSlot.endTime}`} */}
-                    {`${timeSlot.startTime} `} - {timeSlot.endTime}
-                  </Text>
-                </TouchableOpacity>
-              );
-            }
+                      paddingVertical: 10,
+                      marginTop: 20,
+                      width: 150,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor:
+                        selectionTime === timeSlot.id ? '#0EC01B' : 'white',
+                    }}
+                    // onPress={() =>
+                    //   console.log(`${timeSlot.startTime} - ${timeSlot.endTime}`)
+                    // }
+                    onPress={() => {
+                      setSelectionTime(timeSlot.id);
+                      setSelectedTimeFrame(
+                        timeSlot.id > 0 && timeSlot.id < 5
+                          ? 'morning'
+                          : timeSlot.id > 4 && timeSlot.id < 9
+                          ? 'afternoon'
+                          : 'evening',
+                      );
+                      setEndTime(timeSlot.endTime);
+                      setStartTime(`${timeSlot.startTime} `);
+                      console.log(timeSlot.id);
+                    }}
+                    disabled={currentTime ? true : false}>
+                    <Text
+                      style={{
+                        color: currentTime ? Colors.white : Colors.purple,
+                      }}>
+                      {/* {`${timeSlot.startTime} - ${timeSlot.endTime}`} */}
+                      {`${timeSlot.startTime}`} - {timeSlot.endTime}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              }
 
-            return (
-              <View key={index}>
-                <TouchableOpacity
-                  style={{
-                    paddingVertical: 10,
-                    marginTop: 20,
-                    width: 150,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor:
-                      selectionTime === timeSlot.id ? '#583592' : Colors.white,
-                    borderRadius: 7,
-                  }}
-                  // onPress={() =>
-                  //   console.log(`${timeSlot.startTime} - ${timeSlot.endTime}`)
-                  // }
-                  onPress={() => {
-                    setSelectionTime(timeSlot.id);
-                    setEndTime(timeSlot.endTime);
-                    setStartTime(timeSlot.startTime);
-                    console.log(timeSlot.endTime, timeSlot.startTime);
-                  }}>
-                  <Text
+              return <View key={index}>{renderTimeSlotView(timeSlot)}</View>;
+            })}
+          </View>
+        </View>
+        <View
+          style={{
+            alignItems: 'center',
+            marginHorizontal: 10,
+            marginVertical: 15,
+            borderColor:
+              selectedTimeFrame === 'afternoon'
+                ? Colors.purple
+                : Colors.darkGray,
+            borderWidth: selectedTimeFrame === 'afternoon' ? 2 : 1.5,
+            borderRadius: 10,
+          }}>
+          <Text style={{color: Colors.black, fontWeight: '600'}}>
+            Afternoon
+          </Text>
+          <View
+            style={{
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              flexDirection: 'row',
+            }}>
+            {afternoonTimeSlots.map((timeSlot, index) => {
+              const currentTime = getCurrentTime();
+
+              if (timeSlot.startTime > currentTime && currentDate == _Isdate) {
+                return (
+                  <TouchableOpacity
                     style={{
-                      color:
-                        selectionTime === timeSlot.id
-                          ? Colors.white
-                          : Colors.black,
-                    }}>
-                    {/* {`${timeSlot.startTime} - ${timeSlot.endTime}`} */}
-                    {`${timeSlot.startTime} `} - {timeSlot.endTime}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            );
-          })}
+                      paddingVertical: 10,
+                      marginTop: 20,
+                      width: 150,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor:
+                        selectionTime === timeSlot.id ? '#0EC01B' : 'white',
+                    }}
+                    // onPress={() =>
+                    //   console.log(`${timeSlot.startTime} - ${timeSlot.endTime}`)
+                    // }
+                    onPress={() => {
+                      setSelectionTime(timeSlot.id);
+                      setSelectedTimeFrame(
+                        timeSlot.id > 0 && timeSlot.id < 5
+                          ? 'morning'
+                          : timeSlot.id > 4 && timeSlot.id < 9
+                          ? 'afternoon'
+                          : 'evening',
+                      );
+                      setEndTime(timeSlot.endTime);
+                      setStartTime(`${timeSlot.startTime} `);
+                      console.log(timeSlot.id);
+                    }}
+                    disabled={currentTime ? true : false}>
+                    <Text
+                      style={{
+                        color: currentTime ? Colors.white : Colors.purple,
+                      }}>
+                      {/* {`${timeSlot.startTime} - ${timeSlot.endTime}`} */}
+                      {`${timeSlot.startTime}`} - {timeSlot.endTime}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              }
+
+              return <View key={index}>{renderTimeSlotView(timeSlot)}</View>;
+            })}
+          </View>
+        </View>
+        <View
+          style={{
+            alignItems: 'center',
+            marginHorizontal: 10,
+            marginVertical: 15,
+            borderColor:
+              selectedTimeFrame === 'evening' ? Colors.purple : Colors.darkGray,
+            borderWidth: selectedTimeFrame === 'evening' ? 2 : 1.5,
+            borderRadius: 10,
+          }}>
+          <Text style={{color: Colors.black, fontWeight: '600'}}>Evening</Text>
+          <View
+            style={{
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              flexDirection: 'row',
+            }}>
+            {eveningTimeSlots.map((timeSlot, index) => {
+              const currentTime = getCurrentTime();
+
+              if (timeSlot.startTime > currentTime && currentDate == _Isdate) {
+                return (
+                  <TouchableOpacity
+                    style={{
+                      paddingVertical: 10,
+                      marginTop: 20,
+                      width: 150,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor:
+                        selectionTime === timeSlot.id ? '#0EC01B' : 'white',
+                    }}
+                    // onPress={() =>
+                    //   console.log(`${timeSlot.startTime} - ${timeSlot.endTime}`)
+                    // }
+                    onPress={() => {
+                      setSelectionTime(timeSlot.id);
+                      setSelectedTimeFrame(
+                        timeSlot.id > 0 && timeSlot.id < 5
+                          ? 'morning'
+                          : timeSlot.id > 4 && timeSlot.id < 9
+                          ? 'afternoon'
+                          : 'evening',
+                      );
+                      setEndTime(timeSlot.endTime);
+                      setStartTime(`${timeSlot.startTime} `);
+                      console.log(timeSlot.id);
+                    }}
+                    disabled={currentTime ? true : false}>
+                    <Text
+                      style={{
+                        color: currentTime ? Colors.white : Colors.purple,
+                      }}>
+                      {/* {`${timeSlot.startTime} - ${timeSlot.endTime}`} */}
+                      {`${timeSlot.startTime}`} - {timeSlot.endTime}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              }
+
+              return <View key={index}>{renderTimeSlotView(timeSlot)}</View>;
+            })}
+          </View>
         </View>
 
         {/* <View
@@ -399,22 +782,40 @@ const TimeAndSlot = props => {
           ))}
         </View> */}
       </ScrollView>
-      <TouchableOpacity
-        onPress={chackDate}
-        // disabled={isdate ? false : true}
+      <View
         style={{
-          backgroundColor: _Isdate ? Colors.purple : Colors.lightGray,
-          justifyContent: 'center',
-          borderRadius: 7,
-          paddingHorizontal: 20,
-          paddingVertical: 10,
+          flexDirection: 'row',
           alignItems: 'center',
-          marginHorizontal: 10,
+          justifyContent: 'space-between',
+          marginTop: 10,
+          padding: 5,
         }}>
-        <Text style={{alignSelf: 'center', color: 'white', fontWeight: 'bold'}}>
-          Proceed to pay
-        </Text>
-      </TouchableOpacity>
+        <View style={{marginLeft: 10}}>
+          <Text style={{color: Colors.black, fontWeight: '600'}}>
+            {'\u20B9'} 547
+          </Text>
+          <Text style={{color: Colors.purple, fontWeight: '600'}}>
+            View Details
+          </Text>
+        </View>
+        <TouchableOpacity
+          onPress={chackDate}
+          // disabled={isdate ? false : true}
+          style={{
+            backgroundColor: _Isdate ? Colors.purple : Colors.lightGray,
+            justifyContent: 'center',
+            borderRadius: 7,
+            paddingHorizontal: 20,
+            paddingVertical: 10,
+            alignItems: 'center',
+            marginHorizontal: 10,
+          }}>
+          <Text
+            style={{alignSelf: 'center', color: 'white', fontWeight: 'bold'}}>
+            Proceed to pay
+          </Text>
+        </TouchableOpacity>
+      </View>
 
       <View
         style={{
@@ -428,16 +829,16 @@ const TimeAndSlot = props => {
           </Text>
         </View>
         <TouchableOpacity>
-          <Text style={{fontSize: 13, color: 'black'}}>T&C,</Text>
+          <Text style={{fontSize: 13, color: 'black'}}> T&C,</Text>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Text style={{fontSize: 13, color: 'black'}}>Privacy policy</Text>
+          <Text style={{fontSize: 13, color: 'black'}}> Privacy policy</Text>
         </TouchableOpacity>
         <View>
-          <Text style={{fontSize: 13, color: 'grey'}}>and</Text>
+          <Text style={{fontSize: 13, color: 'grey'}}> and</Text>
         </View>
         <TouchableOpacity>
-          <Text style={{fontSize: 13, color: 'black'}}>Cancellaon</Text>
+          <Text style={{fontSize: 13, color: 'black'}}> Cancellaon</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

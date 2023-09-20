@@ -37,17 +37,17 @@ function Mybooking({navigation}) {
     setRfresh(false);
   }, 3000);
 
-  function handleBackButtonClick() {
-    navigation.navigate('Home');
-    return true;
-  }
+  // function handleBackButtonClick() {
+  //   navigation.navigate('Home');
+  //   return true;
+  // }
 
-  useEffect(() => {
-    BackHandler.addEventListener('Home', handleBackButtonClick);
-    return () => {
-      BackHandler.removeEventListener('Home', handleBackButtonClick);
-    };
-  }, []);
+  // useEffect(() => {
+  //   BackHandler.addEventListener('Home', handleBackButtonClick);
+  //   return () => {
+  //     BackHandler.removeEventListener('Home', handleBackButtonClick);
+  //   };
+  // }, []);
 
   const bookingDetails = async () => {
     const token = await _getStorage('token');
@@ -73,6 +73,12 @@ function Mybooking({navigation}) {
         );
         setIsLoading(false);
       });
+  };
+
+  const getDayFromDate = date => {
+    let d = new Date('2023/09/28');
+    const parseDate = Date.parse(date);
+    console.log('Date: ', date);
   };
 
   return (
@@ -112,7 +118,7 @@ function Mybooking({navigation}) {
             <View
               key={index}
               style={{
-                height: height / 4.5,
+                height: 'auto',
                 // paddingVertical: '7%',
                 // height: '8%',
                 marginHorizontal: 10,
@@ -130,6 +136,7 @@ function Mybooking({navigation}) {
                   justifyContent: 'space-between',
                   paddingHorizontal: 10,
                   alignItems: 'center',
+                  padding: 3,
                 }}>
                 <Text style={{fontWeight: 'bold', color: Colors.black}}>
                   Booking ID
@@ -146,35 +153,69 @@ function Mybooking({navigation}) {
                 }}>
                 <View
                   style={{
-                    width: '70%',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '25%',
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      fontWeight: '600',
+                      color: Colors.black,
+                    }}>
+                    June
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 26,
+                      fontWeight: 'bold',
+                      color: Colors.black,
+                    }}>
+                    29
+                    {/* {getDayFromDate(value.bookingDate)} */}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      fontWeight: '600',
+                      color: Colors.black,
+                    }}>
+                    2022
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    width: '45%',
                     height: '100%',
-                    paddingVertical: 20,
+                    padding: 20,
                     paddingHorizontal: 10,
+                    borderRightColor: Colors.grayShade,
+                    borderRightWidth: 1,
                   }}>
                   <View>
                     <Text
                       style={{
-                        fontSize: 15,
+                        fontSize: 16,
                         fontWeight: '900',
                         color: '#5E2DC4',
                       }}>
                       {value.serviceName}
                     </Text>
-                    <View style={{flexDirection: 'row'}}>
+                    <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
                       <Text
                         style={{
                           fontSize: 15,
                           fontWeight: '500',
                           color: Colors.black,
+                          // right: 5,
                         }}>
                         Time slot:
                       </Text>
-                      <Text
-                        style={{fontSize: 15, left: 5, color: Colors.black}}>
+                      <Text style={{fontSize: 15, color: Colors.black}}>
                         {value.time}
                       </Text>
                     </View>
-                    <View style={{flexDirection: 'row'}}>
+                    {/* <View style={{flexDirection: 'row'}}>
                       <Text
                         style={{
                           fontSize: 15,
@@ -187,7 +228,7 @@ function Mybooking({navigation}) {
                         style={{fontSize: 15, left: 5, color: Colors.black}}>
                         {value.bookingDate}
                       </Text>
-                    </View>
+                    </View> */}
                     <View style={{flexDirection: 'row'}}>
                       <Text
                         style={{
@@ -199,6 +240,7 @@ function Mybooking({navigation}) {
                       </Text>
                       <Text
                         style={{fontSize: 15, color: Colors.black, left: 4}}>
+                        {'\u20B9'}
                         {value.amountToBePaid}
                       </Text>
                     </View>
@@ -206,7 +248,7 @@ function Mybooking({navigation}) {
                 </View>
                 <View
                   style={{
-                    paddingHorizontal: 5,
+                    padding: 5,
                     justifyContent: 'center',
                     alignItems: 'center',
                     width: '30%',
@@ -214,7 +256,9 @@ function Mybooking({navigation}) {
                   <Text
                     style={{
                       fontSize: 14,
-                      fontWeight: '500',
+                      fontWeight: '700',
+                      top: 20,
+                      textTransform: 'uppercase',
                       color: '#0EC01B',
                       color:
                         value.bookingStatus === 'Pending'
@@ -232,10 +276,12 @@ function Mybooking({navigation}) {
                     style={{
                       backgroundColor: Colors.purple,
                       padding: 5,
-                      top: 25,
-                      borderRadius: 7,
+                      // top: 22,
+                      borderRadius: 3,
                       alignItems: 'center',
                       justifyContent: 'center',
+                      marginTop: 'auto',
+                      marginBottom: 10,
                     }}>
                     <Text style={{color: Colors.white, fontWeight: '500'}}>
                       View Details

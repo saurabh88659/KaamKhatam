@@ -178,7 +178,7 @@ const Login = props => {
         }
       })
       .catch(error => {
-        console.log(error.response.data.message);
+        console.log(error);
         Toast.showWithGravity(
           // error?.response?.data?.message,
           "'Please Enter valid mobile number..",
@@ -459,15 +459,18 @@ const Login = props => {
                 source={require('../Assets/Images/google.png')}
                 style={{height: hp('9%'), width: wp('15%')}}
               />
-               <Text style={{marginLeft:hp('2%'),fontSize: 14, color: 'black'}}>Google</Text>
+              <Text
+                style={{marginLeft: hp('2%'), fontSize: 14, color: 'black'}}>
+                Google
+              </Text>
             </TouchableOpacity>
-           
+
             <TouchableOpacity onPress={socialLoginFacebook} style={{top: 10}}>
               <Image
                 source={require('../Assets/Images/facebook.png')}
                 style={{height: hp('8%'), width: wp('15%')}}
               />
-               <Text style={{fontSize: 14, color: 'black'}}>Facebook</Text>
+              <Text style={{fontSize: 14, color: 'black'}}>Facebook</Text>
             </TouchableOpacity>
           </View>
           <View

@@ -11,10 +11,10 @@ const ServiceItems = props => {
     <View>
       <TouchableOpacity
         style={{
-          borderBottomColor: '#F4F4F4',
-          borderBottomWidth: hp('0.4%'),
+          borderBottomColor: Colors.lightGray,
+          borderBottomWidth: 1,
           flexDirection: 'row',
-          padding: hp('2%'),
+          padding: hp('1%'),
           alignItems: 'center',
         }}
         onPress={props.click}>

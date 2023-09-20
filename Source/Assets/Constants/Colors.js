@@ -21,4 +21,5 @@ export default {
   lightblue: '#576C85',
   darkblue: '#304759',
   red: '#fc0303',
+  deepSafron: '#FF9529',
 };

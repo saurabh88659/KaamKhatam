@@ -274,7 +274,7 @@ const Services = props => {
     <View style={Reusablecss.container}>
       <Header
         bgColor={Colors.topNavbarColor}
-        color={Colors.black}
+        color={Colors.white}
         title={preData.navData.name}
         onPress={() => props.navigation.goBack('')}
       />
@@ -305,7 +305,7 @@ const Services = props => {
                         name="star"
                         solid
                         size={hp('2%')}
-                        color={Colors.lightGray}
+                        color={Colors.deepSafron}
                       />
                       <Text style={Reusablecss.ratingBar}>{item.rating}</Text>
                     </View>
@@ -366,19 +366,22 @@ const Services = props => {
               style={{
                 color: Colors.black,
                 fontSize: 17,
-                margin: 10,
+                marginVertical: 10,
+                marginBottom: 5,
                 paddingHorizontal: 15,
-                fontWeight: '800',
+                fontWeight: 'bold',
               }}>
-              Choose a service plan
+              Choose a Service Plan
             </Text>
             <ScrollView contentContainerStyle={{paddingBottom: 50}}>
               <View
                 style={{
                   marginHorizontal: 10,
-                  marginVertical: 1,
+                  paddingVertical: 15,
                   flexDirection: 'row',
                   justifyContent: 'space-between',
+                  borderBottomWidth: 1,
+                  borderBottomColor: Colors.grayShade,
                 }}>
                 <View
                   style={{
@@ -426,7 +429,18 @@ const Services = props => {
                       {silver.description}
                     </Text>
                   </View>
-                  <Text
+                  <View style={{flexDirection: 'row'}}>
+                    <Text
+                      style={{
+                        marginHorizontal: 0,
+                        top: 3,
+                        color: Colors.black,
+                        fontWeight: '700',
+                      }}>
+                      Economical Prices
+                    </Text>
+                  </View>
+                  {/* <Text
                     style={{
                       marginHorizontal: 5,
                       fontSize: 15,
@@ -452,13 +466,13 @@ const Services = props => {
                       }}>
                       View rating
                     </Text>
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </View>
                 <View style={{top: 30}}>
                   <TouchableOpacity
                     onPress={cardSilver}
                     style={{
-                      paddingVertical: 5,
+                      paddingVertical: 8,
                       paddingHorizontal: 7,
                       borderRadius: 5,
                       alignItems: 'center',
@@ -467,7 +481,7 @@ const Services = props => {
                       elevation: 7,
                     }}>
                     <Text style={{color: Colors.white, fontWeight: '500'}}>
-                      ADD +
+                      Add to Cart
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -477,9 +491,11 @@ const Services = props => {
                 <View
                   style={{
                     marginHorizontal: 10,
-                    marginVertical: 20,
+                    paddingVertical: 15,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
+                    borderBottomWidth: 1,
+                    borderBottomColor: Colors.grayShade,
                   }}>
                   <View
                     style={{
@@ -528,7 +544,18 @@ const Services = props => {
                         {getname.description}
                       </Text>
                     </View>
-                    <Text
+                    <View style={{flexDirection: 'row'}}>
+                      <Text
+                        style={{
+                          marginHorizontal: 0,
+                          top: 3,
+                          color: Colors.black,
+                          fontWeight: 'bold',
+                        }}>
+                        Standard Prices
+                      </Text>
+                    </View>
+                    {/* <Text
                       style={{
                         marginHorizontal: 5,
                         fontSize: 15,
@@ -554,13 +581,13 @@ const Services = props => {
                         }}>
                         View rating
                       </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                   </View>
                   <View style={{top: 30}}>
                     <TouchableOpacity
                       onPress={cardGold}
                       style={{
-                        paddingVertical: 5,
+                        paddingVertical: 8,
                         paddingHorizontal: 7,
                         borderRadius: 5,
                         alignItems: 'center',
@@ -569,7 +596,7 @@ const Services = props => {
                         elevation: 7,
                       }}>
                       <Text style={{color: Colors.white, fontWeight: '500'}}>
-                        ADD +
+                        Add to Cart
                       </Text>
                     </TouchableOpacity>
                   </View>
@@ -580,6 +607,7 @@ const Services = props => {
                 <View
                   style={{
                     marginHorizontal: 10,
+                    paddingVertical: 15,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                   }}>
@@ -629,7 +657,18 @@ const Services = props => {
                         {platinum.description}
                       </Text>
                     </View>
-                    <Text
+                    <View style={{flexDirection: 'row'}}>
+                      <Text
+                        style={{
+                          marginHorizontal: 0,
+                          top: 3,
+                          color: Colors.black,
+                          fontWeight: 'bold',
+                        }}>
+                        Premium Prices
+                      </Text>
+                    </View>
+                    {/* <Text
                       style={{
                         marginHorizontal: 5,
                         fontSize: 15,
@@ -655,13 +694,13 @@ const Services = props => {
                         }}>
                         View rating
                       </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                   </View>
                   <View style={{top: 30}}>
                     <TouchableOpacity
                       onPress={cardPlatinum}
                       style={{
-                        paddingVertical: 5,
+                        paddingVertical: 8,
                         paddingHorizontal: 7,
                         borderRadius: 5,
                         alignItems: 'center',
@@ -670,7 +709,7 @@ const Services = props => {
                         elevation: 7,
                       }}>
                       <Text style={{color: Colors.white, fontWeight: '500'}}>
-                        ADD +
+                        Add to Cart
                       </Text>
                     </TouchableOpacity>
                   </View>
@@ -728,7 +767,7 @@ const Styles = StyleSheet.create({
   bottomNavigationView: {
     backgroundColor: '#fff',
     width: '100%',
-    height: '50%',
+    height: '54%',
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },

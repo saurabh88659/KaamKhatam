@@ -51,10 +51,12 @@ const Location = props => {
           props.navigation.navigate('DrowerNavigation');
           onLocation();
         } else {
+          Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
           console.log('else conditions');
         }
       })
       .catch(error => {
+        Toast.showWithGravity(error.data.message, Toast.LONG, Toast.BOTTOM);
         console.log('catch locations error', error);
       });
   };

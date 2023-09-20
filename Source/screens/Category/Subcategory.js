@@ -11,6 +11,7 @@ import Header from '../../ReusableComponents/Header';
 import Colors from '../../Assets/Constants/Colors';
 import {_getStorage} from '../../Assets/utils/storage/Storage';
 import {BASE_URL} from '../../Assets/utils/Restapi/Config';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const Subcategory = props => {
   const [subCategory, setSubcategory] = useState([]);
@@ -77,10 +78,10 @@ const Subcategory = props => {
   };
 
   return (
-    <View>
+    <View style={{flex: 1}}>
       <Header
         bgColor={Colors.topNavbarColor}
-        color={Colors.black}
+        color={Colors.white}
         title={predata.name}
         onPress={() => props.navigation.goBack()}
       />
@@ -96,15 +97,17 @@ const Subcategory = props => {
           <ActivityIndicator color={Colors.purple} size="large" />
         </View>
       ) : (
-        <View>
+        <ScrollView>
           {subCategory.map((v, index) => (
             <TouchableOpacity
               key={index}
               style={{
                 flexDirection: 'row',
-                marginHorizontal: 20,
-                marginVertical: 5,
+                paddingHorizontal: 20,
+                paddingVertical: 5,
                 alignItems: 'center',
+                borderBottomColor: Colors.lightGray,
+                borderBottomWidth: 1,
               }}
               onPress={() => {
                 // props.navigation.navigate('Subcategory2', v);
@@ -127,7 +130,7 @@ const Subcategory = props => {
               </Text>
             </TouchableOpacity>
           ))}
-        </View>
+        </ScrollView>
       )}
     </View>
   );

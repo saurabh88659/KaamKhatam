@@ -4,17 +4,16 @@ import Mywalletscreen from './My Wallet/Mywalletscreen';
 import TranscationsScreen from './My Wallet/TranscationsScreen';
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
+import HeaderDrawer from '../ReusableComponents/HeaderDrawer';
 
 const Tab = createMaterialTopTabNavigator();
 
-const Mywallet = props => {
+const Mywallet = ({navigation}) => {
   return (
     <>
-      <Header
-        bgColor={Colors.topNavbarColor}
-        color={Colors.white}
-        title="My Wallet"
-        onPress={() => props.navigation.goBack('Home')}
+      <HeaderDrawer
+        Title="My Wallet"
+        onPress={() => navigation.toggleDrawer()}
       />
 
       <Tab.Navigator

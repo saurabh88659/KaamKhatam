@@ -82,7 +82,9 @@ const CustomDrawerMenu = props => {
             style={{
               height: 80,
               width: 80,
-              borderRadius: 50,
+              borderRadius: 100,
+              borderColor: Colors.black,
+              borderWidth: 1,
               alignSelf: 'center',
               alignItems: 'center',
               justifyContent: 'center',
@@ -130,8 +132,8 @@ const CustomDrawerMenu = props => {
             </View>
           </TouchableOpacity>
 
-          <View style={Styles.linesstyles}></View>
-          <TouchableOpacity
+          {/* <View style={Styles.linesstyles}></View> */}
+          {/* <TouchableOpacity
             style={Styles.constyles}
             // onPress={() => props.navigation.navigate('Salonforwomen')}
             onPress={() => props.navigation.navigate('Mywallet')}>
@@ -152,7 +154,7 @@ const CustomDrawerMenu = props => {
               />
               <Text style={Styles.textstyles1}>My Bookings</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
 
           <View>
             <View style={Styles.linesstyles}></View>

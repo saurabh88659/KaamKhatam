@@ -45,7 +45,7 @@ const Otp = ({navigation, route}) => {
         await AsyncStorage.setItem('token', response.data.token);
         await AsyncStorage.setItem('refreshToken', response.data.refreshToken);
         await AsyncStorage.setItem('user_id', response.data.user_id);
-             console.log(response.data);
+        console.log(response.data);
         axios
           .get(BASE_URL + `/profile`, {
             headers: {
@@ -54,17 +54,18 @@ const Otp = ({navigation, route}) => {
           })
           .then(res => {
             if (res.data?.result?.firstName) {
-              navigation.navigate('Location');
+              navigation.pop();
+              navigation.replace('Location');
             } else {
-              navigation.navigate('RegisterAccount');
+              navigation.replace('RegisterAccount');
             }
           })
           .catch(err => {
             if (err.response?.data?.message == "User Doesn't Exists") {
-              navigation.navigate('RegisterAccount');
+              navigation.replace('RegisterAccount');
             }
           });
-         })
+      })
       .catch(e => {
         console.log('otp screen catch error', e);
         Toast.showWithGravity(
@@ -77,6 +78,8 @@ const Otp = ({navigation, route}) => {
         setIsLoading(false);
       });
   };
+
+  console.log('Props: ', navigation);
 
   //  =================resend======================>
 
@@ -120,13 +123,13 @@ const Otp = ({navigation, route}) => {
           style={styles.img}
         /> */}
         <View style={{justifyContent: 'center', top: '20%'}}>
-          <View style={{alignItems: 'center', }}>
+          <View style={{alignItems: 'center'}}>
             <Text
               style={{
                 fontWeight: 'bold',
                 fontSize: hp('3.5%'),
                 color: Colors.black,
-                marginLeft:hp('-2%')
+                marginLeft: hp('-2%'),
               }}>
               Enter Verification Code
             </Text>
@@ -206,8 +209,6 @@ const Otp = ({navigation, route}) => {
                 onPress={onPressotpVerification}
               />
             )}
-
-           
           </View>
         </View>
         {/* <Image

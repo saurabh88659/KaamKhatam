@@ -8,6 +8,8 @@ import MyCartScreen from '../screens/MyCartScreen';
 import Home from '../screens/Home/Home';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
+import Entypo from 'react-native-vector-icons/Entypo';
+import Mywallet from '../screens/Mywallet';
 
 const Tab = createBottomTabNavigator();
 
@@ -92,7 +94,7 @@ function TabNavigation() {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Profile"
         component={ProfileScreen}
         options={{
@@ -100,6 +102,20 @@ function TabNavigation() {
           tabBarIcon: ({focused}) => (
             <Feather
               name="user"
+              color={focused ? '#7A33C2' : Colors.black}
+              size={30}
+            />
+          ),
+        }}
+      /> */}
+      <Tab.Screen
+        name="Wallet"
+        component={Mywallet}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({focused}) => (
+            <Entypo
+              name="wallet"
               color={focused ? '#7A33C2' : Colors.black}
               size={30}
             />

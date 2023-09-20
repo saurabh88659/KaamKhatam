@@ -189,7 +189,7 @@ function Home({navigation}) {
         barStyle={Colors.white}
       />
       <HeaderDrawer
-        Title="ALL IN ONE"
+        Title="KAAM KHATAM"
         location={address.subLocality}
         onPress={() => navigation.openDrawer()}
       />
@@ -267,7 +267,7 @@ function Home({navigation}) {
                 shadowOffset: {width: 1, height: 1},
                 shadowOpacity: 0.4,
                 shadowRadius: 3,
-                elevation: 5,
+                // elevation: 5,
                 top: -25,
               }}>
               <View
@@ -300,10 +300,10 @@ function Home({navigation}) {
               <View
                 style={{
                   width: wp('90%'),
-                  borderRadius: hp('3%'),
+                  borderRadius: hp('1%'),
                   backgroundColor: Colors.white,
                   paddingBottom: hp('2%'),
-                  elevation: 10,
+                  elevation: 5,
                 }}>
                 <LinearGradient
                   start={{x: 0.0, y: 0.25}}
@@ -311,16 +311,16 @@ function Home({navigation}) {
                   // locations={[0, 0.8, 0.6]}
                   colors={['#5E2DC4', '#7A33C2', '#320F52']}
                   style={{
-                    padding: hp('3%'),
+                    padding: hp('2%'),
                     alignItems: 'center',
-                    borderTopLeftRadius: hp('3%'),
-                    borderTopRightRadius: hp('3%'),
+                    borderTopLeftRadius: hp('1%'),
+                    borderTopRightRadius: hp('1%'),
                   }}>
                   <Text
                     style={{
                       color: 'white',
                       fontWeight: 'bold',
-                      fontSize: hp('2.4%'),
+                      fontSize: hp('2%'),
                     }}>
                     India's Safest At Home Beauty Services
                   </Text>
@@ -347,7 +347,7 @@ function Home({navigation}) {
                   style={{
                     flexDirection: 'row',
                     justifyContent: 'space-around',
-                    paddingBottom: hp('2%'),
+                    paddingBottom: hp('1%'),
                   }}>
                   <BeautyServices
                     title="Chocolate Wax"

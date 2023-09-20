@@ -61,7 +61,7 @@ const Subcategory2 = props => {
     <View style={styles.container}>
       <Header
         bgColor={Colors.topNavbarColor}
-        color={Colors.black}
+        color={Colors.white}
         title={preData.name}
         onPress={() => props.navigation.goBack()}
       />

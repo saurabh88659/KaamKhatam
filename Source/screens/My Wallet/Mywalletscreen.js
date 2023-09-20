@@ -151,7 +151,7 @@ export default function Mywalletscreen() {
           </View>
           <View style={{flexDirection: 'row', marginHorizontal: 10}}>
             <Text style={{left: 10, fontSize: 18, color: Colors.black}}>
-              INR {recharge}
+              {'\u20B9'} {recharge}
             </Text>
           </View>
         </View>
@@ -182,7 +182,7 @@ export default function Mywalletscreen() {
           alignItems: 'center',
           justifyContent: 'center',
           // top: 60,
-          backgroundColor:Colors.purple,
+          backgroundColor: Colors.purple,
           height: height / 14,
           marginHorizontal: 10,
           borderRadius: 4,

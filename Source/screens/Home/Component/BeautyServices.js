@@ -12,7 +12,8 @@ const BeautyServices = props => {
       style={{
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: hp('3%'),
+        marginTop: hp('2%'),
+        marginBottom: hp('2.5%'),
         width: wp('35%'),
       }}>
       <Image
@@ -20,7 +21,12 @@ const BeautyServices = props => {
         style={{width: wp('35%'), height: wp('24%'), borderRadius: wp('4%')}}
       />
       <Text
-        style={{fontSize: hp('1.7%'), fontWeight: 'bold', marginTop: hp('1%')}}>
+        style={{
+          fontSize: hp('1.7%'),
+          fontWeight: 'bold',
+          marginTop: hp('1%'),
+          color: 'black',
+        }}>
         {props.title}
       </Text>
     </TouchableOpacity>
