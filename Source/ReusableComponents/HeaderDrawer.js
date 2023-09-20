@@ -20,7 +20,9 @@ const HeaderDrawer = props => {
         justifyContent: 'space-between',
       }}>
       <View style={{flexDirection: 'row'}}>
-        <TouchableOpacity onPress={props.onPress}>
+        <TouchableOpacity
+          hitSlop={{top: 25, bottom: 25, left: 50, right: 50}}
+          onPress={props.onPress}>
           <FontAwesome5 name="bars" color={Colors.white} size={hp('3.5%')} />
         </TouchableOpacity>
         <Text

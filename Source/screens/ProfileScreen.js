@@ -24,9 +24,12 @@ import Header from '../ReusableComponents/Header';
 import {getFirstLetters} from '../Assets/utils/Handler/NameAvatar';
 import {useIsFocused} from '@react-navigation/native';
 import InternetInfoall from '../Assets/utils/Handler/InternetInfoall';
+import {useDispatch} from 'react-redux';
+import {SetprofiledataupdateState} from '../features/updatedata/update.reducer';
 
 const {height, width} = Dimensions.get('window');
 const ProfileScreen = ({navigation, route}) => {
+  const dispatch = useDispatch();
   const [profileData, setProfileData] = useState('');
   const [visible, setVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -37,12 +40,12 @@ const ProfileScreen = ({navigation, route}) => {
   const [isImage, setIsImage] = useState('');
   const [onUpdateImage, setOnUpdateImage] = useState(Math.random());
 
-  // console.log('isImage', isImage);
+  console.log('====isImage', isImage);
 
   const isFocused = useIsFocused();
-
   useEffect(() => {
     if (isFocused) {
+      console.log('===============runnig _getprofileapi==============');
       _getprofileapi();
       getFirstLetters;
     }
@@ -53,12 +56,14 @@ const ProfileScreen = ({navigation, route}) => {
   };
 
   const onGallary = () => {
+    console.log('=====onGallary=====');
     ImagePicker.openPicker({
       cropping: true,
       quality: 1,
       mediaType: 'any',
     })
       .then(image => {
+        console.log('image.path', image);
         setImageUrlPath(image.path);
         setImageData(image);
         setVisible(!visible);
@@ -79,7 +84,6 @@ const ProfileScreen = ({navigation, route}) => {
         setImageUrlPath(image.path);
         setImageData(image);
         setVisible(!visible);
-
         console.log('hey', image);
       })
       .catch(err => {
@@ -89,14 +93,11 @@ const ProfileScreen = ({navigation, route}) => {
 
   const _updateProfilePic = async () => {
     setOnUpdateImage(Math.random());
-
     const token = await _getStorage('token');
     Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
-    console.log('imageData==========', imageData);
-
+    console.log('=======imageData==========', imageData);
     var filename = imageData?.path?.replace(/^.*[\\\/]/, '');
-    // console.log('filename', filename);
-
+    console.log('=======filename', filename);
     const profilePic = new FormData();
     profilePic.append('image', {
       name: filename,
@@ -107,7 +108,7 @@ const ProfileScreen = ({navigation, route}) => {
           : imageData.path.replace('file://', ''),
     });
     // profilePic.append('image', 'imageUrl');
-
+    console.log('profilePic', profilePic);
     axios
       .post(BASE_URL + `/uploadImage`, profilePic, {
         headers: {
@@ -126,10 +127,10 @@ const ProfileScreen = ({navigation, route}) => {
           Toast.LONG,
           Toast.BOTTOM,
         );
+        dispatch(SetprofiledataupdateState(true));
       })
       .catch(error => {
         setIsLoading(false);
-
         console.log('error in catch Profile image', error);
         Toast.showWithGravity('❗SERVER ERROR', Toast.LONG, Toast.BOTTOM);
       });
@@ -189,14 +190,12 @@ const ProfileScreen = ({navigation, route}) => {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(val => {
+        console.log('Profile data (190)', val);
         console.log('hey', val.data?.result?.imageUrl);
-
         // setImageUrlPath(val.data?.result?.imageUrl);
-
         val.data?.result?.imageUrl
           ? setProfileUrl(val.data?.result?.imageUrl)
           : setProfileUrl(null);
-
         setProfileData(val.data.result);
         setIsImage(val.data?.result?.imageUrl);
         setIsLoading(false);

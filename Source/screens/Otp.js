@@ -25,20 +25,16 @@ const Otp = ({navigation, route}) => {
   const [counter, setCounter] = React.useState(30);
   const [isLoading, setIsLoading] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-
   const phone = route.params;
 
   const fNumber = phone?.phone.split('', 6);
-
   const onPressotpVerification = () => {
     const verifyObj = {
       otp: pin,
       phone: phone?.phone,
     };
-
     setIsLoading(true);
-    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
-
+    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.TOP);
     axios
       .post(BASE_URL + `/verifyOTP`, verifyObj)
       .then(async response => {
@@ -171,6 +167,7 @@ const Otp = ({navigation, route}) => {
                     fontSize: hp('1.8%'),
                     textAlign: 'center',
                     fontWeight: 'normal',
+                    alignSelf: 'flex-end',
                   }}>
                   Try again in {counter} sec
                 </Text>

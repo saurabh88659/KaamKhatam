@@ -1,14 +1,16 @@
 import {
-  View, SafeAreaView,
+  View,
+  SafeAreaView,
   TextInput,
-  TouchableOpacity,Modal,
+  TouchableOpacity,
+  Modal,
   StyleSheet,
   Dimensions,
   ActivityIndicator,
   Image,
   ScrollView,
   Text,
- } from 'react-native';
+} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
@@ -60,7 +62,6 @@ const RegisterAccount = props => {
   const handleSubmit = async () => {
     const token = await _getStorage('token');
     Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
-
     let newObj = {
       firstName: firstname,
       lastName: lastname,
@@ -86,8 +87,13 @@ const RegisterAccount = props => {
       })
       .catch(error => {
         console.log('in catch', error.response.data.message);
+        Toast.showWithGravity(
+          error.response.data.message,
+          Toast.LONG,
+          Toast.BOTTOM,
+        );
         setIsLoading(false);
-        Toast.showWithGravity('Server Error❗', Toast.LONG, Toast.BOTTOM);
+        //Toast.showWithGravity('Server Error❗', Toast.LONG, Toast.BOTTOM);
       });
   };
 
@@ -192,7 +198,6 @@ const RegisterAccount = props => {
   const LoginApisendmailotp = async () => {
     const token = await _getStorage('token');
     // console.log('email-------------.....>>>', token);
-
     const emailObj = {
       email,
     };
@@ -204,7 +209,7 @@ const RegisterAccount = props => {
       })
 
       .then(res => {
-        console.log('email response', res.data);
+        console.log('email response==', res.data);
         setemailOtp(res.data.id);
         setIsGettingOTP(false);
         setIsLoading();
@@ -233,10 +238,11 @@ const RegisterAccount = props => {
       })
 
       .then(res => {
-        console.log('email response', res.data);
+        console.log('email response====', res.data);
         setemailOtp(res.data.id);
         Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
         setCounter(30);
+        console.log(counter);
       })
       .catch(error => {
         console.log('email send otp catch error', error.response.data.message);
@@ -301,7 +307,7 @@ const RegisterAccount = props => {
                 }}
                 style={{
                   marginHorizontal: 15,
-                  borderColor: 'grey',
+                  borderColor: Colors.purple,
                   borderWidth: 1,
                   borderRadius: 6,
                   paddingHorizontal: 15,
@@ -327,7 +333,7 @@ const RegisterAccount = props => {
                 }}
                 style={{
                   marginHorizontal: 15,
-                  borderColor: 'grey',
+                  borderColor: Colors.purple,
                   borderWidth: 1,
                   borderRadius: 6,
                   paddingHorizontal: 15,
@@ -354,7 +360,7 @@ const RegisterAccount = props => {
                   borderRadius: 6,
                   justifyContent: 'center',
                   paddingHorizontal: 13,
-                  borderColor: 'grey',
+                  borderColor: Colors.purple,
                 }}>
                 <TouchableOpacity
                   onPress={showDatePicker}
@@ -400,6 +406,8 @@ const RegisterAccount = props => {
                 }}>
                 <View style={{flexDirection: 'row'}}>
                   <RadioButton
+                    uncheckedColor="#5E2DC4"
+                    color="#5E2DC4"
                     name="male"
                     value="male"
                     status={gender === 'male' ? 'checked' : 'unchecked'}
@@ -412,6 +420,8 @@ const RegisterAccount = props => {
                 </View>
                 <View style={{flexDirection: 'row'}}>
                   <RadioButton
+                    uncheckedColor="#5E2DC4"
+                    color="#5E2DC4"
                     value="female"
                     status={gender === 'female' ? 'checked' : 'unchecked'}
                     onPress={() => setGender('female')}
@@ -442,7 +452,7 @@ const RegisterAccount = props => {
                   style={{
                     marginHorizontal: 15,
                     // backgroundColor: 'red',
-                    borderColor: 'grey',
+                    borderColor: Colors.purple,
                     borderWidth: 1,
                     borderRadius: 6,
                     paddingHorizontal: 15,
@@ -470,7 +480,7 @@ const RegisterAccount = props => {
                   }}
                   style={{
                     marginHorizontal: 15,
-                    borderColor: 'grey',
+                    borderColor: Colors.purple,
                     borderWidth: 1,
                     borderRadius: 6,
                     paddingHorizontal: 15,
@@ -514,7 +524,7 @@ const RegisterAccount = props => {
                     setCity(text);
                   }}
                   style={{
-                    borderColor: 'grey',
+                    borderColor: Colors.purple,
                     borderWidth: 1,
                     borderRadius: 6,
                     paddingHorizontal: 15,
@@ -533,7 +543,7 @@ const RegisterAccount = props => {
                     setPincode(text);
                   }}
                   style={{
-                    borderColor: 'grey',
+                    borderColor: Colors.purple,
                     borderWidth: 1,
                     borderRadius: 6,
                     paddingHorizontal: 15,
@@ -552,12 +562,11 @@ const RegisterAccount = props => {
                 <View
                   style={{
                     borderWidth: 1,
-                    borderColor: 'red',
+                    borderColor: Colors.purple,
                     flexDirection: 'row',
                     justifyContent: 'center',
                     alignItems: 'center',
                     borderWidth: 1,
-                    borderColor: 'grey',
                     height: 50,
                     borderRadius: 5,
                     marginVertical: 10,
@@ -603,12 +612,11 @@ const RegisterAccount = props => {
                 <View
                   style={{
                     borderWidth: 1,
-                    borderColor: 'red',
+                    borderColor: Colors.purple,
                     flexDirection: 'row',
                     justifyContent: 'center',
                     alignItems: 'center',
                     borderWidth: 1,
-                    borderColor: 'grey',
                     height: 50,
                     borderRadius: 5,
                     marginVertical: 10,
@@ -654,7 +662,7 @@ const RegisterAccount = props => {
               ) : (
                 <View style={{alignItems: 'center'}}>
                   <CustomButton
-                    title={'SUBMIT'}
+                    title={'SUBMIT00'}
                     bgColor={Colors.purple}
                     width={wp('90%')}
                     height={hp('6.6%')}
@@ -735,9 +743,7 @@ const RegisterAccount = props => {
                     onPress={_verifyMailotp}
                     disabled={code ? false : true}
                     style={{
-                      backgroundColor: code
-                        ? Colors.purple
-                        : Colors.lightGray,
+                      backgroundColor: code ? Colors.purple : Colors.lightGray,
                       paddingVertical: 10,
                       marginTop: 20,
                       borderRadius: 4,

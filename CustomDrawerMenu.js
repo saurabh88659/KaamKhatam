@@ -20,6 +20,7 @@ import Colors from './Source/Assets/Constants/Colors';
 import {Rating} from 'react-native-ratings';
 import Toast from 'react-native-simple-toast';
 import {getFirstLetters} from './Source/Assets/utils/Handler/NameAvatar';
+import {useSelector} from 'react-redux';
 
 const {height, width} = Dimensions.get('screen');
 
@@ -29,11 +30,15 @@ const CustomDrawerMenu = props => {
   const [profileData, setProfileData] = useState({});
   const [imgUrl, setImagee] = useState();
   const [onUpdateImage, setOnUpdateImage] = useState(Math.random());
+  const UpdateState = useSelector(
+    state => state.updateState.profiledataupdateState,
+  );
+  console.log('at drawer== ', UpdateState);
 
   useEffect(() => {
     // console.log("useEffect----")
     profileapi();
-  }, [imgUrl]);
+  }, [imgUrl, UpdateState]);
 
   const profileapi = async () => {
     setOnUpdateImage(Math.random());
@@ -71,7 +76,7 @@ const CustomDrawerMenu = props => {
       );
     }, 2000);
   };
-  console.log('img url ---', imgUrl);
+  console.log('----img url ---', imgUrl);
   return (
     <ScrollView style={{flex: 1, backgroundColor: Colors.white}}>
       <DrawerContentScrollView

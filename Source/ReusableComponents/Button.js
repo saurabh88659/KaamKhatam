@@ -29,7 +29,7 @@ const Button = props => {
       }}>
       <Text
         style={{
-          fontWeight: 'bold',
+          fontWeight: '700',
           fontSize: hp('2.2%'),
           color: props.color,
           marginLeft: wp('5%'),

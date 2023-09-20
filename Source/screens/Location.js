@@ -13,6 +13,7 @@ import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 import Toast from 'react-native-simple-toast';
 import InternetInfoall from '../Assets/utils/Handler/InternetInfoall';
+import {width} from 'deprecated-react-native-prop-types/DeprecatedImagePropType';
 
 // const API_KEY = 'AIzaSyD3Uol_-mBQSaZgIfuzVVK1oHXqBHPkrZE';
 
@@ -138,19 +139,24 @@ const Location = props => {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        <Image source={require('../Assets/Images/map.png')} />
-        <Text style={{fontWeight: 'bold', fontSize: hp('2.5%')}}>
+        <Image
+          style={{height: hp('9%'), width: wp('20%')}}
+          source={require('../Assets/Images/map.png')}
+        />
+        <Text style={{fontWeight: 'bold', fontSize: hp('2.7%'), color: '#000'}}>
           See Services around
         </Text>
-        <CustomButton
-          onPress={_getgeolocations}
-          // onPress={checkGPSStatus}
-          height={hp('7%')}
-          width={wp('80%')}
-          bgColor={Colors.black}
-          title="Your Current Location"
-          color={Colors.white}
-        />
+        <View style={{marginTop: 30}}>
+          <CustomButton
+            onPress={_getgeolocations}
+            // onPress={checkGPSStatus}
+            height={hp('7%')}
+            width={wp('90%')}
+            bgColor={Colors.black}
+            title="Your Current Location"
+            color={Colors.white}
+          />
+        </View>
       </View>
       <View style={{width: wp('100%'), height: hp('20%')}}>
         <Image

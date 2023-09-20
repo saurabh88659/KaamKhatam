@@ -33,6 +33,7 @@ import ServicesRatingplatinum from '../../screens/ServicesRatingplatinum';
 import CancelBooking from '../../screens/CancelBooking';
 
 const Stack = createNativeStackNavigator();
+
 function AuthStack() {
   return (
     <Stack.Navigator initialRouteName="Splash">
@@ -73,6 +74,7 @@ function AuthStack() {
         component={DrowerNavigation}
         options={{headerShown: false}}
       />
+
       <Stack.Screen
         name="Faqs"
         component={Faqs}
