@@ -55,6 +55,9 @@ const Login = props => {
   const [googlephone, setGooglephone] = useState('');
   const [timer, setTimer] = useState(60); // set initial timer to 60 seconds
   const [disabled, setDisabled] = useState(false);
+  const [numberError, setNumberError] = useState(false);
+
+  console.log(isSelected);
 
   useEffect(() => {
     GoogleSignin.configure();
@@ -139,18 +142,21 @@ const Login = props => {
   };
 
   // +++++++++++++++++++++++++++++=======================
-
   const _validateMobileNumber = mobileNo => {
     var mobileNoRegex = /^[6-9]{1}[0-9]{9}$/;
     if (mobileNo == '' || mobileNo == undefined || mobileNo == null) {
       setIsPhone(false);
+      setNumberError(true);
       setErrorMobileNumber('*Please enter mobile number.');
     } else if (!mobileNoRegex.test(mobileNo)) {
-      setErrorMobileNumber('*Please Enter valid mobile number..');
+      setNumberError(true);
+
+      setErrorMobileNumber('Please Enter valid mobile number..');
       setIsPhone(false);
     } else {
-      setIsPhone(true);
+      setNumberError(false);
 
+      setIsPhone(true);
       setErrorMobileNumber(null);
     }
   };
@@ -158,35 +164,53 @@ const Login = props => {
   //TODO ************ Login Api Integration ************
 
   const handleSubmit = () => {
-    const SubmitDAta = {
-      phone: MobileNumber,
-    };
-
-    console.log('phone number', SubmitDAta);
-    setIsLoading(true);
-    axios
-      .post(BASE_URL + `/sendOTP`, SubmitDAta)
-      .then(res => {
-        if (res?.data?.Status == 200) {
-          alert('Number is not ');
-        } else if (res?.data) {
-          props.navigation.navigate('Otp', {
-            phone: MobileNumber,
-          });
-        } else {
-          console.log('else condtion');
-        }
-      })
-      .catch(error => {
-        console.log(error);
+    if (numberError) {
+      Toast.showWithGravity(
+        // error?.response?.data?.message,
+        'Please Enter valid mobile number..',
+        Toast.SHORT,
+        Toast.BOTTOM,
+      );
+    }
+    if (!numberError) {
+      if (!isSelected) {
         Toast.showWithGravity(
           // error?.response?.data?.message,
-          "'Please Enter valid mobile number..",
-          Toast.LONG,
+          "'Please agree Terms & Conditions",
+          Toast.SHORT,
           Toast.BOTTOM,
         );
-      })
-      .finally(() => setIsLoading(false));
+      } else {
+        const SubmitDAta = {
+          phone: MobileNumber,
+        };
+        console.log('phone number', SubmitDAta);
+        setIsLoading(true);
+        axios
+          .post(BASE_URL + `/sendOTP`, SubmitDAta)
+          .then(res => {
+            if (res?.data?.Status == 200) {
+              alert('Number is not ');
+            } else if (res?.data) {
+              props.navigation.navigate('Otp', {
+                phone: MobileNumber,
+              });
+            } else {
+              console.log('else condtion');
+            }
+          })
+          .catch(error => {
+            console.log(error);
+            // Toast.showWithGravity(
+            //   // error?.response?.data?.message,
+            //   "'Please Enter valid mobile number..",
+            //   Toast.LONG,
+            //   Toast.BOTTOM,
+            // );
+          })
+          .finally(() => setIsLoading(false));
+      }
+    }
   };
 
   // ====================GoogleSignin======================
@@ -412,7 +436,7 @@ const Login = props => {
                 height={hp('7%')}
                 color={Colors.white}
                 onPress={handleSubmit}
-                disabled={isSelected ? false : true}
+                // disabled={isSelected ? false : true}
               />
             )}
 
@@ -673,7 +697,7 @@ const styles = StyleSheet.create({
   },
   blackTxt: {
     fontSize: hp('3%'),
-    // fontWeight: 'bold',
+    fontWeight: 'bold',
     color: Colors.black,
   },
   textInputCntnr: {

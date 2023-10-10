@@ -3,18 +3,19 @@ import {NavigationContainer} from '@react-navigation/native';
 import AuthStack from './Source/Navigation/StackNavigators/AuthStack';
 import {Provider, useSelector} from 'react-redux';
 import {store} from './Source/app/store';
+import SearchService from './SearchService';
+import {PersistGate} from 'redux-persist/integration/react';
+import ConfirmationPayment from './Source/screens/ConfirmationPayment';
 
 function App() {
-  const UpdateState = useSelector(
-    state => state.updateState.profiledataupdateState,
-  );
-  console.log(
-    '=============================UpdateState=================',
-    UpdateState,
-  );
+  // const UpdateState = useSelector(
+  //   state => state.updateState.profiledataupdateState,
+  // );
+
   return (
     <NavigationContainer>
       <AuthStack />
+      {/* <ConfirmationPayment /> */}
     </NavigationContainer>
   );
 }
@@ -28,5 +29,3 @@ const AppWapper = () => {
 };
 
 export default AppWapper;
-
-//export default App;

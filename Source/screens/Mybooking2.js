@@ -21,11 +21,12 @@ import InternetInfoall from '../Assets/utils/Handler/InternetInfoall';
 
 function Mybooking2({navigation}) {
   const [bookdetails, setBookdetails] = useState([]);
+  console.log('================bookdetails==================', bookdetails);
   const [noData, setNoData] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [refresh, setRfresh] = useState(false);
   const isFocused = useIsFocused();
-
+  console.log('isfocus', isFocused);
   useEffect(() => {
     if (isFocused) {
       bookingDetails();
@@ -114,142 +115,159 @@ function Mybooking2({navigation}) {
             {noData}
           </Text>
         ) : (
-          bookdetails.map((value, index) => (
-            <View
-              key={index}
-              style={{
-                height: height / 4.6,
-                // height: '7%',
-                marginHorizontal: 10,
-                borderRadius: 7,
-                marginVertical: 10,
-                backgroundColor: Colors.white,
-                elevation: 5,
-              }}>
-              <View
-                style={{
-                  backgroundColor: '#BCC4FF',
-                  borderTopRightRadius: 7,
-                  borderTopLeftRadius: 7,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  paddingHorizontal: 10,
-                  alignItems: 'center',
-                }}>
-                <Text style={{fontWeight: 'bold', color: Colors.black}}>
-                  Booking ID
-                </Text>
-                <Text style={{fontWeight: 'bold', color: Colors.black}}>
-                  {value.bookingId}
-                </Text>
-              </View>
-
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}>
+          bookdetails.map(
+            (value, index) => (
+              console.log('==========value ---119============', value),
+              (
                 <View
+                  key={index}
                   style={{
-                    width: '70%',
-                    height: '100%',
-                    paddingVertical: 20,
-                    paddingHorizontal: 10,
+                    height: height / 4.6,
+                    // height: '7%',
+                    marginHorizontal: 10,
+                    borderRadius: 7,
+                    marginVertical: 10,
+                    backgroundColor: Colors.white,
+                    elevation: 5,
                   }}>
-                  <View>
-                    <Text
-                      style={{
-                        fontSize: 15,
-                        fontWeight: '900',
-                        color: Colors.purple,
-                      }}>
-                      {value.serviceName}
+                  <View
+                    style={{
+                      backgroundColor: '#BCC4FF',
+                      borderTopRightRadius: 7,
+                      borderTopLeftRadius: 7,
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      paddingHorizontal: 10,
+                      alignItems: 'center',
+                    }}>
+                    <Text style={{fontWeight: 'bold', color: Colors.black}}>
+                      Booking ID
                     </Text>
-                    <View style={{flexDirection: 'row'}}>
-                      <Text
-                        style={{
-                          fontSize: 15,
-                          fontWeight: '500',
-                          color: Colors.black,
-                        }}>
-                        Time slot:
-                      </Text>
-                      <Text
-                        style={{fontSize: 15, left: 5, color: Colors.black}}>
-                        {value.time}
-                      </Text>
+                    <Text style={{fontWeight: 'bold', color: Colors.black}}>
+                      {value.bookingId}
+                    </Text>
+                  </View>
+
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                    }}>
+                    <View
+                      style={{
+                        width: '70%',
+                        height: '100%',
+                        paddingVertical: 20,
+                        paddingHorizontal: 10,
+                      }}>
+                      <View>
+                        <Text
+                          style={{
+                            fontSize: 15,
+                            fontWeight: '900',
+                            color: Colors.purple,
+                          }}>
+                          {value.serviceName}
+                        </Text>
+                        <View style={{flexDirection: 'row'}}>
+                          <Text
+                            style={{
+                              fontSize: 15,
+                              fontWeight: '500',
+                              color: Colors.black,
+                            }}>
+                            Time slot:
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 15,
+                              left: 5,
+                              color: Colors.black,
+                            }}>
+                            {value.time}
+                          </Text>
+                        </View>
+                        <View style={{flexDirection: 'row'}}>
+                          <Text
+                            style={{
+                              fontSize: 15,
+                              fontWeight: '500',
+                              color: Colors.black,
+                            }}>
+                            Date
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 15,
+                              left: 5,
+                              color: Colors.black,
+                            }}>
+                            {value.bookingDate}
+                          </Text>
+                        </View>
+                        <View style={{flexDirection: 'row'}}>
+                          <Text
+                            style={{
+                              fontSize: 15,
+                              fontWeight: '500',
+                              color: Colors.black,
+                            }}>
+                            Price:
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 15,
+                              color: Colors.black,
+                              left: 4,
+                            }}>
+                            {value.amountToBePaid}
+                          </Text>
+                        </View>
+                      </View>
                     </View>
-                    <View style={{flexDirection: 'row'}}>
+                    <View
+                      style={{
+                        paddingHorizontal: 5,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: '30%',
+                      }}>
                       <Text
                         style={{
-                          fontSize: 15,
+                          fontSize: 14,
                           fontWeight: '500',
-                          color: Colors.black,
+                          color: '#0EC01B',
+                          color:
+                            value.bookingStatus === 'Pending'
+                              ? '#5E2DC4'
+                              : value.bookingStatus === 'Completed'
+                              ? '#0EC01B'
+                              : '#F21313',
                         }}>
-                        Date
+                        {value.bookingStatus}
                       </Text>
-                      <Text
-                        style={{fontSize: 15, left: 5, color: Colors.black}}>
-                        {value.bookingDate}
-                      </Text>
-                    </View>
-                    <View style={{flexDirection: 'row'}}>
-                      <Text
+                      <TouchableOpacity
+                        onPress={() =>
+                          navigation.navigate('Viewdetails', value.bookingId)
+                        }
                         style={{
-                          fontSize: 15,
-                          fontWeight: '500',
-                          color: Colors.black,
+                          backgroundColor: Colors.purple,
+                          padding: 5,
+                          top: 25,
+                          borderRadius: 7,
+                          alignItems: 'center',
+                          justifyContent: 'center',
                         }}>
-                        Price:
-                      </Text>
-                      <Text
-                        style={{fontSize: 15, color: Colors.black, left: 4}}>
-                        {value.amountToBePaid}
-                      </Text>
+                        <Text style={{color: Colors.white, fontWeight: '500'}}>
+                          View Details
+                        </Text>
+                      </TouchableOpacity>
                     </View>
                   </View>
                 </View>
-                <View
-                  style={{
-                    paddingHorizontal: 5,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: '30%',
-                  }}>
-                  <Text
-                    style={{
-                      fontSize: 14,
-                      fontWeight: '500',
-                      color: '#0EC01B',
-                      color:
-                        value.bookingStatus === 'Pending'
-                          ? '#5E2DC4'
-                          : value.bookingStatus === 'Completed'
-                          ? '#0EC01B'
-                          : '#F21313',
-                    }}>
-                    {value.bookingStatus}
-                  </Text>
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate('Viewdetails', value.bookingId)
-                    }
-                    style={{
-                      backgroundColor: Colors.purple,
-                      padding: 5,
-                      top: 25,
-                      borderRadius: 7,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}>
-                    <Text style={{color: Colors.white, fontWeight: '500'}}>
-                      View Details
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-          ))
+              )
+            ),
+          )
         )}
       </ScrollView>
     </SafeAreaView>

@@ -14,18 +14,25 @@ import Header from '../ReusableComponents/Header';
 import {_getStorage} from '../Assets/utils/storage/Storage';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import moment from 'moment/moment';
+import moment, {duration} from 'moment/moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import Toast from 'react-native-simple-toast';
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import {setBookingID} from '../features/updatedata/update.reducer';
 
 const {height, width} = Dimensions.get('window');
 
 const TimeAndSlot = props => {
+  const dispatch = useDispatch();
+  const cartId = useSelector(state => state.updateState.cartId);
+  // console.log('=========cartId (time and slot)=====', cartId);
   const [index, setIndex] = useState(1);
   const [index2, setIndex2] = useState('');
   const [selectionTime, setSelectionTime] = useState('');
+  console.log('selectionTime===', selectionTime);
   // const [timeslot, setTimeslot] = useState([]);
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
@@ -33,10 +40,52 @@ const TimeAndSlot = props => {
   const [getDate, setGetDate] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [iseeror, setIserror] = useState('');
-  const cartID = props.route.params;
+  const orderLoaction = props.route.params;
+  console.log(
+    '=========orderLoaction (time and slot params---)=====',
+    orderLoaction,
+  );
+
+  const navigation = useNavigation();
+  // console.log('hhhhhhhhhhhhhhh', cartID);
   const [_Isdate, set_Isdate] = useState('');
   const [selectedTimeFrame, setSelectedTimeFrame] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
+  const [username, setUsername] = useState(null);
+  const [userflatorStreet, setUserflatorStreet] = useState(null);
+  const [userlocation, setUserlocation] = useState(null);
+  const [userSaveas, setUserSaveas] = useState(null);
+  console.log('========_Isdate=========', _Isdate);
+  console.log(selectedTimeFrame, 'selectedTimeFrame====');
+
+  useEffect(() => {
+    getUserAddress();
+  }, []);
+
+  const getUserAddress = async () => {
+    console.log('hello');
+    try {
+      console.log('===============');
+      const location = await AsyncStorage.getItem('location');
+      setUserlocation(location);
+      const flatorStreet = await AsyncStorage.getItem('flatorStreet');
+      setUserflatorStreet(flatorStreet);
+      const name = await AsyncStorage.getItem('name');
+      setUsername(name);
+      const saveas = await AsyncStorage.getItem('saveas');
+      setUserSaveas(saveas);
+      if (username && userflatorStreet && userlocation !== null) {
+        console.log(
+          'get address from asyctorage',
+          username,
+          userlocation,
+          userflatorStreet,
+        );
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
 
   // const TimeSlot = [
   //   {
@@ -117,23 +166,23 @@ const TimeAndSlot = props => {
   ]);
 
   let morningTimeSlots = [
-    {startTime: '08:00', endTime: '09:00 AM', id: 1},
-    {startTime: '09:00', endTime: '10:00 AM', id: 2},
-    {startTime: '10:00', endTime: '11:00 AM', id: 3},
-    {startTime: '11:00', endTime: '12:00 AM', id: 4},
+    {startTime: '08:00 AM', endTime: '09:00 AM', id: 1},
+    {startTime: '09:00 AM', endTime: '10:00 AM', id: 2},
+    {startTime: '10:00 AM', endTime: '11:00 AM', id: 3},
+    {startTime: '11:00 AM', endTime: '12:00 PM', id: 4},
   ];
 
   let afternoonTimeSlots = [
-    {startTime: '12:00', endTime: '01:00 PM', id: 5},
-    {startTime: '01:00', endTime: '02:00 PM', id: 6},
-    {startTime: '02:00', endTime: '03:00 PM', id: 7},
-    {startTime: '03:00', endTime: '04:00 PM', id: 8},
+    {startTime: '12:00 PM', endTime: '01:00 PM', id: 5},
+    {startTime: '01:00 PM', endTime: '02:00 PM', id: 6},
+    {startTime: '02:00 PM', endTime: '03:00 PM', id: 7},
+    {startTime: '03:00 PM', endTime: '04:00 PM', id: 8},
   ];
   let eveningTimeSlots = [
-    {startTime: '04:00', endTime: '05:00 PM', id: 9},
-    {startTime: '05:00', endTime: '06:00 PM', id: 10},
-    {startTime: '06:00', endTime: '07:00 PM', id: 11},
-    {startTime: '07:00', endTime: '08:00 PM', id: 23},
+    {startTime: '04:00 PM', endTime: '05:00 PM', id: 9},
+    {startTime: '05:00 PM', endTime: '06:00 PM', id: 10},
+    {startTime: '06:00 PM', endTime: '07:00 PM', id: 11},
+    {startTime: '07:00 PM', endTime: '08:00 PM', id: 23},
   ];
 
   let dates = [
@@ -170,7 +219,6 @@ const TimeAndSlot = props => {
   var currentDate = moment().format('DD/MM/YYYY');
   const getCurrentTime = () => {
     const date = new Date();
-
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
     return `${hours}:${minutes}`;
@@ -190,31 +238,39 @@ const TimeAndSlot = props => {
       '0' +
       (date.getMonth() + 1)
     ).slice(-2)}/${date.getFullYear()}`;
-
     set_Isdate(formattedDate);
-
+    console.log('date--', formattedDate);
     hideDatePicker();
   };
 
   const conBooking = async () => {
     const token = await _getStorage('token');
     let book = {
-      cartId: cartID?.cartId,
+      cartId: cartId,
+      //  cartId: cartID?.cartId,
       start: startTime,
       end: endTime,
       bookingDate: _Isdate,
+      bookingLocation: orderLoaction.location,
+      address: orderLoaction.address,
+      pinCode: orderLoaction.pincode,
+      name: orderLoaction.name,
+      save_as: orderLoaction.saveas,
+      addressId: orderLoaction.addressId,
     };
-    console.log('book', book);
+
+    console.log('========book===========', book);
     axios
       .post(BASE_URL + `/booking`, book, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        console.log('add booking', res.data);
+        console.log('===========add booking 1=========', res.data);
         let bookinId = res?.data?.bookingId;
         let price = res?.data?.total;
         if (res.data) {
-          props.navigation.navigate('PaymentScreen', {bookinId, price});
+          props.navigation.replace('PaymentScreen', {bookinId, price});
+          console.log('===========add booking 2=========', res.data.bookingId);
         } else {
           console.log('else conditions');
         }
@@ -224,49 +280,75 @@ const TimeAndSlot = props => {
           'add booking catch error---+++++++++++=>',
           error?.response?.data?.message,
         );
-        setIserror(error?.response?.data?.message);
-        if (error.response?.data?.message == iseeror) {
-          Alert.alert('Booking Already Present, Please Clear You Cart having', [
-            {
-              text: 'Cancel',
-              onPress: () => console.log('Cancel Pressed'),
-              style: 'cancel',
-            },
-            {text: 'OK', onPress: () => props.navigation.goBack()},
-          ]);
+        if (
+          error?.response?.data?.message.includes(
+            'Booking already present. Please clear',
+          )
+        ) {
+          Toast.showWithGravity(
+            'Booking Already Present',
+            Toast.LONG,
+            Toast.BOTTOM,
+          );
+          navigation.navigate('Booking');
         }
+        // Toast.showWithGravity(
+        //   error.error?.response?.data?.message,
+        //   Toast.LONG,
+        //   Toast.BOTTOM,
+        // );
+
+        // setIserror(error?.response?.data?.message);
+        // if (error.response?.data?.message == iseeror) {
+        //   Alert.alert('Booking Already Present, Please Clear You Cart having', [
+        //     {
+        //       text: 'Cancel',
+        //       onPress: () => console.log('Cancel Pressed'),
+        //       style: 'cancel',
+        //     },
+        //     {text: 'OK', onPress: () => props.navigation.goBack()},
+        //   ]);
+        // }
       });
   };
 
   const chackDate = async () => {
     const token = await _getStorage('token');
     console.log('token', token);
-    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
-
+    // Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
     let dt = _Isdate.split('/');
-    let d = `${dt[1]}/${dt[0]}/${dt[2]}`;
-
+    console.log('dt', dt);
+    let d = `${dt[2]}-${dt[1]}-${dt[0]}`;
     const obj = {
       // timeSlot: startTime + '' + endTime,
       timeSlot: `${startTime}-${endTime}`,
       bookingDate: d,
     };
-    console.log('obj', obj);
+    console.log('object of  chackDate', obj);
     axios
       .post(BASE_URL + `/booking/verifyTimeSlot`, obj, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        console.log('chackDate', res.data);
-
-        Toast.showWithGravity(res.data?.message, Toast.LONG, Toast.BOTTOM);
-        conBooking();
+        console.log('=====chackDate======', res.data);
+        // Toast.showWithGravity(res.data?.message, Toast.LONG, Toast.BOTTOM);
+        if (res.data.message === 'Date is valid' && selectedTimeFrame) {
+          console.log(res.data.message, 'run conBooking====');
+          conBooking();
+        } else if (!selectedTimeFrame) {
+          console.log('======= not running  conBooking====');
+          Toast.showWithGravity(
+            'Please choose time slot',
+            Toast.SHORT,
+            Toast.BOTTOM,
+          );
+        }
       })
       .catch(error => {
         console.log('chackdate error', error.response.data.message);
         Toast.showWithGravity(
           error.response?.data?.message,
-          Toast.LONG,
+          Toast.SHORT,
           Toast.BOTTOM,
         );
       });
@@ -276,7 +358,6 @@ const TimeAndSlot = props => {
     let days = [];
     let finalDays = [];
     let daysRequired = 7;
-
     for (let i = 0; i < daysRequired; i++) {
       if (i == 0) {
         days.push(moment().format('dddd, D MMMM YYYY'));
@@ -284,15 +365,17 @@ const TimeAndSlot = props => {
         days.push(moment().add(i, 'days').format('dddd, D MMMM YYYY'));
       }
     }
-
     for (let x = 0; x < days.length; x++) {
       var dayLetter = moment(days[x], 'dddd, D MMMM YYYY').format('ddd');
       var dayNumber = moment(days[x], 'dddd, D MMMM YYYY').format('D');
+      var date = moment(days[x], 'dddd, D MMMM YYYY').format('DD/MM/YYYY');
       finalDays.push({
-        dayLetter: dayLetter,
-        dayNumber: dayNumber,
+        dayLetter,
+        dayNumber,
+        date,
       });
     }
+    console.log('finaldays', finalDays);
 
     return finalDays;
   };
@@ -300,12 +383,14 @@ const TimeAndSlot = props => {
   getNext7Days();
 
   const renderTimeSlotView = timeSlot => {
+    console.log('============timeSlot============', timeSlot);
     return (
       <TouchableOpacity
         style={{
-          padding: 10,
+          // padding: 10,
+          paddingVertical: 10,
           margin: 10,
-          width: 140,
+          width: 160,
           alignItems: 'center',
           justifyContent: 'center',
           borderColor: Colors.purple,
@@ -332,6 +417,7 @@ const TimeAndSlot = props => {
         }}>
         <Text
           style={{
+            fontSize: 13,
             color: selectionTime === timeSlot.id ? Colors.white : Colors.black,
           }}>
           {/* {`${timeSlot.startTime} - ${timeSlot.endTime}`} */}
@@ -370,30 +456,37 @@ const TimeAndSlot = props => {
               Address for service
             </Text>
             <View style={{flexDirection: 'row', width: '85%'}}>
-              <Text
+              <View
                 style={{
-                  color: Colors.white,
-                  fontWeight: '600',
-                  marginRight: 5,
-                  backgroundColor: Colors.purple,
+                  width: 70,
                   borderRadius: 5,
-                  paddingHorizontal: 5,
-                  textTransform: 'uppercase',
-                  fontSize: 12,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: Colors.purple,
+                  marginRight: 5,
                 }}>
-                Office
-              </Text>
+                <Text
+                  style={{
+                    color: Colors.white,
+                    fontWeight: '600',
+                    marginRight: 5,
+                    textTransform: 'uppercase',
+                    fontSize: 12,
+                  }}>
+                  {userSaveas}
+                </Text>
+              </View>
               <Text
                 numberOfLines={1}
                 style={{
                   color: Colors.black,
                   fontWeight: '600',
                 }}>
-                office 906, A-140, A Block Sector 62 Noida, Uttar Pradesh
+                {userlocation}
               </Text>
             </View>
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Editaddress')}>
             <Text
               style={{
                 color: Colors.purple,
@@ -426,7 +519,8 @@ const TimeAndSlot = props => {
             getNext7Days().map((date, i) => {
               return (
                 <TouchableOpacity
-                  onPress={() => setSelectedDate(date?.dayNumber)}
+                  key={i}
+                  onPress={() => set_Isdate(date?.date)}
                   style={{
                     paddingHorizontal: 5,
                     paddingVertical: 5,
@@ -437,16 +531,12 @@ const TimeAndSlot = props => {
                     backgroundColor: Colors.white,
                     borderRadius: 7,
                     backgroundColor:
-                      selectedDate === date?.dayNumber
-                        ? '#583592'
-                        : Colors.white,
+                      _Isdate === date?.date ? '#583592' : Colors.white,
                   }}>
                   <Text
                     style={{
                       color:
-                        selectedDate === date?.dayNumber
-                          ? Colors.white
-                          : Colors.black,
+                        _Isdate === date?.date ? Colors.white : Colors.black,
                       fontWeight: '500',
                     }}>
                     {date?.dayLetter}
@@ -454,9 +544,7 @@ const TimeAndSlot = props => {
                   <Text
                     style={{
                       color:
-                        selectedDate === date?.dayNumber
-                          ? Colors.white
-                          : Colors.black,
+                        _Isdate === date?.date ? Colors.white : Colors.black,
                       fontWeight: '500',
                     }}>
                     {date?.dayNumber}
@@ -589,7 +677,7 @@ const TimeAndSlot = props => {
                         color: currentTime ? Colors.white : Colors.purple,
                       }}>
                       {/* {`${timeSlot.startTime} - ${timeSlot.endTime}`} */}
-                      {`${timeSlot.startTime}`} - {timeSlot.endTime}
+                      {`${timeSlot.startTime}`} + {timeSlot.endTime}
                     </Text>
                   </TouchableOpacity>
                 );
@@ -599,6 +687,7 @@ const TimeAndSlot = props => {
             })}
           </View>
         </View>
+
         <View
           style={{
             alignItems: 'center',
@@ -696,8 +785,8 @@ const TimeAndSlot = props => {
                       width: 150,
                       alignItems: 'center',
                       justifyContent: 'center',
-                      backgroundColor:
-                        selectionTime === timeSlot.id ? '#0EC01B' : 'white',
+                      // backgroundColor:
+                      // selectionTime === timeSlot.id ? '#0EC01B' : 'white',
                     }}
                     // onPress={() =>
                     //   console.log(`${timeSlot.startTime} - ${timeSlot.endTime}`)
@@ -726,7 +815,6 @@ const TimeAndSlot = props => {
                   </TouchableOpacity>
                 );
               }
-
               return <View key={index}>{renderTimeSlotView(timeSlot)}</View>;
             })}
           </View>
@@ -794,15 +882,13 @@ const TimeAndSlot = props => {
           <Text style={{color: Colors.black, fontWeight: '600'}}>
             {'\u20B9'} 547
           </Text>
-          <Text style={{color: Colors.purple, fontWeight: '600'}}>
-            View Details
-          </Text>
         </View>
         <TouchableOpacity
           onPress={chackDate}
           // disabled={isdate ? false : true}
           style={{
-            backgroundColor: _Isdate ? Colors.purple : Colors.lightGray,
+            backgroundColor:
+              _Isdate && selectionTime ? Colors.purple : Colors.lightGray,
             justifyContent: 'center',
             borderRadius: 7,
             paddingHorizontal: 20,

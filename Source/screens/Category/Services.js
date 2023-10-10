@@ -27,8 +27,10 @@ import {_getStorage} from '../../Assets/utils/storage/Storage';
 import {BASE_URL} from '../../Assets/utils/Restapi/Config';
 import {BottomSheet} from 'react-native-btr';
 import Toast from 'react-native-simple-toast';
+import {useNavigation} from '@react-navigation/native';
 
 const Services = props => {
+  const navigation = useNavigation();
   const [visible, setVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [serId, setSerID] = useState('');
@@ -191,7 +193,7 @@ const Services = props => {
       .then(rep => {
         console.log('Silver-----', rep.data);
         if (rep.data) {
-          props.navigation.navigate('MyCartScreen');
+          navigation.replace('MyCartScreen');
           // get_mycart();
         }
         Toast.showWithGravity(rep.data.message, Toast.LONG, Toast.BOTTOM);
@@ -200,7 +202,7 @@ const Services = props => {
         console.log('Silver catch error', error.response.data.message);
         Toast.showWithGravity(
           error.response.data.message,
-          Toast.LONG,
+          Toast.SHORT,
           Toast.BOTTOM,
         );
       });
@@ -358,8 +360,8 @@ const Services = props => {
 
       <BottomSheet
         visible={visible}
-        onBackButtonPress={toggleBottomNavigationView}
-        onBackdropPress={toggleBottomNavigationView}>
+        onBackButtonPress={() => setVisible(false)}
+        onBackdropPress={() => setVisible(false)}>
         <View style={Styles.bottomNavigationView}>
           <View>
             <Text

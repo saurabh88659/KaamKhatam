@@ -12,6 +12,8 @@ import {
   StatusBar,
   Dimensions,
   RefreshControl,
+  BackHandler,
+  Modal,
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
@@ -27,36 +29,43 @@ import {BASE_URL} from '../../Assets/utils/Restapi/Config';
 import {_getStorage} from '../../Assets/utils/storage/Storage';
 import Geocoder from 'react-native-geocoding';
 import Geolocation from '@react-native-community/geolocation';
-import {useIsFocused} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import InternetInfoall from '../../Assets/utils/Handler/InternetInfoall';
 import LinearGradient from 'react-native-linear-gradient';
 import BeautyServices from './Component/BeautyServices';
+import Toast from 'react-native-simple-toast';
 
 import MapmyIndiaGL from 'mapmyindia-map-react-native-beta';
 import Mapmyindia from 'mapmyindia-restapi-react-native-beta';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+// import {Modal} from 'react-native-paper';
 
 const API_KEY = 'AIzaSyD3Uol_-mBQSaZgIfuzVVK1oHXqBHPkrZE';
 
-MapmyIndiaGL.setMapSDKKey('2f6202dc7a5105bc4e863818cf6bb8bd'); //place your mapsdkKey
-MapmyIndiaGL.setRestAPIKey('2f6202dc7a5105bc4e863818cf6bb8bd'); //your restApiKey
+MapmyIndiaGL.setMapSDKKey(' 8ee0b13464d3c2f63fb06806e1611675'); //place your mapsdkKey
+
+MapmyIndiaGL.setRestAPIKey(' 8ee0b13464d3c2f63fb06806e1611675'); //your restApiKey
+
 MapmyIndiaGL.setAtlasClientId(
-  '33OkryzDZsINNUKLtouGXDuMmyarRjHCpMqepZrjyJtohZ_anWX8b1U3lPyf3IVPPmR9grAaNwt1IKFH7RXrNg==',
+  '33OkryzDZsLNc-DO6bIDFY9l_l5dL23iJ6BJLxWsgCrFmfNqrCvjxEwLlpddSqKrYf0tkJe5lViOffRo8YDrwQ====',
 ); //your atlasClientId key
 MapmyIndiaGL.setAtlasClientSecret(
-  '33OkryzDZsINNUKLtouGXDuMmyarRjHCpMqepZrjyJtohZ_anWX8b1U3lPyf3IVPPmR9grAaNwt1IKFH7RXrNg==',
+  '33OkryzDZsLNc-DO6bIDFY9l_l5dL23iJ6BJLxWsgCrFmfNqrCvjxEwLlpddSqKrYf0tkJe5lViOffRo8YDrwQ====',
 ); //your atlasClientSecret key
 
-Mapmyindia.setRestApiKey('2f6202dc7a5105bc4e863818cf6bb8bd');
+Mapmyindia.setRestApiKey(' 8ee0b13464d3c2f63fb06806e1611675');
 
 Mapmyindia.setClientId(
   '33OkryzDZsINNUKLtouGXDuMmyarRjHCpMqepZrjyJtohZ_anWX8b1U3lPyf3IVPPmR9grAaNwt1IKFH7RXrNg==',
 );
 
 Mapmyindia.setClientSecret(
-  'lrFxI-iSEg9kBDbCfT1afavfbfpy6Rm4PAHGUT4MDFatmVzQTa3VI59QvrhU2dOLoebGhYGD4S6uZ4io5udOKfI2O6uSGJUC',
+  'lrFxI-lrFxI-iSEg8Ees5ciZfVNWogwrQ839ihm1r9GZUgnt9umUjxUwgYkll_UDKTarotOmyqYrESMXTt_DDBJ1fsNm8xPF0lFRWl',
 );
 
-function Home({navigation}) {
+function Home() {
+  const navigation = useNavigation();
   const [category, setCategory] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [bannerUrl, setBannerUrl] = useState([]);
@@ -68,10 +77,11 @@ function Home({navigation}) {
   const isFocused = useIsFocused();
   const [address, setAddress] = useState('');
   const [Coordinates, setCoordinates] = useState('');
-
+  console.log('<------home .js  coordinator----->', Coordinates);
   setTimeout(() => {
     setRfresh(false);
   }, 3000);
+  // const navigation=useNavigation();
 
   const geoCoding = async () => {
     Geocoder.init(API_KEY);
@@ -91,13 +101,15 @@ function Home({navigation}) {
   };
 
   useEffect(() => {
+    // TO RESET SEARCH ITEM=====
+    setSearchText('');
+
     if (isFocused) {
       getAllCategory();
       _getBanner();
       // geoCoding();
-
       _locationGeocoder();
-      _revGeoCodeApi;
+      //_revGeoCodeApi;
     }
   }, [isFocused]);
 
@@ -120,7 +132,6 @@ function Home({navigation}) {
 
   const getCategoryWiseService = async (id, name) => {
     const token = await _getStorage('token');
-
     axios
       .get(BASE_URL + `/category/categoryService/${id}`, {
         headers: {Authorization: `Bearer ${token}`},
@@ -172,14 +183,82 @@ function Home({navigation}) {
     });
   };
 
-  const _revGeoCodeApi = () => {
-    Mapmyindia.rev_geocode(
-      {lat: Coordinates.latitude, lng: Coordinates.longitude},
-      response => {
-        setAddress(response?.results[0]);
-        console.log('response++++++++++++++++++DG', response);
-      },
-    );
+  // useEffect(() => {
+  //   _revGeoCodeApi();
+  // }, []);
+
+  // const _revGeoCodeApi = async () => {
+  //   console.log('running _revGeoCodeApi on useeffcet  ');
+  //   Mapmyindia.rev_geocode(
+  //     {lat: Coordinates.latitude, lng: Coordinates.longitude},
+  //     response => {
+  //       setAddress(response?.results[0]);
+  //       console.log(
+  //         '++++++++++++++++++++++response++++++++++++++++++',
+  //         response,
+  //       );
+  //     },
+  //     await AsyncStorage.setItem('CompleteUserAddress', address),
+  //   );
+  // };
+  useEffect(() => {
+    getUserCrruentData();
+  }, []);
+
+  const getUserCrruentData = async () => {
+    const hh = await AsyncStorage.getItem('CompleteUserAddress');
+    console.log('hh home 201', hh);
+  };
+
+  //exit app on double click==============================
+  const [isExitModalVisible, setExitModalVisible] = useState(false);
+  const [isDoubleClick, setIsDoubleClick] = useState(false);
+  // console.log('===isExitModalVisible', isExitModalVisible);
+  // console.log('====isDoubleClick', isDoubleClick);
+
+  // let currentCount = 0;
+
+  // useEffect(() => {
+  //   if (isFocused) {
+  //     BackHandler.addEventListener('hardwareBackPress', backAction);
+  //     return () => {
+  //       BackHandler.removeEventListener('hardwareBackPress', backAction);
+  //     };
+  //   }
+  // }, [isFocused]);
+
+  // const backAction = () => {
+  //   if (navigation.isFocused()) {
+  //     const subscription = BackHandler.addEventListener(
+  //       'hardwareBackPress',
+  //       () => {
+  //         if (currentCount === 1) {
+  //           BackHandler.exitApp();
+  //           subscription.remove();
+  //           return true;
+  //         }
+  //         backPressHandler();
+  //         return true;
+  //       },
+  //     );
+  //     return true;
+  //   }
+  // };
+
+  const backPressHandler = () => {
+    if (currentCount < 1) {
+      Toast.showWithGravity(
+        'Press back again to exit',
+        Toast.SHORT,
+        Toast.BOTTOM,
+      );
+
+      currentCount += 1;
+    }
+    setTimeout(() => {
+      currentCount = 0;
+      console.log('set to 0');
+    }, 1000);
   };
 
   return (
@@ -188,11 +267,95 @@ function Home({navigation}) {
         backgroundColor={Colors.topNavbarColor}
         barStyle={Colors.white}
       />
-      <HeaderDrawer
+
+      {/* {=======================================} */}
+
+      <View
+        style={{
+          width: wp('100%'),
+          height: hp('7%'),
+          backgroundColor: Colors.topNavbarColor,
+          paddingHorizontal: wp('3%'),
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+          }}>
+          <TouchableOpacity
+            hitSlop={{top: 25, bottom: 25, left: 50, right: 50}}
+            onPress={() => navigation.openDrawer()}>
+            <FontAwesome5 name="bars" color={Colors.white} size={hp('3.5%')} />
+          </TouchableOpacity>
+
+          <View
+            // onPress={() => navigation.navigate('SearchService')}
+            style={{
+              height: 35,
+              backgroundColor: '#ECECEC',
+              paddingHorizontal: 15,
+              // display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              // marginVertical: 10,
+              marginHorizontal: wp('6%'),
+              borderRadius: 20,
+              width: '80%',
+            }}>
+            <FontAwesome5Icon name="search" size={17} color="grey" />
+            <TextInput
+              style={{paddingHorizontal: 9, color: Colors.black, height: 40}}
+              placeholderTextColor="grey"
+              placeholder="Search by Category, name...."
+              value={searchText}
+              onChangeText={text => setSearchText(text)}
+              // editable={false}
+            />
+          </View>
+
+          {/* <Text
+            numberOfLines={1}
+            style={{
+              width: wp('58%'),
+              fontWeight: 'bold',
+              fontSize: hp('2.5%'),
+              color: 'white',
+              paddingHorizontal: 20,
+            }}>
+          </Text> */}
+        </View>
+        {/* <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+          }}>
+          <Text
+            numberOfLines={2}
+            style={{
+              fontWeight: 'bold',
+              fontSize: hp('1.9%'),
+              marginRight: wp('4%'),
+              // right: '3%',
+              color: 'white',
+            }}>
+          
+          </Text>
+
+         
+        </TouchableOpacity> */}
+      </View>
+
+      {/* {================================} */}
+      {/* <HeaderDrawer
         Title="KAAM KHATAM"
-        location={address.subLocality}
+        //   location={address.subLocality}
         onPress={() => navigation.openDrawer()}
-      />
+      /> */}
+
       {isLoading ? (
         <View
           style={{
@@ -215,7 +378,8 @@ function Home({navigation}) {
             }}>
             {state}
           </Text> */}
-          <View
+          {/* <View
+            // onPress={() => navigation.navigate('SearchService')}
             style={{
               height: 44,
               backgroundColor: '#ECECEC',
@@ -234,15 +398,20 @@ function Home({navigation}) {
               placeholder="Search by Category, name...."
               value={searchText}
               onChangeText={text => setSearchText(text)}
+              // editable={false}
             />
-          </View>
+          </View> */}
+
           <ScrollView
             refreshControl={
-              <RefreshControl refreshing={refresh} onRefresh={_revGeoCodeApi} />
+              <RefreshControl
+                refreshing={refresh}
+                // onRefresh={_revGeoCodeApi}
+              />
             }
-            contentContainerStyle={{paddingBottom: '55%'}}
+            contentContainerStyle={{paddingBottom: '25%'}}
             showsVerticalScrollIndicator={false}>
-            <View>
+            {/* <View>
               <Swiper
                 showsButtons={false}
                 autoplay={true}
@@ -258,7 +427,7 @@ function Home({navigation}) {
                   </TouchableOpacity>
                 ))}
               </Swiper>
-            </View>
+            </View> */}
 
             <View
               style={{
@@ -268,7 +437,7 @@ function Home({navigation}) {
                 shadowOpacity: 0.4,
                 shadowRadius: 3,
                 // elevation: 5,
-                top: -25,
+                top: 5, //=============afterbanner
               }}>
               <View
                 style={{
@@ -386,9 +555,27 @@ function Home({navigation}) {
                 </TouchableOpacity>
               </View>
             </View>
+            {/* <View style={{backgroundColor: 'red', height: hp('20  %')}}> */}
+            <Swiper
+              showsButtons={false}
+              autoplay={true}
+              autoplayTimeout={10}
+              showsPagination={false}
+              style={styles.scroll}>
+              {bannerUrl.map((value, index) => (
+                <TouchableOpacity key={index}>
+                  <Image
+                    source={{uri: value.imageUrl}}
+                    style={styles.imgSlider}
+                  />
+                </TouchableOpacity>
+              ))}
+            </Swiper>
+            {/* </View> */}
           </ScrollView>
         </View>
       )}
+
       <InternetInfoall />
     </SafeAreaView>
   );
@@ -409,17 +596,18 @@ const styles = StyleSheet.create({
   },
   scroll: {
     backgroundColor: '#fff',
-    height: hp('37%'),
+    height: hp('25%'),
     borderRadius: 20,
+    resizeMode: 'cover',
   },
   imgSlider: {
     alignSelf: 'center',
     borderWidth: 2,
     borderColor: Colors.white,
     borderRadius: 10,
-    width: '96%',
-    height: '94%',
-    marginVertical: 3,
+    width: '95%',
+    height: '90%',
+    // marginVertical: 3,
     // resizeMode:'stretch'
     resizeMode: 'contain',
   },

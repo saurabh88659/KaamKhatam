@@ -21,7 +21,7 @@ import PaymentScreen from '../../screens/PaymentScreen';
 import RescheduleBooking from '../../screens/RescheduleBooking';
 import EditMobileNumber from '../../screens/EditMobileNumber';
 import MobileOtp from '../../screens/MobileOtp';
-import ChatBot from '../../screens/ChatBotScreen/ChatBot';
+import ChatB3ot from '../../screens/ChatBotScreen/ChatBot';
 import MyCartScreen from '../../screens/MyCartScreen';
 import Mybooking from '../../screens/Mybooking';
 import Mybooking2 from '../../screens/Mybooking2';
@@ -31,6 +31,11 @@ import ServicesRatingsilver from '../../screens/ServicesRatingsilver';
 import ServicesRatinggold from '../../screens/ServicesRatinggold';
 import ServicesRatingplatinum from '../../screens/ServicesRatingplatinum';
 import CancelBooking from '../../screens/CancelBooking';
+import Editaddress from '../../screens/Editaddress';
+import ChatBot from '../../screens/ChatBotScreen/ChatBot';
+import SearchService from '../../../SearchService';
+import AddWalletBalance from '../../screens/AddWalletBalance';
+import ConfirmationPayment from '../../screens/ConfirmationPayment';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +61,11 @@ function AuthStack() {
       <Stack.Screen
         name="EditMobileNumber"
         component={EditMobileNumber}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SearchService"
+        component={SearchService}
         options={{headerShown: false}}
       />
       <Stack.Screen
@@ -106,6 +116,11 @@ function AuthStack() {
         options={{headerShown: false}}
       />
       <Stack.Screen
+        name="AddWalletBalance"
+        component={AddWalletBalance}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
         name="CancelBooking"
         component={CancelBooking}
         options={{headerShown: false}}
@@ -113,6 +128,11 @@ function AuthStack() {
       <Stack.Screen
         name="Mywallet"
         component={Mywallet}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Editaddress"
+        component={Editaddress}
         options={{headerShown: false}}
       />
       <Stack.Screen
@@ -143,6 +163,12 @@ function AuthStack() {
       <Stack.Screen
         name="PaymentScreen"
         component={PaymentScreen}
+        options={{headerShown: false}}
+      />
+
+      <Stack.Screen
+        name="ConfirmationPayment"
+        component={ConfirmationPayment}
         options={{headerShown: false}}
       />
       <Stack.Screen

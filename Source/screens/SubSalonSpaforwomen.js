@@ -354,7 +354,7 @@ const SubSalonSpaforwomen = props => {
             </View>
           </View>
         </View>
-           <View style={{alignItems: 'center', top: '1%'}}>
+        <View style={{alignItems: 'center', top: '1%'}}>
           <CustomButton
             title={'Next'}
             bgColor={Colors.purple}

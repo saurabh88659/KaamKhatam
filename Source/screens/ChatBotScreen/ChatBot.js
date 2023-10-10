@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, FlatList, TextInput, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  TextInput,
+  TouchableOpacity,
+  ImageBackground,
+} from 'react-native';
 import Msg from './Message';
 import {data} from './Data';
 import Styles from './Styles';
@@ -8,6 +15,7 @@ import Header from '../../ReusableComponents/Header';
 import axios from 'axios';
 import {BASE_URL} from '../../Assets/utils/Restapi/Config';
 import {_getStorage} from '../../Assets/utils/storage/Storage';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 let chats = [];
 
@@ -16,16 +24,14 @@ const ChatBot = ({navigation}) => {
   const [chatList, setChatList] = useState('');
 
   // console.log('chatList----------', chatList);
-
   const getAnswer = q => {
     for (let i = 0; i < chatList.length; i++) {
-      if (chatList[i].question.includes(q.toLowerCase())) {
+      if (chatList[i]?.question?.includes(q.toLowerCase())) {
         chats = [...chats, {msg: chatList[i].answer, incomingMsg: true}];
         setChatList([...chats].reverse());
         return;
       }
     }
-
     chats = [
       ...chats,
       {msg: "Didn't recognise tour question", incomingMsg: true},
@@ -34,7 +40,8 @@ const ChatBot = ({navigation}) => {
     return;
   };
 
-  const onSendMsg = () => {
+  const onSendMsg = msg => {
+    console.log('msg 44====', msg);
     chats = [...chats, {msg: msg, sentMsg: true}];
     setChatList([...chats].reverse());
     setTimeout(() => {
@@ -54,7 +61,7 @@ const ChatBot = ({navigation}) => {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        console.log('response--->>>', res.data.chat);
+        console.log('-------response getChatApi ()--->>>', res.data.chat);
         setChatList(res.data.chat);
       })
       .catch(error => {
@@ -70,8 +77,9 @@ const ChatBot = ({navigation}) => {
         title="Chat Support"
         onPress={() => navigation.goBack('')}
       />
+
       <FlatList
-        style={{height: '87%', bottom: '3%'}}
+        style={{height: '87%', bottom: '3%', zIndex: -1}}
         inverted={true}
         keyExtractor={(_, index) => index.toString()}
         data={chatList}
@@ -83,22 +91,24 @@ const ChatBot = ({navigation}) => {
           />
         )}
       />
+
       <View style={Styles.typeMsgContainer}>
         <TextInput
-          placeholderTextColor="grey"
+          placeholderTextColor={Colors.lightpurple}
           style={Styles.typeMsgBox}
           value={msg}
-          placeholder="Type Here ..."
+          placeholder="Type here ..."
           onChangeText={val => setMsg(val)}
         />
         <TouchableOpacity
           style={[
             Styles.sendBtn,
-            {backgroundColor: msg ? Colors.purple : 'grey'},
+            {backgroundColor: Colors.purple},
+            // {backgroundColor: msg ? Colors.purple : 'grey'},
           ]}
           disabled={msg ? false : true}
-          onPress={() => onSendMsg()}>
-          <Text style={Styles.sendTxt}>send</Text>
+          onPress={() => onSendMsg(msg)}>
+          <FontAwesome name="send" color={'#fff'} size={21} />
         </TouchableOpacity>
       </View>
     </View>

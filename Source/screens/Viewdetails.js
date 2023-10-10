@@ -27,9 +27,11 @@ import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import {Rating} from 'react-native-ratings';
 import Toast from 'react-native-simple-toast';
 import {useIsFocused} from '@react-navigation/native';
+const {height, width} = Dimensions.get('window');
 
 const Viewdetails = props => {
   const bookinID = props.route.params;
+  // console.log()
   const [bookinviewdetails, setBookinviewdetails] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [modalVisible2, setModalVisible2] = useState(false);
@@ -42,12 +44,24 @@ const Viewdetails = props => {
   const [vendorId, setVendorId] = useState('');
   const [ratingvendor, setRatingvendor] = useState('');
   const [bookingId, setBookingId] = useState('');
+  const [cancellationReason, setCancellationReason] = useState('');
   const isFocused = useIsFocused();
-  const {width, height} = useWindowDimensions();
+  const [rateComponent, setRateComponent] = useState(false);
 
+  // const {width, height} = useWindowDimensions();
+  const [cancelServicemodalVisible, setCancelServicemodalVisible] =
+    useState(false);
+  console.log(cancellationReason, '========cancellationReason======');
+  console.log(
+    bookinviewdetails,
+    '========================bookinviewdetails(View Details)=======================',
+  );
+  console.log('===================rating=====================', rating);
+  const serviceCharge = (bookinviewdetails.amountToBePaid * 10) / 100;
   useEffect(() => {
     if (isFocused) {
       Viewdetailsbooking();
+      setRating('');
     }
   }, [isFocused]);
 
@@ -58,12 +72,16 @@ const Viewdetails = props => {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        console.log('Viewdetailsbooking', res.data.result);
+        console.log(
+          'Viewdetailsbooking---------------------------',
+          res.data.result,
+        );
         setBookinviewdetails(res.data.result);
         setServiceId(res.data.result.serviceId);
         setPackageId(res.data.result.packageId);
         setVendorId(res.data.result.vendorId);
         setBookingId(res.data.result.bookingId);
+        setCancellationReason(res.data?.result?.cancelledReason);
         setIsLoading(false);
       })
       .catch(error => {
@@ -86,12 +104,14 @@ const Viewdetails = props => {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        console.log('response rating', res.data);
+        console.log('response rating====', res.data);
         if (
           res.data.message == 'User have updated reviewed for this service' ||
           'User Reviewed successfully'
         ) {
           setModalVisible2(!modalVisible2);
+          setRateComponent(true);
+
           Toast.showWithGravity(
             'Thanks so much for sharing your experience with us.',
             Toast.LONG,
@@ -107,13 +127,33 @@ const Viewdetails = props => {
       })
       .catch(error => {
         console.log('rating catch error', error);
-        Toast.showWithGravity('Please comment', Toast.LONG, Toast.BOTTOM);
+        console.log(error.response.data.message);
+        if (error.response.data.message == '"star" must be a number') {
+          Toast.showWithGravity(
+            'Please select a star rating before submitting',
+            Toast.SHORT,
+            Toast.BOTTOM,
+          );
+        } else if (
+          error.response.data.message == '"comment" is not allowed to be empty'
+        ) {
+          Toast.showWithGravity(
+            'Please enter a comment before submitting',
+            Toast.SHORT,
+            Toast.BOTTOM,
+          );
+        }
+        // Toast.showWithGravity(
+        //   error.response.data.message,
+        //   Toast.SHORT,
+        //   Toast.BOTTOM,
+        // );
+        // Toast.showWithGravity('Please comment', Toast.LONG, Toast.BOTTOM);
       });
   };
 
   const reviewVendor = async () => {
     const token = await _getStorage('token');
-
     const vendorobj = {
       comment: vendorcomments,
       rating: ratingvendor,
@@ -147,7 +187,17 @@ const Viewdetails = props => {
       })
       .catch(error => {
         console.log(' vendor rate catch error ', error);
+        console.log(error.response.data.message);
+        Toast.showWithGravity(
+          error.response.data.message,
+          Toast.SHORT,
+          Toast.BOTTOM,
+        );
       });
+  };
+  const handleCancelService = () => {
+    props.navigation.navigate('CancelBooking', bookingId);
+    setCancelServicemodalVisible(!cancelServicemodalVisible);
   };
 
   return (
@@ -212,7 +262,7 @@ const Viewdetails = props => {
                     }}>
                     {bookinviewdetails.amountToBePaid}
                   </Text>
-                  <Text style={{left: 20, color: Colors.black}}>30 min</Text>
+                  {/* <Text style={{left: 20, color: Colors.black}}>30 min</Text> */}
                 </View>
                 <Text style={{color: Colors.black}}>
                   .....................................................
@@ -398,6 +448,8 @@ const Viewdetails = props => {
                     color:
                       bookinviewdetails.bookingStatus === 'Pending'
                         ? Colors.purple
+                        : bookinviewdetails.bookingStatus === 'Confirmed'
+                        ? '#0EC01B'
                         : bookinviewdetails.bookingStatus === 'Completed'
                         ? '#0EC01B'
                         : '#F21313',
@@ -525,8 +577,7 @@ const Viewdetails = props => {
                   marginHorizontal: 15,
                   marginTop: 15,
                 }}>
-                Lorem ipsum dolor sit amet, consectetur adipig el ipsum dolor
-                sit amet, consectetur
+                {cancellationReason}
               </Text>
               <View
                 style={{
@@ -570,9 +621,10 @@ const Viewdetails = props => {
             <View>
               <TouchableOpacity
                 onPress={() => setModalVisible2(true)}
+                disabled={rateComponent}
                 style={{
                   height: height / 16,
-                  backgroundColor: '#0EC01B',
+                  backgroundColor: rateComponent ? Colors.darkGray : '#0EC01B',
                   alignItems: 'center',
                   justifyContent: 'center',
                   borderRadius: 5,
@@ -665,9 +717,12 @@ const Viewdetails = props => {
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                      // onPress={cancelBooking}
-                      onPress={() =>
-                        props.navigation.navigate('CancelBooking', bookingId)
+                      onPress={
+                        () =>
+                          setCancelServicemodalVisible(
+                            !cancelServicemodalVisible,
+                          )
+                        // props.navigation.navigate('CancelBooking', bookingId)
                       }
                       style={{
                         height: height / 16,
@@ -697,6 +752,88 @@ const Viewdetails = props => {
           )}
         </ScrollView>
       )}
+
+      {/* {======================================modal====================================================} */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={cancelServicemodalVisible}
+        onRequestClose={() => {
+          setCancelServicemodalVisible(!cancelServicemodalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>
+              Would you like to process with the cancellation process?
+            </Text>
+
+            <Text
+              style={{
+                textAlign: 'center',
+                // top: -15,
+                fontWeight: '700',
+                fontSize: 17,
+                color: '#ff8c00',
+              }}>
+              A 10% service charge will apply
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginHorizontal: 30,
+                top: 20,
+              }}>
+              <TouchableOpacity
+                style={{
+                  borderColor: Colors.purple,
+                  backgroundColor: Colors.purple,
+                  height: height / 18,
+                  width: width / 3.3,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 4,
+                  borderWidth: 1,
+                }}
+                onPress={handleCancelService}>
+                <Text
+                  style={{
+                    color: 'white',
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                  }}>
+                  Yes
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  borderColor: Colors.purple,
+                  height: height / 18,
+                  width: width / 3.3,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 4,
+                  // borderColor: '#0EC01B',
+                  borderWidth: 1,
+                }}
+                onPress={() => {
+                  setCancelServicemodalVisible(!cancelServicemodalVisible);
+                }}>
+                <Text
+                  style={{
+                    color: Colors.purple,
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                  }}>
+                  No
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      {/* {===================================================modal=======================================} */}
+
       <Modal
         animationType="slide"
         transparent={true}
@@ -733,10 +870,13 @@ const Viewdetails = props => {
                 top: -15,
               }}>
               <Rating
-                defaultRating={2}
+                defaultRating={5}
                 onFinishRating={rating => {
                   // Alert.alert('Star Rating: ' + JSON.stringify(rating));
-                  setRating(JSON.stringify(rating));
+                  // setRating(JSON.stringify(rating));
+                  setRating(rating);
+
+                  console.log(rating);
                 }}
                 style={{paddingVertical: 10}}
               />
@@ -933,4 +1073,31 @@ const Viewdetails = props => {
 };
 
 export default Viewdetails;
-const Styles = StyleSheet.create({});
+
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.6)',
+  },
+  modalView: {
+    marginHorizontal: 20,
+    backgroundColor: 'white',
+    borderRadius: 5,
+    height: height / 4.8,
+    justifyContent: 'center',
+  },
+
+  textStyle: {
+    color: '#0EC01B',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    textAlign: 'center',
+    top: -15,
+    fontWeight: '700',
+    fontSize: 17,
+    color: Colors.black,
+  },
+});

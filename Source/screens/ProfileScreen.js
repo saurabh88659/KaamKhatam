@@ -25,22 +25,29 @@ import {getFirstLetters} from '../Assets/utils/Handler/NameAvatar';
 import {useIsFocused} from '@react-navigation/native';
 import InternetInfoall from '../Assets/utils/Handler/InternetInfoall';
 import {useDispatch} from 'react-redux';
-import {SetprofiledataupdateState} from '../features/updatedata/update.reducer';
+import {
+  SetprofiledataupdateState,
+  setProfileImgeUrl,
+} from '../features/updatedata/update.reducer';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
+import FontAwesome5 from 'react-native-vector-icons/MaterialIcons';
+import {StatusBar} from 'react-native';
 
 const {height, width} = Dimensions.get('window');
 const ProfileScreen = ({navigation, route}) => {
+  // const profileImgeUrl = useSelector(state => state.updateState.profileImgeUrl);
   const dispatch = useDispatch();
   const [profileData, setProfileData] = useState('');
   const [visible, setVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
   const [imageUrlPath, setImageUrlPath] = useState(null);
   const [imageData, setImageData] = useState(null);
   const [profileUrl, setProfileUrl] = useState('');
-  const [isImage, setIsImage] = useState('');
+  const [, setIsImage] = useState('');
   const [onUpdateImage, setOnUpdateImage] = useState(Math.random());
-
-  console.log('====isImage', isImage);
 
   const isFocused = useIsFocused();
   useEffect(() => {
@@ -94,8 +101,9 @@ const ProfileScreen = ({navigation, route}) => {
   const _updateProfilePic = async () => {
     setOnUpdateImage(Math.random());
     const token = await _getStorage('token');
-    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
+    Toast.showWithGravity('Please wait...', Toast.SHORT, Toast.BOTTOM);
     console.log('=======imageData==========', imageData);
+
     var filename = imageData?.path?.replace(/^.*[\\\/]/, '');
     console.log('=======filename', filename);
     const profilePic = new FormData();
@@ -120,6 +128,9 @@ const ProfileScreen = ({navigation, route}) => {
         setIsLoading(false);
         setImageData(null);
         setImageUrlPath(null);
+        // dispatch(setProfileImgeUrl(res.data.imageUrl))
+        dispatch(setProfileImgeUrl(profilePic));
+
         console.log('Profile image--------->>', res.data.imageUrl);
 
         Toast.showWithGravity(
@@ -190,7 +201,10 @@ const ProfileScreen = ({navigation, route}) => {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(val => {
-        console.log('Profile data (190)', val);
+        console.log(
+          'Profile data (190) profile screen',
+          val.data?.result?.imageUrl,
+        );
         console.log('hey', val.data?.result?.imageUrl);
         // setImageUrlPath(val.data?.result?.imageUrl);
         val.data?.result?.imageUrl
@@ -202,7 +216,7 @@ const ProfileScreen = ({navigation, route}) => {
         console.log('profile response', val.data.result);
       })
       .catch(e => {
-        console.log('in catch');
+        console.log('====in catch====');
         console.log(e.response.data);
         setIsLoading(false);
       });
@@ -210,12 +224,46 @@ const ProfileScreen = ({navigation, route}) => {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-      <Header
-        bgColor={Colors.topNavbarColor}
-        color={Colors.white}
-        title="My Profile"
-        onPress={() => navigation.goBack('')}
-      />
+      <StatusBar translucent={true} backgroundColor={'transparent'} />
+      <LinearGradient
+        colors={['#5E2DC4', '#320F52']}
+        start={{x: 0, y: 0.5}}
+        end={{x: 1.0, y: 0.5}}
+        // style={{backgroundColor: 'grey', flex: 0.4}}
+      >
+        <SafeAreaView
+          style={{
+            width: wp('100%'),
+            height: hp('8%'),
+            // backgroundColor: Colors.topNavbarColor,
+            paddingHorizontal: wp('4%'),
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginTop: hp('4.5%'),
+          }}>
+          <TouchableOpacity
+            style={{width: 20}}
+            onPress={() => navigation.goBack('')}>
+            <FontAwesome5
+              name="keyboard-backspace"
+              color={Colors.white}
+              size={hp('3.7%')}
+            />
+          </TouchableOpacity>
+          <View>
+            <Text
+              style={{
+                fontWeight: 'bold',
+                fontSize: hp('2.7%'),
+                color: Colors.white,
+                marginLeft: wp('5%'),
+              }}>
+              My Profile
+            </Text>
+          </View>
+        </SafeAreaView>
+      </LinearGradient>
+
       {isLoading ? (
         <View
           style={{
@@ -293,7 +341,12 @@ const ProfileScreen = ({navigation, route}) => {
                 </Text>
                 <TouchableOpacity
                   onPress={() => navigation.navigate('EditProfileScreen')}
-                  style={{top: -55, left: 8}}>
+                  style={{
+                    top: -55,
+                    left: 8,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
                   <Image
                     source={require('../Assets/Images/Iconawesomeedit.png')}
                     style={Styles.editicone}
@@ -303,6 +356,57 @@ const ProfileScreen = ({navigation, route}) => {
             </LinearGradient>
             <View style={{backgroundColor: 'white', flex: 0.6, marginTop: 6}}>
               <View style={Styles.box}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginVertical: 20,
+                    marginHorizontal: 20,
+                  }}>
+                  <Image
+                    source={require('../Assets/Images/usericone222.png')}
+                    // source={require('../Assets/Images/phonereceiversilhouette.png')}
+                    style={{height: 20, width: 20}}
+                  />
+                  <Text
+                    style={{
+                      paddingHorizontal: 20,
+                      fontWeight: '500',
+                      color: Colors.black,
+                    }}>
+                    {/* {profileData.phone} */}
+                    {profileData.firstName + ' ' + profileData.lastName}
+                  </Text>
+                </View>
+              </View>
+              <View style={Styles.box2}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginVertical: 20,
+                    marginHorizontal: 20,
+                  }}>
+                  <Image
+                    // source={require('../Assets/Images/usericone222.png')}
+                    source={require('../Assets/Images/emailicone.png')}
+                    style={{height: 20, width: 20}}
+                  />
+
+                  <Text
+                    style={{
+                      paddingHorizontal: 20,
+                      fontWeight: '500',
+                      color: Colors.black,
+                    }}>
+                    {/* {profileData.gender}
+                     */}
+                    {/* {profileData.firstName + ' ' + profileData.lastName} */}
+                    {profileData.email}
+                  </Text>
+                </View>
+              </View>
+              <View style={Styles.box2}>
                 <View
                   style={{
                     flexDirection: 'row',
@@ -324,52 +428,7 @@ const ProfileScreen = ({navigation, route}) => {
                   </Text>
                 </View>
               </View>
-              <View style={Styles.box2}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginVertical: 20,
-                    marginHorizontal: 20,
-                  }}>
-                  <Image
-                    source={require('../Assets/Images/usericone222.png')}
-                    style={{height: 20, width: 20}}
-                  />
-
-                  <Text
-                    style={{
-                      paddingHorizontal: 20,
-                      fontWeight: '500',
-                      color: Colors.black,
-                    }}>
-                    {profileData.gender}
-                  </Text>
-                </View>
-              </View>
-              <View style={Styles.box2}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginVertical: 20,
-                    marginHorizontal: 20,
-                  }}>
-                  <Image
-                    source={require('../Assets/Images/emailicone.png')}
-                    style={{height: 20, width: 20}}
-                  />
-                  <Text
-                    style={{
-                      paddingHorizontal: 20,
-                      fontWeight: '500',
-                      color: Colors.black,
-                    }}>
-                    {profileData.email}
-                  </Text>
-                </View>
-              </View>
-              <View style={Styles.box2}>
+              {/* <View style={Styles.box2}>
                 <View
                   style={{
                     flexDirection: 'row',
@@ -390,8 +449,8 @@ const ProfileScreen = ({navigation, route}) => {
                     {profileData.dateOfBirth}
                   </Text>
                 </View>
-              </View>
-              <View style={Styles.box2}>
+              </View> */}
+              {/* <View style={Styles.box2}>
                 <View
                   style={{
                     flexDirection: 'row',
@@ -412,7 +471,7 @@ const ProfileScreen = ({navigation, route}) => {
                     {profileData.city}
                   </Text>
                 </View>
-              </View>
+              </View> */}
             </View>
             {imageData && (
               <TouchableOpacity
@@ -539,8 +598,9 @@ const Styles = StyleSheet.create({
     width: width / 15,
   },
   editicone: {
-    height: 20,
-    width: 20,
+    height: 15,
+    width: 15,
+    alignSelf: 'center',
   },
   editicone2: {
     height: 20,

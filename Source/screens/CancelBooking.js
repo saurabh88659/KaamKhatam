@@ -4,8 +4,9 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
 import {RadioButton} from 'react-native-paper';
@@ -15,10 +16,22 @@ import Toast from 'react-native-simple-toast';
 import axios from 'axios';
 
 export default function CancelBooking(props) {
-  const [checked, setChecked] = useState(0);
-  const bookingid = props.route.params;
+  const [checked, setChecked] = useState('');
+  const [ButtonLoading, setButtonLoading] = useState(false);
 
-  const Srtdata = [
+  // const getToken = async () => {
+  //   const token = await _getStorage('token');
+  //   console.log('token', token);
+  // };
+  // useEffect(() => {
+  //   getToken();
+  // }, []);
+
+  console.log('checked ==', checked);
+  const bookingid = props.route.params;
+  console.log('bookingid in CancelBooking scrren 20', bookingid);
+
+  const ReasonData = [
     'Not available on that day',
     'Not available on that time',
     'Change of Plan3',
@@ -31,7 +44,8 @@ export default function CancelBooking(props) {
 
   const cancelBooking = async () => {
     const token = await _getStorage('token');
-    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
+    setButtonLoading(true);
+    // Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
     let obj = {
       bookingId: bookingid,
       cancelledReason: checked,
@@ -41,17 +55,34 @@ export default function CancelBooking(props) {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        console.log('response', res.data);
-        Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
+        setButtonLoading(false);
+        console.log('response of cancelBooking=====', res.data);
+        Toast.showWithGravity(res.data.message, Toast.SHORT, Toast.BOTTOM);
         props.navigation.goBack();
       })
       .catch(error => {
-        console.log('cancel booking catch error', error.response.data.message);
-        Toast.showWithGravity(
+        setButtonLoading(false);
+
+        console.log(
+          'cancel booking catch error===51',
           error.response.data.message,
-          Toast.LONG,
-          Toast.BOTTOM,
         );
+        if (
+          error.response.data.message ==
+          '"cancelledReason" is not allowed to be empty'
+        ) {
+          console.log('runnn ');
+          Toast.showWithGravity(
+            'Kindly provide a reason for canceling the booking',
+            Toast.CENTER,
+            Toast.BOTTOM,
+          );
+        }
+        // Toast.showWithGravity(
+        //   error.response.data.message,
+        //   Toast.CENTER,
+        //   Toast.BOTTOM,
+        // );
       });
   };
 
@@ -72,7 +103,7 @@ export default function CancelBooking(props) {
             elevation: 10,
             justifyContent: 'center',
           }}>
-          {Srtdata.map((value, index) => (
+          {ReasonData.map((value, index) => (
             <RadioButton.Item
               color={Colors.purple}
               key={index}
@@ -86,6 +117,7 @@ export default function CancelBooking(props) {
         <TouchableOpacity
           onPress={cancelBooking}
           style={{
+            height: 50,
             backgroundColor: Colors.purple,
             alignItems: 'center',
             justifyContent: 'center',
@@ -94,14 +126,18 @@ export default function CancelBooking(props) {
             marginVertical: 10,
             paddingVertical: 10,
           }}>
-          <Text
-            style={{
-              color: 'white',
-              fontWeight: 'bold',
-              fontSize: 16,
-            }}>
-            Submit
-          </Text>
+          {!ButtonLoading ? (
+            <Text
+              style={{
+                color: 'white',
+                fontWeight: 'bold',
+                fontSize: 16,
+              }}>
+              Submit
+            </Text>
+          ) : (
+            <ActivityIndicator size={26} color={'#fff'} />
+          )}
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>

@@ -13,7 +13,6 @@ import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 import Toast from 'react-native-simple-toast';
 import InternetInfoall from '../Assets/utils/Handler/InternetInfoall';
-import {width} from 'deprecated-react-native-prop-types/DeprecatedImagePropType';
 
 // const API_KEY = 'AIzaSyD3Uol_-mBQSaZgIfuzVVK1oHXqBHPkrZE';
 
@@ -34,19 +33,18 @@ const Location = props => {
 
   const _getgeolocations = async () => {
     const token = await _getStorage('token');
-    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
-
+    Toast.showWithGravity('Please wait...', Toast.SHORT, Toast.BOTTOM);
     const locobj = {
       latitude: latitude,
       longitude: longitude,
     };
-
     console.log('locobj locations', locobj);
     axios
       .put(BASE_URL + `/coordinates`, locobj, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(async res => {
+        console.log('+++++=====location api res=======++++', res.data.message);
         if (res.data.message === 'User coordinates Updated Successfully') {
           Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
           props.navigation.navigate('DrowerNavigation');
@@ -57,7 +55,8 @@ const Location = props => {
         }
       })
       .catch(error => {
-        Toast.showWithGravity(error.data.message, Toast.LONG, Toast.BOTTOM);
+        console.log('+++++location error++++0-0---', error);
+        // Toast.showWithGravity(error.data.message, Toast.LONG, Toast.BOTTOM);
         console.log('catch locations error', error);
       });
   };

@@ -11,6 +11,7 @@ import {
   ScrollView,
   RefreshControl,
   Dimensions,
+  Modal,
 } from 'react-native';
 import Colors from '../Assets/Constants/Colors';
 import {
@@ -24,14 +25,17 @@ import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import Geolocation from '@react-native-community/geolocation';
 import Toast from 'react-native-simple-toast';
 import Header from '../ReusableComponents/Header';
-import {useIsFocused} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import InternetInfoall from '../Assets/utils/Handler/InternetInfoall';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Feather from 'react-native-vector-icons/Feather';
+import {useDispatch} from 'react-redux';
+import {setCartId} from '../features/updatedata/update.reducer';
 
 const {height, width} = Dimensions.get('window');
-
 const MyCartScreen = props => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [mycartname, setMycartname] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [delmess, setDelmess] = useState('');
@@ -39,6 +43,7 @@ const MyCartScreen = props => {
   const [longitude, setLongitude] = useState(0);
   const [refresh, setRfresh] = useState(false);
   const isFocused = useIsFocused();
+  const [deletemodalVisible, setDeletemodalVisible] = useState(false);
 
   setTimeout(() => {
     setRfresh(false);
@@ -59,7 +64,7 @@ const MyCartScreen = props => {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        console.log('my cart--------------.', res.data);
+        console.log('=========my cart--------------.', res.data);
         setMycartname(res.data.newResult);
         setDelmess('');
         setIsLoading(false);
@@ -78,17 +83,16 @@ const MyCartScreen = props => {
 
   const delete_My_Cart = async () => {
     const token = await _getStorage('token');
-    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
-
+    // Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
     console.log(token);
     console.log('mycartname', mycartname.cartId);
-
     axios
       .delete(BASE_URL + `/cart`, {
         headers: {Authorization: `Bearer ${token}`},
         data: {cartId: mycartname.cartId},
       })
       .then(rep => {
+        setDeletemodalVisible(!deletemodalVisible);
         get_mycart();
         Toast.showWithGravity(rep.data?.message, Toast.LONG, Toast.BOTTOM);
       })
@@ -119,10 +123,11 @@ const MyCartScreen = props => {
       .then(res => {
         console.log('Locations', res.data);
         if (res.data) {
-          // props.navigation.navigate('Editaddress');
-          props.navigation.navigate('TimeAndSlot', {
+          dispatch(setCartId(mycartname.cartId));
+          props.navigation.navigate('Editaddress');
+          /* props.navigation.navigate('TimeAndSlot', {
             cartId: mycartname.cartId,
-          });
+          }); */
         } else {
           console.log('else conditions');
         }
@@ -136,6 +141,8 @@ const MyCartScreen = props => {
     return amount + amount * 0.18;
   };
 
+  const HideDeleteCartModal = () => {};
+
   return (
     <SafeAreaView style={styles.container}>
       {/* <Header
@@ -144,10 +151,7 @@ const MyCartScreen = props => {
         title="My Cart"
         onPress={() => props.navigation.goBack('')}
       /> */}
-      <HeaderDrawer
-        Title="My Cart"
-        onPress={() => props?.navigation.toggleDrawer()}
-      />
+      <HeaderDrawer Title="My Cart" onPress={() => navigation.toggleDrawer()} />
       <ScrollView
         refreshControl={
           <RefreshControl refreshing={refresh} onRefresh={get_mycart} />
@@ -373,7 +377,10 @@ const MyCartScreen = props => {
                 }}>
                 <TouchableOpacity>
                   <MaterialCommunityIcons
-                    onPress={delete_My_Cart}
+                    // onPress={delete_My_Cart}
+                    onPress={() => {
+                      setDeletemodalVisible(!deletemodalVisible);
+                    }}
                     name="delete"
                     color={Colors.black}
                     size={18}
@@ -487,6 +494,80 @@ const MyCartScreen = props => {
           </View>
         )}
       </ScrollView>
+      {/* {======================================modal====================================================} */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={deletemodalVisible}
+        onRequestClose={() => {
+          setDeletemodalVisible(!deletemodalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>
+              Do you want to remove this service?
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginHorizontal: 30,
+                top: 20,
+              }}>
+              <TouchableOpacity
+                style={{
+                  borderColor: Colors.purple,
+                  backgroundColor: Colors.purple,
+                  height: height / 18,
+                  width: width / 3.3,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 4,
+                  borderWidth: 1,
+                }}
+                // onPress={() => {
+                //   setModalVisible(!modalVisible);
+                //   props.navigation.navigate('Login');
+                // }}
+                onPress={delete_My_Cart}>
+                <Text
+                  style={{
+                    color: 'white',
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                  }}>
+                  Yes
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  borderColor: Colors.purple,
+                  height: height / 18,
+                  width: width / 3.3,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 4,
+                  // borderColor: '#0EC01B',
+                  borderWidth: 1,
+                }}
+                onPress={() => {
+                  setDeletemodalVisible(!deletemodalVisible);
+                }}>
+                <Text
+                  style={{
+                    color: Colors.purple,
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                  }}>
+                  No
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      {/* {===================================================modal=======================================} */}
+
       <InternetInfoall />
     </SafeAreaView>
   );
@@ -576,5 +657,30 @@ const styles = StyleSheet.create({
   innerImage: {
     width: wp('25%'),
     height: hp('25%'),
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.6)',
+  },
+  modalView: {
+    marginHorizontal: 20,
+    backgroundColor: 'white',
+    borderRadius: 5,
+    height: height / 4.8,
+    justifyContent: 'center',
+  },
+
+  textStyle: {
+    color: '#0EC01B',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    textAlign: 'center',
+    top: -15,
+    fontWeight: '700',
+    fontSize: 17,
+    color: Colors.black,
   },
 });

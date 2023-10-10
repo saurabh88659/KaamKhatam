@@ -50,7 +50,6 @@ const Subcategory = props => {
     const token = await _getStorage('token');
     // setIsLoading(true);
     console.log('name---------------------------', name);
-
     axios
       .get(BASE_URL + `/category/subcategoryService/${id}`, {
         headers: {Authorization: `Bearer ${token}`},

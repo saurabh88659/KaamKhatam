@@ -18,12 +18,14 @@ export default function TranscationsScreen() {
 
   useEffect(() => {
     _getPaymentHistory();
+    // getPaymentHistory();
   }, []);
 
   setTimeout(() => {
     setRfresh(false);
   }, 3000);
 
+  //old api----------of hostory
   const _getPaymentHistory = async () => {
     const token = await _getStorage('token');
     axios
@@ -39,8 +41,31 @@ export default function TranscationsScreen() {
         }
       })
       .catch(error => {
-        console.log('Payment History catch error', error.response);
+        console.log('Payment History catch error', error.response.data.message);
         // setIsmessage(error.respone.data);
+      });
+  };
+  //newApi of history===========================
+  const getPaymentHistory = async () => {
+    const token = await _getStorage('token');
+    console.log(token, 'token-----------------------getPayment');
+    axios
+      .put(BASE_URL + `/addPaymentHistoryPag`, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(res => {
+        // if (res.data.message === 'No History Record') {
+        setIsmessage(res.data.message);
+        // } else {
+        // setHistorytra(res.data.history.payment_history);
+        console.log('=============Historytran==============', res.data.message);
+        // }
+      })
+      .catch(error => {
+        console.log(
+          'Payment History catch error  63',
+          error.response.data.message,
+        );
       });
   };
 

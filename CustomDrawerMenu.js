@@ -10,6 +10,7 @@ import {
   Dimensions,
   Alert,
   ImageBackground,
+  Linking,
 } from 'react-native';
 import {DrawerContentScrollView} from '@react-navigation/drawer';
 import {_getStorage} from './Source/Assets/utils/storage/Storage';
@@ -21,24 +22,45 @@ import {Rating} from 'react-native-ratings';
 import Toast from 'react-native-simple-toast';
 import {getFirstLetters} from './Source/Assets/utils/Handler/NameAvatar';
 import {useSelector} from 'react-redux';
+import {useIsFocused} from '@react-navigation/native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const {height, width} = Dimensions.get('screen');
 
 const CustomDrawerMenu = props => {
+  const isFocused = useIsFocused();
+
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
   const [profileData, setProfileData] = useState({});
   const [imgUrl, setImagee] = useState();
-  const [onUpdateImage, setOnUpdateImage] = useState(Math.random());
+  const [localIamgeURl, setLocalIamgeURl] = useState(null);
+  const [onUpdateImage, setOnUpdateImage] = useState('');
   const UpdateState = useSelector(
     state => state.updateState.profiledataupdateState,
   );
   console.log('at drawer== ', UpdateState);
 
   useEffect(() => {
-    // console.log("useEffect----")
+    console.log('---------useEffect----');
     profileapi();
-  }, [imgUrl, UpdateState]);
+  }, [imgUrl, isFocused]);
+
+  console.log('===drawer imgUrl', imgUrl);
+
+  useEffect(() => {
+    getProfileImage();
+  }, []);
+
+  const getProfileImage = async () => {
+    if (imgUrl) {
+      const ProfileImage = await AsyncStorage.getItem('ProfileImage');
+      console.log(ProfileImage, 'ProfileImage');
+    }
+  };
 
   const profileapi = async () => {
     setOnUpdateImage(Math.random());
@@ -49,8 +71,15 @@ const CustomDrawerMenu = props => {
       })
       .then(val => {
         setProfileData(val.data.result);
-        setImagee(val.data.result.imageUrl);
-        console.log('profile drower>', val.data.result.imageUrl);
+        setImagee(val.data.result?.imageUrl);
+        if (val.data.result?.imageUrl) {
+          AsyncStorage.setItem('ProfileImage', val.data.result?.imageUrl);
+        }
+        console.log(
+          'Drawer  .data.result-------------',
+          val.data.result.imageUrl,
+        );
+        // console.log('profile drower>', val.data.result.imageUrl);
       })
       .catch(error => {
         console.log(' profile drower in catch', error.response.data);
@@ -66,7 +95,6 @@ const CustomDrawerMenu = props => {
 
   const ratingCompleted = () => {
     Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
-
     setTimeout(() => {
       setModalVisible2(!modalVisible2);
       Toast.showWithGravity(
@@ -77,6 +105,11 @@ const CustomDrawerMenu = props => {
     }, 2000);
   };
   console.log('----img url ---', imgUrl);
+  const Rating = () => {
+    Linking.openURL(
+      'https://play.google.com/store/apps/details?id=com.allonone',
+    );
+  };
   return (
     <ScrollView style={{flex: 1, backgroundColor: Colors.white}}>
       <DrawerContentScrollView
@@ -97,7 +130,7 @@ const CustomDrawerMenu = props => {
             }}
             onPress={() => props.navigation.navigate('ProfileScreen')}>
             {console.log('ddddddddddddddddddddddddddddd', imgUrl)}
-            {profileData ? (
+            {profileData?.imageUrl ? (
               <Image
                 style={{
                   height: '100%',
@@ -105,7 +138,8 @@ const CustomDrawerMenu = props => {
                   borderRadius: 100,
                   resizeMode: 'cover',
                 }}
-                source={{uri: imgUrl + '?' + onUpdateImage}}
+                source={{uri: profileData?.imageUrl + '?' + onUpdateImage}}
+                // source={{uri: profileData?.imageUrl}}
               />
             ) : (
               <Text
@@ -117,7 +151,6 @@ const CustomDrawerMenu = props => {
                 {getFirstLetters(profileData?.firstName || '')}
               </Text>
             )}
-
             {/* <Text style={{color: '#000'}}>
               {getFirstLetters(profileData?.firstName || '')}
             </Text> */}
@@ -161,34 +194,86 @@ const CustomDrawerMenu = props => {
             </TouchableOpacity>
           </View> */}
 
+          {/* /=========================== */}
           <View>
             <View style={Styles.linesstyles}></View>
             <TouchableOpacity
               style={Styles.constyles}
-              onPress={() => props.navigation.navigate('Support')}>
-              {/* // onPress={() => props.navigation.navigate('ChatBot')}> */}
-              <Image
-                source={require('./Source/Assets/Images/headphonesicone.png')}
-                style={Styles.iconestyles}
+              onPress={() => props.navigation.navigate('Mybooking')}>
+              <FontAwesome5
+                name="calendar-alt"
+                color={Colors.black}
+                size={22}
               />
-              <Text style={Styles.textstyles1}>Support</Text>
+              {/* <Image
+                source={require('./Source/Assets/Images/information-buttonicone.png')}
+                style={Styles.iconestyles}
+              /> */}
+              <Text style={Styles.textstyles1}>My booking</Text>
             </TouchableOpacity>
           </View>
+
           <View>
             <View style={Styles.linesstyles}></View>
             <TouchableOpacity
-              onPress={() => {
-                setModalVisible2(true);
-                props.navigation.closeDrawer('Home');
-              }}
-              style={Styles.constyles}>
-              <Image
-                source={require('./Source/Assets/Images/Bstaricone.png')}
+              style={Styles.constyles}
+              onPress={() => props.navigation.navigate('Mywallet')}>
+              {/* <Image
+                source={require('./Source/Assets/Images/information-buttonicone.png')}
                 style={Styles.iconestyles}
-              />
-              <Text style={Styles.textstyles1}>Rate the App</Text>
+              /> */}
+              <Entypo name="wallet" color={Colors.black} size={22} />
+              <Text style={Styles.textstyles1}>My Wallet</Text>
             </TouchableOpacity>
           </View>
+
+          <View>
+            <View style={Styles.linesstyles}></View>
+            <TouchableOpacity style={Styles.constyles} onPress={Rating}>
+              {/* <Image
+                source={require('./Source/Assets/Images/information-buttonicone.png')}
+                style={Styles.iconestyles}
+              /> */}
+              <FontAwesome name="star" color={Colors.black} size={22} />
+
+              <Text style={Styles.textstyles1}>Rating</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View>
+            <View style={Styles.linesstyles}></View>
+            <TouchableOpacity
+              style={Styles.constyles}
+              // onPress={() => props.navigation.navigate('Abouts')}
+            >
+              {/* <Image
+                source={require('./Source/Assets/Images/information-buttonicone.png')}
+                style={Styles.iconestyles}
+              /> */}
+
+              <FontAwesome5
+                name="hands-helping"
+                color={Colors.black}
+                size={19}
+              />
+
+              <Text style={Styles.textstyles1}>Register as Partner</Text>
+            </TouchableOpacity>
+          </View>
+          {/* {===========================} */}
+          <View>
+            <View style={Styles.linesstyles}></View>
+            <TouchableOpacity
+              style={Styles.constyles}
+              onPress={() => props.navigation.navigate('Abouts')}>
+              <Image
+                source={require('./Source/Assets/Images/information-buttonicone.png')}
+                style={Styles.iconestyles}
+              />
+              <Text style={Styles.textstyles1}>About Us</Text>
+            </TouchableOpacity>
+          </View>
+
           <View>
             <View style={Styles.linesstyles}></View>
             <TouchableOpacity
@@ -201,6 +286,7 @@ const CustomDrawerMenu = props => {
               <Text style={Styles.textstyles1}>Privacy Policy</Text>
             </TouchableOpacity>
           </View>
+
           <View>
             <View style={Styles.linesstyles}></View>
             <TouchableOpacity
@@ -213,16 +299,18 @@ const CustomDrawerMenu = props => {
               <Text style={Styles.textstyles1}>Terms and Conditions</Text>
             </TouchableOpacity>
           </View>
+
           <View>
             <View style={Styles.linesstyles}></View>
             <TouchableOpacity
               style={Styles.constyles}
-              onPress={() => props.navigation.navigate('Abouts')}>
+              onPress={() => props.navigation.navigate('ChatBot')}>
+              {/* // onPress={() => props.navigation.navigate('Support')}> */}
               <Image
-                source={require('./Source/Assets/Images/information-buttonicone.png')}
+                source={require('./Source/Assets/Images/headphonesicone.png')}
                 style={Styles.iconestyles}
               />
-              <Text style={Styles.textstyles1}>About Us</Text>
+              <Text style={Styles.textstyles1}>Support</Text>
             </TouchableOpacity>
           </View>
           <View>
@@ -238,22 +326,47 @@ const CustomDrawerMenu = props => {
             </TouchableOpacity>
           </View>
 
-          <View style={Styles.linesstyles}></View>
+          <View
+            style={{
+              // borderWidth: 0.5,
+              marginVertical: 14,
+              // borderColor: 'grey',
+            }}></View>
           <TouchableOpacity
             onPress={() => {
               setModalVisible(true);
               props.navigation.closeDrawer('Home');
             }}
-            style={Styles.constyles}
+            style={{
+              flexDirection: 'row',
+              // marginHorizontal: 20,
+              // alignItems: 'center',
+              justifyContent: 'center',
+            }}
             // onPress={() => props.navigation.navigate('Abouts')}
           >
-            <Image
+            {/* <Image
               source={require('./Source/Assets/Images/logout.png')}
               style={Styles.iconestyles}
-            />
-            <Text style={Styles.textstyles1}>Logout</Text>
+            /> */}
+            <Text
+              style={{
+                marginHorizontal: 15,
+                // fontWeight: '500',
+                color: 'red',
+                fontWeight: '800',
+                fontSize: 18,
+              }}>
+              Logout
+            </Text>
           </TouchableOpacity>
-          <View style={Styles.linesstyles}></View>
+
+          <View
+            style={{
+              // borderWidth: 0.5,
+              marginVertical: 7,
+              // borderColor: 'grey',
+            }}></View>
 
           <View style={{alignItems: 'center'}}>
             <Text style={{color: Colors.darkGray, fontWeight: '500'}}>
@@ -282,7 +395,7 @@ const CustomDrawerMenu = props => {
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'space-between',
-                  marginHorizontal: 40,
+                  marginHorizontal: 30,
                   top: 20,
                 }}>
                 <TouchableOpacity
@@ -290,7 +403,7 @@ const CustomDrawerMenu = props => {
                     borderColor: Colors.purple,
                     backgroundColor: Colors.purple,
                     height: height / 18,
-                    width: width / 3.5,
+                    width: width / 3.1,
                     justifyContent: 'center',
                     alignItems: 'center',
                     borderRadius: 4,
@@ -314,7 +427,7 @@ const CustomDrawerMenu = props => {
                   style={{
                     borderColor: Colors.purple,
                     height: height / 18,
-                    width: width / 3.5,
+                    width: width / 3.1,
                     justifyContent: 'center',
                     alignItems: 'center',
                     borderRadius: 4,
@@ -490,8 +603,8 @@ const Styles = StyleSheet.create({
   modalView: {
     marginHorizontal: 20,
     backgroundColor: 'white',
-    borderRadius: 5,
-    height: height / 6,
+    borderRadius: 10,
+    height: height / 4.8,
     justifyContent: 'center',
   },
 
@@ -502,7 +615,7 @@ const Styles = StyleSheet.create({
   },
   modalText: {
     textAlign: 'center',
-    top: -15,
+    top: -17,
     fontWeight: '700',
     fontSize: 17,
     color: Colors.black,

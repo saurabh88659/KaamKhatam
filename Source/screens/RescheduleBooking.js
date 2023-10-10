@@ -30,6 +30,7 @@ const RescheduleBooking = props => {
   const [getDate, setGetDate] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [ButtonLoading, setButtonLoading] = useState(false);
 
   const bokingID = props.route.params;
 
@@ -129,8 +130,10 @@ const RescheduleBooking = props => {
   };
 
   const reschedule = async () => {
+    console.log('==========run reshedule api==========');
     const token = await _getStorage('token');
-    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
+    // setButtonLoading(true);
+    // Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
 
     const rescheduleObj = {
       bookingId: bokingID,
@@ -144,49 +147,68 @@ const RescheduleBooking = props => {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        console.log('reschedule response', res.data);
-        if (res.data.message == 'Booking Rescheduled') {
-          // props.navigation.navigate('Home');
-          props.navigation.goBack();
-          //   Viewdetailsbooking();
-        }
         setIsLoading(false);
-        Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
+        console.log('reschedule response==========================', res.data);
+        if (res.data.message == 'Booking Rescheduled') {
+          Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
+          props.navigation.goBack();
+          // Viewdetailsbooking();
+        }
       })
       .catch(error => {
         console.log('reschedule catch error,', error.response);
         setIsLoading(false);
+        setButtonLoading(false);
       });
   };
 
   const chackDate = async () => {
     const token = await _getStorage('token');
     console.log('token', token);
-    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
-
+    // Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
+    setButtonLoading(true);
     let dt = date.split('/');
-    let d = `${dt[1]}/${dt[0]}/${dt[2]}`;
+    // let d = `${dt[2]}-${dt[1]}-${dt[0]}`;
+    let d = `${dt[2]}-${dt[1]}-${dt[0]}`;
+
     const obj = {
       // timeSlot: startTime + '' + endTime,
       timeSlot: `${startTime}-${endTime}`,
       bookingDate: d,
     };
-    // console.log('obj ===========+++++++', obj);
+    console.log('obj ===========+++++++', obj);
     axios
       .post(BASE_URL + `/booking/verifyTimeSlot`, obj, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        console.log('chackDate', res.data);
+        setButtonLoading(false);
 
-        Toast.showWithGravity(res.data?.message, Toast.LONG, Toast.BOTTOM);
-        reschedule();
         setIsLoading(false);
+        if (!startTime || !endTime) {
+          console.log('plese chose time slot');
+          Toast.showWithGravity(
+            'please choose time slot',
+            Toast.SHORT,
+            Toast.BOTTOM,
+          );
+        }
+        console.log('chackDate===', res.data.message);
+        // Toast.showWithGravity(res.data?.message, Toast.LONG, Toast.BOTTOM);
+        if (res.data.message == 'Date is valid' && startTime && endTime) {
+          // setButtonLoading(false);
+          console.log(
+            res.data.message,
+            '======res.data.message reshedule message=====',
+          );
+          reschedule();
+        }
       })
       .catch(error => {
+        setButtonLoading(false);
+
         console.log('chackdate error', error.response.data.message);
         setIsLoading(false);
-
         Toast.showWithGravity(
           error.response?.data?.message,
           Toast.LONG,
@@ -307,6 +329,7 @@ const RescheduleBooking = props => {
           onPress={chackDate}
           // disabled={date ? false : true}
           style={{
+            height: 55,
             backgroundColor: date ? Colors.purple : Colors.darkGray,
             justifyContent: 'center',
             borderRadius: 7,
@@ -316,10 +339,19 @@ const RescheduleBooking = props => {
             marginHorizontal: 15,
             top: '-15%',
           }}>
-          <Text
-            style={{alignSelf: 'center', color: 'white', fontWeight: 'bold'}}>
-            Done
-          </Text>
+          {!ButtonLoading ? (
+            <Text
+              style={{
+                alignSelf: 'center',
+                color: 'white',
+                fontWeight: 'bold',
+                fontSize: 18,
+              }}>
+              Done
+            </Text>
+          ) : (
+            <ActivityIndicator color={'#fff'} size={28} />
+          )}
         </TouchableOpacity>
       )}
     </SafeAreaView>

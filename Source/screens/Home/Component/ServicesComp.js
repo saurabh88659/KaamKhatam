@@ -28,8 +28,8 @@ const ServicesComp = props => {
         <Image
           source={props.image}
           style={{
-            width: props.newStyle ? wp('22%') : wp('20%'),
-            height: wp('22%'),
+            width: props.newStyle ? wp('23%') : wp('20.5%'),
+            height: wp('23%'),
             borderRadius: wp('25%'),
             resizeMode: 'contain',
           }}

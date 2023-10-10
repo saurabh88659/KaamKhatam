@@ -9,6 +9,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   Image,
+  StatusBar,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import Header from '../ReusableComponents/Header';
@@ -30,6 +31,7 @@ import Toast from 'react-native-simple-toast';
 import {_getStorage} from '../Assets/utils/storage/Storage';
 import {useIsFocused} from '@react-navigation/native';
 import InternetInfoall from '../Assets/utils/Handler/InternetInfoall';
+import {Picker} from '@react-native-picker/picker';
 
 const EditProfileScreen = props => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -50,11 +52,13 @@ const EditProfileScreen = props => {
   const [getDate, setGetDate] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const isFocused = useIsFocused();
-
+  console.log('===========date===========', date);
   //! ================working on ==============
   const [isGettingOTP, setIsGettingOTP] = useState(false);
   const [isVerifyingOTP, setIsVerifyingOTP] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
+  const [StateData, setStateData] = useState([]);
+  const [cityData, setCityData] = useState([]);
   const maxDate = new Date(); // Set maximum date to 31st December 2023
 
   const [timer, setTimer] = useState(60); // set initial timer to 60 seconds
@@ -77,19 +81,53 @@ const EditProfileScreen = props => {
     }
   }, [timer]);
 
+  useEffect(() => {
+    getStatendCity();
+  }, []);
+
+  const getStatendCity = async id => {
+    try {
+      const res = await axios.get(BASE_URL + `/allCityName`);
+      if (res.data.message == 'State Founded successfully') {
+        //  console.log('get all state and their city', res.data);
+        setStateData(res.data.result);
+      }
+    } catch (error) {
+      console.log('error in get Distric api', error);
+    }
+  };
+  const getCityData = selctState => {
+    const selectedStateData = StateData.find(item => item.state === selctState);
+    console.log('-------city------', selectedStateData?.cities);
+    console.log('-------state------', selectedStateData);
+    setCityData(selectedStateData ? selectedStateData?.cities : []);
+    console.log('-------city data------', cityData);
+    // console.log('Stta......Select', selctState) ;
+    // StateData.map((item, index) => {
+    //   console.log('Item...................', item.cities);
+    //   if (item?.cities === selctState) {
+    //     console.log('-------=====>ye..........');
+    //   } else {
+    //     console.log('no..................');
+    //   }
+    // });
+  };
+
   const handleSubmit = async () => {
     const token = await _getStorage('token');
-    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
-
+    console.log('tokne-=======83', token);
+    // Toast.showWithGravity('Please wait...', Toast.SHORT, Toast.BOTTOM);
     let newObj = {
       firstName: firstname,
       lastName: lastname,
       dateOfBirth: date,
+      // dateOfBirth: '09/12/2013',
       gender: gender,
       city: city,
       pincode: Number(pincode),
       state,
       address: address,
+      email: email,
     };
     console.log('newOBJ', newObj);
     setIsLoading(true);
@@ -104,9 +142,15 @@ const EditProfileScreen = props => {
         Toast.showWithGravity(val.data.message, Toast.LONG, Toast.BOTTOM);
       })
       .catch(error => {
-        console.log('in catch', error);
+        console.log(
+          'in catch handle submit===109',
+          error.response.data.message,
+        );
         setIsLoading(false);
-        Toast.showWithGravity('Server Error❗', Toast.LONG, Toast.BOTTOM);
+        if (state == '') {
+          //Toast.showWithGravity('Server Error❗', Toast.LONG, Toast.BOTTOM);
+        }
+        //Toast.showWithGravity('Server Error❗', Toast.LONG, Toast.BOTTOM);
       });
   };
 
@@ -127,9 +171,8 @@ const EditProfileScreen = props => {
         setDate(val.data.result.dateOfBirth);
         setCity(val.data.result.city);
         setGender(val.data.result.gender);
-        setState(val.data.result.state);
+        setState(val?.data?.result?.state);
         setAddress(val.data.result.address);
-
         setPincode(
           val.data.result.pincode
             ? String(val.data.result.pincode)
@@ -244,7 +287,6 @@ const EditProfileScreen = props => {
         Toast.showWithGravity(res.data?.message, Toast.LONG, Toast.BOTTOM);
         setCounter(30);
       })
-
       .catch(error => {
         console.log(
           'email send otp catch error',
@@ -271,13 +313,15 @@ const EditProfileScreen = props => {
   }, [counter]);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1, marginTop: hp('3.2%')}}>
+      <StatusBar backgroundColor={Colors.topNavbarColor} />
       <Header
         bgColor={Colors.topNavbarColor}
         color={Colors.white}
         title="Edit Profile"
         onPress={() => props.navigation.goBack()}
       />
+
       {isLoading === true ? (
         <View
           style={{
@@ -313,7 +357,7 @@ const EditProfileScreen = props => {
                 }}
                 style={{
                   marginHorizontal: 15,
-                  borderColor: 'grey',
+                  borderColor: Colors.purple,
                   borderWidth: 1,
                   borderRadius: 6,
                   paddingHorizontal: 15,
@@ -339,7 +383,7 @@ const EditProfileScreen = props => {
                 }}
                 style={{
                   marginHorizontal: 15,
-                  borderColor: 'grey',
+                  borderColor: Colors.purple,
                   borderWidth: 1,
                   borderRadius: 6,
                   paddingHorizontal: 15,
@@ -347,7 +391,7 @@ const EditProfileScreen = props => {
                   color: 'black',
                 }}
               />
-              <Text
+              {/* <Text
                 style={{
                   marginHorizontal: 20,
                   fontWeight: 'bold',
@@ -356,8 +400,8 @@ const EditProfileScreen = props => {
                   color: Colors.black,
                 }}>
                 Date of Birth
-              </Text>
-              <View
+              </Text> */}
+              {/* <View
                 style={{
                   height: 45,
                   borderWidth: 1,
@@ -366,7 +410,7 @@ const EditProfileScreen = props => {
                   borderRadius: 6,
                   justifyContent: 'center',
                   paddingHorizontal: 13,
-                  borderColor: 'grey',
+                  borderColor: Colors.purple,
                 }}>
                 <View
                   style={{
@@ -393,8 +437,8 @@ const EditProfileScreen = props => {
                     </TouchableOpacity>
                   </View>
                 </View>
-              </View>
-              <Text
+              </View> */}
+              {/* <Text
                 style={{
                   marginHorizontal: 20,
                   fontWeight: 'bold',
@@ -403,9 +447,9 @@ const EditProfileScreen = props => {
                   color: Colors.black,
                 }}>
                 Gender
-              </Text>
+              </Text> */}
 
-              <View
+              {/* <View
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'space-between',
@@ -437,9 +481,10 @@ const EditProfileScreen = props => {
                     Female
                   </Text>
                 </View>
-              </View>
-              <View>
-                <Text
+              </View> */}
+
+              {/* <View> */}
+              {/* <Text
                   style={{
                     marginHorizontal: 20,
                     fontWeight: 'bold',
@@ -447,8 +492,8 @@ const EditProfileScreen = props => {
                     color: Colors.black,
                   }}>
                   State
-                </Text>
-                <TextInput
+                </Text> */}
+              {/* <TextInput
                   placeholder="State"
                   placeholderTextColor="grey"
                   value={state}
@@ -465,9 +510,60 @@ const EditProfileScreen = props => {
                     marginVertical: 5,
                     color: 'black',
                   }}
-                />
-              </View>
-              <View>
+                /> */}
+
+              {/* <View
+                style={{
+                  marginHorizontal: 15,
+                  borderColor: Colors.purple,
+                  borderWidth: 1,
+                  borderRadius: 6,
+                  // paddingHorizontal: 15,
+                  marginVertical: 5,
+                  color: 'black',
+                  // height: 60,
+                  justifyContent: 'center',
+                  alignContent: 'center',
+                  paddingLeft: 4,
+
+                  // backgroundColor: '#ffff',
+                }}> */}
+              {/* <Picker
+                  dropdownIconColor={'#B6B6B6'}
+                  dropdownIconRippleColor={'#775AAC'}
+                  style={{
+                    color: '#000',
+                    // fontSize: 20,
+                    // width: '90%',
+                    // height: 45,
+                    // backgroundColor: '#F8F7FF',/
+                    // borderRadius: 8,
+                    // borderColor: 'red',
+                    // borderWidth: 5,
+                  }}
+                  selectedValue={state}
+                  onValueChange={itemValue => {
+                    setState(itemValue), getCityData(itemValue);
+                  }}>
+                  <Picker.Item
+                    style={Styles.pickerItem}
+                    label="State"
+                    value=""
+                    // enabled={false}
+                  />
+                  {StateData.map((item, id) => (
+                    // console.log(StateData, 'STate Data'),
+                    <Picker.Item
+                      style={Styles.pickerItem}
+                      value={item.state}
+                      key={id} // Assuming each state object has a unique 'id' property
+                      label={item.state}
+                    />
+                  ))}
+                </Picker> */}
+              {/* </View> */}
+              {/* </View> */}
+              {/* <View>
                 <Text
                   style={{
                     marginHorizontal: 20,
@@ -486,7 +582,7 @@ const EditProfileScreen = props => {
                   }}
                   style={{
                     marginHorizontal: 15,
-                    borderColor: 'grey',
+                    borderColor: Colors.purple,
                     borderWidth: 1,
                     borderRadius: 6,
                     paddingHorizontal: 15,
@@ -494,9 +590,9 @@ const EditProfileScreen = props => {
                     color: 'black',
                   }}
                 />
-              </View>
+              </View> */}
 
-              <View
+              {/* <View
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'space-between',
@@ -515,14 +611,67 @@ const EditProfileScreen = props => {
                   }}>
                   Pin Code
                 </Text>
-              </View>
-              <View
+              </View> */}
+              {/* <View
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'space-between',
-                  marginHorizontal: 20,
-                }}>
-                <TextInput
+                  marginHorizontal: 15,
+                }}> */}
+              {/* <View
+                  style={{
+                    width: '40%',
+                    height: 55,
+                    borderColor: Colors.purple,
+                    borderWidth: 1,
+                    borderRadius: 6,
+                    marginVertical: 5,
+                    justifyContent: 'center',
+                    alignContent: 'center',
+                    paddingHorizontal: 4,
+                  }}>
+                  <Picker
+                    dropdownIconColor={'#B6B6B6'}
+                    dropdownIconRippleColor={'#775AAC'}
+                    style={{
+                      borderRadius: 6,
+                      width: '100%',
+                      // height: 50,
+                      // backgroundColor: '#ffff',
+                      borderRadius: 8,
+                      // borderColor: 'red'
+                      borderWidth: 5,
+                      color: '#000',
+                    }}
+                    selectedValue={city}
+                    onValueChange={itemValue => {
+                      setCity(itemValue);
+                      // getCityData(itemValue);
+                    }}>
+                    <Picker.Item
+                      style={Styles.pickerItem}
+                      label="City"
+                      value=""
+                      // enabled={false}
+                    />
+                    {cityData.length > 0 &&
+                      cityData.map(
+                        (item, id) => (
+                          console.log('city data in map', cityData),
+                          (
+                            <Picker.Item
+                              style={Styles.pickerItem}
+                              value={item}
+                              key={id} // Assuming each state object has a unique 'id' property
+                              label={item}
+                            />
+                          )
+                        ),
+                      )}
+                  </Picker>
+                </View> */}
+
+              {/* <TextInput
                   placeholder="City"
                   placeholderTextColor="grey"
                   value={city}
@@ -539,8 +688,8 @@ const EditProfileScreen = props => {
                     height: '70%',
                     color: 'black',
                   }}
-                />
-                <TextInput
+                /> */}
+              {/* <TextInput
                   placeholder="Pin Code"
                   placeholderTextColor="grey"
                   value={pincode}
@@ -550,7 +699,7 @@ const EditProfileScreen = props => {
                     setPincode(text);
                   }}
                   style={{
-                    borderColor: 'grey',
+                    borderColor: Colors.purple,
                     borderWidth: 1,
                     borderRadius: 6,
                     paddingHorizontal: 15,
@@ -560,10 +709,16 @@ const EditProfileScreen = props => {
                     color: 'black',
                   }}
                 />
-              </View>
-              <View style={{marginHorizontal: 20}}>
+              </View> */}
+
+              <View style={{marginTop: 10}}>
                 <Text
-                  style={{color: 'black', fontSize: 15, fontWeight: 'bold'}}>
+                  style={{
+                    color: 'black',
+                    fontSize: 15,
+                    fontWeight: 'bold',
+                    marginHorizontal: 20,
+                  }}>
                   Email ID
                 </Text>
                 <View
@@ -574,10 +729,11 @@ const EditProfileScreen = props => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     borderWidth: 1,
-                    borderColor: 'grey',
+                    borderColor: Colors.purple,
                     height: 50,
                     borderRadius: 5,
-                    marginVertical: 10,
+                    marginVertical: 7,
+                    marginHorizontal: 15,
                   }}>
                   <TextInput
                     placeholder="Email ID"
@@ -619,9 +775,14 @@ const EditProfileScreen = props => {
                   </TouchableOpacity>
                 </View>
               </View>
-              <View style={{marginHorizontal: 20}}>
+              <View style={{}}>
                 <Text
-                  style={{color: 'black', fontSize: 15, fontWeight: 'bold'}}>
+                  style={{
+                    color: 'black',
+                    fontSize: 15,
+                    fontWeight: 'bold',
+                    marginHorizontal: 18,
+                  }}>
                   Mobile Number
                 </Text>
                 <View
@@ -632,10 +793,11 @@ const EditProfileScreen = props => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     borderWidth: 1,
-                    borderColor: 'grey',
+                    borderColor: Colors.purple,
                     height: 50,
                     borderRadius: 5,
                     marginVertical: 10,
+                    marginHorizontal: 18,
                   }}>
                   <Text
                     style={{
@@ -847,5 +1009,13 @@ const Styles = StyleSheet.create({
   respontextstyles3: {
     fontSize: 15,
     fontWeight: '500',
+  },
+  pickerItem: {
+    height: 45,
+    fontSize: 14,
+    // fontWeight: 'bold',
+    // color: '#000',
+    // backgroundColor: '#F8F7FF',
+    // backgroundColor: '#ffff',
   },
 });

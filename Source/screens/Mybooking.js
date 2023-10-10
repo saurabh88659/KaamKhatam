@@ -17,25 +17,30 @@ import axios from 'axios';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import {useIsFocused} from '@react-navigation/native';
 import InternetInfoall from '../Assets/utils/Handler/InternetInfoall';
+import {useDispatch} from 'react-redux';
 const {height, width} = Dimensions.get('window');
 
 function Mybooking({navigation}) {
+  const dispatch = useDispatch();
   const [bookdetails, setBookdetails] = useState([]);
   const [noData, setNoData] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [refresh, setRfresh] = useState(false);
 
   const isFocused = useIsFocused();
-
+  console.log('is focused', isFocused);
   useEffect(() => {
+    setIsLoading(true);
     if (isFocused) {
       bookingDetails();
+      console.log('runing -------33');
     }
   }, [isFocused]);
 
   setTimeout(() => {
     setRfresh(false);
   }, 3000);
+  console.log(bookdetails, '-------------bookdetails');
 
   // function handleBackButtonClick() {
   //   navigation.navigate('Home');
@@ -52,7 +57,6 @@ function Mybooking({navigation}) {
   const bookingDetails = async () => {
     const token = await _getStorage('token');
     console.log(token);
-
     axios
       .get(BASE_URL + `/booking/allbookings`, {
         headers: {Authorization: `Bearer ${token}`},
@@ -62,15 +66,13 @@ function Mybooking({navigation}) {
           setNoData(res.data.message);
         } else {
           setBookdetails(res.data.newData);
+          console.log('======all Bookdetails 0000=====>', res.data.newData);
         }
         setIsLoading(false);
         setRfresh(false);
       })
       .catch(error => {
-        console.log(
-          'booking details catch error',
-          error.response.data.messsage,
-        );
+        console.log('booking details catch error', error);
         setIsLoading(false);
       });
   };
@@ -89,10 +91,7 @@ function Mybooking({navigation}) {
       />
       <ScrollView
         refreshControl={
-          <RefreshControl
-            refreshing={refresh}
-            onRefresh={() => bookingDetails()}
-          />
+          <RefreshControl refreshing={refresh} onRefresh={bookingDetails} />
         }>
         {isLoading === true ? (
           <ActivityIndicator
@@ -114,108 +113,114 @@ function Mybooking({navigation}) {
             {noData}
           </Text>
         ) : (
-          bookdetails.map((value, index) => (
-            <View
-              key={index}
-              style={{
-                height: 'auto',
-                // paddingVertical: '7%',
-                // height: '8%',
-                marginHorizontal: 10,
-                borderRadius: 7,
-                marginVertical: 8,
-                backgroundColor: Colors.white,
-                elevation: 5,
-              }}>
+          bookdetails.map((value, index) => {
+            const [day, month, year] = value.bookingDate.split('/');
+            console.log(
+              '====================value===================--',
+              value,
+            );
+            return (
               <View
+                key={index}
                 style={{
-                  backgroundColor: '#BCC4FF',
-                  borderTopRightRadius: 7,
-                  borderTopLeftRadius: 7,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  paddingHorizontal: 10,
-                  alignItems: 'center',
-                  padding: 3,
-                }}>
-                <Text style={{fontWeight: 'bold', color: Colors.black}}>
-                  Booking ID
-                </Text>
-                <Text style={{fontWeight: 'bold', color: Colors.black}}>
-                  {value.bookingId}
-                </Text>
-              </View>
-
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
+                  height: 'auto',
+                  // paddingVertical: '7%',
+                  // height: '8%',
+                  marginHorizontal: 10,
+                  borderRadius: 7,
+                  marginVertical: 8,
+                  backgroundColor: Colors.white,
+                  elevation: 5,
                 }}>
                 <View
                   style={{
-                    justifyContent: 'center',
+                    backgroundColor: '#BCC4FF',
+                    borderTopRightRadius: 7,
+                    borderTopLeftRadius: 7,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    paddingHorizontal: 10,
                     alignItems: 'center',
-                    width: '25%',
+                    padding: 3,
                   }}>
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      fontWeight: '600',
-                      color: Colors.black,
-                    }}>
-                    June
+                  <Text style={{fontWeight: 'bold', color: Colors.black}}>
+                    Booking ID
                   </Text>
-                  <Text
-                    style={{
-                      fontSize: 26,
-                      fontWeight: 'bold',
-                      color: Colors.black,
-                    }}>
-                    29
-                    {/* {getDayFromDate(value.bookingDate)} */}
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      fontWeight: '600',
-                      color: Colors.black,
-                    }}>
-                    2022
+                  <Text style={{fontWeight: 'bold', color: Colors.black}}>
+                    {value.bookingId}
                   </Text>
                 </View>
+
                 <View
                   style={{
-                    width: '45%',
-                    height: '100%',
-                    padding: 20,
-                    paddingHorizontal: 10,
-                    borderRightColor: Colors.grayShade,
-                    borderRightWidth: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
                   }}>
-                  <View>
+                  <View
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      width: '25%',
+                    }}>
                     <Text
                       style={{
-                        fontSize: 16,
-                        fontWeight: '900',
-                        color: '#5E2DC4',
+                        fontSize: 20,
+                        fontWeight: '600',
+                        color: Colors.black,
                       }}>
-                      {value.serviceName}
+                      {day}
                     </Text>
-                    <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+                    <Text
+                      style={{
+                        fontSize: 26,
+                        fontWeight: 'bold',
+                        color: Colors.black,
+                      }}>
+                      {month}
+                      {/* {getDayFromDate(value.bookingDate)} */}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        fontWeight: '600',
+                        color: Colors.black,
+                      }}>
+                      {year}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      width: '45%',
+                      height: '100%',
+                      padding: 20,
+                      paddingHorizontal: 10,
+                      borderRightColor: Colors.grayShade,
+                      borderRightWidth: 1,
+                    }}>
+                    <View>
                       <Text
                         style={{
-                          fontSize: 15,
-                          fontWeight: '500',
-                          color: Colors.black,
-                          // right: 5,
+                          fontSize: 16,
+                          fontWeight: '900',
+                          color: '#5E2DC4',
                         }}>
-                        Time slot:
+                        {value.serviceName}
                       </Text>
-                      <Text style={{fontSize: 15, color: Colors.black}}>
-                        {value.time}
-                      </Text>
-                    </View>
-                    {/* <View style={{flexDirection: 'row'}}>
+                      <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+                        <Text
+                          style={{
+                            fontSize: 15,
+                            fontWeight: '500',
+                            color: Colors.black,
+                            // right: 5,
+                          }}>
+                          Time slot:
+                        </Text>
+                        <Text style={{fontSize: 13.5, color: Colors.black}}>
+                          {value.time}
+                        </Text>
+                      </View>
+                      {/* <View style={{flexDirection: 'row'}}>
                       <Text
                         style={{
                           fontSize: 15,
@@ -229,68 +234,69 @@ function Mybooking({navigation}) {
                         {value.bookingDate}
                       </Text>
                     </View> */}
-                    <View style={{flexDirection: 'row'}}>
-                      <Text
-                        style={{
-                          fontSize: 15,
-                          fontWeight: '500',
-                          color: Colors.black,
-                        }}>
-                        Price:
-                      </Text>
-                      <Text
-                        style={{fontSize: 15, color: Colors.black, left: 4}}>
-                        {'\u20B9'}
-                        {value.amountToBePaid}
-                      </Text>
+                      <View style={{flexDirection: 'row'}}>
+                        <Text
+                          style={{
+                            fontSize: 15,
+                            fontWeight: '500',
+                            color: Colors.black,
+                          }}>
+                          Price:
+                        </Text>
+                        <Text
+                          style={{fontSize: 15, color: Colors.black, left: 4}}>
+                          {'\u20B9'}
+                          {value.amountToBePaid}
+                        </Text>
+                      </View>
                     </View>
                   </View>
-                </View>
-                <View
-                  style={{
-                    padding: 5,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: '30%',
-                  }}>
-                  <Text
+                  <View
                     style={{
-                      fontSize: 14,
-                      fontWeight: '700',
-                      top: 20,
-                      textTransform: 'uppercase',
-                      color: '#0EC01B',
-                      color:
-                        value.bookingStatus === 'Pending'
-                          ? '#5E2DC4'
-                          : value.bookingStatus === 'Completed'
-                          ? '#0EC01B'
-                          : '#F21313',
-                    }}>
-                    {value.bookingStatus}
-                  </Text>
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate('Viewdetails', value.bookingId)
-                    }
-                    style={{
-                      backgroundColor: Colors.purple,
                       padding: 5,
-                      // top: 22,
-                      borderRadius: 3,
-                      alignItems: 'center',
                       justifyContent: 'center',
-                      marginTop: 'auto',
-                      marginBottom: 10,
+                      alignItems: 'center',
+                      width: '30%',
                     }}>
-                    <Text style={{color: Colors.white, fontWeight: '500'}}>
-                      View Details
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        fontWeight: '700',
+                        top: 20,
+                        textTransform: 'uppercase',
+                        color: '#0EC01B',
+                        color:
+                          value.bookingStatus === 'Pending'
+                            ? '#5E2DC4'
+                            : value.bookingStatus === 'Confirmed'
+                            ? '#0EC01B'
+                            : '#F21313',
+                      }}>
+                      {value.bookingStatus}
                     </Text>
-                  </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() =>
+                        navigation.navigate('Viewdetails', value.bookingId)
+                      }
+                      style={{
+                        backgroundColor: Colors.purple,
+                        padding: 5,
+                        // top: 22,
+                        borderRadius: 3,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginTop: 'auto',
+                        marginBottom: 10,
+                      }}>
+                      <Text style={{color: Colors.white, fontWeight: '500'}}>
+                        View Details
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
-            </View>
-          ))
+            );
+          })
         )}
       </ScrollView>
       <InternetInfoall />

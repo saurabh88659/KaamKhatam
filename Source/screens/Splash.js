@@ -31,9 +31,7 @@ const Splash = ({navigation}) => {
   const splashhandle = async () => {
     const token = await _getStorage('token');
     console.log('token==========..', token);
-
     const isInternet = await checkInternetConnection();
-
     console.log('isInternet', isInternet);
 
     if (isInternet) {
@@ -53,7 +51,7 @@ const Splash = ({navigation}) => {
             }
           })
           .catch(async err => {
-            console.log("Error: " + err.response.data?.message)
+            console.log('Error: ' + err.response.data?.message);
             if (err.response?.data) {
               if (err.response?.data?.message == "User Doesn't Exists") {
                 navigation.navigate('RegisterAccount');
@@ -108,7 +106,6 @@ const Splash = ({navigation}) => {
             source={require('../Assets/Images/Splash.png')}
             style={styles.img}
           />
-         
         </View>
       ) : (
         !hasInternet && <MyModal type={'internet'} isModal={!hasInternet} />
@@ -130,7 +127,7 @@ const styles = StyleSheet.create({
   logo: {
     height: hp('25%'),
     width: hp('25%'),
-   
+
     justifyContent: 'center',
   },
   logoCntnr: {

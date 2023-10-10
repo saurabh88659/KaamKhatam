@@ -20,6 +20,8 @@ export default function Support({navigation}) {
 
   useEffect(() => {
     _getChatApi();
+
+    console.log('====_getChatApi====');
   }, []);
 
   const _getChatApi = async () => {
@@ -30,7 +32,7 @@ export default function Support({navigation}) {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        console.log('response-------', res.data.chat);
+        console.log('-----------response chat api-------', res.data.chat);
         setChat(res.data.chat);
       })
       .catch(error => {

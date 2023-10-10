@@ -1,0 +1,1174 @@
+info Running jetifier to migrate libraries to AndroidX. You can disable it using "--no-jetifier" flag.
+Jetifier found 1613 file(s) to forward-jetify. Using 8 workers...
+info JS server already running.
+info Installing the app...
+Starting a Gradle Daemon, 2 incompatible Daemons could not be reused, use --status for details
+> Task :react-native-gradle-plugin:compileKotlin UP-TO-DATE
+> Task :react-native-gradle-plugin:compileJava UP-TO-DATE
+> Task :react-native-gradle-plugin:pluginDescriptors UP-TO-DATE
+> Task :react-native-gradle-plugin:processResources UP-TO-DATE
+> Task :react-native-gradle-plugin:classes UP-TO-DATE
+> Task :react-native-gradle-plugin:inspectClassesForKotlinIC UP-TO-DATE
+> Task :react-native-gradle-plugin:jar UP-TO-DATE
+
+> Configure project :react-native-firebase_app
+:react-native-firebase_app package.json found at C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp\node_modules\@react-native-firebase\app\package.json
+:react-native-firebase_app:firebase.bom using default value: 31.1.1
+:react-native-firebase_app:play.play-services-auth using default value: 20.3.0
+:react-native-firebase_app package.json found at C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp\node_modules\@react-native-firebase\app\package.json
+:react-native-firebase_app:version set from package.json: 17.0.0 (17,0,0 - 17000000)
+:react-native-firebase_app:android.compileSdk using custom value: 31
+:react-native-firebase_app:android.targetSdk using custom value: 31
+:react-native-firebase_app:android.minSdk using custom value: 21
+:react-native-firebase_app:reactNativeAndroidDir C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp\node_modules\react-native\android
+
+> Configure project :react-native-reanimated
+AAR for react-native-reanimated has been found
+C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp\node_modules\react-native-reanimated\android\react-native-reanimated-68-jsc.aar
+
+The Kotlin Gradle plugin was loaded multiple times in different subprojects, which is not supported and may break the build. 
+This might happen in subprojects that apply the Kotlin plugins with the Gradle 'plugins { ... }' DSL if they specify explicit versions, even if the versions are equal.
+Please add the Kotlin plugin to the common parent project or the root project, then remove the versions in the subprojects.
+If the parent project does not need the plugin, add 'apply false' to the plugin line.
+See: https://docs.gradle.org/current/userguide/plugins.html#sec:subprojects_plugins_dsl
+The Kotlin plugin was loaded in the following projects: ':react-native-gesture-handler', ':react-native-screens'
+
+> Task :app:generatePackageList
+> Task :app:preBuild
+> Task :app:preReleaseBuild
+> Task :mapmyindia-map-react-native-beta:preBuild UP-TO-DATE
+> Task :mapmyindia-map-react-native-beta:preReleaseBuild UP-TO-DATE
+> Task :mapmyindia-map-react-native-beta:prepareReleaseArtProfile UP-TO-DATE
+> Task :mapmyindia-restapi-react-native-beta:preBuild UP-TO-DATE
+> Task :mapmyindia-restapi-react-native-beta:preReleaseBuild UP-TO-DATE
+> Task :mapmyindia-restapi-react-native-beta:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-android-location-enabler:preBuild UP-TO-DATE
+> Task :react-native-android-location-enabler:preReleaseBuild UP-TO-DATE
+> Task :react-native-android-location-enabler:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-async-storage_async-storage:preBuild UP-TO-DATE
+> Task :react-native-async-storage_async-storage:preReleaseBuild UP-TO-DATE
+> Task :react-native-async-storage_async-storage:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-clipboard_clipboard:preBuild UP-TO-DATE
+> Task :react-native-clipboard_clipboard:preReleaseBuild UP-TO-DATE
+> Task :react-native-clipboard_clipboard:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-community_checkbox:preBuild UP-TO-DATE
+> Task :react-native-community_checkbox:preReleaseBuild UP-TO-DATE
+> Task :react-native-community_checkbox:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-community_datetimepicker:preBuild UP-TO-DATE
+> Task :react-native-community_datetimepicker:preReleaseBuild UP-TO-DATE
+> Task :react-native-community_datetimepicker:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-community_geolocation:preBuild UP-TO-DATE
+> Task :react-native-community_geolocation:preReleaseBuild UP-TO-DATE
+> Task :react-native-community_geolocation:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-community_netinfo:preBuild UP-TO-DATE
+> Task :react-native-community_netinfo:preReleaseBuild UP-TO-DATE
+> Task :react-native-community_netinfo:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-exit-app:preBuild UP-TO-DATE
+> Task :react-native-exit-app:preReleaseBuild UP-TO-DATE
+> Task :react-native-exit-app:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-fbsdk:preBuild UP-TO-DATE
+> Task :react-native-fbsdk:preReleaseBuild UP-TO-DATE
+> Task :react-native-fbsdk:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-firebase_app:preBuild UP-TO-DATE
+> Task :react-native-firebase_app:preReleaseBuild UP-TO-DATE
+> Task :react-native-firebase_app:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-gesture-handler:assertNoMultipleInstances
+> Task :react-native-gesture-handler:preBuild
+> Task :react-native-gesture-handler:preReleaseBuild
+> Task :react-native-gesture-handler:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-google-signin_google-signin:preBuild UP-TO-DATE
+> Task :react-native-google-signin_google-signin:preReleaseBuild UP-TO-DATE
+> Task :react-native-google-signin_google-signin:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-image-crop-picker:preBuild UP-TO-DATE
+> Task :react-native-image-crop-picker:preReleaseBuild UP-TO-DATE
+> Task :react-native-image-crop-picker:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-linear-gradient:preBuild UP-TO-DATE
+> Task :react-native-linear-gradient:preReleaseBuild UP-TO-DATE
+> Task :react-native-linear-gradient:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-pager-view:preBuild UP-TO-DATE
+> Task :react-native-pager-view:preReleaseBuild UP-TO-DATE
+> Task :react-native-pager-view:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-safe-area-context:preBuild UP-TO-DATE
+> Task :react-native-safe-area-context:preReleaseBuild UP-TO-DATE
+> Task :react-native-safe-area-context:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-screens:preBuild UP-TO-DATE
+> Task :react-native-screens:preReleaseBuild UP-TO-DATE
+> Task :react-native-screens:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-upi-payment:preBuild UP-TO-DATE
+> Task :react-native-upi-payment:preReleaseBuild UP-TO-DATE
+> Task :react-native-upi-payment:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-vector-icons:preBuild UP-TO-DATE
+> Task :react-native-vector-icons:preReleaseBuild UP-TO-DATE
+> Task :react-native-vector-icons:prepareReleaseArtProfile UP-TO-DATE
+> Task :app:mergeReleaseArtProfile UP-TO-DATE
+> Task :app:checkReleaseDuplicateClasses UP-TO-DATE
+> Task :app:extractProguardFiles UP-TO-DATE
+> Task :mapmyindia-map-react-native-beta:compileReleaseAidl NO-SOURCE
+> Task :mapmyindia-restapi-react-native-beta:compileReleaseAidl NO-SOURCE
+> Task :react-native-android-location-enabler:compileReleaseAidl NO-SOURCE
+> Task :react-native-async-storage_async-storage:compileReleaseAidl NO-SOURCE
+> Task :react-native-clipboard_clipboard:compileReleaseAidl NO-SOURCE
+> Task :react-native-community_checkbox:compileReleaseAidl NO-SOURCE
+> Task :react-native-community_datetimepicker:compileReleaseAidl NO-SOURCE
+> Task :react-native-community_geolocation:compileReleaseAidl NO-SOURCE
+> Task :react-native-community_netinfo:compileReleaseAidl NO-SOURCE
+> Task :react-native-exit-app:compileReleaseAidl NO-SOURCE
+> Task :react-native-fbsdk:compileReleaseAidl NO-SOURCE
+> Task :react-native-firebase_app:compileReleaseAidl NO-SOURCE
+> Task :react-native-gesture-handler:compileReleaseAidl NO-SOURCE
+> Task :react-native-google-signin_google-signin:compileReleaseAidl NO-SOURCE
+> Task :react-native-image-crop-picker:compileReleaseAidl NO-SOURCE
+> Task :react-native-linear-gradient:compileReleaseAidl NO-SOURCE
+> Task :react-native-pager-view:compileReleaseAidl NO-SOURCE
+> Task :react-native-safe-area-context:compileReleaseAidl NO-SOURCE
+> Task :react-native-screens:compileReleaseAidl NO-SOURCE
+> Task :react-native-upi-payment:compileReleaseAidl NO-SOURCE
+> Task :react-native-vector-icons:compileReleaseAidl NO-SOURCE
+> Task :app:compileReleaseAidl NO-SOURCE
+> Task :mapmyindia-map-react-native-beta:packageReleaseRenderscript NO-SOURCE
+> Task :mapmyindia-restapi-react-native-beta:packageReleaseRenderscript NO-SOURCE
+> Task :react-native-android-location-enabler:packageReleaseRenderscript NO-SOURCE
+> Task :react-native-async-storage_async-storage:packageReleaseRenderscript NO-SOURCE
+> Task :react-native-clipboard_clipboard:packageReleaseRenderscript NO-SOURCE
+> Task :react-native-community_checkbox:packageReleaseRenderscript NO-SOURCE
+> Task :react-native-community_datetimepicker:packageReleaseRenderscript NO-SOURCE
+> Task :react-native-community_geolocation:packageReleaseRenderscript NO-SOURCE
+> Task :react-native-community_netinfo:packageReleaseRenderscript NO-SOURCE
+> Task :react-native-exit-app:packageReleaseRenderscript NO-SOURCE
+> Task :react-native-fbsdk:packageReleaseRenderscript NO-SOURCE
+> Task :react-native-firebase_app:packageReleaseRenderscript NO-SOURCE
+> Task :react-native-gesture-handler:packageReleaseRenderscript NO-SOURCE
+> Task :react-native-google-signin_google-signin:packageReleaseRenderscript NO-SOURCE
+> Task :react-native-image-crop-picker:packageReleaseRenderscript NO-SOURCE
+> Task :react-native-linear-gradient:packageReleaseRenderscript NO-SOURCE
+> Task :react-native-pager-view:packageReleaseRenderscript NO-SOURCE
+> Task :react-native-safe-area-context:packageReleaseRenderscript NO-SOURCE
+> Task :react-native-screens:packageReleaseRenderscript NO-SOURCE
+> Task :react-native-upi-payment:packageReleaseRenderscript NO-SOURCE
+> Task :react-native-vector-icons:packageReleaseRenderscript NO-SOURCE
+> Task :app:compileReleaseRenderscript NO-SOURCE
+> Task :app:generateReleaseBuildConfig UP-TO-DATE
+> Task :app:javaPreCompileRelease UP-TO-DATE
+
+> Task :app:bundleReleaseJsAndAssets
+Execution optimizations have been disabled for task ':app:bundleReleaseJsAndAssets' to ensure correctness due to the following reasons:
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':mapmyindia-map-react-native-beta:compileReleaseAidl' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':mapmyindia-map-react-native-beta:packageReleaseRenderscript' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':mapmyindia-map-react-native-beta:prepareReleaseArtProfile' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':mapmyindia-restapi-react-native-beta:compileReleaseAidl' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':mapmyindia-restapi-react-native-beta:packageReleaseRenderscript' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':mapmyindia-restapi-react-native-beta:prepareReleaseArtProfile' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-android-location-enabler:compileReleaseAidl' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-android-location-enabler:packageReleaseRenderscript' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-android-location-enabler:prepareReleaseArtProfile' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-async-storage_async-storage:compileReleaseAidl' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-async-storage_async-storage:packageReleaseRenderscript' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-async-storage_async-storage:prepareReleaseArtProfile' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-clipboard_clipboard:compileReleaseAidl' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-clipboard_clipboard:packageReleaseRenderscript' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-clipboard_clipboard:prepareReleaseArtProfile' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-community_checkbox:compileReleaseAidl' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-community_checkbox:packageReleaseRenderscript' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-community_checkbox:prepareReleaseArtProfile' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-community_datetimepicker:compileReleaseAidl' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-community_datetimepicker:packageReleaseRenderscript' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-community_datetimepicker:prepareReleaseArtProfile' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-community_geolocation:compileReleaseAidl' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-community_geolocation:packageReleaseRenderscript' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-community_geolocation:prepareReleaseArtProfile' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-community_netinfo:compileReleaseAidl' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-community_netinfo:packageReleaseRenderscript' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-community_netinfo:prepareReleaseArtProfile' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-exit-app:compileReleaseAidl' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-exit-app:packageReleaseRenderscript' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-exit-app:prepareReleaseArtProfile' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-fbsdk:compileReleaseAidl' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-fbsdk:packageReleaseRenderscript' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-fbsdk:prepareReleaseArtProfile' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-firebase_app:compileReleaseAidl' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-firebase_app:packageReleaseRenderscript' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-firebase_app:prepareReleaseArtProfile' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-gesture-handler:compileReleaseAidl' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-gesture-handler:packageReleaseRenderscript' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-gesture-handler:prepareReleaseArtProfile' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-google-signin_google-signin:compileReleaseAidl' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-google-signin_google-signin:packageReleaseRenderscript' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-google-signin_google-signin:prepareReleaseArtProfile' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-image-crop-picker:compileReleaseAidl' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-image-crop-picker:packageReleaseRenderscript' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-image-crop-picker:prepareReleaseArtProfile' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-linear-gradient:compileReleaseAidl' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-linear-gradient:packageReleaseRenderscript' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-linear-gradient:prepareReleaseArtProfile' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-pager-view:compileReleaseAidl' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-pager-view:packageReleaseRenderscript' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-pager-view:prepareReleaseArtProfile' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-safe-area-context:compileReleaseAidl' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-safe-area-context:packageReleaseRenderscript' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-safe-area-context:prepareReleaseArtProfile' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-screens:compileReleaseAidl' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-screens:packageReleaseRenderscript' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-screens:prepareReleaseArtProfile' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-upi-payment:compileReleaseAidl' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-upi-payment:packageReleaseRenderscript' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-upi-payment:prepareReleaseArtProfile' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-vector-icons:compileReleaseAidl' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-vector-icons:packageReleaseRenderscript' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp'. Reason: Task ':app:bundleReleaseJsAndAssets' uses this output of task ':react-native-vector-icons:prepareReleaseArtProfile' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+warning: the transform cache was reset.
+                    Welcome to Metro!
+              Fast - Scalable - Integrated
+
+
+info Writing bundle output to:, C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp\android\app\build\generated\assets\react\release\index.android.bundle
+info Writing sourcemap output to:, C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp\android\app\build\generated\sourcemaps\react\release\index.android.bundle.map
+info Done writing bundle output
+info Done writing sourcemap output
+info Copying 52 asset files
+info Done copying assets
+
+> Task :app:generateReleaseResValues UP-TO-DATE
+> Task :app:processReleaseGoogleServices UP-TO-DATE
+> Task :mapmyindia-map-react-native-beta:compileReleaseRenderscript NO-SOURCE
+> Task :mapmyindia-map-react-native-beta:generateReleaseResValues UP-TO-DATE
+> Task :mapmyindia-map-react-native-beta:generateReleaseResources UP-TO-DATE
+> Task :mapmyindia-map-react-native-beta:packageReleaseResources UP-TO-DATE
+> Task :mapmyindia-restapi-react-native-beta:compileReleaseRenderscript NO-SOURCE
+> Task :mapmyindia-restapi-react-native-beta:generateReleaseResValues UP-TO-DATE
+> Task :mapmyindia-restapi-react-native-beta:generateReleaseResources UP-TO-DATE
+> Task :mapmyindia-restapi-react-native-beta:packageReleaseResources UP-TO-DATE
+> Task :react-native-android-location-enabler:compileReleaseRenderscript NO-SOURCE
+> Task :react-native-android-location-enabler:generateReleaseResValues UP-TO-DATE
+> Task :react-native-android-location-enabler:generateReleaseResources UP-TO-DATE
+> Task :react-native-android-location-enabler:packageReleaseResources UP-TO-DATE
+> Task :react-native-async-storage_async-storage:compileReleaseRenderscript NO-SOURCE
+> Task :react-native-async-storage_async-storage:generateReleaseResValues UP-TO-DATE
+> Task :react-native-async-storage_async-storage:generateReleaseResources UP-TO-DATE
+> Task :react-native-async-storage_async-storage:packageReleaseResources UP-TO-DATE
+> Task :react-native-clipboard_clipboard:compileReleaseRenderscript NO-SOURCE
+> Task :react-native-clipboard_clipboard:generateReleaseResValues UP-TO-DATE
+> Task :react-native-clipboard_clipboard:generateReleaseResources UP-TO-DATE
+> Task :react-native-clipboard_clipboard:packageReleaseResources UP-TO-DATE
+> Task :react-native-community_checkbox:compileReleaseRenderscript NO-SOURCE
+> Task :react-native-community_checkbox:generateReleaseResValues UP-TO-DATE
+> Task :react-native-community_checkbox:generateReleaseResources UP-TO-DATE
+> Task :react-native-community_checkbox:packageReleaseResources UP-TO-DATE
+> Task :react-native-community_datetimepicker:compileReleaseRenderscript NO-SOURCE
+> Task :react-native-community_datetimepicker:generateReleaseResValues UP-TO-DATE
+> Task :react-native-community_datetimepicker:generateReleaseResources UP-TO-DATE
+> Task :react-native-community_datetimepicker:packageReleaseResources UP-TO-DATE
+> Task :react-native-community_geolocation:compileReleaseRenderscript NO-SOURCE
+> Task :react-native-community_geolocation:generateReleaseResValues UP-TO-DATE
+> Task :react-native-community_geolocation:generateReleaseResources UP-TO-DATE
+> Task :react-native-community_geolocation:packageReleaseResources UP-TO-DATE
+> Task :react-native-community_netinfo:compileReleaseRenderscript NO-SOURCE
+> Task :react-native-community_netinfo:generateReleaseResValues UP-TO-DATE
+> Task :react-native-community_netinfo:generateReleaseResources UP-TO-DATE
+> Task :react-native-community_netinfo:packageReleaseResources UP-TO-DATE
+> Task :react-native-exit-app:compileReleaseRenderscript NO-SOURCE
+> Task :react-native-exit-app:generateReleaseResValues UP-TO-DATE
+> Task :react-native-exit-app:generateReleaseResources UP-TO-DATE
+> Task :react-native-exit-app:packageReleaseResources UP-TO-DATE
+> Task :react-native-fbsdk:compileReleaseRenderscript NO-SOURCE
+> Task :react-native-fbsdk:generateReleaseResValues UP-TO-DATE
+> Task :react-native-fbsdk:generateReleaseResources UP-TO-DATE
+> Task :react-native-fbsdk:packageReleaseResources UP-TO-DATE
+> Task :react-native-firebase_app:compileReleaseRenderscript NO-SOURCE
+> Task :react-native-firebase_app:generateReleaseResValues UP-TO-DATE
+> Task :react-native-firebase_app:generateReleaseResources UP-TO-DATE
+> Task :react-native-firebase_app:packageReleaseResources UP-TO-DATE
+> Task :react-native-gesture-handler:compileReleaseRenderscript NO-SOURCE
+> Task :react-native-gesture-handler:generateReleaseResValues UP-TO-DATE
+> Task :react-native-gesture-handler:generateReleaseResources UP-TO-DATE
+> Task :react-native-gesture-handler:packageReleaseResources UP-TO-DATE
+> Task :react-native-google-signin_google-signin:compileReleaseRenderscript NO-SOURCE
+> Task :react-native-google-signin_google-signin:generateReleaseResValues UP-TO-DATE
+> Task :react-native-google-signin_google-signin:generateReleaseResources UP-TO-DATE
+> Task :react-native-google-signin_google-signin:packageReleaseResources UP-TO-DATE
+> Task :react-native-image-crop-picker:compileReleaseRenderscript NO-SOURCE
+> Task :react-native-image-crop-picker:generateReleaseResValues UP-TO-DATE
+> Task :react-native-image-crop-picker:generateReleaseResources UP-TO-DATE
+> Task :react-native-image-crop-picker:packageReleaseResources UP-TO-DATE
+> Task :react-native-linear-gradient:compileReleaseRenderscript NO-SOURCE
+> Task :react-native-linear-gradient:generateReleaseResValues UP-TO-DATE
+> Task :react-native-linear-gradient:generateReleaseResources UP-TO-DATE
+> Task :react-native-linear-gradient:packageReleaseResources UP-TO-DATE
+> Task :react-native-pager-view:compileReleaseRenderscript NO-SOURCE
+> Task :react-native-pager-view:generateReleaseResValues UP-TO-DATE
+> Task :react-native-pager-view:generateReleaseResources UP-TO-DATE
+> Task :react-native-pager-view:packageReleaseResources UP-TO-DATE
+> Task :react-native-safe-area-context:compileReleaseRenderscript NO-SOURCE
+> Task :react-native-safe-area-context:generateReleaseResValues UP-TO-DATE
+> Task :react-native-safe-area-context:generateReleaseResources UP-TO-DATE
+> Task :react-native-safe-area-context:packageReleaseResources UP-TO-DATE
+> Task :react-native-screens:compileReleaseRenderscript NO-SOURCE
+> Task :react-native-screens:generateReleaseResValues UP-TO-DATE
+> Task :react-native-screens:generateReleaseResources UP-TO-DATE
+> Task :react-native-screens:packageReleaseResources UP-TO-DATE
+> Task :react-native-upi-payment:compileReleaseRenderscript NO-SOURCE
+> Task :react-native-upi-payment:generateReleaseResValues UP-TO-DATE
+> Task :react-native-upi-payment:generateReleaseResources UP-TO-DATE
+> Task :react-native-upi-payment:packageReleaseResources UP-TO-DATE
+> Task :react-native-vector-icons:compileReleaseRenderscript NO-SOURCE
+> Task :react-native-vector-icons:generateReleaseResValues UP-TO-DATE
+> Task :react-native-vector-icons:generateReleaseResources UP-TO-DATE
+> Task :react-native-vector-icons:packageReleaseResources UP-TO-DATE
+> Task :app:mapReleaseSourceSetPaths UP-TO-DATE
+> Task :app:mergeReleaseShaders UP-TO-DATE
+> Task :app:compileReleaseShaders NO-SOURCE
+> Task :app:copyReactNativeVectorIconFonts UP-TO-DATE
+> Task :app:generateReleaseAssets UP-TO-DATE
+> Task :mapmyindia-map-react-native-beta:mergeReleaseShaders UP-TO-DATE
+> Task :mapmyindia-map-react-native-beta:compileReleaseShaders NO-SOURCE
+> Task :mapmyindia-map-react-native-beta:generateReleaseAssets UP-TO-DATE
+> Task :mapmyindia-map-react-native-beta:packageReleaseAssets UP-TO-DATE
+> Task :mapmyindia-restapi-react-native-beta:mergeReleaseShaders UP-TO-DATE
+> Task :mapmyindia-restapi-react-native-beta:compileReleaseShaders NO-SOURCE
+> Task :mapmyindia-restapi-react-native-beta:generateReleaseAssets UP-TO-DATE
+> Task :mapmyindia-restapi-react-native-beta:packageReleaseAssets UP-TO-DATE
+> Task :react-native-android-location-enabler:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-android-location-enabler:compileReleaseShaders NO-SOURCE
+> Task :react-native-android-location-enabler:generateReleaseAssets UP-TO-DATE
+> Task :react-native-android-location-enabler:packageReleaseAssets UP-TO-DATE
+> Task :react-native-async-storage_async-storage:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-async-storage_async-storage:compileReleaseShaders NO-SOURCE
+> Task :react-native-async-storage_async-storage:generateReleaseAssets UP-TO-DATE
+> Task :react-native-async-storage_async-storage:packageReleaseAssets UP-TO-DATE
+> Task :react-native-clipboard_clipboard:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-clipboard_clipboard:compileReleaseShaders NO-SOURCE
+> Task :react-native-clipboard_clipboard:generateReleaseAssets UP-TO-DATE
+> Task :react-native-clipboard_clipboard:packageReleaseAssets UP-TO-DATE
+> Task :react-native-community_checkbox:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-community_checkbox:compileReleaseShaders NO-SOURCE
+> Task :react-native-community_checkbox:generateReleaseAssets UP-TO-DATE
+> Task :react-native-community_checkbox:packageReleaseAssets UP-TO-DATE
+> Task :react-native-community_datetimepicker:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-community_datetimepicker:compileReleaseShaders NO-SOURCE
+> Task :react-native-community_datetimepicker:generateReleaseAssets UP-TO-DATE
+> Task :react-native-community_datetimepicker:packageReleaseAssets UP-TO-DATE
+> Task :react-native-community_geolocation:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-community_geolocation:compileReleaseShaders NO-SOURCE
+> Task :react-native-community_geolocation:generateReleaseAssets UP-TO-DATE
+> Task :react-native-community_geolocation:packageReleaseAssets UP-TO-DATE
+> Task :react-native-community_netinfo:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-community_netinfo:compileReleaseShaders NO-SOURCE
+> Task :react-native-community_netinfo:generateReleaseAssets UP-TO-DATE
+> Task :react-native-community_netinfo:packageReleaseAssets UP-TO-DATE
+> Task :react-native-exit-app:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-exit-app:compileReleaseShaders NO-SOURCE
+> Task :react-native-exit-app:generateReleaseAssets UP-TO-DATE
+> Task :react-native-exit-app:packageReleaseAssets UP-TO-DATE
+> Task :react-native-fbsdk:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-fbsdk:compileReleaseShaders NO-SOURCE
+> Task :react-native-fbsdk:generateReleaseAssets UP-TO-DATE
+> Task :react-native-fbsdk:packageReleaseAssets UP-TO-DATE
+> Task :react-native-firebase_app:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-firebase_app:compileReleaseShaders NO-SOURCE
+> Task :react-native-firebase_app:generateReleaseAssets UP-TO-DATE
+> Task :react-native-firebase_app:packageReleaseAssets UP-TO-DATE
+> Task :react-native-gesture-handler:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-gesture-handler:compileReleaseShaders NO-SOURCE
+> Task :react-native-gesture-handler:generateReleaseAssets UP-TO-DATE
+> Task :react-native-gesture-handler:packageReleaseAssets UP-TO-DATE
+> Task :react-native-google-signin_google-signin:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-google-signin_google-signin:compileReleaseShaders NO-SOURCE
+> Task :react-native-google-signin_google-signin:generateReleaseAssets UP-TO-DATE
+> Task :react-native-google-signin_google-signin:packageReleaseAssets UP-TO-DATE
+> Task :react-native-image-crop-picker:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-image-crop-picker:compileReleaseShaders NO-SOURCE
+> Task :react-native-image-crop-picker:generateReleaseAssets UP-TO-DATE
+> Task :react-native-image-crop-picker:packageReleaseAssets UP-TO-DATE
+> Task :react-native-linear-gradient:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-linear-gradient:compileReleaseShaders NO-SOURCE
+> Task :react-native-linear-gradient:generateReleaseAssets UP-TO-DATE
+> Task :react-native-linear-gradient:packageReleaseAssets UP-TO-DATE
+> Task :react-native-pager-view:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-pager-view:compileReleaseShaders NO-SOURCE
+> Task :react-native-pager-view:generateReleaseAssets UP-TO-DATE
+> Task :react-native-pager-view:packageReleaseAssets UP-TO-DATE
+> Task :react-native-safe-area-context:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-safe-area-context:compileReleaseShaders NO-SOURCE
+> Task :react-native-safe-area-context:generateReleaseAssets UP-TO-DATE
+> Task :react-native-safe-area-context:packageReleaseAssets UP-TO-DATE
+> Task :react-native-screens:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-screens:compileReleaseShaders NO-SOURCE
+> Task :react-native-screens:generateReleaseAssets UP-TO-DATE
+> Task :react-native-screens:packageReleaseAssets UP-TO-DATE
+> Task :react-native-upi-payment:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-upi-payment:compileReleaseShaders NO-SOURCE
+> Task :react-native-upi-payment:generateReleaseAssets UP-TO-DATE
+> Task :react-native-upi-payment:packageReleaseAssets UP-TO-DATE
+> Task :react-native-vector-icons:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-vector-icons:compileReleaseShaders NO-SOURCE
+> Task :react-native-vector-icons:generateReleaseAssets UP-TO-DATE
+> Task :react-native-vector-icons:packageReleaseAssets UP-TO-DATE
+> Task :app:mergeReleaseAssets UP-TO-DATE
+> Task :app:copyReleaseBundledJs UP-TO-DATE
+> Task :app:generateReleaseResources UP-TO-DATE
+> Task :app:mergeReleaseResources UP-TO-DATE
+> Task :app:createReleaseCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksRelease UP-TO-DATE
+> Task :mapmyindia-map-react-native-beta:extractDeepLinksRelease UP-TO-DATE
+> Task :mapmyindia-restapi-react-native-beta:extractDeepLinksRelease UP-TO-DATE
+> Task :mapmyindia-map-react-native-beta:processReleaseManifest UP-TO-DATE
+> Task :mapmyindia-restapi-react-native-beta:processReleaseManifest UP-TO-DATE
+> Task :react-native-android-location-enabler:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-android-location-enabler:processReleaseManifest UP-TO-DATE
+> Task :react-native-async-storage_async-storage:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-async-storage_async-storage:processReleaseManifest UP-TO-DATE
+> Task :react-native-clipboard_clipboard:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-clipboard_clipboard:processReleaseManifest UP-TO-DATE
+> Task :react-native-community_checkbox:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-community_checkbox:processReleaseManifest UP-TO-DATE
+> Task :react-native-community_datetimepicker:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-community_datetimepicker:processReleaseManifest UP-TO-DATE
+> Task :react-native-community_geolocation:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-community_geolocation:processReleaseManifest UP-TO-DATE
+> Task :react-native-community_netinfo:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-community_netinfo:processReleaseManifest UP-TO-DATE
+> Task :react-native-exit-app:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-exit-app:processReleaseManifest UP-TO-DATE
+> Task :react-native-fbsdk:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-fbsdk:processReleaseManifest UP-TO-DATE
+> Task :react-native-firebase_app:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-firebase_app:processReleaseManifest UP-TO-DATE
+> Task :react-native-gesture-handler:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-gesture-handler:processReleaseManifest UP-TO-DATE
+> Task :react-native-google-signin_google-signin:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-google-signin_google-signin:processReleaseManifest UP-TO-DATE
+> Task :react-native-image-crop-picker:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-image-crop-picker:processReleaseManifest UP-TO-DATE
+> Task :react-native-linear-gradient:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-linear-gradient:processReleaseManifest UP-TO-DATE
+> Task :react-native-pager-view:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-pager-view:processReleaseManifest UP-TO-DATE
+> Task :react-native-safe-area-context:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-safe-area-context:processReleaseManifest UP-TO-DATE
+> Task :react-native-screens:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-screens:processReleaseManifest UP-TO-DATE
+> Task :react-native-upi-payment:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-upi-payment:processReleaseManifest UP-TO-DATE
+> Task :react-native-vector-icons:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-vector-icons:processReleaseManifest UP-TO-DATE
+
+> Task :app:processReleaseMainManifest
+Execution optimizations have been disabled for task ':app:processReleaseMainManifest' to ensure correctness due to the following reasons:
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp\android\app\build\intermediates\navigation_json\release\navigation.json'. Reason: Task ':app:processReleaseMainManifest' uses this output of task ':app:copyReleaseBundledJs' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+package="com.allonone" found in source AndroidManifest.xml: C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp\android\app\src\main\AndroidManifest.xml.
+Setting the namespace via a source AndroidManifest.xml's package attribute is deprecated.
+Please instead set the namespace (or testNamespace) in the module's build.gradle file, as described here: https://developer.android.com/studio/build/configure-app-module#set-namespace
+This migration can be done automatically using the AGP Upgrade Assistant, please refer to https://developer.android.com/studio/build/agp-upgrade-assistant for more information.
+
+> Task :app:processReleaseManifest
+Execution optimizations have been disabled for task ':app:processReleaseManifest' to ensure correctness due to the following reasons:
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp\android\app\build\intermediates\compatible_screen_manifest\release'. Reason: Task ':app:processReleaseManifest' uses this output of task ':app:copyReleaseBundledJs' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp\android\app\build\intermediates\merged_manifest\release\AndroidManifest.xml'. Reason: Task ':app:processReleaseManifest' uses this output of task ':app:copyReleaseBundledJs' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+
+> Task :mapmyindia-map-react-native-beta:writeReleaseAarMetadata UP-TO-DATE
+> Task :mapmyindia-restapi-react-native-beta:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-android-location-enabler:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-async-storage_async-storage:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-clipboard_clipboard:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-community_checkbox:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-community_datetimepicker:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-community_geolocation:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-community_netinfo:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-exit-app:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-fbsdk:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-firebase_app:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-gesture-handler:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-google-signin_google-signin:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-image-crop-picker:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-linear-gradient:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-pager-view:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-safe-area-context:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-screens:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-upi-payment:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-vector-icons:writeReleaseAarMetadata UP-TO-DATE
+> Task :app:checkReleaseAarMetadata UP-TO-DATE
+> Task :mapmyindia-map-react-native-beta:compileReleaseLibraryResources UP-TO-DATE
+> Task :mapmyindia-map-react-native-beta:parseReleaseLocalResources UP-TO-DATE
+> Task :mapmyindia-map-react-native-beta:generateReleaseRFile UP-TO-DATE
+> Task :mapmyindia-restapi-react-native-beta:compileReleaseLibraryResources UP-TO-DATE
+> Task :mapmyindia-restapi-react-native-beta:parseReleaseLocalResources UP-TO-DATE
+> Task :mapmyindia-restapi-react-native-beta:generateReleaseRFile UP-TO-DATE
+> Task :react-native-android-location-enabler:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-android-location-enabler:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-android-location-enabler:generateReleaseRFile UP-TO-DATE
+> Task :react-native-async-storage_async-storage:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-async-storage_async-storage:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-async-storage_async-storage:generateReleaseRFile UP-TO-DATE
+> Task :react-native-clipboard_clipboard:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-clipboard_clipboard:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-clipboard_clipboard:generateReleaseRFile UP-TO-DATE
+> Task :react-native-community_checkbox:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-community_checkbox:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-community_checkbox:generateReleaseRFile UP-TO-DATE
+> Task :react-native-community_datetimepicker:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-community_datetimepicker:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-community_datetimepicker:generateReleaseRFile UP-TO-DATE
+> Task :react-native-community_geolocation:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-community_geolocation:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-community_geolocation:generateReleaseRFile UP-TO-DATE
+> Task :react-native-community_netinfo:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-community_netinfo:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-community_netinfo:generateReleaseRFile UP-TO-DATE
+> Task :react-native-exit-app:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-exit-app:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-exit-app:generateReleaseRFile UP-TO-DATE
+
+> Task :app:processReleaseManifestForPackage
+Execution optimizations have been disabled for task ':app:processReleaseManifestForPackage' to ensure correctness due to the following reasons:
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp\android\app\build\intermediates\merged_manifests\release'. Reason: Task ':app:processReleaseManifestForPackage' uses this output of task ':app:copyReleaseBundledJs' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+
+> Task :react-native-fbsdk:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-fbsdk:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-fbsdk:generateReleaseRFile UP-TO-DATE
+> Task :react-native-firebase_app:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-firebase_app:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-firebase_app:generateReleaseRFile UP-TO-DATE
+> Task :react-native-gesture-handler:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-gesture-handler:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-gesture-handler:generateReleaseRFile UP-TO-DATE
+> Task :react-native-google-signin_google-signin:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-google-signin_google-signin:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-google-signin_google-signin:generateReleaseRFile UP-TO-DATE
+> Task :react-native-image-crop-picker:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-image-crop-picker:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-image-crop-picker:generateReleaseRFile UP-TO-DATE
+> Task :react-native-linear-gradient:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-linear-gradient:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-linear-gradient:generateReleaseRFile UP-TO-DATE
+> Task :react-native-pager-view:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-pager-view:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-pager-view:generateReleaseRFile UP-TO-DATE
+> Task :react-native-safe-area-context:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-safe-area-context:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-safe-area-context:generateReleaseRFile UP-TO-DATE
+> Task :react-native-screens:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-screens:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-screens:generateReleaseRFile UP-TO-DATE
+> Task :react-native-upi-payment:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-upi-payment:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-upi-payment:generateReleaseRFile UP-TO-DATE
+> Task :react-native-vector-icons:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-vector-icons:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-vector-icons:generateReleaseRFile UP-TO-DATE
+> Task :app:processReleaseResources UP-TO-DATE
+> Task :mapmyindia-map-react-native-beta:generateReleaseBuildConfig UP-TO-DATE
+> Task :mapmyindia-map-react-native-beta:javaPreCompileRelease UP-TO-DATE
+> Task :mapmyindia-map-react-native-beta:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :mapmyindia-map-react-native-beta:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :mapmyindia-restapi-react-native-beta:generateReleaseBuildConfig UP-TO-DATE
+> Task :mapmyindia-restapi-react-native-beta:javaPreCompileRelease UP-TO-DATE
+> Task :mapmyindia-restapi-react-native-beta:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :mapmyindia-restapi-react-native-beta:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-android-location-enabler:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-android-location-enabler:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-android-location-enabler:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-android-location-enabler:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-async-storage_async-storage:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-async-storage_async-storage:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-async-storage_async-storage:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-async-storage_async-storage:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-clipboard_clipboard:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-clipboard_clipboard:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-clipboard_clipboard:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-clipboard_clipboard:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-community_checkbox:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-community_checkbox:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-community_checkbox:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-community_checkbox:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-community_datetimepicker:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-community_datetimepicker:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-community_datetimepicker:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-community_datetimepicker:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-community_geolocation:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-community_geolocation:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-community_geolocation:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-community_geolocation:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-community_netinfo:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-community_netinfo:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-community_netinfo:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-community_netinfo:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-exit-app:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-exit-app:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-exit-app:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-exit-app:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-fbsdk:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-fbsdk:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-fbsdk:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-fbsdk:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-firebase_app:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-firebase_app:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-firebase_app:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-firebase_app:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-gesture-handler:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-gesture-handler:compileReleaseKotlin UP-TO-DATE
+> Task :react-native-gesture-handler:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-gesture-handler:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-gesture-handler:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-google-signin_google-signin:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-google-signin_google-signin:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-google-signin_google-signin:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-google-signin_google-signin:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-image-crop-picker:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-image-crop-picker:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-image-crop-picker:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-image-crop-picker:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-linear-gradient:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-linear-gradient:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-linear-gradient:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-linear-gradient:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-pager-view:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-pager-view:compileReleaseKotlin UP-TO-DATE
+> Task :react-native-pager-view:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-pager-view:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-pager-view:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-safe-area-context:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-safe-area-context:compileReleaseKotlin UP-TO-DATE
+> Task :react-native-safe-area-context:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-safe-area-context:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-safe-area-context:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-screens:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-screens:compileReleaseKotlin UP-TO-DATE
+> Task :react-native-screens:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-screens:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-screens:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-upi-payment:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-upi-payment:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-upi-payment:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-upi-payment:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-vector-icons:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-vector-icons:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-vector-icons:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-vector-icons:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :app:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :app:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+> Task :app:processReleaseJavaRes NO-SOURCE
+> Task :mapmyindia-map-react-native-beta:processReleaseJavaRes NO-SOURCE
+> Task :mapmyindia-map-react-native-beta:bundleLibResRelease NO-SOURCE
+> Task :mapmyindia-restapi-react-native-beta:processReleaseJavaRes NO-SOURCE
+> Task :mapmyindia-restapi-react-native-beta:bundleLibResRelease NO-SOURCE
+> Task :react-native-android-location-enabler:processReleaseJavaRes NO-SOURCE
+> Task :react-native-android-location-enabler:bundleLibResRelease NO-SOURCE
+> Task :react-native-async-storage_async-storage:processReleaseJavaRes NO-SOURCE
+> Task :react-native-async-storage_async-storage:bundleLibResRelease NO-SOURCE
+> Task :react-native-clipboard_clipboard:processReleaseJavaRes NO-SOURCE
+> Task :react-native-clipboard_clipboard:bundleLibResRelease NO-SOURCE
+> Task :react-native-community_checkbox:processReleaseJavaRes NO-SOURCE
+> Task :react-native-community_checkbox:bundleLibResRelease NO-SOURCE
+> Task :react-native-community_datetimepicker:processReleaseJavaRes NO-SOURCE
+> Task :react-native-community_datetimepicker:bundleLibResRelease NO-SOURCE
+> Task :react-native-community_geolocation:processReleaseJavaRes NO-SOURCE
+> Task :react-native-community_geolocation:bundleLibResRelease NO-SOURCE
+> Task :react-native-community_netinfo:processReleaseJavaRes NO-SOURCE
+> Task :react-native-community_netinfo:bundleLibResRelease NO-SOURCE
+> Task :react-native-exit-app:processReleaseJavaRes NO-SOURCE
+> Task :react-native-exit-app:bundleLibResRelease NO-SOURCE
+> Task :react-native-fbsdk:processReleaseJavaRes NO-SOURCE
+> Task :react-native-fbsdk:bundleLibResRelease NO-SOURCE
+> Task :react-native-firebase_app:processReleaseJavaRes NO-SOURCE
+> Task :react-native-firebase_app:bundleLibResRelease NO-SOURCE
+> Task :react-native-gesture-handler:processReleaseJavaRes NO-SOURCE
+> Task :react-native-gesture-handler:bundleLibResRelease UP-TO-DATE
+> Task :react-native-google-signin_google-signin:processReleaseJavaRes NO-SOURCE
+> Task :react-native-google-signin_google-signin:bundleLibResRelease NO-SOURCE
+> Task :react-native-image-crop-picker:processReleaseJavaRes NO-SOURCE
+> Task :react-native-image-crop-picker:bundleLibResRelease NO-SOURCE
+> Task :react-native-linear-gradient:processReleaseJavaRes NO-SOURCE
+> Task :react-native-linear-gradient:bundleLibResRelease NO-SOURCE
+> Task :react-native-pager-view:processReleaseJavaRes NO-SOURCE
+> Task :react-native-pager-view:bundleLibResRelease UP-TO-DATE
+> Task :react-native-safe-area-context:processReleaseJavaRes NO-SOURCE
+> Task :react-native-safe-area-context:bundleLibResRelease UP-TO-DATE
+> Task :react-native-screens:processReleaseJavaRes NO-SOURCE
+> Task :react-native-screens:bundleLibResRelease UP-TO-DATE
+> Task :react-native-upi-payment:processReleaseJavaRes NO-SOURCE
+> Task :react-native-upi-payment:bundleLibResRelease NO-SOURCE
+> Task :react-native-vector-icons:processReleaseJavaRes NO-SOURCE
+> Task :react-native-vector-icons:bundleLibResRelease NO-SOURCE
+> Task :react-native-async-storage_async-storage:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+> Task :react-native-async-storage_async-storage:exportReleaseConsumerProguardFiles UP-TO-DATE
+> Task :react-native-clipboard_clipboard:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+> Task :react-native-clipboard_clipboard:exportReleaseConsumerProguardFiles UP-TO-DATE
+> Task :react-native-community_checkbox:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+> Task :react-native-community_checkbox:exportReleaseConsumerProguardFiles UP-TO-DATE
+> Task :react-native-community_datetimepicker:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+> Task :react-native-community_datetimepicker:exportReleaseConsumerProguardFiles UP-TO-DATE
+> Task :react-native-community_geolocation:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+> Task :react-native-community_geolocation:exportReleaseConsumerProguardFiles UP-TO-DATE
+> Task :react-native-community_netinfo:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+> Task :react-native-community_netinfo:exportReleaseConsumerProguardFiles UP-TO-DATE
+> Task :react-native-firebase_app:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+> Task :react-native-firebase_app:exportReleaseConsumerProguardFiles UP-TO-DATE
+> Task :react-native-google-signin_google-signin:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+> Task :react-native-google-signin_google-signin:exportReleaseConsumerProguardFiles UP-TO-DATE
+> Task :mapmyindia-map-react-native-beta:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+> Task :mapmyindia-map-react-native-beta:exportReleaseConsumerProguardFiles UP-TO-DATE
+> Task :mapmyindia-restapi-react-native-beta:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+> Task :mapmyindia-restapi-react-native-beta:exportReleaseConsumerProguardFiles UP-TO-DATE
+> Task :react-native-android-location-enabler:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+> Task :react-native-android-location-enabler:exportReleaseConsumerProguardFiles UP-TO-DATE
+> Task :react-native-exit-app:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+> Task :react-native-exit-app:exportReleaseConsumerProguardFiles UP-TO-DATE
+> Task :react-native-fbsdk:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+> Task :react-native-fbsdk:exportReleaseConsumerProguardFiles UP-TO-DATE
+> Task :react-native-gesture-handler:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+> Task :react-native-gesture-handler:exportReleaseConsumerProguardFiles UP-TO-DATE
+> Task :react-native-image-crop-picker:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+> Task :react-native-image-crop-picker:exportReleaseConsumerProguardFiles UP-TO-DATE
+> Task :react-native-pager-view:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+> Task :react-native-pager-view:exportReleaseConsumerProguardFiles UP-TO-DATE
+> Task :react-native-safe-area-context:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+> Task :react-native-safe-area-context:exportReleaseConsumerProguardFiles UP-TO-DATE
+> Task :react-native-screens:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+> Task :react-native-screens:exportReleaseConsumerProguardFiles UP-TO-DATE
+> Task :react-native-upi-payment:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+> Task :react-native-upi-payment:exportReleaseConsumerProguardFiles UP-TO-DATE
+> Task :react-native-vector-icons:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+> Task :react-native-vector-icons:exportReleaseConsumerProguardFiles UP-TO-DATE
+> Task :react-native-linear-gradient:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+> Task :react-native-linear-gradient:exportReleaseConsumerProguardFiles UP-TO-DATE
+> Task :mapmyindia-map-react-native-beta:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :mapmyindia-restapi-react-native-beta:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-android-location-enabler:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-async-storage_async-storage:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-clipboard_clipboard:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-community_checkbox:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-community_datetimepicker:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-community_geolocation:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-community_netinfo:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-exit-app:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-fbsdk:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-firebase_app:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-gesture-handler:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-google-signin_google-signin:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-image-crop-picker:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-linear-gradient:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-pager-view:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-safe-area-context:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-screens:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-upi-payment:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-vector-icons:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :app:collectReleaseDependencies UP-TO-DATE
+
+> Task :app:compressReleaseAssets
+Execution optimizations have been disabled for task ':app:compressReleaseAssets' to ensure correctness due to the following reasons:
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp\android\app\build\intermediates\assets\release'. Reason: Task ':app:compressReleaseAssets' uses this output of task ':app:copyReleaseBundledJs' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+
+> Task :app:mergeReleaseJavaResource
+Execution optimizations have been disabled for task ':app:mergeReleaseJavaResource' to ensure correctness due to the following reasons:
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp\android\app\build\intermediates\java_res\release\out'. Reason: Task ':app:mergeReleaseJavaResource' uses this output of task ':app:copyReleaseBundledJs' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+
+> Task :app:sdkReleaseDependencyData
+Execution optimizations have been disabled for task ':app:sdkReleaseDependencyData' to ensure correctness due to the following reasons:
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp\android\app\build\intermediates\metadata_library_dependencies_report\release\dependencies.pb'. Reason: Task ':app:sdkReleaseDependencyData' uses this output of task ':app:copyReleaseBundledJs' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+
+> Task :app:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :mapmyindia-map-react-native-beta:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :mapmyindia-map-react-native-beta:mergeReleaseNativeLibs NO-SOURCE
+> Task :mapmyindia-map-react-native-beta:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :mapmyindia-restapi-react-native-beta:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :mapmyindia-restapi-react-native-beta:mergeReleaseNativeLibs NO-SOURCE
+> Task :mapmyindia-restapi-react-native-beta:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-android-location-enabler:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-android-location-enabler:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-android-location-enabler:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-async-storage_async-storage:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-async-storage_async-storage:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-async-storage_async-storage:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-clipboard_clipboard:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-clipboard_clipboard:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-clipboard_clipboard:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-community_checkbox:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-community_checkbox:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-community_checkbox:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-community_datetimepicker:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-community_datetimepicker:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-community_datetimepicker:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-community_geolocation:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-community_geolocation:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-community_geolocation:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-community_netinfo:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-community_netinfo:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-community_netinfo:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-exit-app:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-exit-app:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-exit-app:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-fbsdk:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-fbsdk:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-fbsdk:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-firebase_app:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-firebase_app:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-firebase_app:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-gesture-handler:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-gesture-handler:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-gesture-handler:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-google-signin_google-signin:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-google-signin_google-signin:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-google-signin_google-signin:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-image-crop-picker:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-image-crop-picker:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-image-crop-picker:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-linear-gradient:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-linear-gradient:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-linear-gradient:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-pager-view:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-pager-view:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-pager-view:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-safe-area-context:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-safe-area-context:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-safe-area-context:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-screens:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-screens:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-screens:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-upi-payment:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-upi-payment:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-upi-payment:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-vector-icons:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-vector-icons:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-vector-icons:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :app:validateSigningRelease UP-TO-DATE
+> Task :app:writeReleaseAppMetadata UP-TO-DATE
+> Task :app:writeReleaseSigningConfigVersions
+> Task :app:optimizeReleaseResources
+
+> Task :app:mergeReleaseNativeLibs
+Execution optimizations have been disabled for task ':app:mergeReleaseNativeLibs' to ensure correctness due to the following reasons:
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp\android\app\build\intermediates\merged_jni_libs\release\out'. Reason: Task ':app:mergeReleaseNativeLibs' uses this output of task ':app:copyReleaseBundledJs' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+
+> Task :app:minifyReleaseWithR8 UP-TO-DATE
+> Task :app:compileReleaseArtProfile UP-TO-DATE
+
+> Task :app:stripReleaseDebugSymbols
+Execution optimizations have been disabled for task ':app:stripReleaseDebugSymbols' to ensure correctness due to the following reasons:
+  - Gradle detected a problem with the following location: 'C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp\android\app\build\intermediates\merged_native_libs\release\out'. Reason: Task ':app:stripReleaseDebugSymbols' uses this output of task ':app:copyReleaseBundledJs' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed. Please refer to https://docs.gradle.org/7.5.1/userguide/validation_problems.html#implicit_dependency for more details about this problem.
+Unable to strip the following libraries, packaging them as they are: libucrop.so.
+
+> Task :app:packageRelease
+> Task :app:createReleaseApkListingFileRedirect
+
+> Task :app:installRelease
+Installing APK 'app-release.apk' on 'SM-A217F - 12' for :app:release
+
+> Task :app:installRelease FAILED
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 8.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+See https://docs.gradle.org/7.5.1/userguide/command_line_interface.html#sec:command_line_warnings
+
+Execution optimizations have been disabled for 9 invalid unit(s) of work during this build to ensure correctness.
+Please consult deprecation warnings for more details.
+475 actionable tasks: 16 executed, 459 up-to-date
+Unable to install C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp\android\app\build\outputs\apk\release\app-release.apk
+com.android.ddmlib.InstallException: INSTALL_FAILED_UPDATE_INCOMPATIBLE: Package com.allonone signatures do not match previously installed version; ignoring!
+	at com.android.ddmlib.internal.DeviceImpl.installRemotePackage(DeviceImpl.java:1315)
+	at com.android.ddmlib.internal.DeviceImpl.installPackage(DeviceImpl.java:1141)
+	at com.android.ddmlib.internal.DeviceImpl.installPackage(DeviceImpl.java:1117)
+	at com.android.ddmlib.internal.DeviceImpl.installPackage(DeviceImpl.java:1106)
+	at com.android.build.gradle.internal.testing.ConnectedDevice.installPackage(ConnectedDevice.java:127)
+	at com.android.build.gradle.internal.tasks.InstallVariantTask.install(InstallVariantTask.java:162)
+	at com.android.build.gradle.internal.tasks.InstallVariantTask.lambda$doTaskAction$1(InstallVariantTask.java:99)
+	at com.android.builder.testing.api.DeviceProvider.use(DeviceProvider.java:55)
+	at com.android.build.gradle.internal.tasks.InstallVariantTask.doTaskAction(InstallVariantTask.java:94)
+	at com.android.build.gradle.internal.tasks.NonIncrementalTask$taskAction$$inlined$recordTaskAction$1.invoke(BaseTask.kt:66)
+	at com.android.build.gradle.internal.tasks.Blocks.recordSpan(Blocks.java:51)
+	at com.android.build.gradle.internal.tasks.NonIncrementalTask.taskAction(NonIncrementalTask.kt:97)
+	at java.base@11.0.17/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base@11.0.17/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base@11.0.17/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base@11.0.17/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.gradle.internal.reflect.JavaMethod.invoke(JavaMethod.java:125)
+	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.doExecute(StandardTaskAction.java:58)
+	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:51)
+	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:29)
+	at org.gradle.api.internal.tasks.execution.TaskExecution$3.run(TaskExecution.java:236)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:29)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:26)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:157)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.run(DefaultBuildOperationRunner.java:47)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor.run(DefaultBuildOperationExecutor.java:68)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.executeAction(TaskExecution.java:221)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.executeActions(TaskExecution.java:204)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.executeWithPreviousOutputFiles(TaskExecution.java:187)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.execute(TaskExecution.java:165)
+	at org.gradle.internal.execution.steps.ExecuteStep.executeInternal(ExecuteStep.java:89)
+	at org.gradle.internal.execution.steps.ExecuteStep.access$000(ExecuteStep.java:40)
+	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:53)
+	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:50)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:199)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:157)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor.call(DefaultBuildOperationExecutor.java:73)
+	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:50)
+	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:40)
+	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.execute(RemovePreviousOutputsStep.java:68)
+	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.execute(RemovePreviousOutputsStep.java:38)
+	at org.gradle.internal.execution.steps.CancelExecutionStep.execute(CancelExecutionStep.java:41)
+	at org.gradle.internal.execution.steps.TimeoutStep.executeWithoutTimeout(TimeoutStep.java:74)
+	at org.gradle.internal.execution.steps.TimeoutStep.execute(TimeoutStep.java:55)
+	at org.gradle.internal.execution.steps.CreateOutputsStep.execute(CreateOutputsStep.java:51)
+	at org.gradle.internal.execution.steps.CreateOutputsStep.execute(CreateOutputsStep.java:29)
+	at org.gradle.internal.execution.steps.CaptureStateAfterExecutionStep.executeDelegateBroadcastingChanges(CaptureStateAfterExecutionStep.java:124)
+	at org.gradle.internal.execution.steps.CaptureStateAfterExecutionStep.execute(CaptureStateAfterExecutionStep.java:80)
+	at org.gradle.internal.execution.steps.CaptureStateAfterExecutionStep.execute(CaptureStateAfterExecutionStep.java:58)
+	at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(ResolveInputChangesStep.java:48)
+	at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(ResolveInputChangesStep.java:36)
+	at org.gradle.internal.execution.steps.BuildCacheStep.executeWithoutCache(BuildCacheStep.java:181)
+	at org.gradle.internal.execution.steps.BuildCacheStep.lambda$execute$1(BuildCacheStep.java:71)
+	at org.gradle.internal.Either$Right.fold(Either.java:175)
+	at org.gradle.internal.execution.caching.CachingState.fold(CachingState.java:59)
+	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:69)
+	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:47)
+	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:36)
+	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:25)
+	at org.gradle.internal.execution.steps.RecordOutputsStep.execute(RecordOutputsStep.java:36)
+	at org.gradle.internal.execution.steps.RecordOutputsStep.execute(RecordOutputsStep.java:22)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.executeBecause(SkipUpToDateStep.java:110)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.lambda$execute$2(SkipUpToDateStep.java:56)
+	at java.base@11.0.17/java.util.Optional.orElseGet(Optional.java:369)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:56)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:38)
+	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:73)
+	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:44)
+	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:37)
+	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:27)
+	at org.gradle.internal.execution.steps.ResolveCachingStateStep.execute(ResolveCachingStateStep.java:89)
+	at org.gradle.internal.execution.steps.ResolveCachingStateStep.execute(ResolveCachingStateStep.java:50)
+	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:114)
+	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:57)
+	at org.gradle.internal.execution.steps.CaptureStateBeforeExecutionStep.execute(CaptureStateBeforeExecutionStep.java:76)
+	at org.gradle.internal.execution.steps.CaptureStateBeforeExecutionStep.execute(CaptureStateBeforeExecutionStep.java:50)
+	at org.gradle.internal.execution.steps.SkipEmptyWorkStep.executeWithNoEmptySources(SkipEmptyWorkStep.java:254)
+	at org.gradle.internal.execution.steps.SkipEmptyWorkStep.execute(SkipEmptyWorkStep.java:91)
+	at org.gradle.internal.execution.steps.SkipEmptyWorkStep.execute(SkipEmptyWorkStep.java:56)
+	at org.gradle.internal.execution.steps.RemoveUntrackedExecutionStateStep.execute(RemoveUntrackedExecutionStateStep.java:32)
+	at org.gradle.internal.execution.steps.RemoveUntrackedExecutionStateStep.execute(RemoveUntrackedExecutionStateStep.java:21)
+	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedStep.execute(MarkSnapshottingInputsStartedStep.java:38)
+	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:43)
+	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:31)
+	at org.gradle.internal.execution.steps.AssignWorkspaceStep.lambda$execute$0(AssignWorkspaceStep.java:40)
+	at org.gradle.api.internal.tasks.execution.TaskExecution$4.withWorkspace(TaskExecution.java:281)
+	at org.gradle.internal.execution.steps.AssignWorkspaceStep.execute(AssignWorkspaceStep.java:40)
+	at org.gradle.internal.execution.steps.AssignWorkspaceStep.execute(AssignWorkspaceStep.java:30)
+	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:37)
+	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:27)
+	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:44)
+	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:33)
+	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:76)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:139)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:128)
+	at org.gradle.api.internal.tasks.execution.CleanupStaleOutputsExecuter.execute(CleanupStaleOutputsExecuter.java:77)
+	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
+	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)
+	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
+	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:56)
+	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:199)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:157)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor.call(DefaultBuildOperationExecutor.java:73)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
+	at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:69)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:327)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:314)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:307)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:293)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:420)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:342)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)
+	at java.base@11.0.17/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base@11.0.17/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base@11.0.17/java.lang.Thread.run(Thread.java:829)
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:installRelease'.
+> java.util.concurrent.ExecutionException: com.android.builder.testing.api.DeviceException: com.android.ddmlib.InstallException: INSTALL_FAILED_UPDATE_INCOMPATIBLE: Package com.allonone signatures do not match previously installed version; ignoring!
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+
+* Get more help at https://help.gradle.org
+
+BUILD FAILED in 4m 59s
+
+Error: Command failed: gradlew.bat app:installRelease -PreactNativeDevServerPort=8081
+Unable to install C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp\android\app\build\outputs\apk\release\app-release.apk
+com.android.ddmlib.InstallException: INSTALL_FAILED_UPDATE_INCOMPATIBLE: Package com.allonone signatures do not match previously installed version; ignoring!
+	at com.android.ddmlib.internal.DeviceImpl.installRemotePackage(DeviceImpl.java:1315)
+	at com.android.ddmlib.internal.DeviceImpl.installPackage(DeviceImpl.java:1141)
+	at com.android.ddmlib.internal.DeviceImpl.installPackage(DeviceImpl.java:1117)
+	at com.android.ddmlib.internal.DeviceImpl.installPackage(DeviceImpl.java:1106)
+	at com.android.build.gradle.internal.testing.ConnectedDevice.installPackage(ConnectedDevice.java:127)
+	at com.android.build.gradle.internal.tasks.InstallVariantTask.install(InstallVariantTask.java:162)
+	at com.android.build.gradle.internal.tasks.InstallVariantTask.lambda$doTaskAction$1(InstallVariantTask.java:99)
+	at com.android.builder.testing.api.DeviceProvider.use(DeviceProvider.java:55)
+	at com.android.build.gradle.internal.tasks.InstallVariantTask.doTaskAction(InstallVariantTask.java:94)
+	at com.android.build.gradle.internal.tasks.NonIncrementalTask$taskAction$$inlined$recordTaskAction$1.invoke(BaseTask.kt:66)
+	at com.android.build.gradle.internal.tasks.Blocks.recordSpan(Blocks.java:51)
+	at com.android.build.gradle.internal.tasks.NonIncrementalTask.taskAction(NonIncrementalTask.kt:97)
+	at java.base@11.0.17/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base@11.0.17/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base@11.0.17/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base@11.0.17/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.gradle.internal.reflect.JavaMethod.invoke(JavaMethod.java:125)
+	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.doExecute(StandardTaskAction.java:58)
+	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:51)
+	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:29)
+	at org.gradle.api.internal.tasks.execution.TaskExecution$3.run(TaskExecution.java:236)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:29)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:26)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:157)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.run(DefaultBuildOperationRunner.java:47)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor.run(DefaultBuildOperationExecutor.java:68)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.executeAction(TaskExecution.java:221)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.executeActions(TaskExecution.java:204)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.executeWithPreviousOutputFiles(TaskExecution.java:187)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.execute(TaskExecution.java:165)
+	at org.gradle.internal.execution.steps.ExecuteStep.executeInternal(ExecuteStep.java:89)
+	at org.gradle.internal.execution.steps.ExecuteStep.access$000(ExecuteStep.java:40)
+	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:53)
+	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:50)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:199)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:157)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor.call(DefaultBuildOperationExecutor.java:73)
+	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:50)
+	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:40)
+	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.execute(RemovePreviousOutputsStep.java:68)
+	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.execute(RemovePreviousOutputsStep.java:38)
+	at org.gradle.internal.execution.steps.CancelExecutionStep.execute(CancelExecutionStep.java:41)
+	at org.gradle.internal.execution.steps.TimeoutStep.executeWithoutTimeout(TimeoutStep.java:74)
+	at org.gradle.internal.execution.steps.TimeoutStep.execute(TimeoutStep.java:55)
+	at org.gradle.internal.execution.steps.CreateOutputsStep.execute(CreateOutputsStep.java:51)
+	at org.gradle.internal.execution.steps.CreateOutputsStep.execute(CreateOutputsStep.java:29)
+	at org.gradle.internal.execution.steps.CaptureStateAfterExecutionStep.executeDelegateBroadcastingChanges(CaptureStateAfterExecutionStep.java:124)
+	at org.gradle.internal.execution.steps.CaptureStateAfterExecutionStep.execute(CaptureStateAfterExecutionStep.java:80)
+	at org.gradle.internal.execution.steps.CaptureStateAfterExecutionStep.execute(CaptureStateAfterExecutionStep.java:58)
+	at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(ResolveInputChangesStep.java:48)
+	at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(ResolveInputChangesStep.java:36)
+	at org.gradle.internal.execution.steps.BuildCacheStep.executeWithoutCache(BuildCacheStep.java:181)
+	at org.gradle.internal.execution.steps.BuildCacheStep.lambda$execute$1(BuildCacheStep.java:71)
+	at org.gradle.internal.Either$Right.fold(Either.java:175)
+	at org.gradle.internal.execution.caching.CachingState.fold(CachingState.java:59)
+	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:69)
+	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:47)
+	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:36)
+	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:25)
+	at org.gradle.internal.execution.steps.RecordOutputsStep.execute(RecordOutputsStep.java:36)
+	at org.gradle.internal.execution.steps.RecordOutputsStep.execute(RecordOutputsStep.java:22)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.executeBecause(SkipUpToDateStep.java:110)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.lambda$execute$2(SkipUpToDateStep.java:56)
+	at java.base@11.0.17/java.util.Optional.orElseGet(Optional.java:369)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:56)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:38)
+	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:73)
+	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:44)
+	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:37)
+	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:27)
+	at org.gradle.internal.execution.steps.ResolveCachingStateStep.execute(ResolveCachingStateStep.java:89)
+	at org.gradle.internal.execution.steps.ResolveCachingStateStep.execute(ResolveCachingStateStep.java:50)
+	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:114)
+	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:57)
+	at org.gradle.internal.execution.steps.CaptureStateBeforeExecutionStep.execute(CaptureStateBeforeExecutionStep.java:76)
+	at org.gradle.internal.execution.steps.CaptureStateBeforeExecutionStep.execute(CaptureStateBeforeExecutionStep.java:50)
+	at org.gradle.internal.execution.steps.SkipEmptyWorkStep.executeWithNoEmptySources(SkipEmptyWorkStep.java:254)
+	at org.gradle.internal.execution.steps.SkipEmptyWorkStep.execute(SkipEmptyWorkStep.java:91)
+	at org.gradle.internal.execution.steps.SkipEmptyWorkStep.execute(SkipEmptyWorkStep.java:56)
+	at org.gradle.internal.execution.steps.RemoveUntrackedExecutionStateStep.execute(RemoveUntrackedExecutionStateStep.java:32)
+	at org.gradle.internal.execution.steps.RemoveUntrackedExecutionStateStep.execute(RemoveUntrackedExecutionStateStep.java:21)
+	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedStep.execute(MarkSnapshottingInputsStartedStep.java:38)
+	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:43)
+	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:31)
+	at org.gradle.internal.execution.steps.AssignWorkspaceStep.lambda$execute$0(AssignWorkspaceStep.java:40)
+	at org.gradle.api.internal.tasks.execution.TaskExecution$4.withWorkspace(TaskExecution.java:281)
+	at org.gradle.internal.execution.steps.AssignWorkspaceStep.execute(AssignWorkspaceStep.java:40)
+	at org.gradle.internal.execution.steps.AssignWorkspaceStep.execute(AssignWorkspaceStep.java:30)
+	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:37)
+	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:27)
+	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:44)
+	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:33)
+	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:76)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:139)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:128)
+	at org.gradle.api.internal.tasks.execution.CleanupStaleOutputsExecuter.execute(CleanupStaleOutputsExecuter.java:77)
+	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
+	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)
+	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
+	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:56)
+	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:199)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:157)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor.call(DefaultBuildOperationExecutor.java:73)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
+	at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:69)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:327)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:314)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:307)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:293)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:420)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:342)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)
+	at java.base@11.0.17/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base@11.0.17/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base@11.0.17/java.lang.Thread.run(Thread.java:829)
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:installRelease'.
+> java.util.concurrent.ExecutionException: com.android.builder.testing.api.DeviceException: com.android.ddmlib.InstallException: INSTALL_FAILED_UPDATE_INCOMPATIBLE: Package com.allonone signatures do not match previously installed version; ignoring!
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+
+* Get more help at https://help.gradle.org
+
+BUILD FAILED in 4m 59s
+
+    at makeError (C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp\node_modules\execa\index.js:174:9)
+    at C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp\node_modules\execa\index.js:278:16
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async runOnAllDevices (C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp\node_modules\@react-native-community\cli-platform-android\build\commands\runAndroid\runOnAllDevices.js:109:5)
+    at async Command.handleAction (C:\Users\USIT\Desktop\kaam khatam Project\finalAlloneUserApp\node_modules\react-native\node_modules\@react-native-community\cli\build\index.js:192:9)
+info Run CLI with --verbose flag for more details.

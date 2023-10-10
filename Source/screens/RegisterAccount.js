@@ -29,10 +29,14 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import Toast from 'react-native-simple-toast';
 import {_getStorage} from '../Assets/utils/storage/Storage';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {Picker} from '@react-native-picker/picker';
 
 const RegisterAccount = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const [firstname, setFirstname] = useState('');
+  const [error, setError] = useState('');
+
   const [lastname, setLastname] = useState('');
   const [date, setDate] = useState('');
   const [city, setCity] = useState('');
@@ -49,60 +53,93 @@ const RegisterAccount = props => {
   const [getDate, setGetDate] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [counter, setCounter] = React.useState(30);
+  const [currentDate, setCurrentDate] = useState();
+  const [StateData, setStateData] = useState([]);
+  const [cityData, setCityData] = useState([]);
+  // console.log('----state data-----', StateData);
 
-  //! ================ ==============
   const [isGettingOTP, setIsGettingOTP] = useState(false);
   const [isVerifyingOTP, setIsVerifyingOTP] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
+
+  const [firstNameError, setFirstNameError] = useState('');
+  const [lastNameError, setLastNameError] = useState('');
+
+  const getCurrentDate = () => {
+    var date = new Date().getDate();
+    var month = new Date().getMonth() + 1;
+    var year = new Date().getFullYear();
+  };
+
+  useEffect(() => {
+    getCurrentDate();
+  }, []);
 
   useEffect(() => {
     profiledata();
   }, []);
 
   const handleSubmit = async () => {
-    const token = await _getStorage('token');
-    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
-    let newObj = {
-      firstName: firstname,
-      lastName: lastname,
-      dateOfBirth: date,
-      gender: gender,
-      city: city,
-      pincode: Number(pincode),
-      state,
-      address: address,
-    };
-    console.log(token);
-    console.log('newOBJ', newObj);
-    setIsLoading(true);
-    axios
-      .put(BASE_URL + `/profile`, newObj, {
-        headers: {Authorization: `Bearer ${token}`},
-      })
-      .then(val => {
-        console.log(val.data);
-        setIsLoading(false);
-        props.navigation.navigate('Location');
-        Toast.showWithGravity(val.data.message, Toast.LONG, Toast.BOTTOM);
-      })
-      .catch(error => {
-        console.log('in catch', error.response.data.message);
-        Toast.showWithGravity(
-          error.response.data.message,
-          Toast.LONG,
-          Toast.BOTTOM,
-        );
-        setIsLoading(false);
-        //Toast.showWithGravity('Server Error❗', Toast.LONG, Toast.BOTTOM);
-      });
+    if (!isVerified) {
+      Toast.showWithGravity(
+        'Please verify your email first',
+        Toast.SHORT,
+        Toast.BOTTOM,
+      );
+    } else if (!firstNameError && !lastNameError) {
+      const token = await _getStorage('token');
+      // Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
+      let newObj = {
+        firstName: firstname,
+        lastName: lastname,
+        dateOfBirth: date,
+        gender: gender,
+        city: city,
+        pincode: Number(pincode),
+        state,
+        address: address,
+        email: email,
+      };
+
+      console.log('newOBJ', newObj);
+      setIsLoading(true);
+
+      axios
+        .put(BASE_URL + `/profile`, newObj, {
+          headers: {Authorization: `Bearer ${token}`},
+        })
+        .then(val => {
+          console.log(val.data);
+          setIsLoading(false);
+
+          props.navigation.navigate('Location');
+
+          Toast.showWithGravity(val.data.message, Toast.SHORT, Toast.BOTTOM);
+        })
+        .catch(error => {
+          console.log('in catch', error.response.data.message);
+          Toast.showWithGravity(
+            error.response.data.message,
+            Toast.SHORT,
+            Toast.BOTTOM,
+          );
+          setIsLoading(false);
+          //Toast.showWithGravity('Server Error❗', Toast.LONG, Toast.BOTTOM);
+        });
+    } else if (firstNameError || lastNameError) {
+      Toast.showWithGravity(
+        'Please Enter Valid details',
+        Toast.SHORT,
+        Toast.BOTTOM,
+      );
+    }
   };
 
+  console.log('State.........................................', state);
   // =====================++++++++++=====================
-
   const profiledata = async () => {
     const token = await _getStorage('token');
     // console.log('token----------------------------', token);
-
     axios
       .get(BASE_URL + `/profile`, {
         headers: {Authorization: `Bearer ${token}`},
@@ -116,7 +153,6 @@ const RegisterAccount = props => {
         setGender(val.data.result.gender);
         setState(val.data.result.state);
         setAddress(val.data.result.address);
-
         setPincode(
           val.data.result.pincode
             ? String(val.data.result.pincode)
@@ -124,10 +160,12 @@ const RegisterAccount = props => {
         );
         setMobilechange(val.data.result.phone);
         setEmail(val.data.result.email);
-        console.log(val.data.result);
+        if (val.data.result.email) {
+          setIsVerified(true);
+        }
+        console.log('get profile data===161', val.data.result);
         setIsLoading(false);
       })
-
       .catch(error => {
         console.log('catch error in get profile', error);
         setIsLoading(false);
@@ -168,7 +206,7 @@ const RegisterAccount = props => {
 
   const _verifyMailotp = async () => {
     const token = await _getStorage('token');
-    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
+    // Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
 
     const obj = {
       id: emailOtp,
@@ -183,17 +221,76 @@ const RegisterAccount = props => {
         setModalVisible(!modalVisible);
         setIsVerified(true);
         setIsVerifyingOTP(false);
-        Toast.showWithGravity(value.data.message, Toast.LONG, Toast.BOTTOM);
+        Toast.showWithGravity(value.data.message, Toast.SHORT, Toast.BOTTOM);
       })
       .catch(error => {
         console.log('Email catch error ', error.response.data);
         Toast.showWithGravity(
           error.response.data.message,
-          Toast.LONG,
+          Toast.SHORT,
           Toast.BOTTOM,
         );
       });
   };
+
+  //=[======handle inpout ======================================]
+  const numberRegex = /\d/;
+
+  const handleNameInput = (text, fieldName) => {
+    console.log('fieldName', fieldName);
+    if (numberRegex.test(text)) {
+      if (fieldName === 'firstName') {
+        setFirstNameError('Please enter a valid first name');
+      } else if (fieldName === 'lastName') {
+        setLastNameError('Please enter a valid last name');
+      }
+    } else {
+      if (fieldName === 'firstName') {
+        setFirstNameError('');
+      } else if (fieldName === 'lastName') {
+        setLastNameError('');
+      }
+    }
+  };
+
+  console.log('error', error);
+  //===============get state data
+  useEffect(() => {
+    getStatendCity();
+    // setCityData([]);
+    // getCityData([]);
+  }, []);
+
+  const getStatendCity = async id => {
+    try {
+      const res = await axios.get(BASE_URL + `/allCityName`);
+      if (res.data.message == 'State Founded successfully') {
+        //  console.log('get all state and their city', res.data);
+        setStateData(res.data.result);
+      }
+    } catch (error) {
+      console.log('error in get Distric api', error);
+    }
+  };
+
+  const getCityData = selctState => {
+    const selectedStateData = StateData.find(item => item.state === selctState);
+    console.log('-------city------', selectedStateData?.cities);
+    console.log('-------state------', selectedStateData);
+    setCityData(selectedStateData ? selectedStateData?.cities : []);
+    console.log('-------city data------', cityData);
+
+    // console.log('Stta......Select', selctState) ;
+    // StateData.map((item, index) => {
+    //   console.log('Item...................', item.cities);
+    //   if (item?.cities === selctState) {
+    //     console.log('-------=====>ye..........');
+    //   } else {
+    //     console.log('no..................');
+    //   }
+    // });
+  };
+  console.log('state and city', city, state);
 
   const LoginApisendmailotp = async () => {
     const token = await _getStorage('token');
@@ -217,7 +314,10 @@ const RegisterAccount = props => {
       })
 
       .catch(error => {
-        console.log('email send otp catch error', error.response.data.message);
+        console.log(
+          'email send otp catch error  318',
+          error.response.data.message,
+        );
         setIsGettingOTP(false);
         Toast.showWithGravity(
           error.response.data.message,
@@ -254,6 +354,7 @@ const RegisterAccount = props => {
       });
   };
 
+  // const handleInput
   useEffect(() => {
     const timer =
       counter > 0 &&
@@ -263,7 +364,6 @@ const RegisterAccount = props => {
       }, 1000);
     return () => clearInterval(timer);
   }, [counter]);
-
   return (
     <SafeAreaView>
       <Header
@@ -288,59 +388,82 @@ const RegisterAccount = props => {
             contentContainerStyle={{paddingBottom: '40%'}}
             showsVerticalScrollIndicator={false}>
             <View>
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  fontSize: 15,
-                  marginHorizontal: 20,
-                  top: 10,
-                  color: Colors.black,
-                }}>
-                First Name
-              </Text>
-              <TextInput
-                placeholder="First Name"
-                placeholderTextColor="grey"
-                value={firstname}
-                onChangeText={text => {
-                  setFirstname(text);
-                }}
-                style={{
-                  marginHorizontal: 15,
-                  borderColor: Colors.purple,
-                  borderWidth: 1,
-                  borderRadius: 6,
-                  paddingHorizontal: 15,
-                  marginVertical: 15,
-                  color: 'black',
-                }}
-              />
-              <Text
-                style={{
-                  marginHorizontal: 20,
-                  fontWeight: 'bold',
-                  fontSize: 15,
-                  color: Colors.black,
-                }}>
-                Last Name
-              </Text>
-              <TextInput
-                placeholder="Last Name"
-                placeholderTextColor="grey"
-                value={lastname}
-                onChangeText={text => {
-                  setLastname(text);
-                }}
-                style={{
-                  marginHorizontal: 15,
-                  borderColor: Colors.purple,
-                  borderWidth: 1,
-                  borderRadius: 6,
-                  paddingHorizontal: 15,
-                  marginVertical: 5,
-                  color: 'black',
-                }}
-              />
+              <View style={{height: hp('13%')}}>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: 15,
+                    marginHorizontal: 20,
+                    top: 10,
+                    color: Colors.black,
+                  }}>
+                  First Name
+                </Text>
+                <TextInput
+                  placeholder="First Name"
+                  placeholderTextColor="grey"
+                  value={firstname}
+                  keyboardType={'default'}
+                  onChangeText={text => {
+                    setFirstname(text), handleNameInput(text, 'firstName');
+                  }}
+                  style={{
+                    marginHorizontal: 15,
+                    borderColor: Colors.purple,
+                    borderWidth: 1,
+                    borderRadius: 6,
+                    paddingHorizontal: 15,
+                    // marginVertical: 15,
+                    color: 'black',
+                    marginTop: 15,
+                  }}
+                />
+                {firstNameError ? (
+                  <Text style={{color: 'red', marginHorizontal: 20}}>
+                    {firstNameError}
+                  </Text>
+                ) : null}
+              </View>
+
+              <View style={{height: hp('11%')}}>
+                <Text
+                  style={{
+                    marginHorizontal: 20,
+                    fontWeight: 'bold',
+                    fontSize: 15,
+                    color: Colors.black,
+                  }}>
+                  Last Name
+                </Text>
+                <TextInput
+                  placeholder="Last Name"
+                  placeholderTextColor="grey"
+                  value={lastname}
+                  onChangeText={text => {
+                    setLastname(text), handleNameInput(text, 'lastName');
+                  }}
+                  style={{
+                    marginHorizontal: 15,
+                    borderColor: Colors.purple,
+                    borderWidth: 1,
+                    borderRadius: 6,
+                    paddingHorizontal: 15,
+                    // marginVertical: 5,
+                    marginTop: 5,
+                    color: 'black',
+                  }}
+                />
+                {lastNameError ? (
+                  <Text
+                    style={{
+                      color: 'red',
+                      marginHorizontal: 20,
+                      // marginBottom: 10,
+                    }}>
+                    {lastNameError}
+                  </Text>
+                ) : null}
+              </View>
               <Text
                 style={{
                   marginHorizontal: 20,
@@ -353,9 +476,9 @@ const RegisterAccount = props => {
               </Text>
               <View
                 style={{
-                  height: 45,
+                  height: 52,
                   borderWidth: 1,
-                  marginHorizontal: 20,
+                  marginHorizontal: 16,
                   margin: 10,
                   borderRadius: 6,
                   justifyContent: 'center',
@@ -375,6 +498,7 @@ const RegisterAccount = props => {
                       mode="date"
                       onConfirm={handleConfirm}
                       onCancel={hideDatePicker}
+                      maximumDate={new Date()}
                     />
                     <TouchableOpacity onPress={showDatePicker}>
                       <FontAwesome5Icon
@@ -442,7 +566,7 @@ const RegisterAccount = props => {
                   }}>
                   State
                 </Text>
-                <TextInput
+                {/* <TextInput
                   placeholder="State"
                   placeholderTextColor="grey"
                   value={state}
@@ -459,7 +583,59 @@ const RegisterAccount = props => {
                     marginVertical: 5,
                     color: 'black',
                   }}
-                />
+                /> */}
+
+                {/* -------------------------------Picker-------------------------------------- */}
+
+                <View
+                  style={{
+                    marginHorizontal: 15,
+                    borderColor: Colors.purple,
+                    borderWidth: 1,
+                    borderRadius: 6,
+                    // paddingHorizontal: 15,
+                    marginVertical: 5,
+                    // color: 'black',
+                    // height: 60,
+                    justifyContent: 'center',
+                    alignContent: 'center',
+                    paddingLeft: 4,
+                    // backgroundColor: '#ffff',
+                  }}>
+                  <Picker
+                    dropdownIconColor={'#B6B6B6'}
+                    dropdownIconRippleColor={'#775AAC'}
+                    style={
+                      {
+                        // width: '90%',
+                        // height: 45,
+                        // backgroundColor: '#F8F7FF',/
+                        // borderRadius: 8,
+                        // borderColor: 'red',
+                        // borderWidth: 5,
+                      }
+                    }
+                    selectedValue={state}
+                    onValueChange={itemValue => {
+                      setState(itemValue), getCityData(itemValue);
+                    }}>
+                    <Picker.Item
+                      style={Styles.pickerItem}
+                      label="State"
+                      value=""
+                      // enabled={false}
+                    />
+                    {StateData.map((item, id) => (
+                      // console.log(StateData, 'STate Data'),
+                      <Picker.Item
+                        style={Styles.pickerItem}
+                        value={item.state}
+                        key={id} // Assuming each state object has a unique 'id' property
+                        label={item.state}
+                      />
+                    ))}
+                  </Picker>
+                </View>
               </View>
               <View>
                 <Text
@@ -515,8 +691,62 @@ const RegisterAccount = props => {
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                   marginHorizontal: 20,
+                  alignItems: 'center',
                 }}>
-                <TextInput
+                <View
+                  style={{
+                    width: '40%',
+                    height: 55,
+                    borderColor: Colors.purple,
+                    borderWidth: 1,
+                    borderRadius: 6,
+                    marginVertical: 5,
+                    justifyContent: 'center',
+                    alignContent: 'center',
+                    paddingHorizontal: 4,
+                    // backgroundColor: '#ffff',
+                  }}>
+                  <Picker
+                    dropdownIconColor={'#B6B6B6'}
+                    dropdownIconRippleColor={'#775AAC'}
+                    style={{
+                      borderRadius: 6,
+                      width: '100%',
+                      // height: 50,
+                      // backgroundColor: '#ffff',
+                      borderRadius: 8,
+                      // borderColor: 'red'
+                      borderWidth: 5,
+                    }}
+                    selectedValue={city}
+                    onValueChange={itemValue => {
+                      setCity(itemValue);
+                      // getCityData(itemValue);
+                    }}>
+                    <Picker.Item
+                      style={Styles.pickerItem}
+                      label="City"
+                      value=""
+                      // enabled={false}
+                    />
+                    {cityData.length > 0 &&
+                      cityData.map(
+                        (item, id) => (
+                          console.log('city data in map', cityData),
+                          (
+                            <Picker.Item
+                              style={Styles.pickerItem}
+                              value={item}
+                              key={id} // Assuming each state object has a unique 'id' property
+                              label={item}
+                            />
+                          )
+                        ),
+                      )}
+                  </Picker>
+                </View>
+
+                {/* <TextInput
                   placeholder="City"
                   placeholderTextColor="grey"
                   value={city}
@@ -533,12 +763,14 @@ const RegisterAccount = props => {
                     height: '70%',
                     color: 'black',
                   }}
-                />
+                /> */}
+
                 <TextInput
                   placeholder="Pin Code"
                   placeholderTextColor="grey"
                   value={pincode}
                   keyboardType="numeric"
+                  maxLength={6}
                   onChangeText={text => {
                     setPincode(text);
                   }}
@@ -549,11 +781,12 @@ const RegisterAccount = props => {
                     paddingHorizontal: 15,
                     marginVertical: 10,
                     width: '45%',
-                    height: '70%',
+                    height: '74%',
                     color: 'black',
                   }}
                 />
               </View>
+
               <View style={{marginHorizontal: 20}}>
                 <Text
                   style={{color: 'black', fontSize: 15, fontWeight: 'bold'}}>
@@ -575,6 +808,7 @@ const RegisterAccount = props => {
                     placeholder="Email ID"
                     placeholderTextColor="grey"
                     value={email}
+                    editable={isVerified ? false : true}
                     onChangeText={text => {
                       setEmail(text);
                     }}
@@ -586,22 +820,32 @@ const RegisterAccount = props => {
                       paddingHorizontal: 15,
                     }}
                   />
-                  <TouchableOpacity
-                    onPress={LoginApisendmailotp}
-                    // onPress={() => setModalVisible(!modalVisible)}
-                    style={{
-                      borderWidth: 1,
-                      borderColor: Colors.purple,
-                      height: '65%',
-                      marginHorizontal: 8,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      width: '25%',
-                      borderRadius: 7,
-                      backgroundColor: Colors.purple,
-                    }}>
-                    <Text style={{color: 'white'}}> Get OTP</Text>
-                  </TouchableOpacity>
+
+                  {!isVerified ? (
+                    <TouchableOpacity
+                      onPress={LoginApisendmailotp}
+                      // onPress={() => setModalVisible(!modalVisible)}
+                      style={{
+                        borderWidth: 1,
+                        borderColor: Colors.purple,
+                        height: '65%',
+                        marginHorizontal: 8,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '25%',
+                        borderRadius: 7,
+                        backgroundColor: Colors.purple,
+                      }}>
+                      <Text style={{color: 'white'}}> Get OTP</Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <MaterialIcons
+                      style={{marginRight: 7}}
+                      name="verified"
+                      color={Colors.purple}
+                      size={28}
+                    />
+                  )}
                 </View>
               </View>
               <View style={{marginHorizontal: 20}}>
@@ -633,7 +877,7 @@ const RegisterAccount = props => {
                     {dataupdate.phone}
                   </Text>
 
-                  <TouchableOpacity
+                  {/* <TouchableOpacity
                     onPress={() =>
                       props.navigation.navigate(
                         'EditMobileNumber',
@@ -649,7 +893,7 @@ const RegisterAccount = props => {
                       source={require('../Assets/Images/editicones.png')}
                       style={{width: 24, height: 24}}
                     />
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </View>
               </View>
 
@@ -662,7 +906,7 @@ const RegisterAccount = props => {
               ) : (
                 <View style={{alignItems: 'center'}}>
                   <CustomButton
-                    title={'SUBMIT00'}
+                    title={'SUBMIT'}
                     bgColor={Colors.purple}
                     width={wp('90%')}
                     height={hp('6.6%')}
@@ -672,13 +916,11 @@ const RegisterAccount = props => {
                 </View>
               )}
             </View>
-
             <Modal
               animationType="slide"
               transparent={true}
               visible={modalVisible}
               onRequestClose={() => {
-                Alert.alert('Modal has been closed.');
                 setModalVisible(!modalVisible);
               }}>
               <View style={Styles.centeredView}>
@@ -798,5 +1040,13 @@ const Styles = StyleSheet.create({
     shadowColor: '#000',
     shadowRadius: 4,
     elevation: 5,
+  },
+  pickerItem: {
+    height: 45,
+    fontSize: 14,
+    // fontWeight: 'bold',
+    color: 'grey',
+    // backgroundColor: '#F8F7FF',
+    // backgroundColor: '#ffff',
   },
 });
