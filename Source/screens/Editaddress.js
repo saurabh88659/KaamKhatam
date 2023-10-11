@@ -8,6 +8,10 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 import React, {useEffect, useState} from 'react';
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
@@ -21,6 +25,7 @@ import axios, {Axios} from 'axios';
 import {data} from './ChatBotScreen/Data';
 import {color} from 'react-native-reanimated';
 import {RadioButton} from 'react-native-paper';
+import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 
 const {width, height} = Dimensions.get('window');
 
@@ -40,10 +45,12 @@ const Editaddress = props => {
   const [pincode, setPincode] = useState('');
   const [allAddresses, setAllAddress] = useState('');
   const [addressId, setAddressId] = useState('');
+  const [checked, setChecked] = useState(false);
   console.log('pin code -----', pincode);
   const [name, setName] = useState(firstname);
   console.log(name);
   console.log(pincode, '======pincode=========');
+
   const saveAddress = async () => {
     if (!address || !name || !pincode || !location) {
       console.log(
@@ -56,11 +63,10 @@ const Editaddress = props => {
       );
       Toast.showWithGravity('all field required', Toast.SHORT, Toast.BOTTOM);
     } else if (name !== '' && flatorStreet !== '' && location !== '') {
-      await AsyncStorage.setItem('location', location);
-      await AsyncStorage.setItem('flatorStreet', address);
-      await AsyncStorage.setItem('name', name);
-      await AsyncStorage.setItem('saveas', saveas);
-
+      // await AsyncStorage.setItem('location', location);
+      // await AsyncStorage.setItem('flatorStreet', address);
+      // await AsyncStorage.setItem('name', name);
+      // await AsyncStorage.setItem('saveas', saveas);
       navigation.replace('TimeAndSlot', {
         location,
         address,
@@ -140,9 +146,12 @@ const Editaddress = props => {
       });
   };
   const handleServiceAdress = addressId => {
-    navigation.replace('TimeAndSlot', {
-      addressId,
-    });
+    setChecked(addressId);
+    setTimeout(() => {
+      navigation.replace('TimeAndSlot', {
+        addressId,
+      });
+    }, 500);
   };
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -177,9 +186,10 @@ const Editaddress = props => {
           </Text>
         </TouchableOpacity>
       </View>
+
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{paddingBottom: 30}}>
+        contentContainerStyle={{paddingBottom: 10}}>
         {allAddresses.length > 0 &&
           allAddresses.map((value, index) => (
             <View
@@ -188,24 +198,42 @@ const Editaddress = props => {
                 // height: 100,
                 // backgroundColor: 'red',
                 // marginHorizontal: 20,
-                borderRadius: 9,
-                justifyContent: 'center',
+                // borderRadius: 9,
+                // justifyContent: 'center',
+                alignItems: 'flex-start',
                 borderBottomColor: 'grey',
                 borderBottomWidth: 1,
                 // marginVertical: 10,
               }}>
               <TouchableOpacity
                 onPress={() => handleServiceAdress(value._id)}
-                style={{paddingHorizontal: 30, marginVertical: 10}}>
+                style={{
+                  // paddingHorizontal: 30,
+                  marginVertical: 10,
+                  // backgroundColor: 'red',
+                }}>
                 <View
                   style={{
-                    flexDirection: 'row',
                     // backgroundColor: 'red',
-                    height: 40,
+                    flexDirection: 'row',
+                    // marginVertical: 2,
                     alignItems: 'center',
+                    paddingHorizontal: 10,
+                    // justifyContent: 'center',
+                    // backgroundColor: 'red',
+                    // height: 40,
+                    // alignItems: 'center',
                   }}>
                   {/* <RadioButton    
                   /> */}
+                  <View style={{top: 2, marginRight: 5}}>
+                    <RadioButton
+                      onPress={() => handleServiceAdress(value._id)}
+                      color={Colors.purple}
+                      value={value._id}
+                      status={checked === value._id ? 'checked' : 'unchecked'}
+                    />
+                  </View>
                   <Text
                     style={{
                       color: Colors.black,
@@ -227,12 +255,31 @@ const Editaddress = props => {
                   </View>
                 </View>
 
-                <View>
-                  <Text style={{color: Colors.black}}>{value.address}</Text>
-                  <Text style={{color: Colors.black}}>
+                <View style={{paddingHorizontal: 50}}>
+                  <Text
+                    style={{
+                      color: Colors.black,
+                      // marginVertical: 2,
+                      fontSize: 15,
+                    }}>
+                    {value.address}
+                  </Text>
+                  <Text
+                    style={{
+                      color: Colors.black,
+                      marginVertical: 2,
+                      fontSize: 15,
+                    }}>
                     {value.bookingLocation}
                   </Text>
-                  <Text style={{color: Colors.black}}>{value.pinCode}</Text>
+                  <Text
+                    style={{
+                      color: Colors.black,
+                      // marginVertical: 2,
+                      fontSize: 15,
+                    }}>
+                    {value.pinCode}
+                  </Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -249,6 +296,16 @@ const Editaddress = props => {
         <View
           // onPress={() => setModalVisible(false)}
           style={Styles.centeredView}>
+          <TouchableOpacity
+            onPress={() => setModalVisible(!modalVisible)}
+            activeOpacity={1}
+            style={{
+              height: hp('40%'),
+              width: '100%',
+              // flex: 1,
+              // backgroundColor: '#000',
+              // backgroundColor: 'rgba(0,0,0,0.5)',
+            }}></TouchableOpacity>
           <View style={Styles.modalView}>
             <View>
               <TouchableOpacity
@@ -264,9 +321,11 @@ const Editaddress = props => {
                     borderBottomWidth: 7,
                     width: width / 8,
                     borderRadius: 5,
+                    // backgroundColor: 'red',
                   }}></View>
               </TouchableOpacity>
             </View>
+
             <View>
               <Text
                 style={{
@@ -294,6 +353,8 @@ const Editaddress = props => {
                   color: 'grey',
                   fontSize: 15,
                   top: -10,
+                  width: wp('80%'),
+                  // backgroundColor: 'red',
                 }}
                 //</View>  placeholder="A-140, Block A, A Block, Sector63,Noida,Uttar Pradesh
                 //201304,India"
@@ -328,7 +389,12 @@ const Editaddress = props => {
                 marginHorizontal: 20,
               }}>
               <TextInput
-                style={{color: 'grey', fontSize: 15}}
+                style={{
+                  color: 'grey',
+                  fontSize: 15,
+                  width: wp('80%'),
+                  // backgroundColor: 'red',
+                }}
                 value={flatorStreet}
                 onChangeText={text => {
                   setAddress(text);
@@ -354,7 +420,12 @@ const Editaddress = props => {
               }}>
               <TextInput
                 maxLength={6}
-                style={{color: 'grey', fontSize: 15}}
+                style={{
+                  color: 'grey',
+                  fontSize: 15,
+                  width: wp('80%'),
+                  // backgroundColor: 'red',
+                }}
                 value={pincode.toString()}
                 keyboardType="number-pad"
                 onChangeText={text => {
@@ -380,7 +451,12 @@ const Editaddress = props => {
                 marginHorizontal: 20,
               }}>
               <TextInput
-                style={{color: 'grey', fontSize: 15}}
+                style={{
+                  color: 'grey',
+                  fontSize: 15,
+                  width: wp('80%'),
+                  // backgroundColor: 'red',
+                }}
                 value={name}
                 onChangeText={text => {
                   setName(text);
@@ -418,7 +494,7 @@ const Editaddress = props => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  setSaveas('OFFFICE');
+                  setSaveas('Office');
                   setIndex(1);
                 }}
                 style={{
@@ -435,7 +511,7 @@ const Editaddress = props => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  setSaveas('OTHER');
+                  setSaveas('Other');
                   setIndex(2);
                 }}
                 style={{
@@ -478,7 +554,7 @@ export default Editaddress;
 
 const Styles = StyleSheet.create({
   centeredView: {
-    // flex: 1,
+    flex: 1,
     width: width,
     height: height,
     bottom: '-6%',
@@ -486,6 +562,7 @@ const Styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
+    // backgroundColor: 'red',
     justifyContent: 'flex-end',
   },
   modalView: {

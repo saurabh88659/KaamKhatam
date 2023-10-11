@@ -36,6 +36,7 @@ import ChatBot from '../../screens/ChatBotScreen/ChatBot';
 import SearchService from '../../../SearchService';
 import AddWalletBalance from '../../screens/AddWalletBalance';
 import ConfirmationPayment from '../../screens/ConfirmationPayment';
+import PayWithWalletScreen from '../../screens/PayWithWalletScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -153,6 +154,11 @@ function AuthStack() {
       <Stack.Screen
         name="TimeAndSlot"
         component={TimeAndSlot}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="PayWithWalletScreen"
+        component={PayWithWalletScreen}
         options={{headerShown: false}}
       />
       <Stack.Screen

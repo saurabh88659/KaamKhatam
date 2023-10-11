@@ -23,15 +23,17 @@ import {useRef} from 'react';
 import {asin} from 'react-native-reanimated';
 import {useSelector} from 'react-redux';
 import Entypo from 'react-native-vector-icons/Entypo';
+import {ActivityIndicator} from 'react-native-paper';
 
 const PaymentScreen = props => {
+  const cartId = useSelector(state => state.updateState.cartId);
   const bookingId = useSelector(state => state.updateState.bookingId);
   console.log('bookingId  useSelector---------payment screen 29', bookingId);
 
   const navigation = useNavigation();
   const [htmldata, setHtmldata] = useState('');
-  const bookingIdPrice = props.route.params;
-  console.log('booking is price========================33', bookingIdPrice);
+  const bookingData = props.route.params;
+  console.log('booking is price========================33', bookingData.book);
   const [mobileNumber, setMobileNumber] = useState('');
   const [email, setEmail] = useState('');
   const [customerId, setCustomerId] = useState('');
@@ -39,13 +41,16 @@ const PaymentScreen = props => {
   const [webViewVisible, setWebViewVisible] = React.useState(false);
   const [htmlUrl, setHtmlUrl] = useState(null);
   const [orderdetail, setOrderdetail] = useState(null);
+  const [bookingIdSave, setBookingIdSave] = useState(null);
+  const [BookigTotal, setBookingTotal] = useState(null);
   const webviewRef = useRef(null);
+  const [butttonLoading, setButtonLoading] = useState(false);
+  const [butttonLoading1, setButtonLoading1] = useState(false);
   // console.log('----------orderdetail 37 state-------------', orderdetail);
   console.log(
-    'bookingIdPrice=======at payment screen 21',
-    bookingIdPrice.price,
+    '================bookingIdSave==(paymentscrren 47)==================',
+    bookingIdSave,
   );
-
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -57,35 +62,40 @@ const PaymentScreen = props => {
 
   const profiledata = async () => {
     console.log('profiledata runn on payment scrren');
-
     const token = await _getStorage('token');
     axios
       .get(BASE_URL + `/profile`, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(val => {
-        setMobileNumber(val.data.result.phone);
-        setEmail(val.data.result.email);
-        setCustomerId(val.data.result._id);
+        setMobileNumber(val.data?.result?.phone);
+        setEmail(val.data?.result?.email);
+        setCustomerId(val.data?.result?._id);
       })
       .catch(e => {
         console.log('catch error in get profile', e);
       });
   };
+
   console.log(
     'require data ',
     mobileNumber,
     email,
     customerId,
-    bookingIdPrice.price,
+    // bookingIdPrice.price,
   );
 
   // PAYMENT code==========================
-  const _Payment_api = async () => {
+  const _Payment_api = async Prop => {
+    console.log(
+      Prop.total,
+      '================Prop.total on Payment Api=================',
+    );
     const token = await _getStorage('token');
     console.log('token---------------->>>>>', token);
     const obj = {
       OrderAmount: 1.0,
+      // OrderAmount: Prop.total,
       CustomerData: {
         MobileNo: mobileNumber,
         Email: email,
@@ -97,6 +107,8 @@ const PaymentScreen = props => {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(response => {
+        setButtonLoading1(false);
+
         console.log(
           ' _Payment_api response data ---------1>>>',
           response?.data,
@@ -107,14 +119,17 @@ const PaymentScreen = props => {
             response?.data,
           );
           // Linking.openURL(response?.data?.paymnetProcessUrl);
+          //===============
           console.log('order key id --------->>>', response?.data?.orderKeyId);
           setOrderKeyId(response?.data?.orderKeyId);
           setHtmlUrl(response?.data?.paymnetProcessUrl);
           setWebViewVisible(true);
-          // Orderdetail(response?.data?.orderKeyId);
+          //=============================
+          Orderdetail(response?.data?.orderKeyId);
         }
       })
       .catch(error => {
+        setButtonLoading1(false);
         console.log('payment catch error', error);
       });
   };
@@ -129,7 +144,6 @@ const PaymentScreen = props => {
     }
     return () => clearInterval(intervalid);
   }, [webViewVisible]);
-
   //======================================================
   const Orderdetail = async () => {
     const token = await _getStorage('token');
@@ -174,15 +188,19 @@ const PaymentScreen = props => {
     console.log('-----------run updatePaymentHistory------------------');
     const token = await _getStorage('token');
     const paymentHistory = {
-      bookingId: bookingIdPrice.bookinId,
+      // bookingId: bookingIdPrice.bookinId,
+      bookingId: bookingIdSave,
       txnId: orderdetail.TransactionId,
       resCode: orderdetail.orderStatus,
       txnRef: orderdetail.TransactionRefNo,
       price: orderdetail.OrderAmount,
       status: orderdetail.orderStatus,
-      purpose: 'Booking',
+      purpose: 'Paid By UPI',
     };
-    console.log('updatePaymentHistory object', paymentHistory);
+    console.log(
+      '================updatePaymentHistory object==============',
+      paymentHistory,
+    );
     axios
       .put(BASE_URL + `/addPaymentHistoryPag1`, paymentHistory, {
         headers: {Authorization: `Bearer ${token}`},
@@ -216,83 +234,83 @@ const PaymentScreen = props => {
     }
   };
 
-  const upiPayment = () => {
-    let newStr = uuid.v4().slice(20);
-    RNUpiPayment.initializePayment(
-      {
-        vpa: VPA,
-        payeeName: bookingIdPrice?.bookinId,
-        amount: bookingIdPrice?.price,
-        transactionRef: newStr,
-      },
-      successCallback,
-      failureCallback,
-    );
-  };
+  // const upiPayment = () => {
+  //   let newStr = uuid.v4().slice(20);
+  //   RNUpiPayment.initializePayment(
+  //     {
+  //       vpa: VPA,
+  //       payeeName: bookingIdPrice?.bookinId,
+  //       amount: bookingIdPrice?.price,
+  //       transactionRef: newStr,
+  //     },
+  //     successCallback,
+  //     failureCallback,
+  //   );
+  // };
 
-  const successCallback = async data => {
-    const token = await _getStorage('token');
-    console.log('success payment-->>', data);
-    const paymentHistory = {
-      bookingId: bookingIdPrice?.bookinId,
-      txnId: data.txnId,
-      resCode: data.responseCode,
-      status: data.Status,
-      price: bookingIdPrice?.price,
-      txnRef: data.txnRef,
-    };
-    console.log('object', paymentHistory);
-    axios
-      .put(BASE_URL + `/booking/addPaymentHistory`, paymentHistory, {
-        headers: {Authorization: `Bearer ${token}`},
-      })
-      .then(res => {
-        console.log('successCallback', res.data);
-        if (res.data) {
-          props.navigation.navigate('Viewdetails');
-        }
-      })
-      .catch(error => {
-        console.log('successCallback catch error', error.response.data);
-      });
-  };
+  // const successCallback = async data => {
+  //   const token = await _getStorage('token');
+  //   console.log('success payment-->>', data);
+  //   const paymentHistory = {
+  //     bookingId: bookingIdPrice?.bookinId,
+  //     txnId: data.txnId,
+  //     resCode: data.responseCode,
+  //     status: data.Status,
+  //     price: bookingIdPrice?.price,
+  //     txnRef: data.txnRef,
+  //   };
+  //   console.log('object', paymentHistory);
+  //   axios
+  //     .put(BASE_URL + `/booking/addPaymentHistory`, paymentHistory, {
+  //       headers: {Authorization: `Bearer ${token}`},
+  //     })
+  //     .then(res => {
+  //       console.log('successCallback', res.data);
+  //       if (res.data) {
+  //         props.navigation.navigate('Viewdetails');
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log('successCallback catch error', error.response.data);
+  //     });
+  // };
 
-  const failureCallback = async data => {
-    const token = await _getStorage('token');
-    if (data.message == 'No action taken') {
-      console.log('no action taken');
-    } else {
-      const paymentHistory = {
-        bookingId: bookingIdPrice?.bookinId,
-        txnId: data.txnId,
-        resCode: data.responseCode,
-        status: data.Status,
-        price: bookingIdPrice?.price,
-        txnRef: data.txnRef,
-      };
-      console.log('object', paymentHistory);
-      axios
-        .put(BASE_URL + `/booking/addPaymentHistory`, paymentHistory, {
-          headers: {Authorization: `Bearer ${token}`},
-        })
-        .then(res => {
-          console.log('successCallback', res.data);
-        })
-        .catch(error => {
-          console.log('successCallback catch error', error.response.data);
-        });
-    }
-  };
+  // const failureCallback = async data => {
+  //   const token = await _getStorage('token');
+  //   if (data.message == 'No action taken') {
+  //     console.log('no action taken');
+  //   } else {
+  //     const paymentHistory = {
+  //       bookingId: bookingIdPrice?.bookinId,
+  //       txnId: data.txnId,
+  //       resCode: data.responseCode,
+  //       status: data.Status,
+  //       price: bookingIdPrice?.price,
+  //       txnRef: data.txnRef,
+  //     };
+  //     console.log('object', paymentHistory);
+  //     axios
+  //       .put(BASE_URL + `/booking/addPaymentHistory`, paymentHistory, {
+  //         headers: {Authorization: `Bearer ${token}`},
+  //       })
+  //       .then(res => {
+  //         console.log('successCallback', res.data);
+  //       })
+  //       .catch(error => {
+  //         console.log('successCallback catch error', error.response.data);
+  //       });
+  //   }
+  // };
 
-  const PayWithCash = () => {
-    Toast.showWithGravity('Service Booked!', Toast.LONG, Toast.BOTTOM);
-    props.navigation.navigate('Mybooking');
-  };
+  // const PayWithCash = () => {
+  //   // Toast.showWithGravity('Service Booked!', Toast.LONG, Toast.BOTTOM);
+  //   // props.navigation.navigate('Mybooking');
+  // };
 
-  const payWithWallet = async () => {
+  const payWithWallet = async Prop => {
     const token = await _getStorage('token');
     const obj = {
-      bookingId: bookingIdPrice?.bookinId,
+      bookingId: Prop,
     };
     console.log(obj);
     axios
@@ -300,16 +318,18 @@ const PaymentScreen = props => {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
+        setButtonLoading(false);
+
         console.log('red.data===paywith wallet', res.data);
         if (res.data) {
           Toast.showWithGravity(res.data.message, Toast.SHORT, Toast.BOTTOM);
-          props.navigation.replace('DrowerNavigation');
+          if (res.data.message == 'Payment successful') {
+            props.navigation.replace('PayWithWalletScreen', {data: res.data});
+          }
         }
-        // } else if (res.data.message == 'Insufficient balance') {
-        //   Toast.showWithGravity(res.data.message, Toast.SHORT, Toast.BOTTOM);
-        // }
       })
       .catch(error => {
+        setButtonLoading(false);
         if (error.response?.data?.message == 'Insufficient balance') {
           Toast.showWithGravity(
             error.response.data.message,
@@ -319,6 +339,155 @@ const PaymentScreen = props => {
         }
       });
   };
+
+  const getBookignId = async () => {
+    setButtonLoading(true);
+    const token = await _getStorage('token');
+    let book = {
+      cartId: cartId,
+      //  cartId: cartID?.cartId,
+      start: bookingData.book.start,
+      end: bookingData.book.end,
+      bookingDate: bookingData.book.bookingDate,
+      bookingLocation: bookingData.book.bookingLocation,
+      address: bookingData.book.address,
+      pinCode: bookingData.book.pinCode,
+      name: bookingData.book.name,
+      save_as: bookingData.book.save_as,
+      addressId: bookingData.book.addressId,
+    };
+    console.log('========book of getBooking========== ', book);
+    axios
+      .post(BASE_URL + `/booking`, book, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(res => {
+        console.log('===========add booking 1=========', res.data);
+        let bookinId = res?.data?.bookingId;
+        let price = res?.data?.total;
+        if (res.data.bookingId && res.data.total) {
+          setBookingIdSave(res.data.bookingId);
+          setBookingTotal(res.data.total);
+          payWithWallet(res.data.bookingId);
+          // props.navigation.replace('PaymentScreen', {bookinId, price});
+          console.log('===========add booking 2=========', res.data.bookingId);
+        } else {
+          console.log('else conditions');
+        }
+      })
+      .catch(error => {
+        setButtonLoading(false);
+        console.log(
+          'add booking catch error---+++++++++++=>',
+          error?.response?.data?.message,
+        );
+        if (
+          error?.response?.data?.message.includes(
+            'Booking already present. Please clear',
+          )
+        ) {
+          Toast.showWithGravity(
+            'Booking Already Present',
+            Toast.LONG,
+            Toast.BOTTOM,
+          );
+          navigation.navigate('Booking');
+        }
+        // Toast.showWithGravity(
+        //   error.error?.response?.data?.message,
+        //   Toast.LONG,
+        //   Toast.BOTTOM,
+        // );
+
+        // setIserror(error?.response?.data?.message);
+        // if (error.response?.data?.message == iseeror) {
+        //   Alert.alert('Booking Already Present, Please Clear You Cart having', [
+        //     {
+        //       text: 'Cancel',
+        //       onPress: () => console.log('Cancel Pressed'),
+        //       style: 'cancel',
+        //     },
+        //     {text: 'OK', onPress: () => props.navigation.goBack()},
+        //   ]);
+        // }
+      });
+  };
+
+  const getBookignIdforUPI = async () => {
+    setButtonLoading1(true);
+    const token = await _getStorage('token');
+    let book = {
+      cartId: cartId,
+      //  cartId: cartID?.cartId,
+      start: bookingData.book.start,
+      end: bookingData.book.end,
+      bookingDate: bookingData.book.bookingDate,
+      bookingLocation: bookingData.book.bookingLocation,
+      address: bookingData.book.address,
+      pinCode: bookingData.book.pinCode,
+      name: bookingData.book.name,
+      save_as: bookingData.book.save_as,
+      addressId: bookingData.book.addressId,
+    };
+    console.log('========book of getBooking========== ', book);
+    axios
+      .post(BASE_URL + `/booking`, book, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(res => {
+        console.log('===========add booking 1=========', res.data);
+        let bookinId = res?.data?.bookingId;
+        let price = res?.data?.total;
+        if (res.data.bookingId && res.data.total) {
+          setBookingIdSave(res.data.bookingId);
+          setBookingTotal(res.data.total);
+          // payWithWallet(res.data.bookingId);
+          _Payment_api(res.data);
+          // props.navigation.replace('PaymentScreen', {bookinId, price});
+          console.log('===========add booking 2=========', res.data);
+        } else {
+          console.log('else conditions');
+        }
+      })
+      .catch(error => {
+        setButtonLoading1(false);
+
+        console.log(
+          'add booking catch error---+++++++++++=>',
+          error?.response?.data?.message,
+        );
+        if (
+          error?.response?.data?.message.includes(
+            'Booking already present. Please clear',
+          )
+        ) {
+          Toast.showWithGravity(
+            'Booking Already Present',
+            Toast.LONG,
+            Toast.BOTTOM,
+          );
+          navigation.navigate('Booking');
+        }
+        // Toast.showWithGravity(
+        //   error.error?.response?.data?.message,
+        //   Toast.LONG,
+        //   Toast.BOTTOM,
+        // );
+
+        // setIserror(error?.response?.data?.message);
+        // if (error.response?.data?.message == iseeror) {
+        //   Alert.alert('Booking Already Present, Please Clear You Cart having', [
+        //     {
+        //       text: 'Cancel',
+        //       onPress: () => console.log('Cancel Pressed'),
+        //       style: 'cancel',
+        //     },
+        //     {text: 'OK', onPress: () => props.navigation.goBack()},
+        //   ]);
+        // }
+      });
+  };
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <Header
@@ -348,7 +517,7 @@ const PaymentScreen = props => {
         </View>
       ) : (
         <View>
-          <View
+          {/* <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
@@ -389,7 +558,7 @@ const PaymentScreen = props => {
               }}>
               <Text style={{color: Colors.white, fontWeight: '500'}}>Pay</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
 
           {/*============================= {pay with wallet==================================} */}
           <View
@@ -431,17 +600,25 @@ const PaymentScreen = props => {
               </Text>
             </View>
             <TouchableOpacity
-              onPress={payWithWallet}
+              onPress={getBookignId}
               style={{
                 paddingVertical: 7,
                 borderRadius: 7,
                 backgroundColor: Colors.purple,
                 width: 70,
                 alignItems: 'center',
+                justifyContent: 'center',
                 alignSelf: 'flex-end',
                 left: 10,
+                height: 35,
               }}>
-              <Text style={{color: Colors.white, fontWeight: '500'}}>Pay</Text>
+              {!butttonLoading ? (
+                <Text style={{color: Colors.white, fontWeight: '500'}}>
+                  Pay
+                </Text>
+              ) : (
+                <ActivityIndicator color="#fff" size={15} />
+              )}
             </TouchableOpacity>
           </View>
           {/*============================= {pay with wallet==================================} */}
@@ -472,7 +649,8 @@ const PaymentScreen = props => {
               </Text>
             </View>
             <TouchableOpacity
-              onPress={_Payment_api}
+              // onPress={_Payment_api}
+              onPress={getBookignIdforUPI}
               style={{
                 paddingHorizontal: 15,
                 paddingVertical: 7,
@@ -481,8 +659,16 @@ const PaymentScreen = props => {
                 width: 70,
                 alignItems: 'center',
                 alignSelf: 'flex-end',
+                height: 35,
+                justifyContent: 'center',
               }}>
-              <Text style={{color: Colors.white, fontWeight: '500'}}>Pay</Text>
+              {!butttonLoading1 ? (
+                <Text style={{color: Colors.white, fontWeight: '500'}}>
+                  Pay
+                </Text>
+              ) : (
+                <ActivityIndicator color="#fff" size={15} />
+              )}
             </TouchableOpacity>
           </View>
         </View>

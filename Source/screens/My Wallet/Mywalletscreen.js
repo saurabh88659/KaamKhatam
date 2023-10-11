@@ -7,6 +7,8 @@ import {
   Dimensions,
   TextInput,
   Linking,
+  Pressable,
+  Keyboard,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Colors from '../../Assets/Constants/Colors';
@@ -22,12 +24,13 @@ import {WebView} from 'react-native-webview';
 import {useRef} from 'react';
 import Toast from 'react-native-simple-toast';
 import {Header} from 'react-native/Libraries/NewAppScreen';
+import {clearTextOnFocus} from 'deprecated-react-native-prop-types/DeprecatedTextInputPropTypes';
 
 export default function Mywalletscreen(prop) {
   console.log('===prop====', prop);
   const navigation = useNavigation();
   const [selectAmount, setSelectAmount] = useState('');
-  const [recharge, setRecharge] = useState('');
+  const [recharge, setRecharge] = useState(0);
   const [mobileNumber, setMobileNumber] = useState('');
   const [email, setEmail] = useState('');
   const [customerId, setCustomerId] = useState('');
@@ -283,6 +286,10 @@ export default function Mywalletscreen(prop) {
       });
   };
   console.log('recharge', recharge);
+  const dismissKeyboard = () => {
+    Keyboard.dismiss();
+    console.log('key baord disable');
+  };
   return (
     <SafeAreaView style={{flex: 1}}>
       {webViewVisible ? (
@@ -312,81 +319,85 @@ export default function Mywalletscreen(prop) {
           />
         </View>
       ) : (
-        <View>
-          <View
-            style={{
-              borderColor: Colors.darkGray,
-              height: 70,
-              backgroundColor: Colors.white,
-              elevation: 5,
-            }}>
+        <View style={{backgroundColor: 'red', flex: 1}}>
+          <Pressable
+            style={{backgroundColor: '#ffff', flex: 1}}
+            onPress={dismissKeyboard}>
             <View
               style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                marginHorizontal: 20,
-                marginVertical: 10,
+                borderColor: Colors.darkGray,
+                height: 70,
+                backgroundColor: Colors.white,
+                elevation: 5,
               }}>
-              <View style={{flexDirection: 'row', marginVertical: 10}}>
-                <Image
-                  source={require('../../Assets/Images/wallet.png')}
-                  style={{height: 25, width: 25, marginVertical: 10}}
-                />
-                <Text
-                  style={{
-                    left: 10,
-                    fontWeight: 'bold',
-                    marginVertical: 10,
-                    fontSize: 17,
-                    color: Colors.black,
-                  }}>
-                  My Wallet
-                </Text>
-              </View>
-              <View style={{flexDirection: 'row', marginHorizontal: 10}}>
-                <Text style={{left: 10, fontSize: 18, color: Colors.black}}>
-                  {'\u20B9'} {recharge}
-                </Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginHorizontal: 20,
+                  marginVertical: 10,
+                }}>
+                <View style={{flexDirection: 'row', marginVertical: 10}}>
+                  <Image
+                    source={require('../../Assets/Images/wallet.png')}
+                    style={{height: 25, width: 25, marginVertical: 10}}
+                  />
+                  <Text
+                    style={{
+                      left: 10,
+                      fontWeight: 'bold',
+                      marginVertical: 10,
+                      fontSize: 17,
+                      color: Colors.black,
+                    }}>
+                    My Wallet
+                  </Text>
+                </View>
+                <View style={{flexDirection: 'row', marginHorizontal: 10}}>
+                  <Text style={{left: 10, fontSize: 18, color: Colors.black}}>
+                    {'\u20B9'} {recharge.toFixed(2)}
+                  </Text>
+                </View>
               </View>
             </View>
-          </View>
-          <View style={{marginHorizontal: 10, marginVertical: 20}}>
-            <TextInput
-              placeholderTextColor={Colors.lightGray}
-              placeholder="Please Enter Amount"
-              value={selectAmount}
-              onChangeText={text => setSelectAmount(text)}
-              keyboardType="number-pad"
-              style={{
-                borderWidth: 1.5,
-                color: Colors.black,
-                // textAlign: 'center',
-                paddingLeft: 15,
-                borderRadius: 7,
-                borderColor: Colors.lightGray,
-                fontWeight: '500',
-                fontSize: 18,
-              }}
-            />
-          </View>
+            <View style={{marginHorizontal: 10, marginVertical: 20}}>
+              <TextInput
+                placeholderTextColor={Colors.lightGray}
+                placeholder="Please Enter Amount"
+                value={selectAmount}
+                onChangeText={text => setSelectAmount(text)}
+                keyboardType="number-pad"
+                style={{
+                  borderWidth: 1.5,
+                  color: Colors.black,
+                  // textAlign: 'center',
+                  paddingLeft: 15,
+                  borderRadius: 7,
+                  borderColor: Colors.lightGray,
+                  fontWeight: '500',
+                  fontSize: 18,
+                }}
+              />
+            </View>
 
-          <TouchableOpacity
-            onPress={_Payment_api}
-            disabled={selectAmount ? false : true}
-            style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              // top: 60,
-              backgroundColor: Colors.purple,
-              height: height / 14,
-              marginHorizontal: 10,
-              borderRadius: 4,
-            }}>
-            <Text style={{color: 'white', fontWeight: '700', fontSize: 15}}>
-              Recharge your Wallet
-            </Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={_Payment_api}
+              disabled={selectAmount ? false : true}
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                // top: 60,
+                backgroundColor: Colors.purple,
+                height: height / 14,
+                marginHorizontal: 10,
+                borderRadius: 4,
+              }}>
+              <Text style={{color: 'white', fontWeight: '700', fontSize: 15}}>
+                Recharge your Wallet
+              </Text>
+            </TouchableOpacity>
+          </Pressable>
         </View>
       )}
     </SafeAreaView>

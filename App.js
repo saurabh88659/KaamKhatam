@@ -6,6 +6,7 @@ import {store} from './Source/app/store';
 import SearchService from './SearchService';
 import {PersistGate} from 'redux-persist/integration/react';
 import ConfirmationPayment from './Source/screens/ConfirmationPayment';
+import PayWithWalletScreen from './Source/screens/PayWithWalletScreen';
 
 function App() {
   // const UpdateState = useSelector(
@@ -16,6 +17,7 @@ function App() {
     <NavigationContainer>
       <AuthStack />
       {/* <ConfirmationPayment /> */}
+      {/* <PayWithWalletScreen /> */}
     </NavigationContainer>
   );
 }

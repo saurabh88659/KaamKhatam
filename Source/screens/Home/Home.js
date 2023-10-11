@@ -504,6 +504,7 @@ function Home() {
                     image={require('../../Assets/Images/hairdressing2.png')}
                     // onPress={() => props.navigation.navigate('Manicure', props)}
                   />
+
                   <BeautyServices
                     onPress={() => {
                       // props.navigation.navigate('Bleach', props);

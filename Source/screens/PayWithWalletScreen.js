@@ -5,6 +5,7 @@ import {
   StatusBar,
   Image,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -20,12 +21,17 @@ import {useNavigation} from '@react-navigation/native';
 import Lottie from 'lottie-react-native';
 import {useState} from 'react';
 import {useEffect} from 'react';
+import moment from 'moment-timezone';
 
-const ConfirmationPayment = ({route}) => {
+const PayWithWalletScreen = props => {
+  const navigation = useNavigation();
+  const IST_TIMEZONE = 'Asia/Kolkata';
+  const paymentDetails = props.route.params.data;
+  console.log(paymentDetails, 'paymentDetails');
   const [loding, setLoading] = useState(true);
+
   const [butttonLoading, setButtonLoading] = useState(false);
   const [showButton, SetShowButton] = useState(false);
-
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       SetShowButton(true);
@@ -33,27 +39,31 @@ const ConfirmationPayment = ({route}) => {
     return () => clearTimeout(timeoutId);
   }, []);
 
-  const navigation = useNavigation();
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 400);
     return () => clearTimeout(timeoutId);
   }, []);
 
-  const orderDetails = route?.params;
-  const paymentDateTime = orderDetails.PaymentDateTime;
-  const dateTimeParts = paymentDateTime.split(' '); // Split the date and time
-  const timePart = dateTimeParts[1].slice(0, -3); // Remove the seconds and "AM" or "PM" part
-  // Combine the formatted date and time with "AM" or "PM"
-  const formattedDateTime = `${dateTimeParts[0]} ${timePart} ${dateTimeParts[2]}`;
-  // Combine the formatted date and time
-  console.log(formattedDateTime, 'formattedDateTime===');
+  const utcMoment = moment(paymentDetails.transactionDate);
+  // Convert to IST timezone
+  const istMoment = utcMoment.tz(IST_TIMEZONE);
 
-  console.log(
-    '----------order detials in ConfirmationPayment-------',
-    orderDetails,
-  );
+  console.log(istMoment, 'istMoment---map');
+  // Format the IST date as a string
+  const istDate = istMoment.format('YYYY-MM-DD');
+
+  console.log(istDate, 'is date ---map');
+  const GoToHomePage = () => {
+    setButtonLoading(true);
+
+    setTimeout(() => {
+      navigation.replace('DrowerNavigation');
+      setButtonLoading(false);
+    }, 300);
+  };
+
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#ffff'}}>
       {loding ? (
@@ -98,11 +108,8 @@ const ConfirmationPayment = ({route}) => {
                 paddingHorizontal: 20,
                 justifyContent: 'center',
                 alignItems: 'center',
+                marginBottom: 20,
               }}>
-              {/* <Image
-            style={styles.tinyLogo}
-            source={require('../Assets/Images/Payment.png')}
-          /> */}
               <Lottie
                 source={require('../Assets/animation/PaymentConfirmation.json')}
                 autoPlay
@@ -119,9 +126,9 @@ const ConfirmationPayment = ({route}) => {
                 height: hp('16%'),
                 // backgroundColor: 'red',
                 justifyContent: 'space-between',
-                borderBottomColor: Colors.lightGray,
-                borderBottomWidth: 1,
-                margin: 20,
+                // borderBottomColor: Colors.lightGray,
+                // borderBottomWidth: 1,
+                // margin: 20,
               }}>
               <Text style={{color: '#00bfff', fontSize: 20, fontWeight: '900'}}>
                 PAYMENT SUCCESSFUL
@@ -143,7 +150,7 @@ const ConfirmationPayment = ({route}) => {
                   style={{
                     color: Colors.lightGray,
                     fontSize: 16,
-                    marginTop: 2,
+                    marginTop: 3,
                     fontWeight: '600',
                   }}>
                   Details of transaction are included below
@@ -151,17 +158,17 @@ const ConfirmationPayment = ({route}) => {
               </View>
             </View>
 
-            <View style={{marginHorizontal: 20}}>
-              <Text
-                style={{
-                  fontSize: 17,
-                  color: '#4169e1',
-                  fontWeight: '800',
-                  alignSelf: 'center',
-                  marginBottom: 28,
-                }}>
-                Transaction Number :{orderDetails.TransactionId}
-              </Text>
+            <View style={{marginHorizontal: 20, marginTop: 20}}>
+              {/* <Text
+               style={{
+              fontSize: 17,
+              color: '#4169e1',
+              fontWeight: '800',
+              alignSelf: 'center',
+              marginBottom: 28,
+              }}>
+              Transaction Number :
+              </Text> */}
 
               <View
                 style={[
@@ -170,7 +177,7 @@ const ConfirmationPayment = ({route}) => {
                 ]}>
                 <Text style={styles.infokeyText}>TOTAL AMOUNT PAID</Text>
                 <Text style={styles.infovalueText}>
-                  ₹ {orderDetails.OrderAmount}
+                  ₹ {paymentDetails.amount}
                 </Text>
               </View>
 
@@ -180,42 +187,90 @@ const ConfirmationPayment = ({route}) => {
                   {borderBottomColor: Colors.lightGray, borderBottomWidth: 1},
                 ]}>
                 <Text style={styles.infokeyText}>PAID BY</Text>
-                <Text style={styles.infovalueText}>
-                  {orderDetails.PaymentMethod.toUpperCase()}
-                </Text>
+                <Text style={styles.infovalueText}>WALLET</Text>
               </View>
 
               <View style={styles.infoitemcontainer}>
                 <Text style={styles.infokeyText}>TRANSACTION DATE</Text>
-                <Text style={styles.infovalueText}>{formattedDateTime}</Text>
+                <View style={{flexDirection: 'row'}}>
+                  <Text style={styles.infovalueText}>
+                    {istMoment.format('DD-MM-YYYY')}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      color: Colors.black,
+                      fontWeight: '800',
+                      marginLeft: 9,
+                    }}>
+                    {istMoment.format('HH:mm')}
+                  </Text>
+                </View>
               </View>
             </View>
           </ScrollView>
-          <View
-            style={{
-              justifyContent: 'flex-end',
-              alignItems: 'center',
-              // flex: 1,
-              // backgroundColor: 'red',
-              // height: '100%',
-              marginBottom: 25,
-            }}>
-            <CustomButton
+          {showButton ? (
+            <View
+              style={{
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+                // flex: 1,
+                // backgroundColor: 'red',
+                // height: '100%',
+                marginBottom: 25,
+              }}>
+              <TouchableOpacity
+                onPress={GoToHomePage}
+                // disabled={props.disabled}
+                style={{
+                  width: wp('90%'),
+                  height: hp('7%'),
+                  backgroundColor: Colors.purple,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: hp('1%'),
+                  marginTop: hp('2%'),
+                  shadowColor: '#000',
+                  shadowOffset: {
+                    width: 0,
+                    height: 2,
+                  },
+                  shadowOpacity: 0.25,
+                  shadowRadius: 3.84,
+                  elevation: 5,
+                }}>
+                {!butttonLoading ? (
+                  <Text
+                    style={{
+                      fontWeight: '700',
+                      fontSize: hp('2.2%'),
+                      color: Colors.white,
+                      marginLeft: wp('5%'),
+                    }}>
+                    CONTINUE
+                  </Text>
+                ) : (
+                  <ActivityIndicator color="#fff" size={26} />
+                )}
+              </TouchableOpacity>
+
+              {/* <CustomButton
               onPress={() => navigation.replace('DrowerNavigation')}
               height={hp('7%')}
               width={wp('90%')}
               bgColor={Colors.purple}
               title="CONTINUE"
               color={Colors.white}
-            />
-          </View>
+            /> */}
+            </View>
+          ) : null}
         </View>
       )}
     </SafeAreaView>
   );
 };
 
-export default ConfirmationPayment;
+export default PayWithWalletScreen;
 
 const styles = StyleSheet.create({
   tinyLogo: {

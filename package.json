@@ -36,6 +36,7 @@
     "mapmyindia-map-react-native-beta": "^0.4.2",
     "mapmyindia-restapi-react-native-beta": "^0.0.12",
     "moment": "^2.29.4",
+    "moment-timezone": "^0.5.43",
     "react": "17.0.2",
     "react-datepicker": "^4.10.0",
     "react-native": "0.68.0",

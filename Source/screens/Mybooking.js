@@ -18,9 +18,13 @@ import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import {useIsFocused} from '@react-navigation/native';
 import InternetInfoall from '../Assets/utils/Handler/InternetInfoall';
 import {useDispatch} from 'react-redux';
+import moment from 'moment-timezone';
+
 const {height, width} = Dimensions.get('window');
 
 function Mybooking({navigation}) {
+  const IST_TIMEZONE = 'Asia/Kolkata';
+
   const dispatch = useDispatch();
   const [bookdetails, setBookdetails] = useState([]);
   const [noData, setNoData] = useState('');
@@ -82,6 +86,20 @@ function Mybooking({navigation}) {
     const parseDate = Date.parse(date);
     console.log('Date: ', date);
   };
+  const monthMappings = {
+    '01': 'Jan',
+    '02': 'Feb',
+    '03': 'Mar',
+    '04': 'Apr',
+    '05': 'May',
+    '06': 'Jun',
+    '07': 'Jul',
+    '08': 'Aug',
+    '09': 'Sep',
+    10: 'Oct',
+    11: 'Nov',
+    12: 'Dec',
+  };
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -114,11 +132,18 @@ function Mybooking({navigation}) {
           </Text>
         ) : (
           bookdetails.map((value, index) => {
+            // const utcMoment = moment(value.bookingDate);
+            // const istMoment = utcMoment.tz(IST_TIMEZONE);
+            // console.log(istMoment, 'its');
+
             const [day, month, year] = value.bookingDate.split('/');
+            const monthAbbreviation = monthMappings[month];
+
             console.log(
               '====================value===================--',
-              value,
+              value.bookingDate,
             );
+
             return (
               <View
                 key={index}
@@ -269,6 +294,8 @@ function Mybooking({navigation}) {
                           value.bookingStatus === 'Pending'
                             ? '#5E2DC4'
                             : value.bookingStatus === 'Confirmed'
+                            ? '#0EC01B'
+                            : value.bookingStatus === 'Completed'
                             ? '#0EC01B'
                             : '#F21313',
                       }}>

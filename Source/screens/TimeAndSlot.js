@@ -333,8 +333,22 @@ const TimeAndSlot = props => {
         console.log('=====chackDate======', res.data);
         // Toast.showWithGravity(res.data?.message, Toast.LONG, Toast.BOTTOM);
         if (res.data.message === 'Date is valid' && selectedTimeFrame) {
+          let book = {
+            cartId: cartId,
+            //  cartId: cartID?.cartId,
+            start: startTime,
+            end: endTime,
+            bookingDate: _Isdate,
+            bookingLocation: orderLoaction.location,
+            address: orderLoaction.address,
+            pinCode: orderLoaction.pincode,
+            name: orderLoaction.name,
+            save_as: orderLoaction.saveas,
+            addressId: orderLoaction.addressId,
+          };
           console.log(res.data.message, 'run conBooking====');
-          conBooking();
+          props.navigation.replace('PaymentScreen', {book});
+          // conBooking();
         } else if (!selectedTimeFrame) {
           console.log('======= not running  conBooking====');
           Toast.showWithGravity(

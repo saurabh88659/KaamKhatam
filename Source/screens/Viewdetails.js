@@ -27,6 +27,7 @@ import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import {Rating} from 'react-native-ratings';
 import Toast from 'react-native-simple-toast';
 import {useIsFocused} from '@react-navigation/native';
+import {color} from 'react-native-reanimated';
 const {height, width} = Dimensions.get('window');
 
 const Viewdetails = props => {
@@ -104,14 +105,13 @@ const Viewdetails = props => {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        console.log('response rating====', res.data);
+        console.log('=======response rating====', res.data);
         if (
           res.data.message == 'User have updated reviewed for this service' ||
           'User Reviewed successfully'
         ) {
           setModalVisible2(!modalVisible2);
           setRateComponent(true);
-
           Toast.showWithGravity(
             'Thanks so much for sharing your experience with us.',
             Toast.LONG,
@@ -231,7 +231,7 @@ const Viewdetails = props => {
             <View style={{flexDirection: 'row', marginHorizontal: 10}}>
               <View style={{width: '70%'}}>
                 <Text style={{color: Colors.black, fontSize: 17, top: -10}}>
-                  {bookinviewdetails.serviceName}
+                  {bookinviewdetails?.serviceName}
                 </Text>
                 <View
                   style={{
@@ -245,7 +245,7 @@ const Viewdetails = props => {
                   />
 
                   <Text style={{left: 5, color: Colors.black}}>
-                    {bookinviewdetails.rating}
+                    {bookinviewdetails?.rating}
                   </Text>
                 </View>
                 <View
@@ -495,7 +495,7 @@ const Viewdetails = props => {
                     Vendor Name
                   </Text>
                   <Text style={{color: Colors.darkGray, fontSize: 15}}>
-                    {bookinviewdetails.bookingId}
+                    {bookinviewdetails?.vendorName}
                   </Text>
                 </View>
                 <View
@@ -519,7 +519,7 @@ const Viewdetails = props => {
                       fontSize: 15,
                       textAlign: 'center',
                     }}>
-                    {bookinviewdetails.serviceName}
+                    {bookinviewdetails?.contact}
                   </Text>
                 </View>
                 <View
@@ -544,7 +544,8 @@ const Viewdetails = props => {
                       fontSize: 15,
                       textAlign: 'center',
                     }}>
-                    {bookinviewdetails.serviceName}
+                    {bookinviewdetails?.experience}{' '}
+                    {bookinviewdetails?.experience > 1 ? 'Years' : 'Year'}
                   </Text>
                 </View>
               </View>
@@ -594,7 +595,49 @@ const Viewdetails = props => {
                   Your refund has been initiated
                 </Text>
               </View>
-              <View style={{marginHorizontal: 15}}>
+              <View style={{marginHorizontal: 15, marginBottom: 20}}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginVertical: 10,
+                  }}>
+                  <Text
+                    style={{
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontWeight: 'bold',
+                    }}>
+                    Total Amount
+                  </Text>
+                  <Text style={{color: Colors.darkGray, fontSize: 15}}>
+                    INR {bookinviewdetails?.amountToBePaid}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginVertical: 10,
+                  }}>
+                  <Text
+                    style={{
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontWeight: 'bold',
+                    }}>
+                    Service Charge
+                  </Text>
+                  <Text style={{color: Colors.darkGray, fontSize: 15}}>
+                    INR {bookinviewdetails?.amountDeducted}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    height: 1,
+                    backgroundColor: Colors.darkGray,
+                    marginVertical: 3,
+                  }}></View>
                 <View
                   style={{
                     flexDirection: 'row',
@@ -610,7 +653,7 @@ const Viewdetails = props => {
                     Refund Amount
                   </Text>
                   <Text style={{color: Colors.darkGray, fontSize: 15}}>
-                    INR {bookinviewdetails.amountToBePaid}
+                    INR {bookinviewdetails?.refundAmount}
                   </Text>
                 </View>
               </View>
@@ -621,10 +664,10 @@ const Viewdetails = props => {
             <View>
               <TouchableOpacity
                 onPress={() => setModalVisible2(true)}
-                disabled={rateComponent}
+                // disabled={rateComponent}
                 style={{
                   height: height / 16,
-                  backgroundColor: rateComponent ? Colors.darkGray : '#0EC01B',
+                  backgroundColor: '#0EC01B',
                   alignItems: 'center',
                   justifyContent: 'center',
                   borderRadius: 5,
@@ -763,26 +806,31 @@ const Viewdetails = props => {
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>
-              Would you like to process with the cancellation process?
-            </Text>
+            <View>
+              <Text style={[styles.modalText, {marginTop: 20}]}>
+                Would you like to process with the cancellation process?
+              </Text>
 
-            <Text
-              style={{
-                textAlign: 'center',
-                // top: -15,
-                fontWeight: '700',
-                fontSize: 17,
-                color: '#ff8c00',
-              }}>
-              A 10% service charge will apply
-            </Text>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  // top: -15,
+                  fontWeight: '700',
+                  fontSize: 17,
+                  color: '#ff8c00',
+                  marginVertical: 10,
+                }}>
+                A 10% service charge will apply
+              </Text>
+            </View>
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 marginHorizontal: 30,
-                top: 20,
+                // top: 20,
+                // marginVertical: 15,
+                marginBottom: 20,
               }}>
               <TouchableOpacity
                 style={{
@@ -794,6 +842,7 @@ const Viewdetails = props => {
                   alignItems: 'center',
                   borderRadius: 4,
                   borderWidth: 1,
+                  // marginBottom: 3,
                 }}
                 onPress={handleCancelService}>
                 <Text
@@ -839,7 +888,7 @@ const Viewdetails = props => {
         transparent={true}
         visible={modalVisible2}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
+          // Alert.alert('Modal has been closed.');
           setModalVisible2(!modalVisible2);
         }}>
         <View
@@ -1084,8 +1133,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     backgroundColor: 'white',
     borderRadius: 5,
-    height: height / 4.8,
-    justifyContent: 'center',
+    height: height / 4.5,
+    justifyContent: 'space-between',
   },
 
   textStyle: {
@@ -1095,7 +1144,7 @@ const styles = StyleSheet.create({
   },
   modalText: {
     textAlign: 'center',
-    top: -15,
+    // top: -15,
     fontWeight: '700',
     fontSize: 17,
     color: Colors.black,
