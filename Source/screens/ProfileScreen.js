@@ -35,7 +35,7 @@ import {
 } from 'react-native-responsive-screen';
 import FontAwesome5 from 'react-native-vector-icons/MaterialIcons';
 import {StatusBar} from 'react-native';
-
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 const {height, width} = Dimensions.get('window');
 const ProfileScreen = ({navigation, route}) => {
   // const profileImgeUrl = useSelector(state => state.updateState.profileImgeUrl);
@@ -50,13 +50,14 @@ const ProfileScreen = ({navigation, route}) => {
   const [onUpdateImage, setOnUpdateImage] = useState(Math.random());
 
   const isFocused = useIsFocused();
+
   useEffect(() => {
-    if (isFocused) {
-      console.log('===============runnig _getprofileapi==============');
-      _getprofileapi();
-      getFirstLetters;
-    }
-  }, [isFocused]);
+    // if (isFocused || profileUrl) {
+    console.log('===============runnig _getprofileapi==============');
+    _getprofileapi();
+    getFirstLetters;
+    // }
+  }, [profileUrl]);
 
   const toggleBottomNavigationView = () => {
     setVisible(!visible);
@@ -128,11 +129,10 @@ const ProfileScreen = ({navigation, route}) => {
         setIsLoading(false);
         setImageData(null);
         setImageUrlPath(null);
+        setProfileUrl(res.data?.imageUr);
         // dispatch(setProfileImgeUrl(res.data.imageUrl))
-        dispatch(setProfileImgeUrl(profilePic));
-
+        // dispatch(setProfileImgeUrl(profilePic));
         console.log('Profile image--------->>', res.data.imageUrl);
-
         Toast.showWithGravity(
           'Image Updated Successfully',
           Toast.LONG,
@@ -292,7 +292,8 @@ const ProfileScreen = ({navigation, route}) => {
                     source={
                       imageUrlPath
                         ? {uri: imageUrlPath}
-                        : {uri: profileUrl + '?' + onUpdateImage}
+                        : // : {uri: profileUrl + '?' + onUpdateImage}
+                          {uri: profileUrl}
                     }
                     style={{
                       width: 100,

@@ -63,7 +63,7 @@ const EditProfileScreen = props => {
 
   const [timer, setTimer] = useState(60); // set initial timer to 60 seconds
   const [disabled, setDisabled] = useState(false); // enable resend button by default
-
+  console.log('===============================', dataupdate);
   useEffect(() => {
     if (isFocused) {
       profiledata();
@@ -120,16 +120,16 @@ const EditProfileScreen = props => {
     let newObj = {
       firstName: firstname,
       lastName: lastname,
-      dateOfBirth: date,
-      // dateOfBirth: '09/12/2013',
-      gender: gender,
-      city: city,
-      pincode: Number(pincode),
-      state,
-      address: address,
+      // dateOfBirth: date,
+      // // dateOfBirth: '09/12/2013',
+      // gender: gender,
+      // city: city,
+      // pincode: Number(pincode),
+      // state,
+      // address: address,
       email: email,
     };
-    console.log('newOBJ', newObj);
+    console.log('===================newOBJ of update profile======', newObj);
     setIsLoading(true);
     axios
       .put(BASE_URL + `/profile`, newObj, {
@@ -276,6 +276,7 @@ const EditProfileScreen = props => {
     const emailObj = {
       email,
     };
+
     axios
       .put(BASE_URL + `/sendMail`, emailObj, {
         headers: {Authorization: `Bearer ${token}`},
@@ -736,6 +737,7 @@ const EditProfileScreen = props => {
                     marginHorizontal: 15,
                   }}>
                   <TextInput
+                    editable={false}
                     placeholder="Email ID"
                     placeholderTextColor="grey"
                     value={email}
@@ -750,8 +752,8 @@ const EditProfileScreen = props => {
                       paddingHorizontal: 15,
                     }}
                   />
-
-                  <TouchableOpacity
+                  {/* {old code ===} */}
+                  {/* <TouchableOpacity
                     onPress={LoginApisendmailotp}
                     style={{
                       borderWidth: 1,
@@ -772,7 +774,29 @@ const EditProfileScreen = props => {
                       }}>
                       Get OTP
                     </Text>
+                  </TouchableOpacity> */}
+                  {/* {==========old====} */}
+                  {/* {==========new====} */}
+
+                  <TouchableOpacity
+                    onPress={() =>
+                      props.navigation.navigate(
+                        'EditGmailScreen',
+                        dataupdate.email,
+                      )
+                    }
+                    style={{
+                      marginHorizontal: 8,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                    <Image
+                      source={require('../Assets/Images/editicones.png')}
+                      style={{width: 24, height: 24}}
+                    />
                   </TouchableOpacity>
+
+                  {/* {==========new====} */}
                 </View>
               </View>
               <View style={{}}>
@@ -850,6 +874,7 @@ const EditProfileScreen = props => {
                 </View>
               )}
             </View>
+
             <Modal
               animationType="slide"
               transparent={true}

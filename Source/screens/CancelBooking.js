@@ -50,6 +50,7 @@ export default function CancelBooking(props) {
       bookingId: bookingid,
       cancelledReason: checked,
     };
+    console.log('object of ====/booking/cancel', obj);
     axios
       .put(BASE_URL + `/booking/cancel`, obj, {
         headers: {Authorization: `Bearer ${token}`},

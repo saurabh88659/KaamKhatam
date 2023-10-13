@@ -37,6 +37,7 @@ import SearchService from '../../../SearchService';
 import AddWalletBalance from '../../screens/AddWalletBalance';
 import ConfirmationPayment from '../../screens/ConfirmationPayment';
 import PayWithWalletScreen from '../../screens/PayWithWalletScreen';
+import EditGmailScreen from '../../screens/EditGmailScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -62,6 +63,11 @@ function AuthStack() {
       <Stack.Screen
         name="EditMobileNumber"
         component={EditMobileNumber}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="EditGmailScreen"
+        component={EditGmailScreen}
         options={{headerShown: false}}
       />
       <Stack.Screen

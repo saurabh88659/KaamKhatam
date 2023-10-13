@@ -31,11 +31,12 @@ const PayWithWalletScreen = props => {
   const [loding, setLoading] = useState(true);
 
   const [butttonLoading, setButtonLoading] = useState(false);
+
   const [showButton, SetShowButton] = useState(false);
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       SetShowButton(true);
-    }, 2400);
+    }, 2060);
     return () => clearTimeout(timeoutId);
   }, []);
 
@@ -55,14 +56,15 @@ const PayWithWalletScreen = props => {
   const istDate = istMoment.format('YYYY-MM-DD');
 
   console.log(istDate, 'is date ---map');
+
   const GoToHomePage = () => {
     setButtonLoading(true);
-
     setTimeout(() => {
       navigation.replace('DrowerNavigation');
       setButtonLoading(false);
     }, 300);
   };
+  2;
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#ffff'}}>

@@ -7,6 +7,7 @@ import {
   FlatList,
   StyleSheet,
 } from 'react-native';
+
 import relaxHead from '../Assets/Images/Relaxinghead.png';
 import PapayaNourishing from '../Assets/Images/Papayanourishing.png';
 import SkinBrighting from '../Assets/Images/Skinbrighting.png';

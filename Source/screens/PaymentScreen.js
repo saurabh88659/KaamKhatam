@@ -133,7 +133,8 @@ const PaymentScreen = props => {
         console.log('payment catch error', error);
       });
   };
-  console.log('setOrderKeyId====>>', orderKeyId);
+
+  // console.log('setOrderKeyId====>>', orderKeyId);
 
   //================orderdetails=============
   useEffect(() => {
@@ -330,9 +331,19 @@ const PaymentScreen = props => {
       })
       .catch(error => {
         setButtonLoading(false);
+        console.log(
+          ' pay with wallet error.response?.data?.message',
+          error.response?.data?.message,
+        );
         if (error.response?.data?.message == 'Insufficient balance') {
           Toast.showWithGravity(
             error.response.data.message,
+            Toast.LONG,
+            Toast.BOTTOM,
+          );
+          navigation.replace('Mywallet');
+          Toast.showWithGravity(
+            'Please recharge your Wallet first',
             Toast.SHORT,
             Toast.BOTTOM,
           );

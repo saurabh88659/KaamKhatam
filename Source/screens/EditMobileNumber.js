@@ -33,7 +33,7 @@ function EditMobileNumber({navigation, route}) {
         Toast.BOTTOM,
       );
     } else {
-      Toast.showWithGravity('Please Wait...', Toast.LONG, Toast.BOTTOM);
+      // Toast.showWithGravity('Please Wait...', Toast.LONG, Toast.BOTTOM);
 
       axios
         .post(BASE_URL + `/sendOTP`, {
@@ -69,7 +69,7 @@ function EditMobileNumber({navigation, route}) {
         <Header
           bgColor={Colors.topNavbarColor}
           color={Colors.white}
-          title="Register Account"
+          title="Back"
           onPress={() => navigation.goBack('')}
         />
         <View style={{margin: 20}}>
@@ -88,6 +88,8 @@ function EditMobileNumber({navigation, route}) {
         </Text>
         <View
           style={{
+            marginVertical: 10,
+
             justifyContent: 'center',
             borderColor: 'grey',
             height: 45,

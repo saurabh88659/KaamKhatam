@@ -7,11 +7,27 @@ import SearchService from './SearchService';
 import {PersistGate} from 'redux-persist/integration/react';
 import ConfirmationPayment from './Source/screens/ConfirmationPayment';
 import PayWithWalletScreen from './Source/screens/PayWithWalletScreen';
+import messaging from '@react-native-firebase/messaging';
+import {useEffect} from 'react';
+import notificationOndisplay, {
+  notificationListeners,
+} from './Source/notification/notificationOndisplay';
 
 function App() {
-  // const UpdateState = useSelector(
-  //   state => state.updateState.profiledataupdateState,
-  // );
+  useEffect(() => {
+    geteviceToken();
+    HandleNotificationOndisplay();
+  }, []);
+
+  const geteviceToken = async () => {
+    const token = await notificationOndisplay.getDeviceToken();
+    console.log(token, '===================================----====+++++###');
+  };
+
+  const HandleNotificationOndisplay = () => {
+    // notificationOndisplay.NotificationOnScreen();
+    notificationListeners();
+  };
 
   return (
     <NavigationContainer>

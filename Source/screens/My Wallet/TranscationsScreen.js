@@ -104,20 +104,22 @@ export default function TranscationsScreen() {
             .slice() // Create a shallow copy of the original array to avoid modifying it
             .reverse()
             .map((value, index) => {
-              console.log(value.time, 'value.time=====');
+              console.log(value);
+
+              // console.log(value.time, 'value.time=====');
               const utcMoment = moment(value.time);
-              console.log(utcMoment, '======map-----');
+              // console.log(utcMoment, '======map-----');
               const istMoment = utcMoment.tz(IST_TIMEZONE);
-              console.log(istMoment, '=====istMoment---map======');
+              // console.log(istMoment, '=====istMoment---map======');
               const istDate = istMoment.format('YYYY-MM-DD');
-              console.log(istDate, 'is date ---map');
+              // console.log(istDate, 'is date ---map');
               const istTime = istMoment.format('HH:mm:ss');
               return (
                 <View
                   key={index}
                   style={{
                     borderColor: Colors.darkGray,
-                    height: 100,
+                    // height: 125,
                     backgroundColor: Colors.white,
                     elevation: 5,
                     marginVertical: 1,
@@ -128,21 +130,33 @@ export default function TranscationsScreen() {
                       justifyContent: 'space-between',
                       marginHorizontal: 10,
                     }}>
-                    <View style={{marginVertical: 10}}>
+                    <View style={{marginVertical: 12}}>
                       <Text
                         style={{
                           fontWeight: 'bold',
                           color: Colors.darkGray,
                           fontSize: 16,
                         }}>
+                        Transaction Id : {value.transactionId}
+                        {/* Transaction Id : 20981207 */}
+                      </Text>
+
+                      <Text
+                        style={{
+                          marginTop: 3,
+                          fontWeight: '600',
+                          color: Colors.darkGray,
+                          fontSize: 16,
+                        }}>
                         {value.purpose}
                       </Text>
-                      <View style={{flexDirection: 'row'}}>
+
+                      <View style={{flexDirection: 'row', marginTop: 6}}>
                         <Text
                           style={{
                             fontSize: 14,
                             color: Colors.darkGray,
-                            marginVertical: 10,
+                            // marginVertical: 6,
                           }}>
                           {istMoment.format('YYYY-MM-DD')}
                         </Text>
@@ -150,14 +164,14 @@ export default function TranscationsScreen() {
                           style={{
                             fontSize: 14,
                             color: Colors.darkGray,
-                            marginVertical: 10,
+                            // marginVertical: 6,
                             marginHorizontal: 7,
                           }}>
-                          {istMoment.format('HH:mm')}
+                          {istMoment.format('HH:mm A')}
                         </Text>
                       </View>
                       {value?.purpose == 'refund' ? null : (
-                        <View style={{flexDirection: 'row'}}>
+                        <View style={{flexDirection: 'row', marginTop: 5}}>
                           <Text
                             style={{
                               fontWeight: 'bold',

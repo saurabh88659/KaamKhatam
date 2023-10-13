@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TextInput,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
@@ -46,6 +47,7 @@ const Editaddress = props => {
   const [allAddresses, setAllAddress] = useState('');
   const [addressId, setAddressId] = useState('');
   const [checked, setChecked] = useState(false);
+  const [loading, setLoading] = useState(true);
   console.log('pin code -----', pincode);
   const [name, setName] = useState(firstname);
   console.log(name);
@@ -63,10 +65,10 @@ const Editaddress = props => {
       );
       Toast.showWithGravity('all field required', Toast.SHORT, Toast.BOTTOM);
     } else if (name !== '' && flatorStreet !== '' && location !== '') {
-      // await AsyncStorage.setItem('location', location);
-      // await AsyncStorage.setItem('flatorStreet', address);
-      // await AsyncStorage.setItem('name', name);
-      // await AsyncStorage.setItem('saveas', saveas);
+      await AsyncStorage.setItem('location', location);
+      await AsyncStorage.setItem('flatorStreet', address);
+      await AsyncStorage.setItem('name', name);
+      await AsyncStorage.setItem('saveas', saveas);
       navigation.replace('TimeAndSlot', {
         location,
         address,
@@ -85,8 +87,10 @@ const Editaddress = props => {
         headers: {Authorization: `Bearer ${token}`},
       });
       setAllAddress(res.data.addresses);
+      setLoading(false);
       console.log('all addressses ======', res.data.addresses);
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -151,7 +155,7 @@ const Editaddress = props => {
       navigation.replace('TimeAndSlot', {
         addressId,
       });
-    }, 500);
+    }, 300);
   };
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -186,105 +190,110 @@ const Editaddress = props => {
           </Text>
         </TouchableOpacity>
       </View>
-
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{paddingBottom: 10}}>
-        {allAddresses.length > 0 &&
-          allAddresses.map((value, index) => (
-            <View
-              key={index}
-              style={{
-                // height: 100,
-                // backgroundColor: 'red',
-                // marginHorizontal: 20,
-                // borderRadius: 9,
-                // justifyContent: 'center',
-                alignItems: 'flex-start',
-                borderBottomColor: 'grey',
-                borderBottomWidth: 1,
-                // marginVertical: 10,
-              }}>
-              <TouchableOpacity
-                onPress={() => handleServiceAdress(value._id)}
+      {loading ? (
+        <View style={{marginTop: 50}}>
+          <ActivityIndicator color="#ff8c00" size={31} />
+        </View>
+      ) : (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{paddingBottom: 10}}>
+          {allAddresses.length > 0 &&
+            allAddresses.map((value, index) => (
+              <View
+                key={index}
                 style={{
-                  // paddingHorizontal: 30,
-                  marginVertical: 10,
+                  // height: 100,
                   // backgroundColor: 'red',
+                  // marginHorizontal: 20,
+                  // borderRadius: 9,
+                  // justifyContent: 'center',
+                  alignItems: 'flex-start',
+                  borderBottomColor: 'grey',
+                  borderBottomWidth: 1,
+                  // marginVertical: 10,
                 }}>
-                <View
+                <TouchableOpacity
+                  onPress={() => handleServiceAdress(value._id)}
                   style={{
+                    // paddingHorizontal: 30,
+                    marginVertical: 10,
                     // backgroundColor: 'red',
-                    flexDirection: 'row',
-                    // marginVertical: 2,
-                    alignItems: 'center',
-                    paddingHorizontal: 10,
-                    // justifyContent: 'center',
-                    // backgroundColor: 'red',
-                    // height: 40,
-                    // alignItems: 'center',
                   }}>
-                  {/* <RadioButton    
-                  /> */}
-                  <View style={{top: 2, marginRight: 5}}>
-                    <RadioButton
-                      onPress={() => handleServiceAdress(value._id)}
-                      color={Colors.purple}
-                      value={value._id}
-                      status={checked === value._id ? 'checked' : 'unchecked'}
-                    />
-                  </View>
-                  <Text
-                    style={{
-                      color: Colors.black,
-                      marginRight: 15,
-                      fontSize: 18,
-                    }}>
-                    {value.name}
-                  </Text>
                   <View
                     style={{
-                      backgroundColor: Colors.lightGray,
-                      height: 25,
-                      width: 50,
-                      justifyContent: 'center',
+                      // backgroundColor: 'red',
+                      flexDirection: 'row',
+                      // marginVertical: 2,
                       alignItems: 'center',
-                      borderRadius: 4,
+                      paddingHorizontal: 10,
+                      // justifyContent: 'center',
+                      // backgroundColor: 'red',
+                      // height: 40,
+                      // alignItems: 'center',
                     }}>
-                    <Text style={{color: Colors.black}}>{value.save_as}</Text>
+                    {/* <RadioButton    
+                  /> */}
+                    <View style={{top: 2, marginRight: 5}}>
+                      <RadioButton
+                        onPress={() => handleServiceAdress(value._id)}
+                        color={Colors.purple}
+                        value={value._id}
+                        status={checked === value._id ? 'checked' : 'unchecked'}
+                      />
+                    </View>
+                    <Text
+                      style={{
+                        color: Colors.black,
+                        marginRight: 15,
+                        fontSize: 18,
+                      }}>
+                      {value.name}
+                    </Text>
+                    <View
+                      style={{
+                        backgroundColor: Colors.lightGray,
+                        height: 25,
+                        width: 50,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderRadius: 4,
+                      }}>
+                      <Text style={{color: Colors.black}}>{value.save_as}</Text>
+                    </View>
                   </View>
-                </View>
 
-                <View style={{paddingHorizontal: 50}}>
-                  <Text
-                    style={{
-                      color: Colors.black,
-                      // marginVertical: 2,
-                      fontSize: 15,
-                    }}>
-                    {value.address}
-                  </Text>
-                  <Text
-                    style={{
-                      color: Colors.black,
-                      marginVertical: 2,
-                      fontSize: 15,
-                    }}>
-                    {value.bookingLocation}
-                  </Text>
-                  <Text
-                    style={{
-                      color: Colors.black,
-                      // marginVertical: 2,
-                      fontSize: 15,
-                    }}>
-                    {value.pinCode}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-          ))}
-      </ScrollView>
+                  <View style={{paddingHorizontal: 50}}>
+                    <Text
+                      style={{
+                        color: Colors.black,
+                        // marginVertical: 2,
+                        fontSize: 15,
+                      }}>
+                      {value.address}
+                    </Text>
+                    <Text
+                      style={{
+                        color: Colors.black,
+                        marginVertical: 2,
+                        fontSize: 15,
+                      }}>
+                      {value.bookingLocation}
+                    </Text>
+                    <Text
+                      style={{
+                        color: Colors.black,
+                        // marginVertical: 2,
+                        fontSize: 15,
+                      }}>
+                      {value.pinCode}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            ))}
+        </ScrollView>
+      )}
 
       <Modal
         animationType="slide"

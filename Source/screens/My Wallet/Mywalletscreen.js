@@ -39,6 +39,13 @@ export default function Mywalletscreen(prop) {
   const [htmlUrl, setHtmlUrl] = useState(null);
   const [orderdetail, setOrderdetail] = useState(null);
   const isFocused = useIsFocused();
+  const InputRef = useRef(null);
+
+  useEffect(() => {
+    if (isFocused) {
+      setTimeout(() => InputRef?.current?.focus(), 1);
+    }
+  }, [isFocused]);
 
   // console.log(
   //   '===================orderdetail=====================',
@@ -82,6 +89,7 @@ export default function Mywalletscreen(prop) {
     console.log('token---------------->>>>>', token);
     const obj = {
       OrderAmount: selectAmount,
+      wallet: true,
       CustomerData: {
         MobileNo: mobileNumber,
         Email: email,
@@ -106,13 +114,27 @@ export default function Mywalletscreen(prop) {
           console.log('order key id --------->>>', response?.data?.orderKeyId);
           setOrderKeyId(response?.data?.orderKeyId);
           setHtmlUrl(response?.data?.paymnetProcessUrl);
+
           setWebViewVisible(true);
+
           // Linking.openURL(htmlUrl);
           // Orderdetail(response?.data?.orderKeyId);
         }
       })
       .catch(error => {
+        if (error.response.data?.message == '"OrderAmount" must be a number') {
+          console.log('Please enter valid ammount');
+          Toast.showWithGravity(
+            'Please enter a valid amount',
+            Toast.SHORT,
+            Toast.BOTTOM,
+          );
+        }
         console.log('payment catch error', error);
+        console.log(
+          ' payment catch error error.response.data?.message',
+          error.response.data?.message,
+        );
       });
   };
 
@@ -363,6 +385,7 @@ export default function Mywalletscreen(prop) {
             </View>
             <View style={{marginHorizontal: 10, marginVertical: 20}}>
               <TextInput
+                ref={InputRef}
                 placeholderTextColor={Colors.lightGray}
                 placeholder="Please Enter Amount"
                 value={selectAmount}

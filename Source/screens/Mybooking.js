@@ -172,7 +172,7 @@ function Mybooking({navigation}) {
                     Booking ID
                   </Text>
                   <Text style={{fontWeight: 'bold', color: Colors.black}}>
-                    {value.bookingId}
+                    {value.uniqueId}
                   </Text>
                 </View>
 

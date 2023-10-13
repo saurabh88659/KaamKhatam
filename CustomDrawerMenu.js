@@ -110,6 +110,12 @@ const CustomDrawerMenu = props => {
       'https://play.google.com/store/apps/details?id=com.allonone',
     );
   };
+
+  const Register_as_partner = () => {
+    Linking.openURL(
+      'https://play.google.com/store/apps/details?id=com.allonone',
+    );
+  };
   return (
     <ScrollView style={{flex: 1, backgroundColor: Colors.white}}>
       <DrawerContentScrollView
@@ -138,8 +144,8 @@ const CustomDrawerMenu = props => {
                   borderRadius: 100,
                   resizeMode: 'cover',
                 }}
-                source={{uri: profileData?.imageUrl + '?' + onUpdateImage}}
-                // source={{uri: profileData?.imageUrl}}
+                // source={{uri: profileData?.imageUrl + '?' + onUpdateImage}}
+                source={{uri: imgUrl}}
               />
             ) : (
               <Text
@@ -244,6 +250,8 @@ const CustomDrawerMenu = props => {
             <View style={Styles.linesstyles}></View>
             <TouchableOpacity
               style={Styles.constyles}
+              onPress={Register_as_partner}
+
               // onPress={() => props.navigation.navigate('Abouts')}
             >
               {/* <Image

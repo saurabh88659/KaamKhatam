@@ -28,6 +28,7 @@ import {Rating} from 'react-native-ratings';
 import Toast from 'react-native-simple-toast';
 import {useIsFocused} from '@react-navigation/native';
 import {color} from 'react-native-reanimated';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 const {height, width} = Dimensions.get('window');
 
 const Viewdetails = props => {
@@ -48,6 +49,8 @@ const Viewdetails = props => {
   const [cancellationReason, setCancellationReason] = useState('');
   const isFocused = useIsFocused();
   const [rateComponent, setRateComponent] = useState(false);
+  const [vendoeImg, setVendorImg] = useState(null);
+  const [uniqueID, setUniqueId] = useState('');
 
   // const {width, height} = useWindowDimensions();
   const [cancelServicemodalVisible, setCancelServicemodalVisible] =
@@ -82,6 +85,9 @@ const Viewdetails = props => {
         setPackageId(res.data.result.packageId);
         setVendorId(res.data.result.vendorId);
         setBookingId(res.data.result.bookingId);
+        setVendorImg(res.data.result.vendorImage);
+        setUniqueId(res.data.result.uniqueId);
+
         setCancellationReason(res.data?.result?.cancelledReason);
         setIsLoading(false);
       })
@@ -219,248 +225,83 @@ const Viewdetails = props => {
         </View>
       ) : (
         <ScrollView style={{flex: 1}}>
-          <View
-            style={{
-              paddingVertical: 30,
-              marginVertical: 5,
-              marginHorizontal: 10,
-              borderRadius: 6,
-              borderWidth: 1,
-              borderColor: Colors.lightGray,
-            }}>
-            <View style={{flexDirection: 'row', marginHorizontal: 10}}>
-              <View style={{width: '70%'}}>
-                <Text style={{color: Colors.black, fontSize: 17, top: -10}}>
-                  {bookinviewdetails?.serviceName}
-                </Text>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                  }}>
-                  <FontAwesome5Icon
-                    name="star"
-                    solid
-                    size={hp('2%')}
-                    color={Colors.lightYellow}
-                  />
-
-                  <Text style={{left: 5, color: Colors.black}}>
-                    {bookinviewdetails?.rating}
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    top: 5,
-                  }}>
-                  <Text style={{color: Colors.black}}>{'\u20B9'}</Text>
-                  <Text
-                    style={{
-                      paddingHorizontal: 5,
-                      color: Colors.black,
-                      fontWeight: '700',
-                    }}>
-                    {bookinviewdetails.amountToBePaid}
-                  </Text>
-                  {/* <Text style={{left: 20, color: Colors.black}}>30 min</Text> */}
-                </View>
-                <Text style={{color: Colors.black}}>
-                  .....................................................
-                </Text>
-                <View style={{flexDirection: 'row'}}>
-                  <Image
-                    source={require('../Assets/Images/Ellipse1.png')}
-                    style={{height: 7, width: 7, borderRadius: 50, top: 5}}
-                  />
-                  <Text style={{color: Colors.black, fontSize: 13, left: 5}}>
-                    {bookinviewdetails.serviceDescription}
-                  </Text>
-                </View>
-                <View style={{flexDirection: 'row', marginTop: 3}}>
-                  <Image
-                    source={require('../Assets/Images/Ellipse1.png')}
-                    style={{height: 7, width: 7, borderRadius: 50, top: 5}}
-                  />
-                  <Text style={{color: Colors.black, fontSize: 13, left: 5}}>
-                    {bookinviewdetails.packageDescription}
-                  </Text>
-                </View>
-              </View>
-              <View style={{width: '30%', padding: 10}}>
-                <Image
-                  resizeMode="contain"
-                  source={Lorealcolor}
-                  style={{height: 80, width: 80}}
-                />
-              </View>
-            </View>
-          </View>
-          <View>
+          <View style={{marginBottom: 20}}>
             <View
               style={{
-                borderBottomWidth: 1,
-                marginHorizontal: 15,
-                borderColor: '#D9D9D9',
-                top: 10,
-                // height: height / 28,
+                paddingVertical: 30,
+                marginVertical: 5,
+                marginHorizontal: 10,
+                borderRadius: 6,
+                borderWidth: 1,
+                borderColor: Colors.lightGray,
               }}>
-              <Text
-                style={{
-                  color: Colors.purple,
-                  fontSize: 17,
-                  fontWeight: 'bold',
-                }}>
-                Booking Details
-              </Text>
-            </View>
-            <View style={{marginHorizontal: 15}}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginVertical: 20,
-                }}>
-                <Text
-                  style={{
-                    color: Colors.black,
-                    fontSize: 15,
-                    fontWeight: 'bold',
-                  }}>
-                  Booking ID
-                </Text>
-                <Text style={{color: Colors.darkGray, fontSize: 15}}>
-                  {bookinviewdetails.bookingId}
-                </Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  // flexWrap: 'wrap',
-                }}>
-                <Text
-                  style={{
-                    color: Colors.black,
-                    fontSize: 15,
-                    fontWeight: 'bold',
-                  }}>
-                  Service Name
-                </Text>
+              <View style={{flexDirection: 'row', marginHorizontal: 10}}>
+                <View style={{width: '70%'}}>
+                  <Text style={{color: Colors.black, fontSize: 17, top: -10}}>
+                    {bookinviewdetails?.serviceName}
+                  </Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                    }}>
+                    <FontAwesome5Icon
+                      name="star"
+                      solid
+                      size={hp('2%')}
+                      color={Colors.lightYellow}
+                    />
 
-                <Text
-                  style={{
-                    color: Colors.darkGray,
-                    fontSize: 15,
-                    textAlign: 'center',
-                  }}>
-                  {bookinviewdetails.serviceName}
-                </Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginVertical: 20,
-                }}>
-                <Text
-                  style={{
-                    color: Colors.black,
-                    fontSize: 15,
-                    fontWeight: 'bold',
-                  }}>
-                  Time Slot
-                </Text>
-                <Text style={{color: Colors.darkGray, fontSize: 15}}>
-                  {bookinviewdetails.time}
-                </Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}>
-                <Text
-                  style={{
-                    color: Colors.black,
-                    fontSize: 15,
-                    fontWeight: 'bold',
-                  }}>
-                  Price
-                </Text>
-                <Text style={{color: Colors.darkGray, fontSize: 15}}>
-                  INR {bookinviewdetails.amountToBePaid}
-                </Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginVertical: 20,
-                }}>
-                <Text
-                  style={{
-                    color: Colors.black,
-                    fontSize: 15,
-                    fontWeight: 'bold',
-                  }}>
-                  Date
-                </Text>
-                <Text style={{color: Colors.darkGray, fontSize: 15}}>
-                  {bookinviewdetails.bookingDate}
-                </Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}>
-                <Text
-                  style={{
-                    color: Colors.black,
-                    fontSize: 15,
-                    fontWeight: 'bold',
-                  }}>
-                  Paid By
-                </Text>
-                <Text style={{color: Colors.darkGray, fontSize: 15}}>
-                  {bookinviewdetails.payby}
-                </Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginVertical: 20,
-                }}>
-                <Text
-                  style={{
-                    color: Colors.black,
-                    fontSize: 15,
-                    fontWeight: 'bold',
-                  }}>
-                  Status
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 15,
-                    fontWeight: '500',
-                    textTransform: 'uppercase',
-                    color:
-                      bookinviewdetails.bookingStatus === 'Pending'
-                        ? Colors.purple
-                        : bookinviewdetails.bookingStatus === 'Confirmed'
-                        ? '#0EC01B'
-                        : bookinviewdetails.bookingStatus === 'Completed'
-                        ? '#0EC01B'
-                        : '#F21313',
-                  }}>
-                  {bookinviewdetails.bookingStatus}
-                </Text>
+                    <Text style={{left: 5, color: Colors.black}}>
+                      {bookinviewdetails?.rating}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      top: 5,
+                    }}>
+                    <Text style={{color: Colors.black}}>{'\u20B9'}</Text>
+                    <Text
+                      style={{
+                        paddingHorizontal: 5,
+                        color: Colors.black,
+                        fontWeight: '700',
+                      }}>
+                      {bookinviewdetails.amountToBePaid}
+                    </Text>
+                    {/* <Text style={{left: 20, color: Colors.black}}>30 min</Text> */}
+                  </View>
+                  <Text style={{color: Colors.black}}>
+                    .....................................................
+                  </Text>
+                  <View style={{flexDirection: 'row'}}>
+                    <Image
+                      source={require('../Assets/Images/Ellipse1.png')}
+                      style={{height: 7, width: 7, borderRadius: 50, top: 5}}
+                    />
+                    <Text style={{color: Colors.black, fontSize: 13, left: 5}}>
+                      {bookinviewdetails.serviceDescription}
+                    </Text>
+                  </View>
+                  <View style={{flexDirection: 'row', marginTop: 3}}>
+                    <Image
+                      source={require('../Assets/Images/Ellipse1.png')}
+                      style={{height: 7, width: 7, borderRadius: 50, top: 5}}
+                    />
+                    <Text style={{color: Colors.black, fontSize: 13, left: 5}}>
+                      {bookinviewdetails.packageDescription}
+                    </Text>
+                  </View>
+                </View>
+                <View style={{width: '30%', padding: 10}}>
+                  <Image
+                    resizeMode="contain"
+                    source={Lorealcolor}
+                    style={{height: 80, width: 80}}
+                  />
+                </View>
               </View>
             </View>
-          </View>
-
-          {bookinviewdetails.bookingStatus === 'Completed' && (
             <View>
               <View
                 style={{
@@ -476,7 +317,7 @@ const Viewdetails = props => {
                     fontSize: 17,
                     fontWeight: 'bold',
                   }}>
-                  Vendor Details
+                  Booking Details
                 </Text>
               </View>
               <View style={{marginHorizontal: 15}}>
@@ -492,10 +333,10 @@ const Viewdetails = props => {
                       fontSize: 15,
                       fontWeight: 'bold',
                     }}>
-                    Vendor Name
+                    Booking ID
                   </Text>
                   <Text style={{color: Colors.darkGray, fontSize: 15}}>
-                    {bookinviewdetails?.vendorName}
+                    {uniqueID}
                   </Text>
                 </View>
                 <View
@@ -510,7 +351,7 @@ const Viewdetails = props => {
                       fontSize: 15,
                       fontWeight: 'bold',
                     }}>
-                    Contact
+                    Service Name
                   </Text>
 
                   <Text
@@ -519,7 +360,7 @@ const Viewdetails = props => {
                       fontSize: 15,
                       textAlign: 'center',
                     }}>
-                    {bookinviewdetails?.contact}
+                    {bookinviewdetails.serviceName}
                   </Text>
                 </View>
                 <View
@@ -527,7 +368,6 @@ const Viewdetails = props => {
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     marginVertical: 20,
-                    // flexWrap: 'wrap',
                   }}>
                   <Text
                     style={{
@@ -535,90 +375,16 @@ const Viewdetails = props => {
                       fontSize: 15,
                       fontWeight: 'bold',
                     }}>
-                    Experience
-                  </Text>
-
-                  <Text
-                    style={{
-                      color: Colors.darkGray,
-                      fontSize: 15,
-                      textAlign: 'center',
-                    }}>
-                    {bookinviewdetails?.experience}{' '}
-                    {bookinviewdetails?.experience > 1 ? 'Years' : 'Year'}
-                  </Text>
-                </View>
-              </View>
-            </View>
-          )}
-
-          {bookinviewdetails.bookingStatus === 'Cancelled' && (
-            <View>
-              <View
-                style={{
-                  borderBottomWidth: 1,
-                  marginHorizontal: 15,
-                  borderColor: '#D9D9D9',
-                  top: 10,
-                  // height: height / 28,
-                }}>
-                <Text
-                  style={{
-                    color: Colors.purple,
-                    fontSize: 17,
-                    fontWeight: 'bold',
-                  }}>
-                  Cancellation Reason
-                </Text>
-              </View>
-              <Text
-                style={{
-                  color: Colors.darkGray,
-                  fontSize: 15,
-                  marginHorizontal: 15,
-                  marginTop: 15,
-                }}>
-                {cancellationReason}
-              </Text>
-              <View
-                style={{
-                  marginHorizontal: 15,
-                  padding: 5,
-                  backgroundColor: Colors.lightpurple,
-                  marginVertical: 10,
-                }}>
-                <Text
-                  style={{
-                    color: Colors.black,
-                    fontSize: 15,
-                  }}>
-                  Your refund has been initiated
-                </Text>
-              </View>
-              <View style={{marginHorizontal: 15, marginBottom: 20}}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    marginVertical: 10,
-                  }}>
-                  <Text
-                    style={{
-                      color: Colors.black,
-                      fontSize: 15,
-                      fontWeight: 'bold',
-                    }}>
-                    Total Amount
+                    Time Slot
                   </Text>
                   <Text style={{color: Colors.darkGray, fontSize: 15}}>
-                    INR {bookinviewdetails?.amountToBePaid}
+                    {bookinviewdetails.time}
                   </Text>
                 </View>
                 <View
                   style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
-                    marginVertical: 10,
                   }}>
                   <Text
                     style={{
@@ -626,23 +392,17 @@ const Viewdetails = props => {
                       fontSize: 15,
                       fontWeight: 'bold',
                     }}>
-                    Service Charge
+                    Price
                   </Text>
                   <Text style={{color: Colors.darkGray, fontSize: 15}}>
-                    INR {bookinviewdetails?.amountDeducted}
+                    INR {bookinviewdetails.amountToBePaid}
                   </Text>
                 </View>
-                <View
-                  style={{
-                    height: 1,
-                    backgroundColor: Colors.darkGray,
-                    marginVertical: 3,
-                  }}></View>
                 <View
                   style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
-                    marginVertical: 10,
+                    marginVertical: 20,
                   }}>
                   <Text
                     style={{
@@ -650,149 +410,442 @@ const Viewdetails = props => {
                       fontSize: 15,
                       fontWeight: 'bold',
                     }}>
-                    Refund Amount
+                    Date
                   </Text>
                   <Text style={{color: Colors.darkGray, fontSize: 15}}>
-                    INR {bookinviewdetails?.refundAmount}
+                    {bookinviewdetails.bookingDate}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}>
+                  <Text
+                    style={{
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontWeight: 'bold',
+                    }}>
+                    Paid By
+                  </Text>
+                  <Text style={{color: Colors.darkGray, fontSize: 15}}>
+                    {bookinviewdetails.payby}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginVertical: 20,
+                  }}>
+                  <Text
+                    style={{
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontWeight: 'bold',
+                    }}>
+                    Status
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontWeight: '500',
+                      textTransform: 'uppercase',
+                      color:
+                        bookinviewdetails.bookingStatus === 'Pending'
+                          ? Colors.purple
+                          : bookinviewdetails.bookingStatus === 'Confirmed'
+                          ? '#0EC01B'
+                          : bookinviewdetails.bookingStatus === 'Completed'
+                          ? '#0EC01B'
+                          : '#F21313',
+                    }}>
+                    {bookinviewdetails.bookingStatus}
                   </Text>
                 </View>
               </View>
             </View>
-          )}
 
-          {bookinviewdetails.bookingStatus === 'Completed' ? (
-            <View>
-              <TouchableOpacity
-                onPress={() => setModalVisible2(true)}
-                // disabled={rateComponent}
-                style={{
-                  height: height / 16,
-                  backgroundColor: '#0EC01B',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: 5,
-                  marginHorizontal: 15,
-                  marginVertical: 10,
-                }}>
-                <Text
-                  style={{color: 'white', fontWeight: 'bold', fontSize: 16}}>
-                  Please Rate
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => setModalVisible(true)}
-                style={{
-                  height: height / 16,
-                  backgroundColor: '#0EC01B',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: 5,
-                  marginHorizontal: 15,
-                  marginVertical: 10,
-                }}>
-                <Text
-                  style={{color: 'white', fontWeight: 'bold', fontSize: 16}}>
-                  Please Rate Vendor
-                </Text>
-              </TouchableOpacity>
-            </View>
-          ) : (
-            <View>
-              {bookinviewdetails.bookingStatus === 'Cancelled' ? null : ( // </TouchableOpacity> //   </Text> //     Cancel //     style={{color: 'white', fontWeight: 'bold', fontSize: 16}}> //   <Text //   }}> //     marginVertical: 10, //     marginHorizontal: 15, //     borderRadius: 5, //     justifyContent: 'center', //     alignItems: 'center', //     // backgroundColor: '#0EC01B', //     height: height / 16, //   style={{ //   onPress={cancelBooking} // <TouchableOpacity
-                <View>
+            {bookinviewdetails.bookingStatus === 'Confirmed' && (
+              <View>
+                <View
+                  style={{
+                    borderBottomWidth: 1,
+                    marginHorizontal: 15,
+                    borderColor: '#D9D9D9',
+                    top: 10,
+                    // height: height / 28,
+                  }}>
+                  <Text
+                    style={{
+                      color: Colors.purple,
+                      fontSize: 17,
+                      fontWeight: 'bold',
+                    }}>
+                    Vendor Details
+                  </Text>
+                </View>
+                <View style={{marginHorizontal: 15}}>
                   <View
                     style={{
+                      width: '100%',
+                      height: 100,
+                      justifyContent: 'space-between',
+                      // alignItems: 'center',
+                      marginTop: 23,
                       flexDirection: 'row',
-                      alignItems: 'center',
-                      paddingVertical: 5,
-                      paddingHorizontal: 10,
-                      width: width,
-                      backgroundColor: Colors.lightpurple,
                     }}>
-                    <Text
-                      style={{
-                        color: Colors.black,
-                        fontWeight: 'bold',
-                      }}>
-                      Note:
-                    </Text>
-                    <Text
+                    {/* <ImageBackground
+                source={require('../Assets/Images/profilePicture123.png')}
+                style={Styles.imagebox}>
+                  
+                </ImageBackground> */}
+
+                    <Image
+                      resizeMode="contain"
+                      source={{
+                        uri: vendoeImg,
+                      }}
+                      style={{height: 100, width: 100}}
+                    />
+
+                    <View
                       style={{
                         flex: 1,
-                        flexWrap: 'wrap',
-                        color: Colors.black,
-                        marginLeft: 10,
+                        // backgroundColor: 'red',
+                        justifyContent: 'center',
+                        alignItems: 'flex-end',
+                        // height: 10,
+                        // width: 10,
                       }}>
-                      If you cancel your order within4 days, then refund would
-                      be provided. Otherwise, there would be no refund.
+                      <MaterialIcons
+                        size={45}
+                        color={'green'}
+                        name={'verified-user'}
+                      />
+                    </View>
+                  </View>
+
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      // marginVertical: 20,
+                      marginTop: 9,
+                      marginBottom: 10,
+                    }}>
+                    <Text
+                      style={{
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontWeight: 'bold',
+                      }}>
+                      Vendor Name
+                    </Text>
+                    <Text style={{color: Colors.darkGray, fontSize: 15}}>
+                      {bookinviewdetails?.vendorName}
                     </Text>
                   </View>
                   <View
                     style={{
-                      flex: 1,
                       flexDirection: 'row',
-                      alignItems: 'center',
                       justifyContent: 'space-between',
-                      marginTop: 20,
+                      // flexWrap: 'wrap',
                     }}>
-                    <TouchableOpacity
-                      onPress={() =>
-                        props.navigation.navigate('RescheduleBooking', bookinID)
-                      }
+                    <Text
                       style={{
-                        height: height / 16,
-                        backgroundColor: Colors.purple,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: 5,
-                        marginHorizontal: 15,
-                        padding: 10,
-                        // marginVertical,
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontWeight: 'bold',
                       }}>
-                      <Text
-                        style={{
-                          color: 'white',
-                          fontWeight: '500',
-                          fontSize: 16,
-                        }}>
-                        Reschedule Booking
-                      </Text>
-                    </TouchableOpacity>
+                      Contact
+                    </Text>
 
-                    <TouchableOpacity
-                      onPress={
-                        () =>
-                          setCancelServicemodalVisible(
-                            !cancelServicemodalVisible,
-                          )
-                        // props.navigation.navigate('CancelBooking', bookingId)
-                      }
+                    <Text
                       style={{
-                        height: height / 16,
-                        // backgroundColor: Colors.purple,
-                        borderColor: Colors.purple,
-                        borderWidth: 1,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: 5,
-                        marginHorizontal: 15,
-                        padding: 10,
+                        color: Colors.darkGray,
+                        fontSize: 15,
+                        textAlign: 'center',
                       }}>
-                      <Text
-                        style={{
-                          color: 'white',
-                          fontWeight: '500',
-                          color: Colors.purple,
-                          fontSize: 16,
-                        }}>
-                        Cancel Booking
-                      </Text>
-                    </TouchableOpacity>
+                      {bookinviewdetails?.contact}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      marginVertical: 10,
+                      // flexWrap: 'wrap',
+                    }}>
+                    <Text
+                      style={{
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontWeight: 'bold',
+                      }}>
+                      Experience
+                    </Text>
+
+                    <Text
+                      style={{
+                        color: Colors.darkGray,
+                        fontSize: 15,
+                        textAlign: 'center',
+                      }}>
+                      {bookinviewdetails?.experience}{' '}
+                      {bookinviewdetails?.experience > 1 ? 'Years' : 'Year'}
+                    </Text>
                   </View>
                 </View>
-              )}
-            </View>
-          )}
+              </View>
+            )}
+
+            {bookinviewdetails.bookingStatus === 'Cancelled' && (
+              <View>
+                <View
+                  style={{
+                    borderBottomWidth: 1,
+                    marginHorizontal: 15,
+                    borderColor: '#D9D9D9',
+                    top: 10,
+                    // height: height / 28,
+                  }}>
+                  <Text
+                    style={{
+                      color: Colors.purple,
+                      fontSize: 17,
+                      fontWeight: 'bold',
+                    }}>
+                    Cancellation Reason
+                  </Text>
+                </View>
+                <Text
+                  style={{
+                    color: Colors.darkGray,
+                    fontSize: 15,
+                    marginHorizontal: 15,
+                    marginTop: 15,
+                  }}>
+                  {cancellationReason}
+                </Text>
+                <View
+                  style={{
+                    marginHorizontal: 15,
+                    padding: 5,
+                    backgroundColor: Colors.lightpurple,
+                    marginVertical: 10,
+                  }}>
+                  <Text
+                    style={{
+                      color: Colors.black,
+                      fontSize: 15,
+                    }}>
+                    Your refund has been initiated
+                  </Text>
+                </View>
+                <View style={{marginHorizontal: 15, marginBottom: 20}}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      marginVertical: 10,
+                    }}>
+                    <Text
+                      style={{
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontWeight: 'bold',
+                      }}>
+                      Total Amount
+                    </Text>
+                    <Text style={{color: Colors.darkGray, fontSize: 15}}>
+                      INR {bookinviewdetails?.amountToBePaid}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      marginVertical: 10,
+                    }}>
+                    <Text
+                      style={{
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontWeight: 'bold',
+                      }}>
+                      Service Charge
+                    </Text>
+                    <Text style={{color: Colors.darkGray, fontSize: 15}}>
+                      INR {bookinviewdetails?.amountDeducted}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      height: 1,
+                      backgroundColor: Colors.darkGray,
+                      marginVertical: 3,
+                    }}></View>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      marginVertical: 10,
+                    }}>
+                    <Text
+                      style={{
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontWeight: 'bold',
+                      }}>
+                      Refund Amount
+                    </Text>
+                    <Text style={{color: Colors.darkGray, fontSize: 15}}>
+                      INR {bookinviewdetails?.refundAmount}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            )}
+
+            {bookinviewdetails.bookingStatus === 'Completed' ? (
+              <View>
+                <TouchableOpacity
+                  onPress={() => setModalVisible2(true)}
+                  // disabled={rateComponent}
+                  style={{
+                    height: height / 16,
+                    backgroundColor: '#0EC01B',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: 5,
+                    marginHorizontal: 15,
+                    marginVertical: 10,
+                  }}>
+                  <Text
+                    style={{color: 'white', fontWeight: 'bold', fontSize: 16}}>
+                    Please Rate
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => setModalVisible(true)}
+                  style={{
+                    height: height / 16,
+                    backgroundColor: '#0EC01B',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: 5,
+                    marginHorizontal: 15,
+                    marginVertical: 10,
+                  }}>
+                  <Text
+                    style={{color: 'white', fontWeight: 'bold', fontSize: 16}}>
+                    Please Rate Vendor
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <View>
+                {bookinviewdetails.bookingStatus === 'Cancelled' ? null : ( // </TouchableOpacity> //   </Text> //     Cancel //     style={{color: 'white', fontWeight: 'bold', fontSize: 16}}> //   <Text //   }}> //     marginVertical: 10, //     marginHorizontal: 15, //     borderRadius: 5, //     justifyContent: 'center', //     alignItems: 'center', //     // backgroundColor: '#0EC01B', //     height: height / 16, //   style={{ //   onPress={cancelBooking} // <TouchableOpacity
+                  <View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        paddingVertical: 5,
+                        paddingHorizontal: 10,
+                        width: width,
+                        backgroundColor: Colors.lightpurple,
+                      }}>
+                      <Text
+                        style={{
+                          color: Colors.black,
+                          fontWeight: 'bold',
+                        }}>
+                        Note:
+                      </Text>
+                      <Text
+                        style={{
+                          flex: 1,
+                          flexWrap: 'wrap',
+                          color: Colors.black,
+                          marginLeft: 10,
+                        }}>
+                        If you cancel your order within4 days, then refund would
+                        be provided. Otherwise, there would be no refund.
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        marginTop: 20,
+                      }}>
+                      <TouchableOpacity
+                        onPress={() =>
+                          props.navigation.navigate(
+                            'RescheduleBooking',
+                            bookinID,
+                          )
+                        }
+                        style={{
+                          height: height / 16,
+                          backgroundColor: Colors.purple,
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          borderRadius: 5,
+                          marginHorizontal: 15,
+                          padding: 10,
+                          // marginVertical,
+                        }}>
+                        <Text
+                          style={{
+                            color: 'white',
+                            fontWeight: '500',
+                            fontSize: 16,
+                          }}>
+                          Reschedule Booking
+                        </Text>
+                      </TouchableOpacity>
+
+                      <TouchableOpacity
+                        onPress={
+                          () =>
+                            setCancelServicemodalVisible(
+                              !cancelServicemodalVisible,
+                            )
+                          // props.navigation.navigate('CancelBooking', bookingId)
+                        }
+                        style={{
+                          height: height / 16,
+                          // backgroundColor: Colors.purple,
+                          borderColor: Colors.purple,
+                          borderWidth: 1,
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          borderRadius: 5,
+                          marginHorizontal: 15,
+                          padding: 10,
+                        }}>
+                        <Text
+                          style={{
+                            color: 'white',
+                            fontWeight: '500',
+                            color: Colors.purple,
+                            fontSize: 16,
+                          }}>
+                          Cancel Booking
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                )}
+              </View>
+            )}
+          </View>
         </ScrollView>
       )}
 
