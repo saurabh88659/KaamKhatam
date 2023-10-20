@@ -74,7 +74,6 @@ function EditMobileNumber({navigation, route}) {
     <>
       <SafeAreaView style={{flex: 1}}>
         <StatusBar backgroundColor={Colors.topNavbarColor} />
-
         <Header
           bgColor={Colors.topNavbarColor}
           color={Colors.white}

@@ -14,6 +14,7 @@ import {
   RefreshControl,
   BackHandler,
   Modal,
+  FlatList,
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
@@ -216,6 +217,26 @@ function Home() {
   //exit app on double click==============================
   const [isExitModalVisible, setExitModalVisible] = useState(false);
   const [isDoubleClick, setIsDoubleClick] = useState(false);
+  const servicesData = [
+    {
+      title: 'Classic Mani & Pedi',
+      image: require('../../Assets/Images/hairdressing2.png'),
+    },
+    {
+      title: 'Clean up + Bleach',
+      image: require('../../Assets/Images/Massage1.png'),
+    },
+    {
+      title: 'Chocolate Wax',
+      image: require('../../Assets/Images/Massage3.png'),
+    },
+    {
+      title: 'Skin Brightening',
+      image: require('../../Assets/Images/Massage4.png'),
+    },
+    // Add more services to the array as needed
+  ];
+
   // console.log('===isExitModalVisible', isExitModalVisible);
   // console.log('====isDoubleClick', isDoubleClick);
 
@@ -526,7 +547,8 @@ function Home() {
                     India's Safest At Home Beauty Services
                   </Text>
                 </LinearGradient>
-                <View
+
+                {/* <View
                   style={{
                     flexDirection: 'row',
                     justifyContent: 'space-around',
@@ -536,7 +558,6 @@ function Home() {
                     image={require('../../Assets/Images/hairdressing2.png')}
                     // onPress={() => props.navigation.navigate('Manicure', props)}
                   />
-
                   <BeautyServices
                     onPress={() => {
                       // props.navigation.navigate('Bleach', props);
@@ -544,8 +565,9 @@ function Home() {
                     title="Clean up + Bleach"
                     image={require('../../Assets/Images/Massage1.png')}
                   />
-                </View>
-                <View
+                </View> */}
+
+                {/* <View
                   style={{
                     flexDirection: 'row',
                     justifyContent: 'space-around',
@@ -565,15 +587,32 @@ function Home() {
                     //   props.navigation.navigate('Cleanup', props);
                     // }}
                   />
-                </View>
+                </View> */}
+
+                {/* {byb api servixces ==========} */}
+
+                <FlatList
+                  // style={{justifyContent: 'space-between'}}
+                  // style={{padding: 10}}
+                  data={servicesData}
+                  keyExtractor={(item, index) => index.toString()}
+                  numColumns={2} // Set the number of columns
+                  renderItem={({item}) => (
+                    <BeautyServices title={item.title} image={item.image} />
+                  )}
+                />
+
+                {/* {byb api servixces ==========} */}
+
                 <TouchableOpacity
                   style={{
-                    alignItems: 'center',
                     paddingHorizontal: wp('15%'),
                     borderRadius: hp('3%'),
                     padding: hp('1%'),
                     backgroundColor: Colors.lightGreen,
                     alignSelf: 'center',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }}
                   // onPress={() => props.navigation.navigate('SalonWomen')}
                 >

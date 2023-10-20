@@ -10,11 +10,11 @@ const BeautyServices = props => {
     <TouchableOpacity
       onPress={props.onPress}
       style={{
-        alignItems: 'center',
-        justifyContent: 'center',
         marginTop: hp('2%'),
         marginBottom: hp('2.5%'),
-        width: wp('35%'),
+        width: wp('45%'),
+        justifyContent: 'space-between',
+        alignItems: 'center',
       }}>
       <Image
         source={props.image}

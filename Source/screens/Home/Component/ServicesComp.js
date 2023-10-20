@@ -18,7 +18,7 @@ const ServicesComp = props => {
         marginTop: hp('2%'),
         width: wp('30%'),
         marginHorizontal: '1%',
-        // backgroundColor:'pink'
+        // backgroundColor: 'pink',
       }}>
       <View
         style={{
