@@ -38,6 +38,7 @@ import AddWalletBalance from '../../screens/AddWalletBalance';
 import ConfirmationPayment from '../../screens/ConfirmationPayment';
 import PayWithWalletScreen from '../../screens/PayWithWalletScreen';
 import EditGmailScreen from '../../screens/EditGmailScreen';
+import AllCategoryScreen from '../../screens/AllCategoryScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -125,6 +126,11 @@ function AuthStack() {
       <Stack.Screen
         name="AddWalletBalance"
         component={AddWalletBalance}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="AllCategoryScreen"
+        component={AllCategoryScreen}
         options={{headerShown: false}}
       />
       <Stack.Screen

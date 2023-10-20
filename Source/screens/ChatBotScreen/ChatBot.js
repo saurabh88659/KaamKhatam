@@ -79,7 +79,7 @@ const ChatBot = ({navigation}) => {
       />
 
       <FlatList
-        style={{height: '87%', bottom: '3%', zIndex: -1}}
+        style={{zIndex: -1, flex: 1}}
         inverted={true}
         keyExtractor={(_, index) => index.toString()}
         data={chatList}
@@ -92,7 +92,9 @@ const ChatBot = ({navigation}) => {
         )}
       />
 
-      <View style={Styles.typeMsgContainer}>
+      {/* <View style={{height: 20, backgroundColor: Colors.topNavbarColor}}></View> */}
+
+      {/* <View style={Styles.typeMsgContainer}>
         <TextInput
           placeholderTextColor={Colors.lightpurple}
           style={Styles.typeMsgBox}
@@ -110,7 +112,7 @@ const ChatBot = ({navigation}) => {
           onPress={() => onSendMsg(msg)}>
           <FontAwesome name="send" color={'#fff'} size={21} />
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 };

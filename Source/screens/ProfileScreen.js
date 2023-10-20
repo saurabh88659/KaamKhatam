@@ -48,7 +48,7 @@ const ProfileScreen = ({navigation, route}) => {
   const [profileUrl, setProfileUrl] = useState('');
   const [, setIsImage] = useState('');
   const [onUpdateImage, setOnUpdateImage] = useState(Math.random());
-
+  const [buttonLoading, setButtonLoading] = useState(false);
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -67,10 +67,10 @@ const ProfileScreen = ({navigation, route}) => {
     console.log('=====onGallary=====');
     ImagePicker.openPicker({
       cropping: true,
-      quality: 1,
+      quality: 0.6,
       mediaType: 'any',
     })
-      .then(image => {
+      .then(async image => {
         console.log('image.path', image);
         setImageUrlPath(image.path);
         setImageData(image);
@@ -100,6 +100,7 @@ const ProfileScreen = ({navigation, route}) => {
   };
 
   const _updateProfilePic = async () => {
+    setButtonLoading(true);
     setOnUpdateImage(Math.random());
     const token = await _getStorage('token');
     Toast.showWithGravity('Please wait...', Toast.SHORT, Toast.BOTTOM);
@@ -133,6 +134,7 @@ const ProfileScreen = ({navigation, route}) => {
         // dispatch(setProfileImgeUrl(res.data.imageUrl))
         // dispatch(setProfileImgeUrl(profilePic));
         console.log('Profile image--------->>', res.data.imageUrl);
+        setButtonLoading(false);
         Toast.showWithGravity(
           'Image Updated Successfully',
           Toast.LONG,
@@ -141,6 +143,7 @@ const ProfileScreen = ({navigation, route}) => {
         dispatch(SetprofiledataupdateState(true));
       })
       .catch(error => {
+        setButtonLoading(false);
         setIsLoading(false);
         console.log('error in catch Profile image', error);
         Toast.showWithGravity('❗SERVER ERROR', Toast.LONG, Toast.BOTTOM);
@@ -478,6 +481,7 @@ const ProfileScreen = ({navigation, route}) => {
               <TouchableOpacity
                 onPress={_updateProfilePic}
                 style={{
+                  height: 43,
                   backgroundColor: Colors.lightOrange,
                   marginHorizontal: 70,
                   borderRadius: 7,
@@ -485,14 +489,18 @@ const ProfileScreen = ({navigation, route}) => {
                   justifyContent: 'center',
                   paddingVertical: 8,
                 }}>
-                <Text
-                  style={{
-                    color: Colors.white,
-                    fontSize: 17,
-                    fontWeight: 'bold',
-                  }}>
-                  Update
-                </Text>
+                {buttonLoading ? (
+                  <ActivityIndicator color={'#fff'} size={25} />
+                ) : (
+                  <Text
+                    style={{
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontWeight: 'bold',
+                    }}>
+                    Update
+                  </Text>
+                )}
               </TouchableOpacity>
             )}
           </ScrollView>

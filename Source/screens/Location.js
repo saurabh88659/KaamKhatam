@@ -19,6 +19,7 @@ import InternetInfoall from '../Assets/utils/Handler/InternetInfoall';
 const Location = props => {
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   useEffect(() => {
     Geolocation.getCurrentPosition(data => {
@@ -32,6 +33,7 @@ const Location = props => {
   }, []);
 
   const _getgeolocations = async () => {
+    setButtonLoading(true);
     const token = await _getStorage('token');
     Toast.showWithGravity('Please wait...', Toast.SHORT, Toast.BOTTOM);
     const locobj = {
@@ -44,6 +46,7 @@ const Location = props => {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(async res => {
+        setButtonLoading(false);
         console.log('+++++=====location api res=======++++', res.data.message);
         if (res.data.message === 'User coordinates Updated Successfully') {
           Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
@@ -154,6 +157,7 @@ const Location = props => {
             bgColor={Colors.black}
             title="Your Current Location"
             color={Colors.white}
+            loading={buttonLoading}
           />
         </View>
       </View>

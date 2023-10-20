@@ -76,7 +76,6 @@ const Splash = ({navigation}) => {
                       res.data.refreshToken,
                     );
                   })
-
                   .catch(error => {
                     console.log('errr--->>>', error.response?.data.message);
                   });

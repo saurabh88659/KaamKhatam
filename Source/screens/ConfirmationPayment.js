@@ -5,6 +5,7 @@ import {
   StatusBar,
   Image,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -54,6 +55,13 @@ const ConfirmationPayment = ({route}) => {
     '----------order detials in ConfirmationPayment-------',
     orderDetails,
   );
+  const GoToHomePage = () => {
+    setButtonLoading(true);
+    setTimeout(() => {
+      navigation.replace('DrowerNavigation');
+      setButtonLoading(false);
+    }, 300);
+  };
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#ffff'}}>
       {loding ? (
@@ -73,7 +81,7 @@ const ConfirmationPayment = ({route}) => {
               style={{
                 width: wp('100%'),
                 height: hp('7%'),
-                backgroundColor: Colors.purple,
+                backgroundColor: Colors.topNavbarColor,
                 paddingHorizontal: wp('4%'),
                 // flexDirection: 'row',
                 alignItems: 'center',
@@ -160,7 +168,7 @@ const ConfirmationPayment = ({route}) => {
                   alignSelf: 'center',
                   marginBottom: 28,
                 }}>
-                Transaction Number :{orderDetails.TransactionId}
+                Transaction Id :{orderDetails.TransactionId}
               </Text>
 
               <View
@@ -200,14 +208,40 @@ const ConfirmationPayment = ({route}) => {
               // height: '100%',
               marginBottom: 25,
             }}>
-            <CustomButton
-              onPress={() => navigation.replace('DrowerNavigation')}
-              height={hp('7%')}
-              width={wp('90%')}
-              bgColor={Colors.purple}
-              title="CONTINUE"
-              color={Colors.white}
-            />
+            <TouchableOpacity
+              onPress={GoToHomePage}
+              // disabled={props.disabled}
+              style={{
+                width: wp('90%'),
+                height: hp('7%'),
+                backgroundColor: Colors.topNavbarColor,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: hp('1%'),
+                marginTop: hp('2%'),
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+              }}>
+              {!butttonLoading ? (
+                <Text
+                  style={{
+                    fontWeight: '700',
+                    fontSize: hp('2.2%'),
+                    color: Colors.white,
+                    marginLeft: wp('5%'),
+                  }}>
+                  CONTINUE
+                </Text>
+              ) : (
+                <ActivityIndicator color="#fff" size={26} />
+              )}
+            </TouchableOpacity>
           </View>
         </View>
       )}

@@ -30,7 +30,13 @@ import InternetInfoall from '../Assets/utils/Handler/InternetInfoall';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import {useDispatch} from 'react-redux';
-import {setCartId} from '../features/updatedata/update.reducer';
+import {
+  setCartId,
+  setTotalServiceAmount,
+} from '../features/updatedata/update.reducer';
+import {APIservice} from '../API/APIservice';
+import HeaderBack from '../ReusableComponents/HeaderBack';
+import Lottie from 'lottie-react-native';
 
 const {height, width} = Dimensions.get('window');
 const MyCartScreen = props => {
@@ -47,11 +53,13 @@ const MyCartScreen = props => {
 
   setTimeout(() => {
     setRfresh(false);
-  }, 3000);
+  }, 1000);
 
   useEffect(() => {
     if (isFocused) {
       get_mycart();
+      //delete unpid booking======
+      APIservice.UnpaidBookingDelete();
     }
   }, [isFocused]);
 
@@ -72,7 +80,7 @@ const MyCartScreen = props => {
       })
       .catch(error => {
         if (error.response.data?.message === 'No Result Found ') {
-          setDelmess(error.response.data?.message);
+          setDelmess('No data found !');
           setMycartname('');
         } else {
           console.log('my cart catch error', error.response.data);
@@ -124,6 +132,7 @@ const MyCartScreen = props => {
         console.log('Locations', res.data);
         if (res.data) {
           dispatch(setCartId(mycartname.cartId));
+          // dispatch(setTotalServiceAmount(mycartname?.price));
           props.navigation.navigate('Editaddress');
           /* props.navigation.navigate('TimeAndSlot', {
             cartId: mycartname.cartId,
@@ -138,7 +147,9 @@ const MyCartScreen = props => {
   };
 
   const getTotalAmountWithGST = amount => {
-    return amount + amount * 0.18;
+    const getTotalPrice = amount + amount * 0.18;
+    dispatch(setTotalServiceAmount(getTotalPrice));
+    return getTotalPrice;
   };
 
   const HideDeleteCartModal = () => {};
@@ -151,7 +162,14 @@ const MyCartScreen = props => {
         title="My Cart"
         onPress={() => props.navigation.goBack('')}
       /> */}
-      <HeaderDrawer Title="My Cart" onPress={() => navigation.toggleDrawer()} />
+      {/* <HeaderDrawer Title="My Cart" onPress={() => navigation.toggleDrawer()} />
+       */}
+      <HeaderBack
+        color={'#fff'}
+        Title="My Cart"
+        // onPress={() => navigation.toggleDrawer()}
+        onPress={() => navigation.replace('DrowerNavigation')}
+      />
       <ScrollView
         refreshControl={
           <RefreshControl refreshing={refresh} onRefresh={get_mycart} />
@@ -167,14 +185,36 @@ const MyCartScreen = props => {
             }}
           />
         ) : delmess ? (
-          <Text
-            style={{
-              textAlign: 'center',
-              marginTop: '60%',
-              color: '#aaa',
-            }}>
-            {delmess}
-          </Text>
+          <View style={{height: hp('70%'), justifyContent: 'center'}}>
+            <View
+              style={{
+                // backgroundColor: 'red',
+                paddingHorizontal: 20,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              {/* <Image
+            style={styles.tinyLogo}
+            source={require('../Assets/Images/Payment.png')}
+          /> */}
+              <Lottie
+                source={require('../Assets/animation/empty.json')}
+                autoPlay
+                loop={false}
+                style={{height: 220, width: 220}}
+              />
+            </View>
+            <Text
+              style={{
+                textAlign: 'center',
+                // marginTop: '60%',
+                color: '#aaa',
+                fontSize: 20,
+                fontWeight: '700',
+              }}>
+              {delmess}
+            </Text>
+          </View>
         ) : (
           <View
             style={{
@@ -578,6 +618,7 @@ export default MyCartScreen;
 const styles = StyleSheet.create({
   container: {
     height: hp('100%'),
+    // flex: 1,
   },
   cntrContainer: {
     flex: 1,

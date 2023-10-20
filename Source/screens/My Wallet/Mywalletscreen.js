@@ -9,6 +9,7 @@ import {
   Linking,
   Pressable,
   Keyboard,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Colors from '../../Assets/Constants/Colors';
@@ -38,6 +39,7 @@ export default function Mywalletscreen(prop) {
   const [webViewVisible, setWebViewVisible] = React.useState(false);
   const [htmlUrl, setHtmlUrl] = useState(null);
   const [orderdetail, setOrderdetail] = useState(null);
+  const [buttonLoading, setButtonLoading] = useState(false);
   const isFocused = useIsFocused();
   const InputRef = useRef(null);
 
@@ -85,6 +87,7 @@ export default function Mywalletscreen(prop) {
 
   // PAYMENT code==========================
   const _Payment_api = async () => {
+    setButtonLoading(true);
     const token = await _getStorage('token');
     console.log('token---------------->>>>>', token);
     const obj = {
@@ -114,14 +117,15 @@ export default function Mywalletscreen(prop) {
           console.log('order key id --------->>>', response?.data?.orderKeyId);
           setOrderKeyId(response?.data?.orderKeyId);
           setHtmlUrl(response?.data?.paymnetProcessUrl);
-
           setWebViewVisible(true);
+          setButtonLoading(false);
 
           // Linking.openURL(htmlUrl);
           // Orderdetail(response?.data?.orderKeyId);
         }
       })
       .catch(error => {
+        setButtonLoading(false);
         if (error.response.data?.message == '"OrderAmount" must be a number') {
           console.log('Please enter valid ammount');
           Toast.showWithGravity(
@@ -292,6 +296,12 @@ export default function Mywalletscreen(prop) {
     }
   }, [isFocused]);
 
+  const CancelPAyment = () => {
+    setWebViewVisible(false);
+    setHtmlUrl(null);
+  };
+  console.log(htmlUrl, 'htmlurl====>');
+
   const _getWallets = async () => {
     const token = await _getStorage('token');
     console.log(token);
@@ -339,6 +349,20 @@ export default function Mywalletscreen(prop) {
             startInLoadingState={true}
             // style={{flex: 1, height: hp('100%')}}
           />
+          <TouchableOpacity
+            onPress={CancelPAyment}
+            style={{
+              backgroundColor: '#1e90ff',
+              height: 44,
+              width: '100%',
+              marginTop: 10,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text style={{color: '#fff', fontSize: 15, fontWeight: '600'}}>
+              CANCEL
+            </Text>
+          </TouchableOpacity>
         </View>
       ) : (
         <View style={{backgroundColor: 'red', flex: 1}}>
@@ -416,9 +440,13 @@ export default function Mywalletscreen(prop) {
                 marginHorizontal: 10,
                 borderRadius: 4,
               }}>
-              <Text style={{color: 'white', fontWeight: '700', fontSize: 15}}>
-                Recharge your Wallet
-              </Text>
+              {buttonLoading ? (
+                <ActivityIndicator color={'#fff'} size={25} />
+              ) : (
+                <Text style={{color: 'white', fontWeight: '700', fontSize: 15}}>
+                  Recharge your Wallet
+                </Text>
+              )}
             </TouchableOpacity>
           </Pressable>
         </View>

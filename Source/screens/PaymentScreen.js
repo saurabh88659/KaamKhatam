@@ -28,7 +28,7 @@ import {ActivityIndicator} from 'react-native-paper';
 const PaymentScreen = props => {
   const cartId = useSelector(state => state.updateState.cartId);
   const bookingId = useSelector(state => state.updateState.bookingId);
-  console.log('bookingId  useSelector---------payment screen 29', bookingId);
+  console.log('bookingId  useSelector---------payment screen 29', cartId);
 
   const navigation = useNavigation();
   const [htmldata, setHtmldata] = useState('');
@@ -88,8 +88,8 @@ const PaymentScreen = props => {
   // PAYMENT code==========================
   const _Payment_api = async Prop => {
     console.log(
-      Prop.total,
-      '================Prop.total on Payment Api=================',
+      '================Prop on Payment Api=================>>>>>>>>',
+      Prop,
     );
     const token = await _getStorage('token');
     console.log('token---------------->>>>>', token);
@@ -107,8 +107,6 @@ const PaymentScreen = props => {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(response => {
-        setButtonLoading1(false);
-
         console.log(
           ' _Payment_api response data ---------1>>>',
           response?.data,
@@ -124,13 +122,15 @@ const PaymentScreen = props => {
           setOrderKeyId(response?.data?.orderKeyId);
           setHtmlUrl(response?.data?.paymnetProcessUrl);
           setWebViewVisible(true);
+          setButtonLoading1(false);
           //=============================
           Orderdetail(response?.data?.orderKeyId);
         }
       })
       .catch(error => {
         setButtonLoading1(false);
-        console.log('payment catch error', error);
+        console.log(' _Payment_api catch error-=---', error);
+        DeleteBooking(Prop.bookingId);
       });
   };
 
@@ -145,6 +145,7 @@ const PaymentScreen = props => {
     }
     return () => clearInterval(intervalid);
   }, [webViewVisible]);
+
   //======================================================
   const Orderdetail = async () => {
     const token = await _getStorage('token');
@@ -159,9 +160,9 @@ const PaymentScreen = props => {
         },
       )
       .then(response => {
-        console.log('response ---------222>>>', response?.data);
+        console.log(' Orderdetail response ---------222>>>', response?.data);
         if (response.data) {
-          console.log('response ---------111>>>', response?.data);
+          console.log(' Orderdetail response ---------111>>>', response?.data);
           setOrderdetail(response.data);
           if (response?.data?.OrderPaymentStatusText !== 'Pending') {
             Toast.showWithGravity(
@@ -320,7 +321,6 @@ const PaymentScreen = props => {
       })
       .then(res => {
         setButtonLoading(false);
-
         console.log('red.data===paywith wallet', res.data);
         if (res.data) {
           Toast.showWithGravity(res.data.message, Toast.SHORT, Toast.BOTTOM);
@@ -331,6 +331,8 @@ const PaymentScreen = props => {
       })
       .catch(error => {
         setButtonLoading(false);
+        DeleteBooking(Prop);
+
         console.log(
           ' pay with wallet error.response?.data?.message',
           error.response?.data?.message,
@@ -343,7 +345,7 @@ const PaymentScreen = props => {
           );
           navigation.replace('Mywallet');
           Toast.showWithGravity(
-            'Please recharge your Wallet first',
+            'Please recharge your Wallet',
             Toast.SHORT,
             Toast.BOTTOM,
           );
@@ -446,6 +448,7 @@ const PaymentScreen = props => {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
+        setButtonLoading1(false);
         console.log('===========add booking 1=========', res.data);
         let bookinId = res?.data?.bookingId;
         let price = res?.data?.total;
@@ -462,7 +465,6 @@ const PaymentScreen = props => {
       })
       .catch(error => {
         setButtonLoading1(false);
-
         console.log(
           'add booking catch error---+++++++++++=>',
           error?.response?.data?.message,
@@ -496,6 +498,27 @@ const PaymentScreen = props => {
         //     {text: 'OK', onPress: () => props.navigation.goBack()},
         //   ]);
         // }
+      });
+  };
+
+  const DeleteBooking = async bookingId => {
+    console.log('===========DeleteBooking prop==========', bookingId);
+    const token = await _getStorage('token');
+    console.log(token);
+    let obj = {
+      bookingId: bookingId,
+    };
+    console.log(obj, '===delet booking obj====');
+    axios
+      .post(BASE_URL + `/booking/delete`, obj, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(val => {
+        console.log('booking id delete res====> ', val.data);
+      })
+      .catch(error => {
+        console.log('catch error in delete booking ', error.response.data);
+        console.log('catch error in delete booking', error);
       });
   };
 

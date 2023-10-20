@@ -39,6 +39,7 @@ import MapmyIndiaGL from 'mapmyindia-map-react-native-beta';
 import Mapmyindia from 'mapmyindia-restapi-react-native-beta';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {APIservice} from '../../API/APIservice';
 // import {Modal} from 'react-native-paper';
 
 const API_KEY = 'AIzaSyD3Uol_-mBQSaZgIfuzVVK1oHXqBHPkrZE';
@@ -110,6 +111,8 @@ function Home() {
       // geoCoding();
       _locationGeocoder();
       //_revGeoCodeApi;
+      //delete unpid booking======
+      APIservice.UnpaidBookingDelete();
     }
   }, [isFocused]);
 
@@ -432,12 +435,14 @@ function Home() {
             <View
               style={{
                 backgroundColor: Colors.white,
+                // backgroundColor: 'red',
                 shadowColor: '#000',
                 shadowOffset: {width: 1, height: 1},
                 shadowOpacity: 0.4,
                 shadowRadius: 3,
                 // elevation: 5,
                 top: 5, //=============afterbanner
+                // marginHorizontal: 20,
               }}>
               <View
                 style={{
@@ -445,7 +450,7 @@ function Home() {
                   flexWrap: 'wrap',
                   justifyContent: 'space-between',
                 }}>
-                {filteredData.map((val, index) => (
+                {filteredData.slice(0, 6).map((val, index) => (
                   <View key={index} style={{alignItems: 'center'}}>
                     <ServicesComp
                       title={val.name}
@@ -455,6 +460,33 @@ function Home() {
                     />
                   </View>
                 ))}
+              </View>
+              <View
+                style={{
+                  // width: '100%',
+                  // backgroundColor: 'green',
+                  alignItems: 'flex-end',
+                  paddingHorizontal: 20,
+                  // marginVertical: 30,
+                  marginTop: 25,
+                  marginBottom: 5,
+                }}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('AllCategoryScreen')}
+                  style={{
+                    height: 32,
+                    width: 110,
+                    backgroundColor: '#fff',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 10,
+                    borderColor: '#000',
+                    borderWidth: 1,
+                  }}>
+                  <Text style={{color: '#000', fontWeight: '500'}}>
+                    Explore More
+                  </Text>
+                </TouchableOpacity>
               </View>
             </View>
 

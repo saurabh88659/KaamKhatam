@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, TouchableOpacity} from 'react-native';
+import {ActivityIndicator, Text, TouchableOpacity} from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -27,15 +27,19 @@ const Button = props => {
         shadowRadius: 3.84,
         elevation: 5,
       }}>
-      <Text
-        style={{
-          fontWeight: '700',
-          fontSize: hp('2.2%'),
-          color: props.color,
-          marginLeft: wp('5%'),
-        }}>
-        {props.title}
-      </Text>
+      {props.loading ? (
+        <ActivityIndicator color={'#fff'} size={26} />
+      ) : (
+        <Text
+          style={{
+            fontWeight: '700',
+            fontSize: hp('2.2%'),
+            color: props.color,
+            marginLeft: wp('5%'),
+          }}>
+          {props.title}
+        </Text>
+      )}
     </TouchableOpacity>
   );
 };

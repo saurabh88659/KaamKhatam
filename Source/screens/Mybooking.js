@@ -19,6 +19,12 @@ import {useIsFocused} from '@react-navigation/native';
 import InternetInfoall from '../Assets/utils/Handler/InternetInfoall';
 import {useDispatch} from 'react-redux';
 import moment from 'moment-timezone';
+import {APIservice} from '../API/APIservice';
+import HeaderBack from '../ReusableComponents/HeaderBack';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 
 const {height, width} = Dimensions.get('window');
 
@@ -36,6 +42,8 @@ function Mybooking({navigation}) {
   useEffect(() => {
     setIsLoading(true);
     if (isFocused) {
+      // UnpaidBookingDelete();
+      APIservice.UnpaidBookingDelete();
       bookingDetails();
       console.log('runing -------33');
     }
@@ -101,11 +109,33 @@ function Mybooking({navigation}) {
     12: 'Dec',
   };
 
+  // const UnpaidBookingDelete = async () => {
+  //   const token = await _getStorage('token');
+  //   console.log(token);
+  //   axios
+  //     .delete(BASE_URL + `/booking/deleteMany`, {
+  //       headers: {Authorization: `Bearer ${token}`},
+  //     })
+  //     .then(res => {
+  //       console.log('Booking has been deleted', res.data);
+  //     })
+  //     .catch(error => {
+  //       console.log('UnpaidBookingDelete  catch error', error.response.data);
+  //     });
+  // };
+
   return (
     <SafeAreaView style={{flex: 1}}>
-      <HeaderDrawer
+      {/* <HeaderDrawer
         Title="My Bookings"
-        onPress={() => navigation.toggleDrawer()}
+        // onPress={() => navigation.toggleDrawer()}
+        onPress={() => navigation.replace('DrowerNavigation')}
+      /> */}
+      <HeaderBack
+        color={'#fff'}
+        Title="My Bookings"
+        // onPress={() => navigation.toggleDrawer()}
+        onPress={() => navigation.replace('DrowerNavigation')}
       />
       <ScrollView
         refreshControl={
@@ -118,7 +148,7 @@ function Mybooking({navigation}) {
             style={{
               alignItems: 'center',
               justifyContent: 'center',
-              marginTop: 30,
+              marginTop: hp('37%'),
             }}
           />
         ) : noData ? (
@@ -135,10 +165,8 @@ function Mybooking({navigation}) {
             // const utcMoment = moment(value.bookingDate);
             // const istMoment = utcMoment.tz(IST_TIMEZONE);
             // console.log(istMoment, 'its');
-
             const [day, month, year] = value.bookingDate.split('/');
             const monthAbbreviation = monthMappings[month];
-
             console.log(
               '====================value===================--',
               value.bookingDate,
@@ -285,7 +313,8 @@ function Mybooking({navigation}) {
                     }}>
                     <Text
                       style={{
-                        fontSize: 14,
+                        textAlign: 'center',
+                        fontSize: 13,
                         fontWeight: '700',
                         top: 20,
                         textTransform: 'uppercase',

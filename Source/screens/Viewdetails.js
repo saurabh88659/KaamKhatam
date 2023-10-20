@@ -776,40 +776,43 @@ const Viewdetails = props => {
                         be provided. Otherwise, there would be no refund.
                       </Text>
                     </View>
+
                     <View
                       style={{
                         flex: 1,
                         flexDirection: 'row',
                         alignItems: 'center',
-                        justifyContent: 'space-between',
+                        justifyContent: 'space-evenly',
                         marginTop: 20,
                       }}>
-                      <TouchableOpacity
-                        onPress={() =>
-                          props.navigation.navigate(
-                            'RescheduleBooking',
-                            bookinID,
-                          )
-                        }
-                        style={{
-                          height: height / 16,
-                          backgroundColor: Colors.purple,
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          borderRadius: 5,
-                          marginHorizontal: 15,
-                          padding: 10,
-                          // marginVertical,
-                        }}>
-                        <Text
+                      {bookinviewdetails.bookingStatus === 'Confirmed' ? (
+                        <TouchableOpacity
+                          onPress={() =>
+                            props.navigation.navigate(
+                              'RescheduleBooking',
+                              bookinID,
+                            )
+                          }
                           style={{
-                            color: 'white',
-                            fontWeight: '500',
-                            fontSize: 16,
+                            height: height / 16,
+                            backgroundColor: Colors.purple,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            borderRadius: 5,
+                            marginHorizontal: 15,
+                            padding: 10,
+                            // marginVertical,
                           }}>
-                          Reschedule Booking
-                        </Text>
-                      </TouchableOpacity>
+                          <Text
+                            style={{
+                              color: 'white',
+                              fontWeight: '500',
+                              fontSize: 16,
+                            }}>
+                            Reschedule Booking
+                          </Text>
+                        </TouchableOpacity>
+                      ) : null}
 
                       <TouchableOpacity
                         onPress={

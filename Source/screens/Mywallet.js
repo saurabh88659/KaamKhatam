@@ -5,15 +5,22 @@ import TranscationsScreen from './My Wallet/TranscationsScreen';
 import Header from '../ReusableComponents/Header';
 import Colors from '../Assets/Constants/Colors';
 import HeaderDrawer from '../ReusableComponents/HeaderDrawer';
+import HeaderBack from '../ReusableComponents/HeaderBack';
 
 const Tab = createMaterialTopTabNavigator();
 
 const Mywallet = ({navigation}) => {
   return (
     <>
-      <HeaderDrawer
+      {/* <HeaderDrawer
         Title="My Wallet"
         onPress={() => navigation.toggleDrawer()}
+      /> */}
+      <HeaderBack
+        color={'#fff'}
+        Title="My Wallet"
+        // onPress={() => navigation.toggleDrawer()}
+        onPress={() => navigation.replace('DrowerNavigation')}
       />
 
       <Tab.Navigator

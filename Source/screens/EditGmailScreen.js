@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
   Modal,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect} from 'react';
 // import {Header} from 'react-native/Libraries/NewAppScreen';
@@ -16,10 +17,8 @@ import {useNavigation} from '@react-navigation/native';
 import {_getStorage} from '../Assets/utils/storage/Storage';
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import Toast from 'react-native-simple-toast';
-
 import axios from 'axios';
 import {useState} from 'react';
-
 const EditGmailScreen = prop => {
   const [email, setEmail] = useState('');
   const navigation = useNavigation();
@@ -28,6 +27,8 @@ const EditGmailScreen = prop => {
   const [counter, setCounter] = React.useState(30);
   const [code, setCode] = useState();
   const [emailOtp, setemailOtp] = useState();
+  const [buttonLoading, setButtonLoading] = useState(false);
+  const [verifyButtonLoading, setVerifyButtonLoading] = useState(false);
   useEffect(() => {
     const timer =
       counter > 0 &&
@@ -39,7 +40,10 @@ const EditGmailScreen = prop => {
   }, [counter]);
 
   const LoginApisendmailotp = async () => {
+    setButtonLoading(true);
     if (email == preData) {
+      setButtonLoading(false);
+
       Toast.showWithGravity(
         'email is the same as the previous one. OTP not sent',
         Toast.LONG,
@@ -56,6 +60,8 @@ const EditGmailScreen = prop => {
         })
 
         .then(res => {
+          setButtonLoading(false);
+
           console.log('email response', res.data);
           setemailOtp(res.data.id);
           // setIsGettingOTP(false);
@@ -63,6 +69,8 @@ const EditGmailScreen = prop => {
           setModalVisible(!modalVisible);
         })
         .catch(error => {
+          setButtonLoading(false);
+
           console.log(
             'email send otp catch error',
             error.response.data.message,
@@ -111,7 +119,10 @@ const EditGmailScreen = prop => {
   // ======================verify OTP==================
 
   const _verifyMailotp = async () => {
+    setVerifyButtonLoading(true);
     if (email == preData) {
+      setVerifyButtonLoading(false);
+
       Toast.showWithGravity(
         'Phone number is the same as the previous one. OTP not sent',
         Toast.LONG,
@@ -129,6 +140,8 @@ const EditGmailScreen = prop => {
           headers: {Authorization: `Bearer ${token}`},
         })
         .then(value => {
+          setVerifyButtonLoading(false);
+
           if ((value.data.message, 'Email successfully updated')) {
             navigation.goBack();
           }
@@ -139,6 +152,8 @@ const EditGmailScreen = prop => {
           Toast.showWithGravity(value.data.message, Toast.SHORT, Toast.BOTTOM);
         })
         .catch(error => {
+          setVerifyButtonLoading(false);
+
           console.log(error.response.data);
           Toast.showWithGravity(
             error.response.data.message,
@@ -240,7 +255,11 @@ const EditGmailScreen = prop => {
                 borderRadius: 7,
                 backgroundColor: '#138F00',
               }}>
-              <Text style={{color: 'white'}}> Get OTP</Text>
+              {buttonLoading ? (
+                <ActivityIndicator color={'#fff'} size={19} />
+              ) : (
+                <Text style={{color: 'white'}}> Get OTP</Text>
+              )}
             </TouchableOpacity>
           </View>
         </View>
@@ -362,15 +381,20 @@ const EditGmailScreen = prop => {
                   paddingVertical: 10,
                   marginTop: 20,
                   borderRadius: 4,
+                  height: 40,
                 }}>
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    fontWeight: '700',
-                    color: '#fff',
-                  }}>
-                  SUBMIT
-                </Text>
+                {verifyButtonLoading ? (
+                  <ActivityIndicator color={'#fff'} size={23} />
+                ) : (
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontWeight: '700',
+                      color: '#fff',
+                    }}>
+                    SUBMIT
+                  </Text>
+                )}
               </TouchableOpacity>
             </View>
           </View>

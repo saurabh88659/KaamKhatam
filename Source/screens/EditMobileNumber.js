@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Keyboard,
   StatusBar,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Header from '../ReusableComponents/Header';
@@ -17,16 +18,20 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-
 function EditMobileNumber({navigation, route}) {
   const [changenumber, setChangenubmer] = useState();
   const [getDetailsId, setGetDetailsId] = useState('');
+  const [getOtpButtonLoading, setGetOtpButtonLoading] = useState(false);
+
   const preData = route.params;
 
   console.log('preData', preData);
 
   const handleSendOTP = async () => {
+    setGetOtpButtonLoading(true);
     if (changenumber == preData) {
+      setGetOtpButtonLoading(false);
+
       Toast.showWithGravity(
         'Phone number is the same as the previous one. OTP not sent',
         Toast.LONG,
@@ -40,6 +45,8 @@ function EditMobileNumber({navigation, route}) {
           phone: changenumber,
         })
         .then(res => {
+          setGetOtpButtonLoading(false);
+
           console.log(res.data);
           if (res.data) {
             navigation.navigate('MobileOtp', {
@@ -51,6 +58,8 @@ function EditMobileNumber({navigation, route}) {
           }
         })
         .catch(error => {
+          setGetOtpButtonLoading(false);
+
           console.log('mobail nuember otp catch error', error.response.data);
           Toast.showWithGravity(
             error.response.data.message,
@@ -128,6 +137,7 @@ function EditMobileNumber({navigation, route}) {
             <TextInput
               placeholderTextColor="grey"
               keyboardType="numeric"
+              maxLength={10}
               onChangeText={text => {
                 setChangenubmer(text);
               }}
@@ -152,7 +162,11 @@ function EditMobileNumber({navigation, route}) {
                 borderRadius: 7,
                 backgroundColor: '#138F00',
               }}>
-              <Text style={{color: 'white'}}> Get OTP</Text>
+              {getOtpButtonLoading ? (
+                <ActivityIndicator color={'#fff'} size={19} />
+              ) : (
+                <Text style={{color: 'white'}}> Get OTP</Text>
+              )}
             </TouchableOpacity>
           </View>
         </View>

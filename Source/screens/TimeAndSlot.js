@@ -28,6 +28,10 @@ const {height, width} = Dimensions.get('window');
 const TimeAndSlot = props => {
   const dispatch = useDispatch();
   const cartId = useSelector(state => state.updateState.cartId);
+  const totalServiceAmount = useSelector(
+    state => state.updateState.totalServiceAmount,
+  );
+
   // console.log('=========cartId (time and slot)=====', cartId);
   const [index, setIndex] = useState(1);
   const [index2, setIndex2] = useState('');
@@ -40,12 +44,8 @@ const TimeAndSlot = props => {
   const [getDate, setGetDate] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [iseeror, setIserror] = useState('');
-  const orderLoaction = props.route.params;
-  console.log(
-    '=========orderLoaction (time and slot params---)=====',
-    orderLoaction,
-  );
-
+  const orderLoaction = props.route.params.value;
+  console.log('orderLoaction (time and slot params---)=====', orderLoaction);
   const navigation = useNavigation();
   // console.log('hhhhhhhhhhhhhhh', cartID);
   const [_Isdate, set_Isdate] = useState('');
@@ -59,7 +59,7 @@ const TimeAndSlot = props => {
   console.log(selectedTimeFrame, 'selectedTimeFrame====');
 
   useEffect(() => {
-    getUserAddress();
+    // getUserAddress();
   }, []);
 
   const getUserAddress = async () => {
@@ -251,11 +251,11 @@ const TimeAndSlot = props => {
       start: startTime,
       end: endTime,
       bookingDate: _Isdate,
-      bookingLocation: orderLoaction.location,
-      address: orderLoaction.address,
-      pinCode: orderLoaction.pincode,
-      name: orderLoaction.name,
-      save_as: orderLoaction.saveas,
+      // bookingLocation: orderLoaction.location,
+      // address: orderLoaction.address,
+      // pinCode: orderLoaction.pincode,
+      // name: orderLoaction.name,
+      // save_as: orderLoaction.saveas,
       addressId: orderLoaction.addressId,
     };
 
@@ -339,11 +339,11 @@ const TimeAndSlot = props => {
             start: startTime,
             end: endTime,
             bookingDate: _Isdate,
-            bookingLocation: orderLoaction.location,
-            address: orderLoaction.address,
-            pinCode: orderLoaction.pincode,
-            name: orderLoaction.name,
-            save_as: orderLoaction.saveas,
+            // bookingLocation: orderLoaction.location,
+            // address: orderLoaction.address,
+            // pinCode: orderLoaction.pincode,
+            // name: orderLoaction.name,
+            // save_as: orderLoaction.saveas,
             addressId: orderLoaction.addressId,
           };
           console.log(res.data.message, 'run conBooking====');
@@ -359,7 +359,7 @@ const TimeAndSlot = props => {
         }
       })
       .catch(error => {
-        console.log('chackdate error', error.response.data.message);
+        console.log('chackdate error==>', error.response.data.message);
         Toast.showWithGravity(
           error.response?.data?.message,
           Toast.SHORT,
@@ -469,7 +469,14 @@ const TimeAndSlot = props => {
               }}>
               Address for service
             </Text>
-            <View style={{flexDirection: 'row', width: '85%'}}>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                width: '90%',
+                // backgroundColor: 'red',
+                marginTop: 5,
+              }}>
               <View
                 style={{
                   width: 70,
@@ -487,7 +494,7 @@ const TimeAndSlot = props => {
                     textTransform: 'uppercase',
                     fontSize: 12,
                   }}>
-                  {userSaveas}
+                  {orderLoaction.save_as}
                 </Text>
               </View>
               <Text
@@ -496,7 +503,25 @@ const TimeAndSlot = props => {
                   color: Colors.black,
                   fontWeight: '600',
                 }}>
-                {userlocation}
+                {orderLoaction.bookingLocation} {''}
+                {/* {orderLoaction.pinCode} */}
+              </Text>
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                // width: '85%',
+                // backgroundColor: 'red',
+                marginVertical: 4,
+              }}>
+              <Text
+                numberOfLines={1}
+                style={{
+                  color: Colors.black,
+                  fontWeight: '600',
+                }}>
+                {orderLoaction.address} {''} {orderLoaction.pinCode}
               </Text>
             </View>
           </View>
@@ -510,6 +535,7 @@ const TimeAndSlot = props => {
             </Text>
           </TouchableOpacity>
         </View>
+
         <Text
           style={{
             color: Colors.black,
@@ -894,7 +920,8 @@ const TimeAndSlot = props => {
         }}>
         <View style={{marginLeft: 10}}>
           <Text style={{color: Colors.black, fontWeight: '600'}}>
-            {'\u20B9'} 547
+            {'\u20B9'}
+            {totalServiceAmount}
           </Text>
         </View>
         <TouchableOpacity

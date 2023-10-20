@@ -134,7 +134,6 @@ const RescheduleBooking = props => {
     const token = await _getStorage('token');
     // setButtonLoading(true);
     // Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
-
     const rescheduleObj = {
       bookingId: bokingID,
       start: startTime,
@@ -148,15 +147,24 @@ const RescheduleBooking = props => {
       })
       .then(res => {
         setIsLoading(false);
-        console.log('reschedule response==========================', res.data);
-        if (res.data.message == 'Booking Rescheduled') {
+        console.log(
+          '==reschedule response==========================',
+          res.data,
+        );
+        if (res.data.message == 'Booking Rescheduled Request sent') {
           Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
           props.navigation.goBack();
           // Viewdetailsbooking();
         }
       })
       .catch(error => {
-        console.log('reschedule catch error,', error.response);
+        console.log('reschedule catch error,', error.response.data);
+        Toast.showWithGravity(
+          error.response.data.message,
+          Toast.LONG,
+          Toast.BOTTOM,
+        );
+
         setIsLoading(false);
         setButtonLoading(false);
       });
@@ -206,7 +214,6 @@ const RescheduleBooking = props => {
       })
       .catch(error => {
         setButtonLoading(false);
-
         console.log('chackdate error', error.response.data.message);
         setIsLoading(false);
         Toast.showWithGravity(

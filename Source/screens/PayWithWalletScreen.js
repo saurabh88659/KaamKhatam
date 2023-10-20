@@ -64,7 +64,6 @@ const PayWithWalletScreen = props => {
       setButtonLoading(false);
     }, 300);
   };
-  2;
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#ffff'}}>
@@ -85,7 +84,7 @@ const PayWithWalletScreen = props => {
               style={{
                 width: wp('100%'),
                 height: hp('7%'),
-                backgroundColor: Colors.purple,
+                backgroundColor: Colors.topNavbarColor,
                 paddingHorizontal: wp('4%'),
                 // flexDirection: 'row',
                 alignItems: 'center',
@@ -122,14 +121,15 @@ const PayWithWalletScreen = props => {
 
             <View
               style={{
-                // paddingHorizontal: 20,
+                paddingHorizontal: 20,
+                marginHorizontal: 20,
                 alignItems: 'center',
                 marginTop: 10,
                 height: hp('16%'),
                 // backgroundColor: 'red',
                 justifyContent: 'space-between',
-                // borderBottomColor: Colors.lightGray,
-                // borderBottomWidth: 1,
+                borderBottomColor: Colors.lightGray,
+                borderBottomWidth: 1,
                 // margin: 20,
               }}>
               <Text style={{color: '#00bfff', fontSize: 20, fontWeight: '900'}}>
@@ -161,16 +161,16 @@ const PayWithWalletScreen = props => {
             </View>
 
             <View style={{marginHorizontal: 20, marginTop: 20}}>
-              {/* <Text
-               style={{
-              fontSize: 17,
-              color: '#4169e1',
-              fontWeight: '800',
-              alignSelf: 'center',
-              marginBottom: 28,
-              }}>
-              Transaction Number :
-              </Text> */}
+              <Text
+                style={{
+                  fontSize: 17,
+                  color: '#4169e1',
+                  fontWeight: '800',
+                  alignSelf: 'center',
+                  marginBottom: 28,
+                }}>
+                Transaction Id : {paymentDetails.transactionId}
+              </Text>
 
               <View
                 style={[
@@ -227,7 +227,7 @@ const PayWithWalletScreen = props => {
                 style={{
                   width: wp('90%'),
                   height: hp('7%'),
-                  backgroundColor: Colors.purple,
+                  backgroundColor: Colors.topNavbarColor,
                   alignItems: 'center',
                   justifyContent: 'center',
                   borderRadius: hp('1%'),

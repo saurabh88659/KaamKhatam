@@ -4,6 +4,7 @@ const initialState = {
   cartId: null,
   profileImgeUrl: null,
   bookingId: null,
+  totalServiceAmount: null,
 };
 
 export const UserSlice = createSlice({
@@ -22,6 +23,9 @@ export const UserSlice = createSlice({
     setBookingID: (state, action) => {
       state.bookingId = action.payload;
     },
+    setTotalServiceAmount: (state, action) => {
+      state.totalServiceAmount = action.payload;
+    },
   },
 });
 export default UserSlice.reducer;
@@ -30,4 +34,5 @@ export const {
   setCartId,
   setProfileImgeUrl,
   setBookingID,
+  setTotalServiceAmount,
 } = UserSlice.actions;

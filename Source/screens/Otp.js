@@ -34,7 +34,7 @@ const Otp = ({navigation, route}) => {
       phone: phone?.phone,
     };
     setIsLoading(true);
-    Toast.showWithGravity('Please wait...', Toast.LONG, Toast.TOP);
+    // Toast.showWithGravity('Please wait...', Toast.LONG, Toast.TOP);
     axios
       .post(BASE_URL + `/verifyOTP`, verifyObj)
       .then(async response => {
