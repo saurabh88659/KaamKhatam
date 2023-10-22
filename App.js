@@ -15,6 +15,7 @@ import notificationOndisplay, {
 
 function App() {
   useEffect(() => {
+    console.log("code test")
     geteviceToken();
     HandleNotificationOndisplay();
   }, []);
