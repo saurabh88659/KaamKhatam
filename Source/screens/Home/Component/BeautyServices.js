@@ -1,11 +1,13 @@
 import React from 'react';
-import {Text, TouchableOpacity, Image} from 'react-native';
+import {Text, TouchableOpacity, Image, View} from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
+import Colors from '../../../Assets/Constants/Colors';
 
 const BeautyServices = props => {
+  console.log(props, 'props=========');
   return (
     <TouchableOpacity
       onPress={props.onPress}
@@ -16,10 +18,29 @@ const BeautyServices = props => {
         justifyContent: 'space-between',
         alignItems: 'center',
       }}>
-      <Image
-        source={props.image}
-        style={{width: wp('35%'), height: wp('24%'), borderRadius: wp('4%')}}
-      />
+      <View
+        style={{
+          width: wp('36%'),
+          height: wp('25%'),
+          borderRadius: wp('4.5%'),
+          borderColor: props.selected ? Colors.topNavbarColor : 'transparent', // Set border color based on 'selected' prop
+          borderWidth: 20,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Image
+          source={props.image}
+          style={{
+            width: wp('35%'),
+            height: wp('24%'),
+            borderRadius: wp('4%'),
+            borderColor: props.selected ? Colors.white : 'transparent', // Set border color based on 'selected' prop
+            borderWidth: 2,
+            borderRadius: wp('4%'),
+          }}
+        />
+      </View>
+
       <Text
         style={{
           fontSize: hp('1.7%'),

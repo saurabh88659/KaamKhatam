@@ -50,7 +50,6 @@ const ConfirmationPayment = ({route}) => {
   const formattedDateTime = `${dateTimeParts[0]} ${timePart} ${dateTimeParts[2]}`;
   // Combine the formatted date and time
   console.log(formattedDateTime, 'formattedDateTime===');
-
   console.log(
     '----------order detials in ConfirmationPayment-------',
     orderDetails,

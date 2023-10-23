@@ -1,7 +1,7 @@
 export default {
-  purple:'#5E2DC4',
-  bottomColor:'#6441A',
-  topNavbarColor:'#7A33C2',
+  purple: '#5E2DC4',
+  bottomColor: '#6441A',
+  topNavbarColor: '#7A33C2',
   blue: '#0B12E2',
   darkOrange: '#fcbf14',
   lightOrange: '#FFA034',

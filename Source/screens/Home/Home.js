@@ -79,6 +79,9 @@ function Home() {
   const isFocused = useIsFocused();
   const [address, setAddress] = useState('');
   const [Coordinates, setCoordinates] = useState('');
+  const [selectedItem, setSelectedItem] = useState(null); // State to keep track of the selected item
+  const BASEURL = 'https://kaamkhatamapi.kickrtechnology.online';
+
   console.log('<------home .js  coordinator----->', Coordinates);
   setTimeout(() => {
     setRfresh(false);
@@ -285,6 +288,30 @@ function Home() {
     }, 1000);
   };
 
+  const handleItemPress = item => {
+    setSelectedItem(item); // Update the selected item when it's pressed
+  };
+  useEffect(() => {
+    getTopServices();
+  }, []);
+
+  const getTopServices = async () => {
+    const token = await _getStorage('token');
+    axios
+      .get(BASEURL + `/api/v1/admin/topService`, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(async resp => {
+        // setCategory(resp.data.category);
+        // setIsLoading(false);
+        console.log('top services== category--------------', resp.data);
+      })
+      .catch(e => {
+        console.log('home screen catch error top services', e.response.data);
+        // setIsLoading(false);
+      });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -462,11 +489,30 @@ function Home() {
                 shadowOpacity: 0.4,
                 shadowRadius: 3,
                 // elevation: 5,
-                top: 5, //=============afterbanner
+                top: 20, //=============afterbanner
                 // marginHorizontal: 20,
               }}>
+              <Swiper
+                showsButtons={false}
+                autoplay={true}
+                autoplayTimeout={10}
+                showsPagination={false}
+                style={styles.scroll}>
+                {bannerUrl
+                  .slice()
+                  .reverse()
+                  .map((value, index) => (
+                    <TouchableOpacity key={index}>
+                      <Image
+                        source={{uri: value.imageUrl}}
+                        style={styles.imgSlider}
+                      />
+                    </TouchableOpacity>
+                  ))}
+              </Swiper>
               <View
                 style={{
+                  top: -15,
                   flexDirection: 'row',
                   flexWrap: 'wrap',
                   justifyContent: 'space-between',
@@ -515,9 +561,9 @@ function Home() {
               style={{
                 paddingVertical: hp('3%'),
                 // backgroundColor: Colors.lightGray,
-
                 alignItems: 'center',
                 justifyContent: 'center',
+                marginTop: 15,
               }}>
               <View
                 style={{
@@ -598,12 +644,19 @@ function Home() {
                   keyExtractor={(item, index) => index.toString()}
                   numColumns={2} // Set the number of columns
                   renderItem={({item}) => (
-                    <BeautyServices title={item.title} image={item.image} />
+                    <BeautyServices
+                      title={item.title}
+                      image={item.image}
+                      // selected={item === selectedItem}
+                      selected={
+                        item.title === selectedItem?.title &&
+                        item.image === selectedItem?.image
+                      }
+                      onPress={() => handleItemPress(item)} // Pass a 'selected' prop based on the selected item
+                    />
                   )}
                 />
-
                 {/* {byb api servixces ==========} */}
-
                 <TouchableOpacity
                   style={{
                     paddingHorizontal: wp('15%'),
@@ -647,7 +700,6 @@ function Home() {
           </ScrollView>
         </View>
       )}
-
       <InternetInfoall />
     </SafeAreaView>
   );

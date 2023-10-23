@@ -5,6 +5,9 @@ const initialState = {
   profileImgeUrl: null,
   bookingId: null,
   totalServiceAmount: null,
+  chatQuestion: [],
+  chatAnswer: null,
+  netAnswer: [],
 };
 
 export const UserSlice = createSlice({
@@ -26,6 +29,15 @@ export const UserSlice = createSlice({
     setTotalServiceAmount: (state, action) => {
       state.totalServiceAmount = action.payload;
     },
+    setChatQuestion: (state, action) => {
+      state.chatQuestion = action.payload;
+    },
+    setChatAnswer: (state, action) => {
+      state.chatAnswer = action.payload;
+    },
+    setNetAnswer: (state, action) => {
+      state.netAnswer.push(action.payload);
+    },
   },
 });
 export default UserSlice.reducer;
@@ -35,4 +47,7 @@ export const {
   setProfileImgeUrl,
   setBookingID,
   setTotalServiceAmount,
+  setChatQuestion,
+  setChatAnswer,
+  setNetAnswer,
 } = UserSlice.actions;

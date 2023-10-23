@@ -39,9 +39,7 @@ const Services = props => {
   const [goldID, setgoldID] = useState('');
   const [platinumID, setPlatinumID] = useState('');
   const [catname, setCatname] = useState('');
-
   // const [service, setService] = useState([]);
-
   // const [services, setServices] = useState('');
   const [getname, setGetname] = useState('');
   const [silver, setSilver] = useState('');
@@ -90,7 +88,7 @@ const Services = props => {
       })
       .then(response => {
         setGetallservices(response.data.result.service);
-        console.log('getService1-->>>', response.data);
+        console.log('getService1--==============>>>', response.data);
         setIsLoading(false);
       })
       .catch(error => {
@@ -98,7 +96,6 @@ const Services = props => {
         setIsLoading(false);
       });
   };
-
   const getService2 = async () => {
     const token = await _getStorage('token');
 
@@ -125,7 +122,7 @@ const Services = props => {
       })
       .then(response => {
         setGetallservices(response.data.result);
-        console.log('getService3-->>>', response.data);
+        console.log('getService3--====>>>', response.data);
         setIsLoading(false);
       })
       .catch(error => {
@@ -292,65 +289,69 @@ const Services = props => {
         </View>
       ) : (
         <View>
-          <GreenHeader title="Sanitised tool, single-use products & sachets " />
+          {/* <GreenHeader title="Sanitised tool, single-use products & sachets " /> */}
           <View style={Reusablecss.cntrContainer}>
             <FlatList
               keyExtractor={(item, index) => index.toString()}
               showsVerticalScrollIndicator={false}
               data={getallservices}
               renderItem={({item}) => (
-                <View style={Reusablecss.card}>
-                  <View style={Reusablecss.cardItem}>
-                    <Text style={Reusablecss.title}>{item.name}</Text>
-                    <View style={Reusablecss.ratingCntr}>
-                      <FontAwesome5Icon
-                        name="star"
-                        solid
-                        size={hp('2%')}
-                        color={Colors.deepSafron}
-                      />
-                      <Text style={Reusablecss.ratingBar}>{item.rating}</Text>
-                    </View>
-                    {/* <View style={Reusablecss.priceCntr}>
+                console.log('services item====>', item),
+                (
+                  <View style={Reusablecss.card}>
+                    <View style={Reusablecss.cardItem}>
+                      <Text style={Reusablecss.title}>{item.name}</Text>
+                      <View style={Reusablecss.ratingCntr}>
+                        <FontAwesome5Icon
+                          name="star"
+                          solid
+                          size={hp('2%')}
+                          color={Colors.deepSafron}
+                        />
+                        <Text style={Reusablecss.ratingBar}>
+                          {item.overallRating == 0 ? 0 : item.overallRating}
+                        </Text>
+                      </View>
+                      {/* <View style={Reusablecss.priceCntr}>
                       <Text style={Reusablecss.img}>INR</Text>
 
                       <Text style={Reusablecss.priceBar}>{item.price}</Text>
                       <Text style={Reusablecss.timing}>{item.time}</Text>
                     </View> */}
-                    <Text style={{top: -5, color: Colors.black}}>
-                      .........................................................
-                    </Text>
-                    <View style={Reusablecss.dataCntr}>
-                      <Image
-                        source={require('../../Assets/Images/Ellipse1.png')}
-                      />
-                      <Text style={Reusablecss.data}>{item.description}</Text>
+                      <Text style={{top: -5, color: Colors.black}}>
+                        .........................................................
+                      </Text>
+                      <View style={Reusablecss.dataCntr}>
+                        <Image
+                          source={require('../../Assets/Images/Ellipse1.png')}
+                        />
+                        <Text style={Reusablecss.data}>{item.description}</Text>
+                      </View>
+                      <View style={Reusablecss.dataCntr}>
+                        <Image
+                          source={require('../../Assets/Images/Ellipse1.png')}
+                          // style={{opacity: item.d2 === undefined ? 0 : 1}}
+                        />
+                        <Text style={Reusablecss.data}>{item.description}</Text>
+                      </View>
                     </View>
-
-                    <View style={Reusablecss.dataCntr}>
+                    <View style={Reusablecss.imgCntr}>
                       <Image
-                        source={require('../../Assets/Images/Ellipse1.png')}
-                        // style={{opacity: item.d2 === undefined ? 0 : 1}}
+                        resizeMode="contain"
+                        source={{uri: item.imageUrl}}
+                        style={Reusablecss.innerImage}
                       />
-                      <Text style={Reusablecss.data}>{item.description}</Text>
+                      <TouchableOpacity
+                        onPress={() => {
+                          toggleBottomNavigationView(item._id);
+                          // setSerID(item._id);
+                        }}
+                        style={Reusablecss.imgButton}>
+                        <Text style={Reusablecss.btnText}>ADD +</Text>
+                      </TouchableOpacity>
                     </View>
                   </View>
-                  <View style={Reusablecss.imgCntr}>
-                    <Image
-                      resizeMode="contain"
-                      source={{uri: item.imageUrl}}
-                      style={Reusablecss.innerImage}
-                    />
-                    <TouchableOpacity
-                      onPress={() => {
-                        toggleBottomNavigationView(item._id);
-                        // setSerID(item._id);
-                      }}
-                      style={Reusablecss.imgButton}>
-                      <Text style={Reusablecss.btnText}>ADD +</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
+                )
               )}
             />
           </View>

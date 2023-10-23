@@ -30,6 +30,7 @@ import {useIsFocused} from '@react-navigation/native';
 import {color} from 'react-native-reanimated';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 const {height, width} = Dimensions.get('window');
+import moment from 'moment-timezone';
 
 const Viewdetails = props => {
   const bookinID = props.route.params;
@@ -205,6 +206,13 @@ const Viewdetails = props => {
     props.navigation.navigate('CancelBooking', bookingId);
     setCancelServicemodalVisible(!cancelServicemodalVisible);
   };
+
+  const IST_TIMEZONE = 'Asia/Kolkata';
+  const utcMoment = moment(bookinviewdetails.createdAt);
+  const istMoment = utcMoment.tz(IST_TIMEZONE);
+  console.log(istMoment, 'istMoment---map');
+  const istDate = istMoment.format('DD/MM/YYYY');
+  console.log(istDate, 'is date ---map');
 
   return (
     <>
@@ -398,6 +406,7 @@ const Viewdetails = props => {
                     INR {bookinviewdetails.amountToBePaid}
                   </Text>
                 </View>
+
                 <View
                   style={{
                     flexDirection: 'row',
@@ -410,12 +419,32 @@ const Viewdetails = props => {
                       fontSize: 15,
                       fontWeight: 'bold',
                     }}>
-                    Date
+                    Booking Date
                   </Text>
                   <Text style={{color: Colors.darkGray, fontSize: 15}}>
                     {bookinviewdetails.bookingDate}
                   </Text>
                 </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    // marginVertical: 20,
+                    marginBottom: 20,
+                  }}>
+                  <Text
+                    style={{
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontWeight: 'bold',
+                    }}>
+                    Creation Date
+                  </Text>
+                  <Text style={{color: Colors.darkGray, fontSize: 15}}>
+                    {istDate}
+                  </Text>
+                </View>
+
                 <View
                   style={{
                     flexDirection: 'row',
@@ -433,6 +462,7 @@ const Viewdetails = props => {
                     {bookinviewdetails.payby}
                   </Text>
                 </View>
+
                 <View
                   style={{
                     flexDirection: 'row',
@@ -702,7 +732,7 @@ const Viewdetails = props => {
                       Refund Amount
                     </Text>
                     <Text style={{color: Colors.darkGray, fontSize: 15}}>
-                      INR {bookinviewdetails?.refundAmount}
+                      INR {bookinviewdetails?.refundAmount.toFixed(2)}
                     </Text>
                   </View>
                 </View>
@@ -785,35 +815,6 @@ const Viewdetails = props => {
                         justifyContent: 'space-evenly',
                         marginTop: 20,
                       }}>
-                      {bookinviewdetails.bookingStatus === 'Confirmed' ? (
-                        <TouchableOpacity
-                          onPress={() =>
-                            props.navigation.navigate(
-                              'RescheduleBooking',
-                              bookinID,
-                            )
-                          }
-                          style={{
-                            height: height / 16,
-                            backgroundColor: Colors.purple,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            borderRadius: 5,
-                            marginHorizontal: 15,
-                            padding: 10,
-                            // marginVertical,
-                          }}>
-                          <Text
-                            style={{
-                              color: 'white',
-                              fontWeight: '500',
-                              fontSize: 16,
-                            }}>
-                            Reschedule Booking
-                          </Text>
-                        </TouchableOpacity>
-                      ) : null}
-
                       <TouchableOpacity
                         onPress={
                           () =>
@@ -843,6 +844,34 @@ const Viewdetails = props => {
                           Cancel Booking
                         </Text>
                       </TouchableOpacity>
+                      {bookinviewdetails.bookingStatus === 'Confirmed' ? (
+                        <TouchableOpacity
+                          onPress={() =>
+                            props.navigation.navigate(
+                              'RescheduleBooking',
+                              bookinID,
+                            )
+                          }
+                          style={{
+                            height: height / 16,
+                            backgroundColor: Colors.purple,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            borderRadius: 5,
+                            marginHorizontal: 15,
+                            padding: 10,
+                            // marginVertical,
+                          }}>
+                          <Text
+                            style={{
+                              color: 'white',
+                              fontWeight: '500',
+                              fontSize: 16,
+                            }}>
+                            Reschedule Booking
+                          </Text>
+                        </TouchableOpacity>
+                      ) : null}
                     </View>
                   </View>
                 )}

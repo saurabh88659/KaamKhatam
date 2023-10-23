@@ -25,7 +25,7 @@ import moment from 'moment-timezone';
 
 const PayWithWalletScreen = props => {
   const navigation = useNavigation();
-  const IST_TIMEZONE = 'Asia/Kolkata';
+
   const paymentDetails = props.route.params.data;
   console.log(paymentDetails, 'paymentDetails');
   const [loding, setLoading] = useState(true);
@@ -50,11 +50,9 @@ const PayWithWalletScreen = props => {
   const utcMoment = moment(paymentDetails.transactionDate);
   // Convert to IST timezone
   const istMoment = utcMoment.tz(IST_TIMEZONE);
-
   console.log(istMoment, 'istMoment---map');
   // Format the IST date as a string
   const istDate = istMoment.format('YYYY-MM-DD');
-
   console.log(istDate, 'is date ---map');
 
   const GoToHomePage = () => {

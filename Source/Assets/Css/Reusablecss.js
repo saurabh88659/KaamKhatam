@@ -26,7 +26,6 @@ const Reusablecss = StyleSheet.create({
   cntrContainer: {
     // height: hp('88.5%'),
     paddingBottom: hp('20%'),
-    
   },
   card: {
     // width: '100%',
@@ -56,6 +55,7 @@ const Reusablecss = StyleSheet.create({
     fontSize: wp('4%'),
     left: wp('0.5%'),
     top: wp('-0.5%'),
+    color: '#000',
   },
   priceCntr: {
     flexDirection: 'row',

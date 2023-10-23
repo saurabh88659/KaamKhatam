@@ -15,7 +15,7 @@ import notificationOndisplay, {
 
 function App() {
   useEffect(() => {
-    console.log("code test")
+    // console.log("code test")
     geteviceToken();
     HandleNotificationOndisplay();
   }, []);
@@ -24,12 +24,10 @@ function App() {
     const token = await notificationOndisplay.getDeviceToken();
     console.log(token, '===================================----====+++++###');
   };
-
   const HandleNotificationOndisplay = () => {
     // notificationOndisplay.NotificationOnScreen();
     notificationListeners();
   };
-
   return (
     <NavigationContainer>
       <AuthStack />

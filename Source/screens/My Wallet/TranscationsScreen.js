@@ -105,7 +105,6 @@ export default function TranscationsScreen() {
             .reverse()
             .map((value, index) => {
               console.log(value);
-
               // console.log(value.time, 'value.time=====');
               const utcMoment = moment(value.time);
               // console.log(utcMoment, '======map-----');
