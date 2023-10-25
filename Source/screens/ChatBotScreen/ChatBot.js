@@ -177,7 +177,7 @@ const ChatBot = ({navigation}) => {
           <ScrollView ref={scrollViewRef}>
             <View
               style={{
-                backgroundColor: Colors.deepSafron,
+                backgroundColor: Colors.lightGray,
                 height: 30,
                 justifyContent: 'center',
                 alignItems: 'center',

@@ -24,6 +24,8 @@ import {useEffect} from 'react';
 import moment from 'moment-timezone';
 
 const PayWithWalletScreen = props => {
+  const IST_TIMEZONE = 'Asia/Kolkata';
+
   const navigation = useNavigation();
 
   const paymentDetails = props.route.params.data;

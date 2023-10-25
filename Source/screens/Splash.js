@@ -45,9 +45,9 @@ const Splash = ({navigation}) => {
           .then(resp => {
             // console.log(resp.data);
             if (resp.data.result.firstName) {
-              navigation.navigate('Location');
+              navigation.replace('Location');
             } else {
-              navigation.navigate('RegisterAccount');
+              navigation.replace('RegisterAccount');
             }
           })
           .catch(async err => {

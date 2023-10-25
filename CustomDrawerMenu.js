@@ -286,7 +286,12 @@ const CustomDrawerMenu = props => {
             <View style={Styles.linesstyles}></View>
             <TouchableOpacity
               style={Styles.constyles}
-              onPress={() => props.navigation.navigate('PrivacyPolicies')}>
+              // onPress={() => props.navigation.navigate('PrivacyPolicies')}
+              onPress={() =>
+                Linking.openURL(
+                  'https://kaamkhatam.com/index.php/privacy-policy/',
+                )
+              }>
               <Image
                 source={require('./Source/Assets/Images/insurance.png')}
                 style={Styles.iconestyles}
@@ -299,7 +304,12 @@ const CustomDrawerMenu = props => {
             <View style={Styles.linesstyles}></View>
             <TouchableOpacity
               style={Styles.constyles}
-              onPress={() => props.navigation.navigate('Termsandconditions')}>
+              // onPress={() => props.navigation.navigate('Termsandconditions')}
+              onPress={() =>
+                Linking.openURL(
+                  'https://kaamkhatam.com/index.php/term-and-conditions/',
+                )
+              }>
               <Image
                 source={require('./Source/Assets/Images/terms-and-conditions.png')}
                 style={Styles.iconestyles}

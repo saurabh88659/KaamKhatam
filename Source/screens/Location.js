@@ -50,7 +50,7 @@ const Location = props => {
         console.log('+++++=====location api res=======++++', res.data.message);
         if (res.data.message === 'User coordinates Updated Successfully') {
           Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
-          props.navigation.navigate('DrowerNavigation');
+          props.navigation.replace('DrowerNavigation');
           onLocation();
         } else {
           Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
@@ -106,11 +106,13 @@ const Location = props => {
       position => {
         console.log('GPS is enabled');
         // Do something with the position data
+        // Run your function here when permission is granted
+        // myFunction();
       },
       error => {
-        console.log('GPS is disabled');
+        console.log(error, '===GPS is disabled');
         // Prompt the user to enable GPS
-        if (error.code === 2) {
+        if (error.PERMISSION_DENIED === 1) {
           Alert.alert(
             'Location Services Required',
             'Please enable location services to use this feature',

@@ -88,7 +88,6 @@ const Viewdetails = props => {
         setBookingId(res.data.result.bookingId);
         setVendorImg(res.data.result.vendorImage);
         setUniqueId(res.data.result.uniqueId);
-
         setCancellationReason(res.data?.result?.cancelledReason);
         setIsLoading(false);
       })

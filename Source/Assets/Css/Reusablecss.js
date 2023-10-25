@@ -88,7 +88,7 @@ const Reusablecss = StyleSheet.create({
     flexDirection: 'row',
     marginTop: hp('1%'),
     alignItems: 'center',
-    top: -10,
+    // top: -10,
   },
   data: {
     fontSize: hp('2%'),

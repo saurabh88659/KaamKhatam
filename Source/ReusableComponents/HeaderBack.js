@@ -22,7 +22,8 @@ const HeaderBack = props => {
       }}>
       <View style={{flexDirection: 'row'}}>
         <TouchableOpacity
-          hitSlop={{top: 25, bottom: 25, left: 50, right: 50}}
+          hitSlop={{top: 20, bottom: 20, left: 500, right: 500}}
+          // hitSlop={{top: 100, bottom: 100, left: 2000, right: 2000}}
           onPress={props.onPress}>
           {/* <FontAwesome5 name="bars" color={Colors.white} size={hp('3.5%')} /> */}
           <Ionicons name="arrow-back" color={props.color} size={hp('3.7%')} />

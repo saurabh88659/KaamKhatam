@@ -208,7 +208,9 @@ export default function TranscationsScreen() {
                           // marginVertical: 15,
                           fontWeight: 'bold',
                         }}>
-                        INR {value.price}
+                        {/* INR {value.price}
+                         */}
+                        INR {parseFloat(value.price).toFixed(2)}
                       </Text>
                     </View>
                   </View>

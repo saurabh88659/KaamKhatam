@@ -655,6 +655,7 @@ const PaymentScreen = props => {
               )}
             </TouchableOpacity>
           </View>
+
           {/*============================= {pay with wallet==================================} */}
 
           <View

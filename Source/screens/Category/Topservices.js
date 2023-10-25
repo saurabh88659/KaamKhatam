@@ -21,23 +21,25 @@ import Colors from '../../Assets/Constants/Colors';
 import Header from '../../ReusableComponents/Header';
 import GreenHeader from '../../ReusableComponents/GreenHeader';
 // import AddCart from '../../ReusableComponents/AddCart';
-import Reusablecss from '../../Assets/Css/Reusablecss';
+// import Reusablecss from '../../Assets/Css/Reusablecss';
 // import CustomButton from '../../ReusableComponents/Button';
 import {_getStorage} from '../../Assets/utils/storage/Storage';
 import {BASE_URL} from '../../Assets/utils/Restapi/Config';
 import {BottomSheet} from 'react-native-btr';
 import Toast from 'react-native-simple-toast';
 import {useNavigation} from '@react-navigation/native';
-const Services = props => {
+
+const Topservices = props => {
   const navigation = useNavigation();
   const [visible, setVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [serId, setSerID] = useState('');
   const [serviceID, setServiceID] = useState('');
   const [silverID, setSilverID] = useState('');
   const [goldID, setgoldID] = useState('');
   const [platinumID, setPlatinumID] = useState('');
   const [catname, setCatname] = useState('');
+
   // const [service, setService] = useState([]);
   // const [services, setServices] = useState('');
   const [getname, setGetname] = useState('');
@@ -45,22 +47,31 @@ const Services = props => {
   const [platinum, setPlatinum] = useState('');
   const [getallservices, setGetallservices] = useState([]);
   const preData = props.route.params;
+  // const allservices = props.route.params.item._id;
+  const allservices = props.route.params.selectedItem._id;
+
+  useEffect(() => {
+    setGetallservices(allservices);
+  }, []);
+
   console.log('preData----------service', preData);
+  console.log('getallservices----------service', getallservices);
+
   const toggleBottomNavigationView = id => {
     setVisible(!visible);
     setSerID(id);
-    // getPackagesByServiceId(id);
+    // getPackage  sByServiceId(id);
   };
 
   useEffect(() => {
-    getServices();
+    //   getServices();
     if (serId) {
       getPackagesByServiceId();
     }
   }, [serId]);
 
   const getServices = () => {
-    let from = preData.navData.from;
+    // let from = preData.navData.from;
     // console.log('from=---------', from);
     switch (from) {
       case 'cat':
@@ -77,58 +88,6 @@ const Services = props => {
     }
   };
 
-  const getService1 = async () => {
-    const token = await _getStorage('token');
-    axios
-      .get(BASE_URL + `/category/categoryData/${preData.navData.id}`, {
-        headers: {Authorization: `Bearer ${token}`},
-      })
-      .then(response => {
-        setGetallservices(response.data.result.service);
-        console.log('getService1--==============>>>', response.data);
-        setIsLoading(false);
-      })
-      .catch(error => {
-        console.log('getService1 error-->>', error.response.data);
-        setIsLoading(false);
-      });
-  };
-
-  const getService2 = async () => {
-    const token = await _getStorage('token');
-
-    axios
-      .get(BASE_URL + `/category/subcategoryService/${preData.navData.id}`, {
-        headers: {Authorization: `Bearer ${token}`},
-      })
-      .then(response => {
-        setGetallservices(response.data.result.service);
-        console.log('getService2-->>>', response.data.result.service);
-        setIsLoading(false);
-      })
-      .catch(error => {
-        console.log('getService2 error-->>', error.response.data);
-        setIsLoading(false);
-      });
-  };
-
-  const getService3 = async () => {
-    const token = await _getStorage('token');
-    axios
-      .get(BASE_URL + `/category/subcategory2Service/${preData.navData.id}`, {
-        headers: {Authorization: `Bearer ${token}`},
-      })
-      .then(response => {
-        setGetallservices(response.data.result);
-        console.log('getService3--====>>>', response.data);
-        setIsLoading(false);
-      })
-      .catch(error => {
-        console.log('getService3 error-->>', error.response.data.message);
-        setIsLoading(false);
-      });
-  };
-
   const getPackagesByServiceId = async () => {
     const token = await _getStorage('token');
     axios
@@ -136,15 +95,15 @@ const Services = props => {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        console.log('getPackagesByServiceId', res.data);
-        setServiceID(res.data.service._id);
-        setGetname(res.data.service.gold);
-        setSilver(res.data.service.silver);
-        setSilverID(res.data.service.silver._id);
-        setgoldID(res.data.service.gold._id);
-        setPlatinumID(res.data.service.platinum._id);
-        setPlatinum(res.data.service.platinum);
-        setCatname(res.data.category);
+        console.log('getPackagesByServiceId=============>>>>>', res.data);
+        setServiceID(res.data.service?._id);
+        setGetname(res.data.service?.gold);
+        setSilver(res.data.service?.silver);
+        setSilverID(res.data.service.silver?._id);
+        setgoldID(res.data.service.gold?._id);
+        setPlatinumID(res.data.service.platinum?._id);
+        setPlatinum(res.data.service?.platinum);
+        setCatname(res.data?.category);
       })
       .catch(error => {
         console.log(
@@ -154,22 +113,7 @@ const Services = props => {
       });
   };
 
-  // console.log('catname', catname);
-
-  // const get_mycart = async () => {
-  //   const token = await _getStorage('token');
-
-  //   axios
-  //     .get(BASE_URL + `/cart`, {
-  //       headers: {Authorization: `Bearer ${token}`},
-  //     })
-  //     .then(res => {
-  //       console.log('get my cart----------->>', res.data.newResult);
-  //     })
-  //     .catch(error => {
-  //       console.log('my cart catch error-------------->>', error.response.data);
-  //     });
-  // };
+  console.log('catname===>', catname);
 
   const cardSilver = async () => {
     const token = await _getStorage('token');
@@ -180,6 +124,11 @@ const Services = props => {
       packageId: silverID,
       category: catname,
     };
+    // let objID = {
+    //   serviceId: allservices.silver._id,
+    //   packageId: silverID,
+    //   category: catname,
+    // };
     console.log('objID', objID);
     axios
       .post(BASE_URL + `/cart/silver`, objID, {
@@ -218,7 +167,7 @@ const Services = props => {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(rep => {
-        console.log('gold-----', rep.data);
+        console.log('------gold res.datas-----', rep.data);
         if (rep.data) {
           props.navigation.navigate('MyCartScreen');
           // get_mycart();
@@ -226,7 +175,7 @@ const Services = props => {
         Toast.showWithGravity(rep.data.message, Toast.LONG, Toast.BOTTOM);
       })
       .catch(error => {
-        console.log('gold catch error', error.response.data.message);
+        console.log('===gold catch error=====>', error.response.data.message);
         Toast.showWithGravity(
           error.response.data.message,
           Toast.LONG,
@@ -272,8 +221,8 @@ const Services = props => {
       <Header
         bgColor={Colors.topNavbarColor}
         color={Colors.white}
-        title={preData.navData.name}
-        onPress={() => props.navigation.goBack('')}
+        // title={preData.navData.name}
+        onPress={() => navigation.goBack('')}
       />
       {isLoading === true ? (
         <View
@@ -287,77 +236,111 @@ const Services = props => {
         </View>
       ) : (
         <View>
-          {/* <GreenHeader title="Sanitised tool, single-use products & sachets " /> */}
           <View style={Reusablecss.cntrContainer}>
-            <FlatList
-              keyExtractor={(item, index) => index.toString()}
-              showsVerticalScrollIndicator={false}
-              data={getallservices}
-              renderItem={({item}) => (
-                console.log('services item=========>>', item),
-                (
-                  <View style={Reusablecss.card}>
-                    <View style={Reusablecss.cardItem}>
-                      <Text style={Reusablecss.title}>{item.name}</Text>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              {/* {==========================================} */}
+              <View style={Reusablecss.card}>
+                <View style={Reusablecss.cardItem}>
+                  <Text style={Reusablecss.title}>{allservices?.name}</Text>
+                  {/* <View style={Reusablecss.ratingCntr}>
+                    <FontAwesome5Icon
+                      name="star"
+                      solid
+                      size={hp('2%')}
+                      color={Colors.deepSafron}
+                    />
+                    <Text style={Reusablecss.ratingBar}>
+                    </Text>
+                  </View> */}
 
-                      {/* {ṛating =================} */}
-                      {/* <View style={Reusablecss.ratingCntr}>
-                        <FontAwesome5Icon
-                          name="star"
-                          solid
-                          size={hp('2%')}
-                          color={Colors.deepSafron}
-                        />
-                        <Text style={Reusablecss.ratingBar}>
-                          {item.overallRating == 0 ? 0 : item.overallRating}
-                        </Text>
-                      </View> */}
-                      {/* {ṛating =================} */}
-
-                      {/* <View style={Reusablecss.priceCntr}>
+                  {/* <View style={Reusablecss.priceCntr}>
                       <Text style={Reusablecss.img}>INR</Text>
 
                       <Text style={Reusablecss.priceBar}>{item.price}</Text>
                       <Text style={Reusablecss.timing}>{item.time}</Text>
                     </View> */}
-                      <Text style={{color: Colors.black}}>
-                        .....................................................
-                      </Text>
-                      <View style={Reusablecss.dataCntr}>
-                        <Image
-                          source={require('../../Assets/Images/Ellipse1.png')}
-                        />
-                        <Text style={Reusablecss.data}>{item.description}</Text>
-                      </View>
-                      <View style={Reusablecss.dataCntr}>
-                        <Image
-                          source={require('../../Assets/Images/Ellipse1.png')}
-                          // style={{opacity: item.d2 === undefined ? 0 : 1}}
-                        />
-                        <Text style={Reusablecss.data}>{item.description}</Text>
-                      </View>
-                    </View>
-                    <View style={Reusablecss.imgCntr}>
-                      <Image
-                        resizeMode="contain"
-                        source={{uri: item.imageUrl}}
-                        style={Reusablecss.innerImage}
-                      />
-                      <TouchableOpacity
-                        onPress={() => {
-                          toggleBottomNavigationView(item._id);
-                          // setSerID(item._id);
-                        }}
-                        style={Reusablecss.imgButton}>
-                        <Text style={Reusablecss.btnText}>ADD +</Text>
-                      </TouchableOpacity>
-                    </View>
+                  <Text style={{color: Colors.black}}>
+                    .....................................................
+                  </Text>
+                  <View style={Reusablecss.dataCntr}>
+                    <Image
+                      source={require('../../Assets/Images/Ellipse1.png')}
+                    />
+                    <Text style={Reusablecss.data}>
+                      {allservices.description}
+                    </Text>
                   </View>
-                )
-              )}
-            />
+                  <View style={Reusablecss.dataCntr}>
+                    <Image
+                      source={require('../../Assets/Images/Ellipse1.png')}
+                      // style={{opacity: item.d2 === undefined ? 0 : 1}}
+                    />
+                    <Text style={Reusablecss.data}>
+                      {allservices.description}
+                    </Text>
+                  </View>
+                </View>
+                <View style={Reusablecss.imgCntr}>
+                  <Image
+                    resizeMode="contain"
+                    // source={{uri: item.imageUrl}}
+                    style={Reusablecss.innerImage}
+                  />
+                  <TouchableOpacity
+                    onPress={() => {
+                      toggleBottomNavigationView(allservices?._id);
+                      // setSerID(item._id);
+                    }}
+                    style={Reusablecss.imgButton}>
+                    <Text style={Reusablecss.btnText}>ADD +</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              {/* {==========================================} */}
+
+              {/* <View style={Reusablecss.card}>
+                <View style={Reusablecss.cardItem}>
+                  <Text style={Reusablecss.title}>{allservices?.name}</Text>
+                  <View style={Reusablecss.ratingCntr}>
+                    <FontAwesome5Icon
+                      name="star"
+                      solid
+                      size={hp('2%')}
+                      color={Colors.deepSafron}
+                    />
+                    <Text style={Reusablecss.ratingBar}>
+                      {allservices?.overallRating == 0
+                        ? 0
+                        : allservices?.overallRating}
+                    </Text>
+                  </View>
+
+
+
+
+                </View>
+                <View style={Reusablecss.imgCntr}>
+                  <Image
+                    resizeMode="contain"
+                    source={{uri: allservices?.imageUrl}}
+                    style={Reusablecss.innerImage}
+                  />
+                  <TouchableOpacity
+                    onPress={() => {
+                      toggleBottomNavigationView(allservices?._id);
+                      // setSerID(allservices._id);
+                    }}
+                    style={Reusablecss.imgButton}>
+                    <Text style={Reusablecss.btnText}>ADD +</Text>
+                  </TouchableOpacity>
+                </View>
+
+
+
+
+              </View> */}
+            </ScrollView>
           </View>
-          {/* <AddCart items={2} /> */}
         </View>
       )}
 
@@ -365,7 +348,7 @@ const Services = props => {
         visible={visible}
         onBackButtonPress={() => setVisible(false)}
         onBackdropPress={() => setVisible(false)}>
-        <View style={Styles.bottomNavigationView}>
+        <View style={Reusablecss.bottomNavigationView}>
           <View>
             <Text
               style={{
@@ -416,7 +399,7 @@ const Services = props => {
                         color: Colors.black,
                       }}>
                       {/* Less experienced */}
-                      {silver.description}
+                      {allservices.silver.description}
                     </Text>
                   </View>
                   <View style={{flexDirection: 'row'}}>
@@ -430,14 +413,16 @@ const Services = props => {
                         top: -3,
                         color: Colors.black,
                       }}>
+                      {allservices.silver.description}
+
                       {/* Less Equiped */}
-                      {silver.description}
+                      {/* {silver.description} */}
                     </Text>
                   </View>
                   <View style={{flexDirection: 'row'}}>
                     <Text
                       style={{
-                        marginHorizontal: 0,
+                        marginHorizontal: 5,
                         top: 3,
                         color: Colors.black,
                         fontWeight: '700',
@@ -447,24 +432,14 @@ const Services = props => {
                   </View>
                   <Text
                     style={{
-                      // marginHorizontal: 5,
-                      fontSize: 15,
-                      fontWeight: 'bold',
-                      color: Colors.darkGray,
-                    }}>
-                    INR {silver.price}
-                  </Text>
-
-                  {/* <Text
-                    style={{
                       marginHorizontal: 5,
                       fontSize: 15,
                       fontWeight: 'bold',
                       color: Colors.darkGray,
                     }}>
-                    INR {silver.price}
+                    INR {allservices.silver.price}
                   </Text>
-                  <TouchableOpacity
+                  {/* <TouchableOpacity
                     onPress={() =>
                       props.navigation.navigate('ServicesRatingsilver', {
                         serviceID,
@@ -541,7 +516,7 @@ const Services = props => {
                           color: Colors.black,
                         }}>
                         {/* Less experienced */}
-                        {getname.description}
+                        {allservices.gold.description}
                       </Text>
                     </View>
                     <View style={{flexDirection: 'row'}}>
@@ -556,7 +531,7 @@ const Services = props => {
                           color: Colors.black,
                         }}>
                         {/* Less Equiped */}
-                        {getname.description}
+                        {allservices.gold.description}
                       </Text>
                     </View>
                     <View style={{flexDirection: 'row'}}>
@@ -577,35 +552,39 @@ const Services = props => {
                         fontWeight: 'bold',
                         color: Colors.darkGray,
                       }}>
-                      INR {getname.price}
+                      INR {allservices.gold.price}
                     </Text>
-                    {/* <Text
-                      style={{
-                        marginHorizontal: 5,
-                        fontSize: 15,
-                        fontWeight: 'bold',
-                        color: Colors.darkGray,
-                      }}>
-                      INR {getname.price}
-                    </Text>
-                    <TouchableOpacity
-                      onPress={() =>
-                        props.navigation.navigate('ServicesRatingsilvergold', {
-                          serviceID,
-                          goldID,
-                        })
-                      }
-                      style={{}}>
-                      <Text
+
+                    {/* 
+                    
+                    <Text
                         style={{
                           marginHorizontal: 5,
                           fontSize: 15,
+                          fontWeight: 'bold',
                           color: Colors.darkGray,
-                          color: Colors.purple,
                         }}>
-                        View rating
+                        INR {getname.price}
                       </Text>
-                    </TouchableOpacity> */}
+
+                      <TouchableOpacity
+                        onPress={() =>
+                          props.navigation.navigate('ServicesRatingsilvergold', {
+                            serviceID,
+                            goldID,
+                          })
+                        }
+                        style={{}}>
+                        <Text
+                          style={{
+                            marginHorizontal: 5,
+                            fontSize: 15,
+                            color: Colors.darkGray,
+                            color: Colors.purple,
+                          }}>
+                          View rating
+                        </Text>
+                      </TouchableOpacity> */}
                   </View>
                   <View style={{top: 30}}>
                     <TouchableOpacity
@@ -663,7 +642,7 @@ const Services = props => {
                           color: Colors.black,
                         }}>
                         {/* Less experienced */}
-                        {platinum.description}
+                        {allservices.platinum.description}
                       </Text>
                     </View>
                     <View style={{flexDirection: 'row'}}>
@@ -678,7 +657,7 @@ const Services = props => {
                           color: Colors.black,
                         }}>
                         {/* Less Equiped */}
-                        {platinum.description}
+                        {allservices.platinum.description}
                       </Text>
                     </View>
                     <View style={{flexDirection: 'row'}}>
@@ -699,35 +678,36 @@ const Services = props => {
                         fontWeight: 'bold',
                         color: Colors.darkGray,
                       }}>
-                      INR {platinum.price}
+                      INR {allservices.platinum.price}
                     </Text>
+
                     {/* <Text
-                      style={{
-                        marginHorizontal: 5,
-                        fontSize: 15,
-                        fontWeight: 'bold',
-                        color: Colors.darkGray,
-                      }}>
-                      INR {platinum.price}
-                    </Text>
-                    <TouchableOpacity
-                      onPress={() =>
-                        props.navigation.navigate('ServicesRatingplatinum', {
-                          serviceID,
-                          platinumID,
-                        })
-                      }
-                      style={{}}>
-                      <Text
                         style={{
                           marginHorizontal: 5,
                           fontSize: 15,
+                          fontWeight: 'bold',
                           color: Colors.darkGray,
-                          color: Colors.purple,
                         }}>
-                        View rating
+                        INR {platinum.price}
                       </Text>
-                    </TouchableOpacity> */}
+                      <TouchableOpacity
+                        onPress={() =>
+                          props.navigation.navigate('ServicesRatingplatinum', {
+                            serviceID,
+                            platinumID,
+                          })
+                        }
+                        style={{}}>
+                        <Text
+                          style={{
+                            marginHorizontal: 5,
+                            fontSize: 15,
+                            color: Colors.darkGray,
+                            color: Colors.purple,
+                          }}>
+                          View rating
+                        </Text>
+                      </TouchableOpacity> */}
                   </View>
                   <View style={{top: 30}}>
                     <TouchableOpacity
@@ -749,16 +729,16 @@ const Services = props => {
                 </View>
               </View>
               {/* <View style={{alignItems: 'center', top: '1%'}}>
-                <CustomButton
-                  title={'Next'}
-                  bgColor={Colors.darkGreen}
-                  width={wp('90%')}
-                  height={hp('7%')}
-                  color={Colors.white}
-                  onPress={() => props.navigation.navigate('AddSalonforwomen')}
-                  // onPress={onPressotpVerification}
-                />
-              </View> */}
+                  <CustomButton
+                    title={'Next'}
+                    bgColor={Colors.darkGreen}
+                    width={wp('90%')}
+                    height={hp('7%')}
+                    color={Colors.white}
+                    onPress={() => props.navigation.navigate('AddSalonforwomen')}
+                    // onPress={onPressotpVerification}
+                  />
+                </View> */}
             </ScrollView>
           </View>
         </View>
@@ -767,41 +747,174 @@ const Services = props => {
   );
 };
 
-export default Services;
+export default Topservices;
 
-const Styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    width: width,
-    height: height,
-    bottom: '-12%',
-    alignSelf: 'center',
+const Reusablecss = StyleSheet.create({
+  container: {
+    width: wp('100%'),
+    height: hp('100%'),
+    // backgroundColor: 'red',
+  },
+  greyHeader: {
+    width: wp('100%'),
+    height: hp('12%'),
+    marginTop: hp('1.5%'),
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingBottom: 5,
+    backgroundColor: Colors.lightGray,
+  },
+
+  cntrContainer: {
+    // height: hp('88.5%'),
+    paddingBottom: hp('20%'),
+  },
+  card: {
+    // width: '100%',
+    backgroundColor: '#F4F4F4',
+    borderRadius: 10,
+    marginTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderWidth: wp('0.2%'),
+    marginHorizontal: 10,
+  },
+  cardItem: {
+    width: '70%',
+    padding: wp('2%'),
+  },
+  title: {
+    fontWeight: 'bold',
+    fontSize: wp('5%'),
+    color: Colors.black,
+  },
+  ratingCntr: {
+    flexDirection: 'row',
+    marginTop: hp('0.5%'),
+  },
+  ratingBar: {
+    fontWeight: 'bold',
+    fontSize: wp('4%'),
+    left: wp('0.5%'),
+    top: wp('-0.5%'),
+    color: '#000',
+  },
+  priceCntr: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    top: hp('0.2%'),
+  },
+  text: {
+    fontSize: 15,
+    color: Colors.black,
+  },
+  priceBar: {
+    fontSize: hp('2%'),
+    left: wp('1%'),
+  },
+  timing: {
+    marginLeft: wp('5%'),
+    fontSize: hp('2%'),
+  },
+  greenHeader: {
+    width: wp('100%'),
+    height: hp('9%'),
+    marginTop: hp('1.5%'),
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'flex-end',
+    flexDirection: 'row',
+    paddingBottom: 5,
+    backgroundColor: Colors.lightGreen,
   },
-  modalView: {
-    backgroundColor: 'white',
-    width: width,
-    height: height / 1.4,
-    borderTopRightRadius: 15,
-    borderTopLeftRadius: 15,
-
+  dataCntr: {
+    flexDirection: 'row',
+    marginTop: hp('1%'),
+    alignItems: 'center',
+    // top: -10,
+  },
+  data: {
+    fontSize: hp('2%'),
+    color: Colors.darkGray,
+    marginLeft: wp('2%'),
+  },
+  imgCntr: {
+    width: wp('25%'),
+    height: hp('25%'),
+    padding: wp('1%'),
+    marginRight: wp('2%'),
+    marginTop: -hp('3%'),
+    alignItems: 'center',
+  },
+  innerImage: {
+    width: wp('25%'),
+    height: hp('25%'),
+  },
+  imgButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.white,
+    width: wp('22%'),
+    height: hp('4.5%'),
+    marginTop: -hp('8%'),
+    borderRadius: wp('2%'),
+    // marginLeft: wp('3%'),
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
     },
     shadowOpacity: 0.25,
-    shadowRadius: 4,
+    shadowRadius: 3.84,
     elevation: 5,
+  },
+  btnText: {
+    fontWeight: '900',
+    color: Colors.purple,
+    fontSize: hp('2%'),
   },
   bottomNavigationView: {
     backgroundColor: '#fff',
     width: '100%',
-    height: '57%',
+    height: '58%',
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
 });
+
+// const Styles = StyleSheet.create({
+//   centeredView: {
+//     flex: 1,
+//     width: width,
+//     height: height,
+//     bottom: '-12%',
+//     alignSelf: 'center',
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: 'rgba(0,0,0,0.5)',
+//     justifyContent: 'flex-end',
+//   },
+//   modalView: {
+//     backgroundColor: 'white',
+//     width: width,
+//     height: height / 1.4,
+//     borderTopRightRadius: 15,
+//     borderTopLeftRadius: 15,
+
+//     shadowColor: '#000',
+//     shadowOffset: {
+//       width: 0,
+//       height: 2,
+//     },
+//     shadowOpacity: 0.25,
+//     shadowRadius: 4,
+//     elevation: 5,
+//   },
+//   bottomNavigationView: {
+//     backgroundColor: '#fff',
+//     width: '100%',
+//     height: '54%',
+//     borderTopLeftRadius: 10,
+//     borderTopRightRadius: 10,
+//   },
+// });

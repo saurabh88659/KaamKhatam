@@ -39,6 +39,7 @@ import ConfirmationPayment from '../../screens/ConfirmationPayment';
 import PayWithWalletScreen from '../../screens/PayWithWalletScreen';
 import EditGmailScreen from '../../screens/EditGmailScreen';
 import AllCategoryScreen from '../../screens/AllCategoryScreen';
+import Topservices from '../../screens/Category/Topservices';
 
 const Stack = createNativeStackNavigator();
 
@@ -156,6 +157,11 @@ function AuthStack() {
       <Stack.Screen
         name="Subcategory2"
         component={Subcategory2}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Topservices"
+        component={Topservices}
         options={{headerShown: false}}
       />
       <Stack.Screen

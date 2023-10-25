@@ -67,6 +67,7 @@ Mapmyindia.setClientSecret(
 );
 
 function Home() {
+  console.log('test');
   const navigation = useNavigation();
   const [category, setCategory] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -81,6 +82,7 @@ function Home() {
   const [Coordinates, setCoordinates] = useState('');
   const [selectedItem, setSelectedItem] = useState(null); // State to keep track of the selected item
   const BASEURL = 'https://kaamkhatamapi.kickrtechnology.online';
+  const [topServices, setTopservices] = useState(null);
 
   console.log('<------home .js  coordinator----->', Coordinates);
   setTimeout(() => {
@@ -108,6 +110,8 @@ function Home() {
   useEffect(() => {
     // TO RESET SEARCH ITEM=====
     setSearchText('');
+    setSelectedItem(null);
+    //==============
 
     if (isFocused) {
       getAllCategory();
@@ -220,6 +224,7 @@ function Home() {
   //exit app on double click==============================
   const [isExitModalVisible, setExitModalVisible] = useState(false);
   const [isDoubleClick, setIsDoubleClick] = useState(false);
+
   const servicesData = [
     {
       title: 'Classic Mani & Pedi',
@@ -289,8 +294,32 @@ function Home() {
   };
 
   const handleItemPress = item => {
+    console.log(
+      'item of topservices in handleItemPress function   Home.js',
+      item._id._id,
+    );
     setSelectedItem(item); // Update the selected item when it's pressed
+    console.log('iiii=======>', item);
+    // navigation.navigate('Topservices', {item});
+    // navigation.navigate('Services', {navData});
   };
+
+  const bookTopservices = () => {
+    if (selectedItem == null) {
+      Toast.showWithGravity(
+        'Please select a service before proceeding',
+        Toast.SHORT,
+        Toast.BOTTOM,
+      );
+    } else {
+      console.log('jjj=======>', selectedItem);
+      navigation.navigate('Topservices', {selectedItem});
+      setTimeout(() => {
+        setSelectedItem(null);
+      }, 500);
+    }
+  };
+
   useEffect(() => {
     getTopServices();
   }, []);
@@ -304,13 +333,18 @@ function Home() {
       .then(async resp => {
         // setCategory(resp.data.category);
         // setIsLoading(false);
-        console.log('top services== category--------------', resp.data);
+        console.log(
+          'top services== category--------------',
+          resp.data.topServices,
+        );
+        setTopservices(resp.data.topServices);
       })
       .catch(e => {
         console.log('home screen catch error top services', e.response.data);
         // setIsLoading(false);
       });
   };
+  const img = require('../../Assets/Images/hairdressing2.png');
 
   return (
     <SafeAreaView style={styles.container}>
@@ -640,20 +674,20 @@ function Home() {
                 <FlatList
                   // style={{justifyContent: 'space-between'}}
                   // style={{padding: 10}}
-                  data={servicesData}
+                  data={topServices}
                   keyExtractor={(item, index) => index.toString()}
                   numColumns={2} // Set the number of columns
                   renderItem={({item}) => (
-                    <BeautyServices
-                      title={item.title}
-                      image={item.image}
-                      // selected={item === selectedItem}
-                      selected={
-                        item.title === selectedItem?.title &&
-                        item.image === selectedItem?.image
-                      }
-                      onPress={() => handleItemPress(item)} // Pass a 'selected' prop based on the selected item
-                    />
+                    console.log('item of top services--->', item._id),
+                    (
+                      <BeautyServices
+                        title={item._id.name}
+                        image={item._id.imageUrl}
+                        // selected={item === selectedItem}
+                        selected={item._id._id === selectedItem?._id._id}
+                        onPress={() => handleItemPress(item)} // Pass a 'selected' prop based on the selected item
+                      />
+                    )
                   )}
                 />
                 {/* {byb api servixces ==========} */}
@@ -667,8 +701,7 @@ function Home() {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}
-                  // onPress={() => props.navigation.navigate('SalonWomen')}
-                >
+                  onPress={bookTopservices}>
                   <Text
                     style={{
                       fontWeight: 'bold',

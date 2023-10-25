@@ -394,6 +394,7 @@ const Editaddress = props => {
                         // paddingHorizontal: 30,
                         marginVertical: 10,
                         // backgroundColor: 'red',
+                        width: '100%',
                       }}>
                       <View
                         style={{
@@ -411,7 +412,7 @@ const Editaddress = props => {
                   /> */}
                         <View style={{top: 2, marginRight: 5}}>
                           <RadioButton
-                            onPress={() => handleServiceAdress(value._id)}
+                            onPress={() => handleServiceAdress(value)}
                             color={Colors.purple}
                             value={value._id}
                             status={

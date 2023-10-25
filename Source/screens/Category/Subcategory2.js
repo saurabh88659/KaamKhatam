@@ -37,6 +37,7 @@ const Subcategory2 = props => {
       from: 'sub_cat_2',
       name: name,
     };
+    console.log('navData=============>', navData);
     props.navigation.navigate('Services', {navData});
   };
 
@@ -49,6 +50,7 @@ const Subcategory2 = props => {
       })
       .then(rep => {
         setServices(rep.data.result.subCategory2);
+        console.log('setServices ===========', rep.data.result.subCategory2);
         setIsLoading(false);
       })
       .catch(error => {

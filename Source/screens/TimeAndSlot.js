@@ -7,6 +7,7 @@ import {
   ScrollView,
   Dimensions,
   Alert,
+  Linking,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Colors from '../Assets/Constants/Colors';
@@ -256,7 +257,7 @@ const TimeAndSlot = props => {
       // pinCode: orderLoaction.pincode,
       // name: orderLoaction.name,
       // save_as: orderLoaction.saveas,
-      addressId: orderLoaction.addressId,
+      addressId: orderLoaction._id,
     };
 
     console.log('========book===========', book);
@@ -949,24 +950,39 @@ const TimeAndSlot = props => {
           flexDirection: 'row',
           justifyContent: 'center',
           flexWrap: 'wrap',
+          marginBottom: 7,
         }}>
         <View>
           <Text style={{fontSize: 13, color: 'grey'}}>
             By proceeding you accept the latest versions of our
           </Text>
         </View>
-        <TouchableOpacity>
+
+        <TouchableOpacity
+          // onPress={() => props.navigation.navigate('Termsandconditions')}
+          onPress={() =>
+            Linking.openURL(
+              'https://kaamkhatam.com/index.php/term-and-conditions/',
+            )
+          }>
           <Text style={{fontSize: 13, color: 'black'}}> T&C,</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
+
+        <TouchableOpacity
+          // onPress={() => props.navigation.navigate('PrivacyPolicies')}
+          onPress={() =>
+            Linking.openURL('https://kaamkhatam.com/index.php/privacy-policy/')
+          }>
           <Text style={{fontSize: 13, color: 'black'}}> Privacy policy</Text>
         </TouchableOpacity>
+        {/* 
         <View>
           <Text style={{fontSize: 13, color: 'grey'}}> and</Text>
-        </View>
-        <TouchableOpacity>
+        </View> */}
+
+        {/* <TouchableOpacity>
           <Text style={{fontSize: 13, color: 'black'}}> Cancellaon</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </SafeAreaView>
   );

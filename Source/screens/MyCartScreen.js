@@ -415,7 +415,10 @@ const MyCartScreen = props => {
                   paddingHorizontal: 10,
                   paddingVertical: 2,
                 }}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  style={{}}
+                  // hitSlop={{top: 20, bottom: 20, left: 100, right: 100}}
+                >
                   <MaterialCommunityIcons
                     // onPress={delete_My_Cart}
                     onPress={() => {
@@ -423,7 +426,7 @@ const MyCartScreen = props => {
                     }}
                     name="delete"
                     color={Colors.black}
-                    size={18}
+                    size={20}
                   />
                 </TouchableOpacity>
               </View>

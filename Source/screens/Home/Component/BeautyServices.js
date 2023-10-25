@@ -24,12 +24,12 @@ const BeautyServices = props => {
           height: wp('25%'),
           borderRadius: wp('4.5%'),
           borderColor: props.selected ? Colors.topNavbarColor : 'transparent', // Set border color based on 'selected' prop
-          borderWidth: 20,
+          borderWidth: props.selected ? 6 : 0,
           justifyContent: 'center',
           alignItems: 'center',
         }}>
         <Image
-          source={props.image}
+          source={{uri: props.image}}
           style={{
             width: wp('35%'),
             height: wp('24%'),
