@@ -107,17 +107,11 @@ const Editaddress = props => {
       const res = await axios.post(BASE_URL + `/address`, obj, {
         headers: {Authorization: `Bearer ${token}`},
       });
-      // setAllAddress(res.data.addresses);
       console.log('res.data====>saveaddres', res.data);
-      if (res.data) {
-      }
       if (res.data.message == 'Address added successfully') {
         setModalVisible(false);
         getUserAllAddress();
         setButtonLoading(false);
-        // setTimeout(() => {
-        //   setLoading(false);
-        // }, 1500);
       }
       setLoading(false);
       console.log('all addressses ======', res.data.addresses);
@@ -137,7 +131,7 @@ const Editaddress = props => {
       });
       setAllAddress(res.data.addresses);
       setLoading(false);
-      console.log('all addressses ======', res.data.addresses);
+      console.log('all addressses======>>>>', res.data.addresses);
     } catch (error) {
       setLoading(false);
       console.log(error);
@@ -326,42 +320,77 @@ const Editaddress = props => {
         title="My address"
         onPress={() => props.navigation.goBack('')}
       />
-      <View style={{alignItems: 'center', marginVertical: 40}}>
+      <View
+        style={{
+          marginHorizontal: 10,
+          marginVertical: 10,
+          borderBottomWidth: 1,
+          borderBottomColor: Colors.lightGray,
+        }}>
+        <Text style={{color: 'black', fontSize: 22, fontWeight: 'bold'}}>
+          Your Addresses
+        </Text>
+      </View>
+
+      {/* <View style={{alignItems: 'center', marginVertical: 40}}>
         <Text style={{color: 'black', fontSize: 22, fontWeight: '600'}}>
           Select Address
         </Text>
-      </View>
+      </View> */}
       <View
         style={{
-          borderWidth: 1,
-          borderColor: '#707070',
-          height: height / 13,
-          justifyContent: 'center',
+          // borderWidth: 1,
+          // borderColor: '#707070',
+          // height: height / 13,
+          justifyContent: 'space-between',
           // marginBottom: 20,
+          // borderWidth:1,
+          borderBottomWidth: 1,
+          borderBottomColor: Colors.lightGray,
+          marginHorizontal: 10,
         }}>
         <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            height: 40,
+            justifyContent: 'space-between',
+          }}
           onPress={() => {
+            navigation.navigate('AddAddress');
             // setModalVisible(true),
-            setModalVisible(!modalVisible);
-            setLocation(null);
-            setAddress(null);
-            setPincode('');
-            setEditAddressID(null);
-            setName(null);
-            setIndex(0);
-            setSaveas('Home');
+            // setModalVisible(!modalVisible);
+            // setLocation(null);
+            // setAddress(null);
+            // setPincode('');
+            // setEditAddressID(null);
+            // setName(null);
+            // setIndex(0);
+            // setSaveas('Home');
           }}>
           <Text
             style={{
               fontWeight: '400',
-              color: '#111EC4',
-              marginHorizontal: 20,
-              fontSize: 18,
+              color: Colors.black,
+              fontSize: 16,
             }}>
-            + Add a new address
+            Add a new address
           </Text>
+          <AntDesign name="right" color={Colors.black} size={16} />
         </TouchableOpacity>
       </View>
+      <View
+        style={{
+          marginHorizontal: 10,
+          marginVertical: 10,
+          // borderBottomWidth: 1,
+          // borderBottomColor: Colors.lightGray,
+        }}>
+        <Text style={{color: 'black', fontSize: 18, fontWeight: 'bold'}}>
+          Personal Addresses
+        </Text>
+      </View>
+
       {loading ? (
         <View style={{marginTop: 50}}>
           <ActivityIndicator color="#ff8c00" size={31} />
@@ -378,15 +407,17 @@ const Editaddress = props => {
                   <View
                     key={index}
                     style={{
-                      // height: 100,
+                      // height: 250,
                       // backgroundColor: 'red',
-                      // marginHorizontal: 20,
-                      // borderRadius: 9,
+                      marginHorizontal: 10,
+                      borderRadius: 9,
                       // justifyContent: 'center',
                       alignItems: 'flex-start',
                       borderBottomColor: 'grey',
                       borderBottomWidth: 1,
                       // marginVertical: 10,
+                      borderWidth: 1,
+                      borderColor: Colors.lightGray,
                     }}>
                     <TouchableOpacity
                       onPress={() => handleServiceAdress(value)}
@@ -426,12 +457,11 @@ const Editaddress = props => {
                             marginRight: 15,
                             fontSize: 18,
                           }}>
-                          {value.name}
+                          {value.fullName}
                         </Text>
                         <View
                           style={{
                             backgroundColor: Colors.topNavbarColor,
-
                             // backgroundColor: '#ECECEC',
                             height: 25,
                             width: 50,
@@ -452,7 +482,7 @@ const Editaddress = props => {
                             // marginVertical: 2,
                             fontSize: 15,
                           }}>
-                          {value.address}
+                          {value.area}
                         </Text>
                         <Text
                           style={{
@@ -460,7 +490,7 @@ const Editaddress = props => {
                             marginVertical: 2,
                             fontSize: 15,
                           }}>
-                          {value.bookingLocation}
+                          {value.flat}
                         </Text>
                         <Text
                           style={{
@@ -468,7 +498,25 @@ const Editaddress = props => {
                             // marginVertical: 2,
                             fontSize: 15,
                           }}>
-                          {value.pinCode}
+                          {value.landmark}
+                        </Text>
+                        <Text
+                          style={{
+                            color: Colors.black,
+                            // marginVertical: 2,
+                            fontSize: 15,
+                          }}>
+                          {value.city}, {value.state}, {value.pinCode}
+                          {/* {value.landmark}
+                          {value.flat} */}
+                        </Text>
+                        <Text
+                          style={{
+                            color: Colors.black,
+                            // marginVertical: 2,
+                            fontSize: 15,
+                          }}>
+                          Phone number: {value.mobileNumber}
                         </Text>
                       </View>
                     </TouchableOpacity>
@@ -476,19 +524,22 @@ const Editaddress = props => {
                     <View
                       style={{
                         // backgroundColor: 'red',
-                        width: '100%',
+                        width: '65%',
                         justifyContent: 'space-evenly',
                         flexDirection: 'row',
                         // marginBottom: 10,
                         alignItems: 'center',
                         height: 30,
-                        marginBottom: 15,
-                        marginTop: 6,
+                        marginBottom: 20,
+                        marginTop: 10,
+                        position: 'relative',
+                        bottom: 0,
                       }}>
                       <TouchableOpacity
-                        onPress={() =>
+                        onPress={
+                          () => navigation.navigate('EditSaveAdress', {value})
                           // setEditAddressModalVisible(!editAddressmodalVisible)
-                          HandleEditddress(value)
+                          // HandleEditddress(value)
                         }
                         style={{
                           height: 35,
@@ -532,6 +583,7 @@ const Editaddress = props => {
             )}
         </ScrollView>
       )}
+      {/* {add address========================================================} */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -549,7 +601,7 @@ const Editaddress = props => {
         <View
           // onPress={() => setModalVisible(false)}
           style={Styles.centeredView}>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => {
               setModalVisible(!modalVisible);
               setLocation(null);
@@ -567,7 +619,8 @@ const Editaddress = props => {
               // flex: 1,
               // backgroundColor: '#000',
               // backgroundColor: 'rgba(0,0,0,0.5)',
-            }}></TouchableOpacity>
+            }}></TouchableOpacity> */}
+
           <View style={Styles.modalView}>
             <View>
               <TouchableOpacity
@@ -575,6 +628,7 @@ const Editaddress = props => {
                 style={{
                   alignItems: 'center',
                   borderRadius: 10,
+                  // backgroundColor: 'red',
                 }}>
                 <View
                   style={{
@@ -727,6 +781,7 @@ const Editaddress = props => {
                 placeholderTextColor="#888888"
               />
             </View>
+
             <Text
               style={{
                 marginHorizontal: 24,
@@ -789,13 +844,14 @@ const Editaddress = props => {
                 <Text style={{color: 'grey'}}>Other</Text>
               </TouchableOpacity>
             </View>
+
             <TouchableOpacity
               onPress={saveAddress}
               //onPress={() => props.navigation.navigate('TimeAndSlot')}
               style={{
                 backgroundColor: Colors.purple,
                 alignItems: 'center',
-                height: '10%',
+                height: 50,
                 justifyContent: 'center',
                 marginVertical: '10%',
                 marginHorizontal: 10,
@@ -1119,8 +1175,9 @@ const Styles = StyleSheet.create({
     backgroundColor: 'white',
     width: width,
     // height: height / 1.7,
-    borderTopRightRadius: 15,
-    borderTopLeftRadius: 15,
+    height: '100%',
+    // borderTopRightRadius: 15,
+    // borderTopLeftRadius: 15,
 
     shadowColor: '#000',
     shadowOffset: {

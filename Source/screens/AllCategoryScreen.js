@@ -94,7 +94,7 @@ const AllCategoryScreen = () => {
         bgColor={Colors.topNavbarColor}
         color={Colors.white}
         title={'All Categories'}
-        onPress={() => props.navigation.goBack()}
+        onPress={() => navigation.goBack()}
       />
       <View style={{backgroundColor: '#fff'}}>
         <View

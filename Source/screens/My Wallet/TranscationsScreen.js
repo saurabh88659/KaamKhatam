@@ -41,7 +41,6 @@ export default function TranscationsScreen() {
           res.data.history.payment_history,
           '===============transaction history====================',
         );
-        // console.log('response Payment History', res.data.message);
         if (res.data.message === 'No History Record') {
           setIsmessage(res.data.message);
         } else if (res.data?.message == 'History Fetched') {
@@ -49,14 +48,12 @@ export default function TranscationsScreen() {
         }
       })
       .catch(error => {
-        console.log(
-          'Payment History catch error',
-          error?.response?.data?.message,
-        );
+        console.log('Payment History catch error', error);
         // setIsmessage(error.respone.data);
       });
   };
-  //newApi of history===========================
+
+  //newApi of history==================================
   const getPaymentHistory = async () => {
     const token = await _getStorage('token');
     console.log(token, 'token-----------------------getPayment');
@@ -73,15 +70,11 @@ export default function TranscationsScreen() {
         // }
       })
       .catch(error => {
-        console.log(
-          'Payment History catch error  63',
-          error.response.data.message,
-        );
+        console.log('Payment History catch error  63======>', error);
       });
   };
 
   console.log('ismessage-----------', ismessage);
-
   return (
     <SafeAreaView style={{flex: 1}}>
       <ScrollView
@@ -90,14 +83,14 @@ export default function TranscationsScreen() {
         refreshControl={
           <RefreshControl refreshing={refresh} onRefresh={_getPaymentHistory} />
         }>
-        {ismessage ? (
+        {historytra == [] ? (
           <Text
             style={{
-              textAlign: 'center',
-              marginTop: '80%',
-              color: '#aaa',
+              // textAlign: 'center',
+              // marginTop: '80%',
+              color: '#000',
             }}>
-            {ismessage}
+            NO DATA
           </Text>
         ) : (
           historytra

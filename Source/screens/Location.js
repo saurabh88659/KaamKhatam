@@ -13,55 +13,72 @@ import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 import Toast from 'react-native-simple-toast';
 import InternetInfoall from '../Assets/utils/Handler/InternetInfoall';
-
+import {useDispatch} from 'react-redux';
+import {SetLatitude, SetLongitude} from '../features/updatedata/update.reducer';
 // const API_KEY = 'AIzaSyD3Uol_-mBQSaZgIfuzVVK1oHXqBHPkrZE';
 
 const Location = props => {
-  const [latitude, setLatitude] = useState('');
-  const [longitude, setLongitude] = useState('');
+  const dispatch = useDispatch();
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
   const [buttonLoading, setButtonLoading] = useState(false);
 
   useEffect(() => {
     Geolocation.getCurrentPosition(data => {
       setLatitude(data.coords.latitude), setLongitude(data.coords.longitude);
+      dispatch(SetLatitude(data.coords.latitude)),
+        dispatch(SetLongitude(data.coords.longitude));
       console.log(
-        'data-------fffff-------->>>>',
+        'latitue and longiture at useEfcct========>>>>',
         data.coords.longitude,
         data.coords.latitude,
       );
     });
-  }, []);
+  }, [buttonLoading]);
 
   const _getgeolocations = async () => {
     setButtonLoading(true);
     const token = await _getStorage('token');
-    Toast.showWithGravity('Please wait...', Toast.SHORT, Toast.BOTTOM);
-    const locobj = {
-      latitude: latitude,
-      longitude: longitude,
-    };
-    console.log('locobj locations', locobj);
-    axios
-      .put(BASE_URL + `/coordinates`, locobj, {
-        headers: {Authorization: `Bearer ${token}`},
-      })
-      .then(async res => {
-        setButtonLoading(false);
-        console.log('+++++=====location api res=======++++', res.data.message);
-        if (res.data.message === 'User coordinates Updated Successfully') {
-          Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
-          props.navigation.replace('DrowerNavigation');
-          onLocation();
-        } else {
-          Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
-          console.log('else conditions');
-        }
-      })
-      .catch(error => {
-        console.log('+++++location error++++0-0---', error);
-        // Toast.showWithGravity(error.data.message, Toast.LONG, Toast.BOTTOM);
-        console.log('catch locations error', error);
-      });
+    if (latitude && longitude) {
+      Toast.showWithGravity('Please wait...', Toast.SHORT, Toast.BOTTOM);
+      const locobj = {
+        latitude: latitude,
+        longitude: longitude,
+      };
+      console.log('locobj locations', locobj);
+      axios
+        .put(BASE_URL + `/coordinates`, locobj, {
+          headers: {Authorization: `Bearer ${token}`},
+        })
+        .then(async res => {
+          setButtonLoading(false);
+          console.log(
+            '+++++=====location api res=======++++',
+            res.data.message,
+          );
+          if (res.data.message === 'User coordinates Updated Successfully') {
+            Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
+            props.navigation.replace('DrowerNavigation');
+            onLocation();
+          } else {
+            setButtonLoading(false);
+            Toast.showWithGravity(res.data.message, Toast.LONG, Toast.BOTTOM);
+            console.log('else conditions');
+          }
+        })
+        .catch(error => {
+          setButtonLoading(false);
+          console.log('+++++location error++++0-0---', error);
+          console.log('catch locations error', error);
+        });
+    } else {
+      setButtonLoading(false);
+      Toast.showWithGravity(
+        'Your location will help us serve you better – mind turning it on?',
+        Toast.SHORT,
+        Toast.BOTTOM,
+      );
+    }
   };
 
   const onLocation = async () => {
@@ -133,6 +150,36 @@ const Location = props => {
     );
   }
 
+  // {written by me=====}
+
+  // useEffect(() => {
+  //   // checkLocationPermission();
+  //   requestLocationPermission();
+  // }, []);
+  // const requestLocationPermission = async () => {
+  //   try {
+  //     const granted = await PermissionsAndroid.request(
+  //       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+  //       {
+  //         title: 'Location Permission',
+  //         message: 'This app needs access to your location for some features.',
+  //         buttonNeutral: 'Ask Me Later',
+  //         buttonNegative: 'Cancel',
+  //         buttonPositive: 'OK',
+  //       },
+  //     );
+
+  //     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+  //       console.log('Location permission granted.');
+  //       // You can proceed with using location services.
+  //     } else {
+  //       console.log('Location permission denied.');
+  //       // Handle the case where the user denied the permission.
+  //     }
+  //   } catch (error) {
+  //     console.error('Error requesting location permission:', error);
+  //   }
+  // };
   return (
     <View style={styles.container}>
       <InternetInfoall />

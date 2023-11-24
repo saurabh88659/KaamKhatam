@@ -31,12 +31,21 @@ import Toast from 'react-native-simple-toast';
 import {_getStorage} from '../Assets/utils/storage/Storage';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Picker} from '@react-native-picker/picker';
+import notificationOndisplay, {
+  notificationListeners,
+} from '../notification/notificationOndisplay';
+import {useSelector} from 'react-redux';
+import Geolocation from '@react-native-community/geolocation';
+
+// import { SetLatitude, SetLongitude } from '../features/updatedata/update.reducer';
 
 const RegisterAccount = props => {
+  // const latitude = useSelector(state => state.updateState.latitude);
+  // const longitude = useSelector(state => state.updateState.longitude);
+
   const [modalVisible, setModalVisible] = useState(false);
   const [firstname, setFirstname] = useState('');
   const [error, setError] = useState('');
-
   const [lastname, setLastname] = useState('');
   const [date, setDate] = useState('');
   const [city, setCity] = useState('');
@@ -49,6 +58,7 @@ const RegisterAccount = props => {
   const [gender, setGender] = useState('');
   const [state, setState] = useState('');
   const [address, setAddress] = useState('');
+
   const [dataupdate, setDataupdate] = useState({});
   const [getDate, setGetDate] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -57,18 +67,106 @@ const RegisterAccount = props => {
   const [StateData, setStateData] = useState([]);
   const [cityData, setCityData] = useState([]);
   // console.log('----state data-----', StateData);
-
   const [isGettingOTP, setIsGettingOTP] = useState(false);
   const [isVerifyingOTP, setIsVerifyingOTP] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
-
   const [firstNameError, setFirstNameError] = useState('');
   const [lastNameError, setLastNameError] = useState('');
-
+  const [butttonLoading, setButtonLoading] = useState(false);
+  const [deviceToken, setDeviceToken] = useState(null);
+  const [flat, setFlat] = useState('');
+  const [area, setArea] = useState('');
+  const [landMark, setLandMark] = useState('');
+  const [latitude, SetLatitude] = useState('');
+  const [longitude, SetLongitude] = useState('');
+  const [currentLocationLoadingButton, SetCurrentLocationLoadingButton] =
+    useState(false);
   const getCurrentDate = () => {
     var date = new Date().getDate();
     var month = new Date().getMonth() + 1;
     var year = new Date().getFullYear();
+  };
+
+  useEffect(() => {
+    Geolocation.getCurrentPosition(data => {
+      SetLatitude(data.coords.latitude), SetLongitude(data.coords.longitude);
+      console.log(
+        'latitue and longiture at useEfcct========>>>>',
+        data.coords.longitude,
+        data.coords.latitude,
+      );
+    });
+  }, [currentLocationLoadingButton]);
+
+  const getCurrentAddress = async () => {
+    SetCurrentLocationLoadingButton(true);
+    const token = await _getStorage('token');
+    console.log(token);
+    if (latitude && longitude) {
+      const dataObj = {
+        lat: latitude,
+        long: longitude,
+      };
+      console.log('dataObj of current location ====>', dataObj);
+      axios
+        .post(BASE_URL + `/currentLocation`, dataObj, {
+          headers: {Authorization: `Bearer ${token}`},
+        })
+        .then(res => {
+          SetCurrentLocationLoadingButton(false);
+
+          console.log(
+            'res of getCurrentAddress home.js =======>',
+            res.data.address.address,
+          );
+          setPincode(res.data?.address?.address?.postcode);
+          if (res.data.address.address.building) {
+            setFlat(res.data.address.address.building);
+          }
+          if (res.data.address.address.state) {
+            setState(res.data.address.address.state);
+          }
+          if (res.data.address.address.city) {
+            setCity(res.data.address.address.city);
+          }
+          if (res.data.address.address.road) {
+            setLandMark(res.data.address.address.road);
+          }
+          if (res.data.address.address.suburb) {
+            setArea(res.data.address.address.suburb);
+            console.log(
+              '============setArea==========',
+              res.data.address.address.Sector,
+            );
+          }
+        })
+        .catch(error => {
+          SetCurrentLocationLoadingButton(false);
+
+          console.log('error of getCurrentAddress home.js======>', error);
+        });
+    } else {
+      SetCurrentLocationLoadingButton(false);
+      Toast.showWithGravity(
+        'Your location will help us serve you better – mind turning it on?',
+        Toast.LONG,
+        Toast.BOTTOM,
+      );
+    }
+  };
+
+  useEffect(() => {
+    geteviceToken();
+    HandleNotificationOndisplay();
+  }, []);
+  const geteviceToken = async () => {
+    const token = await notificationOndisplay.getDeviceToken();
+    setDeviceToken(token);
+    console.log('==================device token==================', token);
+  };
+
+  const HandleNotificationOndisplay = () => {
+    notificationListeners();
   };
 
   useEffect(() => {
@@ -80,15 +178,16 @@ const RegisterAccount = props => {
   }, []);
 
   const handleSubmit = async () => {
+    setButtonLoading(true);
     if (!isVerified) {
       Toast.showWithGravity(
         'Please verify your email first',
         Toast.SHORT,
         Toast.BOTTOM,
       );
+      setButtonLoading(false);
     } else if (!firstNameError && !lastNameError) {
       const token = await _getStorage('token');
-      // Toast.showWithGravity('Please wait...', Toast.LONG, Toast.BOTTOM);
       let newObj = {
         firstName: firstname,
         lastName: lastname,
@@ -97,29 +196,36 @@ const RegisterAccount = props => {
         city: city,
         pincode: Number(pincode),
         state,
-        address: address,
         email: email,
+        flat: flat,
+        area: area,
+        landmark: landMark,
+        phone: dataupdate.phone,
+        deviceToken: deviceToken,
+        location: {
+          type: 'Point',
+          coordinates: [latitude, longitude],
+        },
       };
 
       console.log('newOBJ', newObj);
       setIsLoading(true);
-
       axios
         .put(BASE_URL + `/profile`, newObj, {
           headers: {Authorization: `Bearer ${token}`},
         })
         .then(val => {
-          console.log(val.data);
+          console.log('val data of profile put===>', val.data);
           setIsLoading(false);
-
           props.navigation.navigate('Location');
-
+          setButtonLoading(false);
           Toast.showWithGravity(val.data.message, Toast.SHORT, Toast.BOTTOM);
         })
         .catch(error => {
-          console.log('in catch', error.response.data.message);
+          setButtonLoading(false);
+          console.log('in catch====>', error);
           Toast.showWithGravity(
-            error.response.data.message,
+            error?.response?.data?.message,
             Toast.SHORT,
             Toast.BOTTOM,
           );
@@ -127,6 +233,7 @@ const RegisterAccount = props => {
           //Toast.showWithGravity('Server Error❗', Toast.LONG, Toast.BOTTOM);
         });
     } else if (firstNameError || lastNameError) {
+      setButtonLoading(false);
       Toast.showWithGravity(
         'Please Enter Valid details',
         Toast.SHORT,
@@ -364,8 +471,9 @@ const RegisterAccount = props => {
       }, 1000);
     return () => clearInterval(timer);
   }, [counter]);
+
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{}}>
       <Header
         bgColor={Colors.topNavbarColor}
         color={Colors.white}
@@ -383,12 +491,48 @@ const RegisterAccount = props => {
           <ActivityIndicator color={Colors.purple} size="large" />
         </View>
       ) : (
-        <View>
+        <View style={{}}>
           <ScrollView
-            contentContainerStyle={{paddingBottom: '40%'}}
+            contentContainerStyle={{
+              paddingBottom: '40%',
+              backgroundColor: '#fff',
+            }}
             showsVerticalScrollIndicator={false}>
-            <View>
-              <View style={{height: hp('13%')}}>
+            <View style={{backgroundColor: '#FFF'}}>
+              <TouchableOpacity
+                onPress={getCurrentAddress}
+                style={{
+                  // height: hp('10%'),
+                  // width: '100%',
+                  // backgroundColor: 'red',
+                  marginHorizontal: 15,
+                  borderColor: Colors.purple,
+                  borderWidth: 1,
+                  borderRadius: 6,
+                  // paddingHorizontal: 30,
+                  // marginVertical: 15,
+                  color: 'black',
+                  marginTop: 8,
+                  paddingVertical: 13,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: 15,
+                  // marginVertical: 10,
+                }}>
+                {currentLocationLoadingButton ? (
+                  <ActivityIndicator size={21} color={Colors.topNavbarColor} />
+                ) : (
+                  <Text style={{color: '#000', fontSize: 17}}>
+                    Use current location
+                  </Text>
+                )}
+              </TouchableOpacity>
+              <View
+                style={{
+                  height: hp('13%'),
+                  // backgroundColor: 'red',
+                  // marginTop: -6,
+                }}>
                 <Text
                   style={{
                     fontWeight: 'bold',
@@ -566,7 +710,9 @@ const RegisterAccount = props => {
                   }}>
                   State
                 </Text>
-                {/* <TextInput
+
+                <TextInput
+                  editable={false}
                   placeholder="State"
                   placeholderTextColor="grey"
                   value={state}
@@ -583,11 +729,11 @@ const RegisterAccount = props => {
                     marginVertical: 5,
                     color: 'black',
                   }}
-                /> */}
+                />
 
                 {/* -------------------------------Picker-------------------------------------- */}
 
-                <View
+                {/* <View
                   style={{
                     marginHorizontal: 15,
                     borderColor: Colors.purple,
@@ -596,7 +742,7 @@ const RegisterAccount = props => {
                     // paddingHorizontal: 15,
                     marginVertical: 5,
                     // color: 'black',
-                    // height: 60,
+                    height: 53,
                     justifyContent: 'center',
                     alignContent: 'center',
                     paddingLeft: 4,
@@ -628,14 +774,44 @@ const RegisterAccount = props => {
                     {StateData.map((item, id) => (
                       // console.log(StateData, 'STate Data'),
                       <Picker.Item
-                        style={Styles.pickerItem}
+                        style={Styles.pickerItem1}
                         value={item.state}
                         key={id} // Assuming each state object has a unique 'id' property
                         label={item.state}
                       />
                     ))}
                   </Picker>
-                </View>
+                </View> */}
+              </View>
+
+              <View>
+                <Text
+                  style={{
+                    marginHorizontal: 20,
+                    fontWeight: 'bold',
+                    fontSize: 14,
+                    color: Colors.black,
+                    // marginBottom: 3,s
+                  }}>
+                  Flat, House no., Building, Company, Appartment
+                </Text>
+                <TextInput
+                  // placeholder="Flat/House no"
+                  placeholderTextColor="grey"
+                  value={flat}
+                  onChangeText={text => {
+                    setFlat(text);
+                  }}
+                  style={{
+                    marginHorizontal: 15,
+                    borderColor: Colors.purple,
+                    borderWidth: 1,
+                    borderRadius: 6,
+                    paddingHorizontal: 15,
+                    marginVertical: 5,
+                    color: 'black',
+                  }}
+                />
               </View>
               <View>
                 <Text
@@ -645,14 +821,42 @@ const RegisterAccount = props => {
                     fontSize: 15,
                     color: Colors.black,
                   }}>
-                  Address
+                  Area, Street, Sector, Village
                 </Text>
                 <TextInput
-                  placeholder="Address"
+                  // placeholder="Area/Street/Sector/Village"
                   placeholderTextColor="grey"
-                  value={address}
+                  value={area}
                   onChangeText={text => {
-                    setAddress(text);
+                    setArea(text);
+                  }}
+                  style={{
+                    marginHorizontal: 15,
+                    borderColor: Colors.purple,
+                    borderWidth: 1,
+                    borderRadius: 6,
+                    paddingHorizontal: 15,
+                    marginVertical: 5,
+                    color: 'black',
+                  }}
+                />
+              </View>
+              <View>
+                <Text
+                  style={{
+                    marginHorizontal: 20,
+                    fontWeight: 'bold',
+                    fontSize: 15,
+                    color: Colors.black,
+                  }}>
+                  Land Mark
+                </Text>
+                <TextInput
+                  placeholder="E.g near appolo hospital"
+                  placeholderTextColor="grey"
+                  value={landMark}
+                  onChangeText={text => {
+                    setLandMark(text);
                   }}
                   style={{
                     marginHorizontal: 15,
@@ -693,7 +897,7 @@ const RegisterAccount = props => {
                   marginHorizontal: 20,
                   alignItems: 'center',
                 }}>
-                <View
+                {/* <View
                   style={{
                     width: '40%',
                     height: 55,
@@ -735,7 +939,7 @@ const RegisterAccount = props => {
                           console.log('city data in map', cityData),
                           (
                             <Picker.Item
-                              style={Styles.pickerItem}
+                              style={Styles.pickerItem1}
                               value={item}
                               key={id} // Assuming each state object has a unique 'id' property
                               label={item}
@@ -744,9 +948,10 @@ const RegisterAccount = props => {
                         ),
                       )}
                   </Picker>
-                </View>
+                </View> */}
 
-                {/* <TextInput
+                <TextInput
+                  editable={false}
                   placeholder="City"
                   placeholderTextColor="grey"
                   value={city}
@@ -763,9 +968,10 @@ const RegisterAccount = props => {
                     height: '70%',
                     color: 'black',
                   }}
-                /> */}
+                />
 
                 <TextInput
+                  editable={false}
                   placeholder="Pin Code"
                   placeholderTextColor="grey"
                   value={pincode}
@@ -853,12 +1059,14 @@ const RegisterAccount = props => {
                   style={{color: 'black', fontSize: 15, fontWeight: 'bold'}}>
                   Mobile Number
                 </Text>
+
                 <View
                   style={{
                     borderWidth: 1,
                     borderColor: Colors.purple,
                     flexDirection: 'row',
-                    justifyContent: 'center',
+                    // justifyContent: 'center',
+                    justifyContent: 'space-between',
                     alignItems: 'center',
                     borderWidth: 1,
                     height: 50,
@@ -876,6 +1084,13 @@ const RegisterAccount = props => {
                     }}>
                     {dataupdate.phone}
                   </Text>
+
+                  <MaterialIcons
+                    style={{marginRight: 7}}
+                    name="verified"
+                    color={Colors.purple}
+                    size={28}
+                  />
 
                   {/* <TouchableOpacity
                     onPress={() =>
@@ -912,6 +1127,7 @@ const RegisterAccount = props => {
                     height={hp('6.6%')}
                     color={Colors.white}
                     onPress={handleSubmit}
+                    loading={butttonLoading}
                   />
                 </View>
               )}
@@ -980,7 +1196,6 @@ const RegisterAccount = props => {
                       </TouchableOpacity>
                     </View>
                   </View>
-
                   <TouchableOpacity
                     onPress={_verifyMailotp}
                     disabled={code ? false : true}
@@ -1047,6 +1262,14 @@ const Styles = StyleSheet.create({
     // fontWeight: 'bold',
     color: 'grey',
     // backgroundColor: '#F8F7FF',
-    // backgroundColor: '#ffff',
+    backgroundColor: '#ffff',
+  },
+  pickerItem1: {
+    height: 45,
+    fontSize: 14,
+    // fontWeight: 'bold',
+    color: '#000',
+    // backgroundColor: '#F8F7FF',
+    backgroundColor: '#fff',
   },
 });

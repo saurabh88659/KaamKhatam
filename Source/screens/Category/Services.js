@@ -46,6 +46,7 @@ const Services = props => {
   const [getallservices, setGetallservices] = useState([]);
   const preData = props.route.params;
   console.log('preData----------service', preData);
+
   const toggleBottomNavigationView = id => {
     setVisible(!visible);
     setSerID(id);
@@ -155,10 +156,8 @@ const Services = props => {
   };
 
   // console.log('catname', catname);
-
   // const get_mycart = async () => {
   //   const token = await _getStorage('token');
-
   //   axios
   //     .get(BASE_URL + `/cart`, {
   //       headers: {Authorization: `Bearer ${token}`},
@@ -195,6 +194,13 @@ const Services = props => {
       })
       .catch(error => {
         console.log('Silver catch error', error.response.data.message);
+
+        // if (
+        //   error.response.data.message ==
+        //   'Different type of Package Can not be added For A User First Clear The Cart'
+        // ) {
+        //   navigation.replace('MyCartScreen');
+        // }
         Toast.showWithGravity(
           error.response.data.message,
           Toast.SHORT,
@@ -313,13 +319,12 @@ const Services = props => {
                         </Text>
                       </View> */}
                       {/* {ṛating =================} */}
-
                       {/* <View style={Reusablecss.priceCntr}>
                       <Text style={Reusablecss.img}>INR</Text>
-
                       <Text style={Reusablecss.priceBar}>{item.price}</Text>
                       <Text style={Reusablecss.timing}>{item.time}</Text>
                     </View> */}
+
                       <Text style={{color: Colors.black}}>
                         .....................................................
                       </Text>
@@ -365,8 +370,15 @@ const Services = props => {
         visible={visible}
         onBackButtonPress={() => setVisible(false)}
         onBackdropPress={() => setVisible(false)}>
-        <View style={Styles.bottomNavigationView}>
-          <View>
+        <View
+          style={{
+            backgroundColor: '#fff',
+            width: '100%',
+            height: '57%',
+            borderTopLeftRadius: 10,
+            borderTopRightRadius: 10,
+          }}>
+          <View style={{}}>
             <Text
               style={{
                 color: Colors.black,
@@ -378,112 +390,95 @@ const Services = props => {
               }}>
               Choose a Service Plan
             </Text>
+
             <ScrollView contentContainerStyle={{paddingBottom: 50}}>
+              {/* {==================================================silver service=====================================} */}
               <View
                 style={{
                   marginHorizontal: 10,
                   paddingVertical: 15,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  borderBottomWidth: 1,
-                  borderBottomColor: Colors.grayShade,
                 }}>
                 <View
                   style={{
-                    backgroundColor: Colors.silver,
-                    height: 70,
-                    width: 70,
-                    borderRadius: 50,
-                  }}></View>
-                <View style={{marginRight: '10%'}}>
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      fontWeight: 'bold',
-                      color: Colors.black,
-                    }}>
-                    Silver services
-                  </Text>
-                  <View style={{flexDirection: 'row'}}>
-                    <Image
-                      source={require('../../Assets/Images/Ellipse1.png')}
-                      style={{marginVertical: 10}}
-                    />
-                    <Text
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    borderBottomWidth: 1,
+                    borderBottomColor: Colors.grayShade,
+                    width: '100%',
+                  }}>
+                  <View style={{flexDirection: 'row', width: '60%'}}>
+                    <View
                       style={{
-                        marginHorizontal: 5,
-                        top: 3,
-                        color: Colors.black,
-                      }}>
-                      {/* Less experienced */}
-                      {silver.description}
-                    </Text>
-                  </View>
-                  <View style={{flexDirection: 'row'}}>
-                    <Image
-                      source={require('../../Assets/Images/Ellipse1.png')}
-                      style={{top: 4}}
-                    />
-                    <Text
-                      style={{
-                        marginHorizontal: 5,
-                        top: -3,
-                        color: Colors.black,
-                      }}>
-                      {/* Less Equiped */}
-                      {silver.description}
-                    </Text>
-                  </View>
-                  <View style={{flexDirection: 'row'}}>
-                    <Text
-                      style={{
-                        marginHorizontal: 0,
-                        top: 3,
-                        color: Colors.black,
-                        fontWeight: '700',
-                      }}>
-                      Economical Prices
-                    </Text>
-                  </View>
-                  <Text
-                    style={{
-                      // marginHorizontal: 5,
-                      fontSize: 15,
-                      fontWeight: 'bold',
-                      color: Colors.darkGray,
-                    }}>
-                    INR {silver.price}
-                  </Text>
+                        backgroundColor: Colors.silver,
+                        height: 70,
+                        width: 70,
+                        borderRadius: 50,
+                      }}></View>
 
-                  {/* <Text
-                    style={{
-                      marginHorizontal: 5,
-                      fontSize: 15,
-                      fontWeight: 'bold',
-                      color: Colors.darkGray,
-                    }}>
-                    INR {silver.price}
-                  </Text>
-                  <TouchableOpacity
-                    onPress={() =>
-                      props.navigation.navigate('ServicesRatingsilver', {
-                        serviceID,
-                        silverID,
-                      })
-                    }
-                    style={{}}>
-                    <Text
+                    <View
                       style={{
-                        marginHorizontal: 5,
-                        fontSize: 15,
-                        color: Colors.darkGray,
-                        color: Colors.purple,
+                        marginLeft: 10,
+                        width: '100%',
+                        // backgroundColor: 'red',
+                        paddingBottom: 15,
                       }}>
-                      View rating
-                    </Text>
-                  </TouchableOpacity> */}
-                </View>
-                <View style={{top: 30}}>
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          fontWeight: 'bold',
+                          color: Colors.black,
+                        }}>
+                        Silver services
+                      </Text>
+
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          width: '100%',
+                          alignItems: 'center',
+                        }}>
+                        <Image
+                          source={require('../../Assets/Images/Ellipse1.png')}
+                          style={{}}
+                        />
+                        <Text
+                          numberOfLines={1}
+                          style={{
+                            width: '82%',
+                            marginLeft: 4,
+                            // marginHorizontal: 5,
+                            // top: 3,
+                            color: Colors.black,
+                          }}>
+                          {silver.description}
+                        </Text>
+                      </View>
+
+                      <View style={{flexDirection: 'row'}}>
+                        <Text
+                          style={{
+                            marginHorizontal: 0,
+                            top: 3,
+                            color: Colors.black,
+                            fontWeight: '700',
+                          }}>
+                          Economical Prices
+                        </Text>
+                      </View>
+                      <Text
+                        style={{
+                          // marginHorizontal: 5,
+                          fontSize: 15,
+                          fontWeight: 'bold',
+                          color: Colors.darkGray,
+                        }}>
+                        INR {silver.price}
+                      </Text>
+                    </View>
+                  </View>
+
                   <TouchableOpacity
                     onPress={cardSilver}
                     style={{
@@ -502,234 +497,200 @@ const Services = props => {
                 </View>
               </View>
 
-              <View>
+              {/* {==================================================gold service=====================================} */}
+              <View
+                style={{
+                  marginHorizontal: 10,
+                  paddingVertical: 15,
+                }}>
                 <View
                   style={{
-                    marginHorizontal: 10,
-                    paddingVertical: 15,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
+                    alignItems: 'center',
+                    flexDirection: 'row',
                     borderBottomWidth: 1,
                     borderBottomColor: Colors.grayShade,
+                    width: '100%',
                   }}>
-                  <View
-                    style={{
-                      backgroundColor: Colors.lightgold,
-                      height: 70,
-                      width: 70,
-                      borderRadius: 50,
-                    }}></View>
-                  <View style={{marginRight: '10%'}}>
-                    <Text
+                  <View style={{flexDirection: 'row', width: '60%'}}>
+                    <View
                       style={{
-                        fontSize: 20,
-                        fontWeight: 'bold',
-                        color: Colors.black,
+                        backgroundColor: Colors.lightgold,
+                        height: 70,
+                        width: 70,
+                        borderRadius: 50,
+                      }}></View>
+                    <View
+                      style={{
+                        marginLeft: 10,
+                        width: '100%',
+                        // backgroundColor: 'red',
+                        paddingBottom: 15,
                       }}>
-                      Gold services
-                      {/* {getname.price} */}
-                    </Text>
-                    <View style={{flexDirection: 'row'}}>
-                      <Image
-                        source={require('../../Assets/Images/Ellipse1.png')}
-                        style={{marginVertical: 10}}
-                      />
                       <Text
                         style={{
-                          marginHorizontal: 5,
-                          top: 3,
-                          color: Colors.black,
-                        }}>
-                        {/* Less experienced */}
-                        {getname.description}
-                      </Text>
-                    </View>
-                    <View style={{flexDirection: 'row'}}>
-                      <Image
-                        source={require('../../Assets/Images/Ellipse1.png')}
-                        style={{top: 4}}
-                      />
-                      <Text
-                        style={{
-                          marginHorizontal: 5,
-                          top: -3,
-                          color: Colors.black,
-                        }}>
-                        {/* Less Equiped */}
-                        {getname.description}
-                      </Text>
-                    </View>
-                    <View style={{flexDirection: 'row'}}>
-                      <Text
-                        style={{
-                          marginHorizontal: 0,
-                          top: 3,
-                          color: Colors.black,
+                          fontSize: 20,
                           fontWeight: 'bold',
+                          color: Colors.black,
                         }}>
-                        Standard Prices
+                        Gold services
                       </Text>
-                    </View>
-                    <Text
-                      style={{
-                        // marginHorizontal: 5,
-                        fontSize: 15,
-                        fontWeight: 'bold',
-                        color: Colors.darkGray,
-                      }}>
-                      INR {getname.price}
-                    </Text>
-                    {/* <Text
-                      style={{
-                        marginHorizontal: 5,
-                        fontSize: 15,
-                        fontWeight: 'bold',
-                        color: Colors.darkGray,
-                      }}>
-                      INR {getname.price}
-                    </Text>
-                    <TouchableOpacity
-                      onPress={() =>
-                        props.navigation.navigate('ServicesRatingsilvergold', {
-                          serviceID,
-                          goldID,
-                        })
-                      }
-                      style={{}}>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          width: '100%',
+                          alignItems: 'center',
+                        }}>
+                        <Image
+                          source={require('../../Assets/Images/Ellipse1.png')}
+                          style={{}}
+                        />
+                        <Text
+                          numberOfLines={1}
+                          style={{
+                            width: '82%',
+                            marginLeft: 4,
+                            // marginRight: 15,
+                            // marginHorizontal: 5,
+                            // top: 3,
+                            color: Colors.black,
+                          }}>
+                          {getname.description}
+                        </Text>
+                      </View>
+
+                      <View style={{flexDirection: 'row'}}>
+                        <Text
+                          style={{
+                            marginHorizontal: 0,
+                            top: 3,
+                            color: Colors.black,
+                            fontWeight: 'bold',
+                          }}>
+                          Standard Prices
+                        </Text>
+                      </View>
                       <Text
                         style={{
-                          marginHorizontal: 5,
+                          // marginHorizontal: 5,
                           fontSize: 15,
+                          fontWeight: 'bold',
                           color: Colors.darkGray,
-                          color: Colors.purple,
                         }}>
-                        View rating
+                        INR {getname.price}
                       </Text>
-                    </TouchableOpacity> */}
+                    </View>
                   </View>
-                  <View style={{top: 30}}>
-                    <TouchableOpacity
-                      onPress={cardGold}
-                      style={{
-                        paddingVertical: 8,
-                        paddingHorizontal: 7,
-                        borderRadius: 5,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: Colors.purple,
-                        elevation: 7,
-                      }}>
-                      <Text style={{color: Colors.white, fontWeight: '500'}}>
-                        Add to Cart
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
+
+                  <TouchableOpacity
+                    onPress={cardGold}
+                    style={{
+                      paddingVertical: 8,
+                      paddingHorizontal: 7,
+                      borderRadius: 5,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: Colors.purple,
+                      elevation: 7,
+                    }}>
+                    <Text style={{color: Colors.white, fontWeight: '500'}}>
+                      Add to Cart
+                    </Text>
+                  </TouchableOpacity>
                 </View>
               </View>
+              {/* {==================================================platinum service=====================================} */}
 
-              <View>
+              <View
+                style={{
+                  marginHorizontal: 10,
+                  paddingVertical: 15,
+                }}>
                 <View
                   style={{
-                    marginHorizontal: 10,
-                    paddingVertical: 15,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    borderBottomWidth: 1,
+                    borderBottomColor: Colors.grayShade,
+                    width: '100%',
                   }}>
-                  <View
-                    style={{
-                      backgroundColor: Colors.lightblue,
-                      height: 70,
-                      width: 70,
-                      borderRadius: 50,
-                    }}></View>
-                  <View style={{}}>
-                    <Text
+                  <View style={{flexDirection: 'row', width: '60%'}}>
+                    <View
                       style={{
-                        fontSize: 20,
-                        fontWeight: 'bold',
-                        color: Colors.black,
+                        backgroundColor: Colors.lightblue,
+                        height: 70,
+                        width: 70,
+                        borderRadius: 50,
+                      }}></View>
+
+                    <View
+                      style={{
+                        marginLeft: 10,
+                        width: '100%',
+                        paddingBottom: 10,
                       }}>
-                      Platinum services
-                    </Text>
-                    <View style={{flexDirection: 'row'}}>
-                      <Image
-                        source={require('../../Assets/Images/Ellipse1.png')}
-                        style={{marginVertical: 10}}
-                      />
                       <Text
+                        numberOfLines={1}
                         style={{
-                          marginHorizontal: 5,
-                          top: 3,
-                          color: Colors.black,
-                        }}>
-                        {/* Less experienced */}
-                        {platinum.description}
-                      </Text>
-                    </View>
-                    <View style={{flexDirection: 'row'}}>
-                      <Image
-                        source={require('../../Assets/Images/Ellipse1.png')}
-                        style={{top: 4}}
-                      />
-                      <Text
-                        style={{
-                          marginHorizontal: 5,
-                          top: -3,
-                          color: Colors.black,
-                        }}>
-                        {/* Less Equiped */}
-                        {platinum.description}
-                      </Text>
-                    </View>
-                    <View style={{flexDirection: 'row'}}>
-                      <Text
-                        style={{
-                          marginHorizontal: 0,
-                          top: 3,
-                          color: Colors.black,
+                          fontSize: 20,
                           fontWeight: 'bold',
+                          color: Colors.black,
                         }}>
-                        Premium Prices
+                        Platinum services
                       </Text>
-                    </View>
-                    <Text
-                      style={{
-                        marginHorizontal: 5,
-                        fontSize: 15,
-                        fontWeight: 'bold',
-                        color: Colors.darkGray,
-                      }}>
-                      INR {platinum.price}
-                    </Text>
-                    {/* <Text
-                      style={{
-                        marginHorizontal: 5,
-                        fontSize: 15,
-                        fontWeight: 'bold',
-                        color: Colors.darkGray,
-                      }}>
-                      INR {platinum.price}
-                    </Text>
-                    <TouchableOpacity
-                      onPress={() =>
-                        props.navigation.navigate('ServicesRatingplatinum', {
-                          serviceID,
-                          platinumID,
-                        })
-                      }
-                      style={{}}>
+
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          width: '100%',
+                          alignItems: 'center',
+                        }}>
+                        <Image
+                          source={require('../../Assets/Images/Ellipse1.png')}
+                          style={{}}
+                        />
+                        <Text
+                          numberOfLines={1}
+                          style={{
+                            width: '82%',
+                            marginLeft: 4,
+                            // marginHorizontal: 5,
+                            // marginLeft: 5,
+                            // top: 3,
+                            color: Colors.black,
+                          }}>
+                          {/* Less experienced */}
+                          {platinum.description}
+                        </Text>
+                      </View>
+
+                      <View style={{flexDirection: 'row'}}>
+                        <Text
+                          style={{
+                            marginHorizontal: 0,
+                            top: 3,
+                            color: Colors.black,
+                            fontWeight: 'bold',
+                          }}>
+                          Premium Prices
+                        </Text>
+                      </View>
                       <Text
                         style={{
-                          marginHorizontal: 5,
+                          // marginHorizontal: 5,
                           fontSize: 15,
+                          fontWeight: 'bold',
                           color: Colors.darkGray,
-                          color: Colors.purple,
                         }}>
-                        View rating
+                        INR {platinum.price}
                       </Text>
-                    </TouchableOpacity> */}
+                    </View>
                   </View>
-                  <View style={{top: 30}}>
+
+                  <View style={{}}>
                     <TouchableOpacity
                       onPress={cardPlatinum}
                       style={{
@@ -748,17 +709,6 @@ const Services = props => {
                   </View>
                 </View>
               </View>
-              {/* <View style={{alignItems: 'center', top: '1%'}}>
-                <CustomButton
-                  title={'Next'}
-                  bgColor={Colors.darkGreen}
-                  width={wp('90%')}
-                  height={hp('7%')}
-                  color={Colors.white}
-                  onPress={() => props.navigation.navigate('AddSalonforwomen')}
-                  // onPress={onPressotpVerification}
-                />
-              </View> */}
             </ScrollView>
           </View>
         </View>

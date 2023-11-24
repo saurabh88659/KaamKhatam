@@ -25,6 +25,8 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
+import Fontisto from 'react-native-vector-icons/Fontisto';
+import Toast from 'react-native-simple-toast';
 
 const {height, width} = Dimensions.get('window');
 
@@ -124,6 +126,38 @@ function Mybooking({navigation}) {
   //     });
   // };
 
+  const AddToCart = async data => {
+    console.log('data---', data);
+    const token = await _getStorage('token');
+    console.log('token---------->>', token);
+    // console.log(serviceID, silverID);
+    let objID = {
+      serviceId: data.serviceId,
+      packageId: data.packageId,
+      category: data.categoryName,
+    };
+    console.log('AddToCart obj======', objID);
+    axios
+      .post(BASE_URL + `/cart/${data.packageName}`, objID, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(rep => {
+        console.log('AddToCart===========>', rep.data);
+        if (rep.data) {
+          navigation.navigate('MyCartScreen');
+        }
+        Toast.showWithGravity(rep.data.message, Toast.LONG, Toast.BOTTOM);
+      })
+      .catch(error => {
+        console.log('AddToCart ERROR==========>', error);
+        Toast.showWithGravity(
+          error?.response?.data?.message,
+          Toast.SHORT,
+          Toast.BOTTOM,
+        );
+      });
+  };
+
   return (
     <SafeAreaView style={{flex: 1}}>
       {/* <HeaderDrawer
@@ -155,21 +189,27 @@ function Mybooking({navigation}) {
           <Text
             style={{
               textAlign: 'center',
-              marginTop: '60%',
+              marginTop: '75%',
               color: '#aaa',
+              fontSize: 20,
+              fontWeight: '700',
             }}>
             {noData}
           </Text>
         ) : (
+          // <Text
+          //   style={{
+          //     textAlign: 'center',
+          //     marginTop: '60%',
+          //     color: '#aaa',
+          //   }}>
+          //   {noData}
+          // </Text>
           bookdetails.map((value, index) => {
-            // const utcMoment = moment(value.bookingDate);
-            // const istMoment = utcMoment.tz(IST_TIMEZONE);
-            // console.log(istMoment, 'its');
             const [day, month, year] = value.bookingDate.split('/');
-            const monthAbbreviation = monthMappings[month];
             console.log(
               '====================value===================--',
-              value.bookingDate,
+              value,
             );
 
             return (
@@ -178,12 +218,13 @@ function Mybooking({navigation}) {
                 style={{
                   height: 'auto',
                   // paddingVertical: '7%',
-                  // height: '8%',
+                  // height: 200,
                   marginHorizontal: 10,
                   borderRadius: 7,
                   marginVertical: 8,
                   backgroundColor: Colors.white,
                   elevation: 5,
+                  paddingBottom: 5,
                 }}>
                 <View
                   style={{
@@ -192,7 +233,7 @@ function Mybooking({navigation}) {
                     borderTopLeftRadius: 7,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
-                    paddingHorizontal: 10,
+                    paddingHorizontal: 15,
                     alignItems: 'center',
                     padding: 3,
                   }}>
@@ -206,6 +247,128 @@ function Mybooking({navigation}) {
 
                 <View
                   style={{
+                    flexDirection: 'row',
+                    borderBottomColor: Colors.darkGray,
+                    borderBottomWidth: 1,
+                    marginHorizontal: 15,
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}>
+                  <View
+                    style={{
+                      // paddingHorizontal: 15,
+                      marginTop: 10,
+                      // marginHorizontal: 15,
+                      // backgroundColor: 'red',
+                    }}>
+                    <Text
+                      style={{
+                        color:
+                          value.bookingStatus === 'Pending'
+                            ? '#5E2DC4'
+                            : value.bookingStatus === 'Confirmed'
+                            ? '#0EC01B'
+                            : value.bookingStatus === 'Completed'
+                            ? '#0EC01B'
+                            : '#F21313',
+                        fontSize: 16,
+                        fontWeight: '700',
+                        textTransform: 'uppercase',
+                      }}>
+                      {value.bookingStatus === 'RescheduledPending'
+                        ? 'Rescheduled Pending'
+                        : value.bookingStatus}
+                    </Text>
+                    <Text
+                      style={{
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: '400',
+                        marginTop: 5,
+                      }}>
+                      {value.serviceName}
+                    </Text>
+                    <Text
+                      style={{
+                        color: Colors.darkGray,
+                        fontSize: 14,
+                        fontWeight: '400',
+                        marginTop: 2,
+                        marginBottom: 20,
+                      }}>
+                      {moment(value.bookingDate, 'DD/MM/YYYY').format(
+                        'MMM D, YYYY',
+                      )}{' '}
+                      at {value.time}
+                    </Text>
+                    {/* <Text
+                      style={{
+                        color: Colors.darkGray,
+                        fontSize: 14,
+                        fontWeight: '400',
+                        marginTop: 2,
+                        marginBottom: 20,
+                      }}>
+                      {value.time}
+                    </Text> */}
+                  </View>
+
+                  <TouchableOpacity
+                    style={{
+                      // backgroundColor: 'red',
+                      height: 90,
+                      width: 50,
+                      justifyContent: 'center',
+                      alignItems: 'flex-end',
+                    }}
+                    onPress={() =>
+                      navigation.navigate('Viewdetails', value.bookingId)
+                    }>
+                    <Fontisto
+                      name="angle-right"
+                      size={20}
+                      color={Colors.darkGray}
+                    />
+                  </TouchableOpacity>
+                </View>
+
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    // backgroundColor: 'green',
+                    height: 60,
+                    alignItems: 'center',
+                    marginHorizontal: 15,
+                  }}>
+                  <Text style={{color: Colors.black, fontSize: 16}}>
+                    Ammount Paid ₹{value.amountWithGst}
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => AddToCart(value)}
+                    style={{
+                      height: 38,
+                      width: 100,
+                      justifyContent: 'center',
+                      // backgroundColor: 'red',
+                      alignItems: 'center',
+                      borderRadius: 4,
+                      borderColor: Colors.black,
+                      borderWidth: 0.7,
+                    }}>
+                    <Text
+                      style={{
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontWeight: '800',
+                      }}>
+                      Book again
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+
+                {/* <View
+                  style={{amountWithGst
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                   }}>
@@ -230,7 +393,6 @@ function Mybooking({navigation}) {
                         color: Colors.black,
                       }}>
                       {month}
-                      {/* {getDayFromDate(value.bookingDate)} */}
                     </Text>
                     <Text
                       style={{
@@ -273,20 +435,7 @@ function Mybooking({navigation}) {
                           {value.time}
                         </Text>
                       </View>
-                      {/* <View style={{flexDirection: 'row'}}>
-                      <Text
-                        style={{
-                          fontSize: 15,
-                          fontWeight: '500',
-                          color: Colors.black,
-                        }}>
-                        Date
-                      </Text>
-                      <Text
-                        style={{fontSize: 15, left: 5, color: Colors.black}}>
-                        {value.bookingDate}
-                      </Text>
-                    </View> */}
+                     
                       <View style={{flexDirection: 'row'}}>
                         <Text
                           style={{
@@ -349,7 +498,7 @@ function Mybooking({navigation}) {
                       </Text>
                     </TouchableOpacity>
                   </View>
-                </View>
+                </View> */}
               </View>
             );
           })

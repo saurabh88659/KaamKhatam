@@ -245,7 +245,6 @@ const CustomDrawerMenu = props => {
               <Text style={Styles.textstyles1}>Rating</Text>
             </TouchableOpacity>
           </View>
-
           <View>
             <View style={Styles.linesstyles}></View>
             <TouchableOpacity
@@ -273,7 +272,9 @@ const CustomDrawerMenu = props => {
             <View style={Styles.linesstyles}></View>
             <TouchableOpacity
               style={Styles.constyles}
-              onPress={() => props.navigation.navigate('Abouts')}>
+              onPress={() =>
+                Linking.openURL('https://kaamkhatam.com/index.php/about/')
+              }>
               <Image
                 source={require('./Source/Assets/Images/information-buttonicone.png')}
                 style={Styles.iconestyles}

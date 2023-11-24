@@ -41,6 +41,17 @@ import Mapmyindia from 'mapmyindia-restapi-react-native-beta';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {APIservice} from '../../API/APIservice';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import NotificationSaved from '../NotificationSaved';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  SetNotification,
+  SetNotificationCount,
+  SetUserData,
+} from '../../features/updatedata/update.reducer';
+import {color} from 'react-native-reanimated';
+// import {check, request, PERMISSIONS, RESULTS} from '@react-native-permissions';
+
 // import {Modal} from 'react-native-paper';
 
 const API_KEY = 'AIzaSyD3Uol_-mBQSaZgIfuzVVK1oHXqBHPkrZE';
@@ -67,6 +78,11 @@ Mapmyindia.setClientSecret(
 );
 
 function Home() {
+  const dispatch = useDispatch();
+  const notificationCount = useSelector(
+    state => state.updateState.notificationCount,
+  );
+
   console.log('test');
   const navigation = useNavigation();
   const [category, setCategory] = useState([]);
@@ -84,11 +100,19 @@ function Home() {
   const BASEURL = 'https://kaamkhatamapi.kickrtechnology.online';
   const [topServices, setTopservices] = useState(null);
 
+  // const requestNotificationPermission = async () => {
+  //   const result = await request(PERMISSIONS.ANDROID.POST_NOTIFICATIONS);
+  //   return result;
+  // };
+  // const checkNotificationPermission = async () => {
+  //   const result = await check(PERMISSIONS.ANDROID.POST_NOTIFICATIONS);
+  //   return result;
+  // };
+
   console.log('<------home .js  coordinator----->', Coordinates);
   setTimeout(() => {
     setRfresh(false);
   }, 3000);
-  // const navigation=useNavigation();
 
   const geoCoding = async () => {
     Geocoder.init(API_KEY);
@@ -176,7 +200,7 @@ function Home() {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        // console.log('banner response', res?.data?.banner);
+        console.log('banner response', res?.data?.banner);
         setBannerUrl(res?.data?.banner);
       })
       .catch(error => {
@@ -212,6 +236,7 @@ function Home() {
   //     await AsyncStorage.setItem('CompleteUserAddress', address),
   //   );
   // };
+
   useEffect(() => {
     getUserCrruentData();
   }, []);
@@ -344,17 +369,93 @@ function Home() {
         // setIsLoading(false);
       });
   };
-  const img = require('../../Assets/Images/hairdressing2.png');
 
+  useEffect(() => {
+    if (isFocused) {
+      getNotification();
+    }
+  }, [isFocused]);
+
+  const getNotification = async () => {
+    const token = await _getStorage('token');
+    axios
+      .get(BASE_URL + `/notifications`, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(async res => {
+        console.log(
+          '+++++++++++++++++++++++++++++++getNotification res=====>>',
+          res.data,
+        );
+        dispatch(SetNotification(res.data.notifications));
+        dispatch(SetNotificationCount(res.data.count));
+      })
+      .catch(e => {
+        console.log(
+          'home screen catch error getNotification ',
+          e?.response?.data,
+        );
+      });
+  };
+
+  // const handleNotification = () => {
+  //   readNotifications();
+  // };
+
+  const readNotifications = async () => {
+    console.log(
+      '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++',
+    );
+    navigation.navigate('NotificationSaved');
+    const token = await _getStorage('token');
+    const data = {};
+    axios
+      .put(BASE_URL + `/notifications`, data, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(async res => {
+        console.log(
+          '+++++++++++++++++++++++++++++++getNotification res=====>>',
+        );
+      })
+      .catch(e => {
+        console.log(
+          'home screen catch error getNotification ',
+          e?.response?.data,
+        );
+      });
+  };
+
+  useEffect(() => {
+    _getprofileapi();
+  }, []);
+
+  const _getprofileapi = async () => {
+    const token = await _getStorage('token');
+    axios
+      .get(BASE_URL + `/profile`, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(val => {
+        console.log(
+          '+++++++++++++++++++++++++++res of _getprofileapi userata====>',
+          val.data.result,
+        );
+        dispatch(SetUserData(val.data.result));
+      })
+      .catch(error => {
+        console.log('====in catch====', error);
+      });
+  };
+
+  const img = require('../../Assets/Images/hairdressing2.png');
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
         backgroundColor={Colors.topNavbarColor}
         barStyle={Colors.white}
       />
-
       {/* {=======================================} */}
-
       <View
         style={{
           width: wp('100%'),
@@ -363,7 +464,7 @@ function Home() {
           paddingHorizontal: wp('3%'),
           flexDirection: 'row',
           alignItems: 'center',
-          justifyContent: 'space-between',
+          // justifyContent: 'flex-end',
         }}>
         <View
           style={{
@@ -372,7 +473,7 @@ function Home() {
             alignItems: 'center',
           }}>
           <TouchableOpacity
-            hitSlop={{top: 25, bottom: 25, left: 50, right: 50}}
+            // hitSlop={{top: 25, bottom: 25, left: 50, right: 50}}
             onPress={() => navigation.openDrawer()}>
             <FontAwesome5 name="bars" color={Colors.white} size={hp('3.5%')} />
           </TouchableOpacity>
@@ -386,8 +487,8 @@ function Home() {
               // display: 'flex',
               flexDirection: 'row',
               alignItems: 'center',
-              // marginVertical: 10,
-              marginHorizontal: wp('6%'),
+
+              marginLeft: wp('6%'),
               borderRadius: 20,
               width: '80%',
             }}>
@@ -401,7 +502,6 @@ function Home() {
               // editable={false}
             />
           </View>
-
           {/* <Text
             numberOfLines={1}
             style={{
@@ -413,7 +513,38 @@ function Home() {
             }}>
           </Text> */}
         </View>
-        {/* <TouchableOpacity
+        <TouchableOpacity
+          style={{
+            height: 30,
+            width: 30,
+            // backgroundColor: '#000',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          onPress={readNotifications}>
+          {!notificationCount == 0 && (
+            <View
+              style={{
+                position: 'absolute',
+                top: -3,
+                right: -2,
+                height: 18,
+                width: 18,
+                backgroundColor: 'red',
+                zIndex: 2,
+                borderRadius: 9,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text style={{color: '#fff', fontWeight: '500', fontSize: 12}}>
+                {notificationCount}
+              </Text>
+            </View>
+          )}
+          <MaterialIcons name="notifications" color={'#fff'} size={26} />
+        </TouchableOpacity>
+      </View>
+      {/* <TouchableOpacity
           style={{
             flexDirection: 'row',
             justifyContent: 'flex-start',
@@ -426,13 +557,9 @@ function Home() {
               marginRight: wp('4%'),
               // right: '3%',
               color: 'white',
-            }}>
-          
+            }}>         
           </Text>
-
-         
         </TouchableOpacity> */}
-      </View>
 
       {/* {================================} */}
       {/* <HeaderDrawer

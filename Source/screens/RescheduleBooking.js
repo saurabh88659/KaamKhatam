@@ -306,7 +306,7 @@ const RescheduleBooking = props => {
                     fontSize: 13,
                     fontWeight: '500',
                   }}>
-                  {`${timeSlot.startTime} `}
+                  {`${timeSlot.startTime}`}
                 </Text>
 
                 <Text

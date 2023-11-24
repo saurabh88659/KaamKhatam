@@ -38,7 +38,6 @@ export async function notificationListeners() {
       remoteMessage,
     );
   });
-
   return unsubscribe;
 }
 

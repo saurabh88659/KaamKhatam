@@ -29,11 +29,13 @@ const PaymentScreen = props => {
   const cartId = useSelector(state => state.updateState.cartId);
   const bookingId = useSelector(state => state.updateState.bookingId);
   console.log('bookingId  useSelector---------payment screen 29', cartId);
-
   const navigation = useNavigation();
   const [htmldata, setHtmldata] = useState('');
   const bookingData = props.route.params;
-  console.log('booking is price========================33', bookingData.book);
+  console.log(
+    '=====booking data payment screen========================33',
+    bookingData.book,
+  );
   const [mobileNumber, setMobileNumber] = useState('');
   const [email, setEmail] = useState('');
   const [customerId, setCustomerId] = useState('');
@@ -149,22 +151,19 @@ const PaymentScreen = props => {
   //======================================================
   const Orderdetail = async () => {
     const token = await _getStorage('token');
-    console.log('token in us eeefcy', token);
-    console.log('order key is in Orderdetail====>126 ', orderKeyId);
+    console.log('token in Orderdetail', token);
+    console.log('order key is in Orderdetail====> ', orderKeyId);
     axios
-      .get(
-        BASE_URL + `/getOrderDetails/${orderKeyId}`,
-
-        {
-          headers: {Authorization: `Bearer ${token}`},
-        },
-      )
+      .get(BASE_URL + `/getOrderDetails/${orderKeyId}`, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
       .then(response => {
         console.log(' Orderdetail response ---------222>>>', response?.data);
         if (response.data) {
           console.log(' Orderdetail response ---------111>>>', response?.data);
           setOrderdetail(response.data);
-          if (response?.data?.OrderPaymentStatusText !== 'Pending') {
+
+          if (response?.data?.orderStatus == '1') {
             Toast.showWithGravity(
               `Order Status: ${response?.data?.OrderPaymentStatusText}`,
               Toast.LONG,
@@ -173,6 +172,12 @@ const PaymentScreen = props => {
             setWebViewVisible(false);
             navigation.replace('ConfirmationPayment', response?.data);
             updatePaymentHistory(response?.data);
+          } else {
+            Toast.showWithGravity(
+              `Order Status: ${response?.data?.OrderPaymentStatusText}`,
+              Toast.LONG,
+              Toast.BOTTOM,
+            );
           }
         }
       })
@@ -362,14 +367,13 @@ const PaymentScreen = props => {
       start: bookingData.book.start,
       end: bookingData.book.end,
       bookingDate: bookingData.book.bookingDate,
-      bookingLocation: bookingData.book.bookingLocation,
-      address: bookingData.book.address,
-      pinCode: bookingData.book.pinCode,
-      name: bookingData.book.name,
-      save_as: bookingData.book.save_as,
       addressId: bookingData.book.addressId,
     };
-    console.log('========book of getBooking========== ', book);
+
+    console.log(
+      '========book of getBookignId    wallet pay============> ',
+      book,
+    );
     axios
       .post(BASE_URL + `/booking`, book, {
         headers: {Authorization: `Bearer ${token}`},
@@ -442,7 +446,8 @@ const PaymentScreen = props => {
       save_as: bookingData.book.save_as,
       addressId: bookingData.book.addressId,
     };
-    console.log('========book of getBooking========== ', book);
+
+    console.log('========book of get getBookignIdforUPI========== ', book);
     axios
       .post(BASE_URL + `/booking`, book, {
         headers: {Authorization: `Bearer ${token}`},
@@ -527,7 +532,7 @@ const PaymentScreen = props => {
       <Header
         bgColor={Colors.topNavbarColor}
         color={Colors.white}
-        title="Choose your Method"
+        title={!webViewVisible ? 'Choose your Method' : 'Pay with UPI'}
         onPress={() => props.navigation.goBack('Home')}
       />
 

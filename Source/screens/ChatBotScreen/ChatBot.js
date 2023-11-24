@@ -7,6 +7,9 @@ import {
   TouchableOpacity,
   ImageBackground,
   ActivityIndicator,
+  Modal,
+  StyleSheet,
+  Dimensions,
 } from 'react-native';
 import Msg from './Message';
 import {data} from './Data';
@@ -17,19 +20,20 @@ import axios from 'axios';
 import {BASE_URL} from '../../Assets/utils/Restapi/Config';
 import {_getStorage} from '../../Assets/utils/storage/Storage';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector, useStore} from 'react-redux';
 import {
   setChatAnswer,
   setChatQuestion,
   setNetAnswer,
 } from '../../features/updatedata/update.reducer';
 import {ScrollView} from 'react-native-gesture-handler';
+const {height, width} = Dimensions.get('window');
+import Toast from 'react-native-simple-toast';
 
 let chats = [];
 
 const ChatBot = ({navigation}) => {
   const scrollViewRef = useRef();
-
   const dispatch = useDispatch();
   const BASEURL = 'https://kaamkhatamapi.kickrtechnology.online';
   const [chatList, setChatList] = useState('');
@@ -38,7 +42,9 @@ const ChatBot = ({navigation}) => {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [questionId, setQuestionId] = useState(null);
   const [answers, setAnswers] = useState(null);
-
+  const [otherQueryModal, setOtherQueryuModal] = useState(false);
+  const [otherQuery, setOtherQuery] = useState(null);
+  const [modalButtonLoading, setModalButtonLoading] = useState(false);
   const chatQuestion = useSelector(state => state.updateState.chatQuestion);
   const chatAnswer = useSelector(state => state.updateState.chatAnswer);
   const netAnswer = useSelector(state => state.updateState.netAnswer);
@@ -153,6 +159,45 @@ const ChatBot = ({navigation}) => {
     // scrollViewRef.current.
     // scrollViewRef.current.scrollToEnd({animated: true});
   };
+
+  const submitQuery = async () => {
+    setModalButtonLoading(true);
+    const token = await _getStorage('token');
+    const obj = {
+      query: otherQuery,
+    };
+    console.log('obj of submitQuery', obj);
+    axios
+      .post(BASE_URL + `/addQuery`, obj, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(res => {
+        setModalButtonLoading(false);
+        if (res.data.message == 'Query Sent successfully') {
+          setOtherQueryuModal(!otherQueryModal);
+          Toast.showWithGravity(
+            "Thank you for your query! We'll be in touch with you soon",
+            Toast.LONG,
+            Toast.BOTTOM,
+          );
+        }
+        console.log('-------response submitQuery--->>>', res.data);
+      })
+      .catch(error => {
+        if (
+          error.response.data.message ==
+          'chatbotQueries validation failed: query: Path `query` is required.'
+        ) {
+          Toast.showWithGravity(
+            'Please provide a valid question',
+            Toast.SHORT,
+            Toast.BOTTOM,
+          );
+        }
+        console.log('-------error submitQuery------>>>', error.response.data);
+      });
+  };
+
   return (
     <View style={{flex: 1, backgroundColor: '#ffff'}}>
       <Header
@@ -161,7 +206,6 @@ const ChatBot = ({navigation}) => {
         title="Chat Support"
         onPress={() => navigation.goBack('')}
       />
-
       {loading ? (
         <View
           style={{
@@ -259,6 +303,43 @@ const ChatBot = ({navigation}) => {
                     </View>
                   );
                 })}
+                {/* {==================other query====================} */}
+                <TouchableOpacity
+                  onPress={() => setOtherQueryuModal(!otherQueryModal)}
+                  style={{
+                    backgroundColor: '#fff',
+                    alignSelf: 'flex-start',
+                    // item.from == 'answer' ? 'flex-end' : 'flex-start',
+                    marginBottom: 4,
+                    // marginRight: 8,
+                    paddingLeft: 10,
+                    paddingRight: 40,
+                    paddingVertical: 18,
+                    borderRadius: 5,
+                    borderBottomLeftRadius: 5,
+                    // item.from == 'answer' ? 19 : 2,
+                    borderBottomRightRadius: 5,
+                    // item.from == 'answer' ? 2 : 19,
+                    marginTop: 12,
+                    elevation: 1,
+                    marginTop: 10,
+                    position: 'relative',
+                    marginRight: 8,
+                    marginLeft: 8,
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      color: '#000',
+                      fontWeight: '600',
+                      // marginLeft: 4,
+                      // marginHorizontal: 20,
+                      // marginRight: 30,
+                    }}>
+                    Other query
+                  </Text>
+                </TouchableOpacity>
+                {/* {==================other query====================} */}
               </View>
 
               {/* <FlatList
@@ -349,6 +430,102 @@ const ChatBot = ({navigation}) => {
               </View>
             </View>
           </ScrollView>
+
+          {/* ========================pther reason modal================ */}
+          <Modal
+            animationType="slide"
+            transparent={false}
+            visible={otherQueryModal}
+            onRequestClose={() => {
+              setOtherQueryuModal(!otherQueryModal);
+            }}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <View>
+                  <Text style={[styles.modalText, {marginTop: 20}]}>
+                    Please provide your inquiry.
+                  </Text>
+
+                  <View>
+                    <TextInput
+                      placeholderTextColor={Colors.lightGray}
+                      placeholder="Type here..."
+                      value={otherQuery}
+                      onChangeText={text => setOtherQuery(text)}
+                      style={{
+                        height: 45,
+                        borderWidth: 1,
+                        paddingHorizontal: 15,
+                        marginHorizontal: 15,
+                        borderRadius: 5,
+                        color: Colors.black,
+                        marginTop: 30,
+                      }}
+                    />
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginHorizontal: 30,
+                    // top: 20,
+                    // marginVertical: 15,
+                    marginBottom: 20,
+                  }}>
+                  <TouchableOpacity
+                    style={{
+                      borderColor: Colors.purple,
+                      backgroundColor: Colors.purple,
+                      height: height / 18,
+                      width: width / 3.3,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 4,
+                      borderWidth: 1,
+                      // marginBottom: 3,
+                    }}
+                    onPress={submitQuery}>
+                    {!modalButtonLoading ? (
+                      <Text
+                        style={{
+                          color: 'white',
+                          fontWeight: 'bold',
+                          textAlign: 'center',
+                        }}>
+                        SUBMIT
+                      </Text>
+                    ) : (
+                      <ActivityIndicator size={20} color={'#fff'} />
+                    )}
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={{
+                      borderColor: Colors.purple,
+                      height: height / 18,
+                      width: width / 3.3,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 4,
+                      // borderColor: '#0EC01B',
+                      borderWidth: 1,
+                    }}
+                    onPress={() => {
+                      setOtherQueryuModal(!otherQueryModal);
+                    }}>
+                    <Text
+                      style={{
+                        color: Colors.purple,
+                        fontWeight: 'bold',
+                        textAlign: 'center',
+                      }}>
+                      CANCEL
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </Modal>
         </View>
 
         // // {old code -================}
@@ -394,3 +571,31 @@ const ChatBot = ({navigation}) => {
 };
 
 export default ChatBot;
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.6)',
+  },
+  modalView: {
+    marginHorizontal: 20,
+    backgroundColor: 'white',
+    borderRadius: 5,
+    height: height / 3.5,
+    justifyContent: 'space-between',
+  },
+
+  textStyle: {
+    color: '#0EC01B',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+
+  modalText: {
+    textAlign: 'center',
+    // top: -15,
+    fontWeight: '700',
+    fontSize: 17,
+    color: Colors.black,
+  },
+});

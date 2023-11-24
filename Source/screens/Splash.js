@@ -33,7 +33,6 @@ const Splash = ({navigation}) => {
     console.log('token==========..', token);
     const isInternet = await checkInternetConnection();
     console.log('isInternet', isInternet);
-
     if (isInternet) {
       if (token) {
         axios

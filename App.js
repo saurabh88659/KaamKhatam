@@ -12,27 +12,37 @@ import {useEffect} from 'react';
 import notificationOndisplay, {
   notificationListeners,
 } from './Source/notification/notificationOndisplay';
+import AddAddress from './Source/screens/AddAddress';
+import RegisterAccount from './Source/screens/RegisterAccount';
+import Editaddress from './Source/screens/Editaddress';
+import EditSaveAdress from './Source/screens/EditSaveAdress';
+import Viewdetails from './Source/screens/Viewdetails';
+import NotificationSaved from './Source/screens/NotificationSaved';
 
 function App() {
-  useEffect(() => {
-    // console.log("code test")
-    geteviceToken();
-    HandleNotificationOndisplay();
-  }, []);
+  // useEffect(() => {
+  //   geteviceToken();
+  //   HandleNotificationOndisplay();
+  // }, []);
+  // const geteviceToken = async () => {
+  //   const token = await notificationOndisplay.getDeviceToken();
+  //   console.log(token, '===================================----====+++++###');
+  // };
 
-  const geteviceToken = async () => {
-    const token = await notificationOndisplay.getDeviceToken();
-    console.log(token, '===================================----====+++++###');
-  };
-  const HandleNotificationOndisplay = () => {
-    // notificationOndisplay.NotificationOnScreen();
-    notificationListeners();
-  };
+  // const HandleNotificationOndisplay = () => {
+  //   notificationListeners();
+  // };
+
   return (
     <NavigationContainer>
       <AuthStack />
       {/* <ConfirmationPayment /> */}
       {/* <PayWithWalletScreen /> */}
+      {/* <AddAddress /> */}
+      {/* <RegisterAccount /> */}
+      {/* <Editaddress /> */}
+      {/* <EditSaveAdress /> */}
+      {/* <NotificationSaved /> */}
     </NavigationContainer>
   );
 }

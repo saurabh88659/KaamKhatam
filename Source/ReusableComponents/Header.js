@@ -23,13 +23,19 @@ const Header = props => {
           size={hp('3.7%')}
         />
       </TouchableOpacity>
-      <View>
+      <View
+        style={{
+          width: '90%',
+          // backgroundColor: 'red',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
         <Text
           style={{
             fontWeight: 'bold',
             fontSize: hp('2.7%'),
             color: props.color,
-            marginLeft: wp('5%'),
+            // marginLeft: wp('5%'),
           }}>
           {props.title}
         </Text>

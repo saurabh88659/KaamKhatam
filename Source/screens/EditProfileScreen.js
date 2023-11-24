@@ -17,7 +17,6 @@ import Colors from '../Assets/Constants/Colors';
 import CustomButton from '../ReusableComponents/Button';
 // import DatePicker from 'react-native-neat-date-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,

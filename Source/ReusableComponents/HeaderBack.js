@@ -28,17 +28,26 @@ const HeaderBack = props => {
           {/* <FontAwesome5 name="bars" color={Colors.white} size={hp('3.5%')} /> */}
           <Ionicons name="arrow-back" color={props.color} size={hp('3.7%')} />
         </TouchableOpacity>
-        <Text
-          numberOfLines={1}
+        <View
           style={{
-            width: wp('58%'),
-            fontWeight: 'bold',
-            fontSize: hp('2.5%'),
-            color: 'white',
-            paddingHorizontal: 12,
+            width: '90%',
+            // backgroundColor: 'red',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}>
-          {props.Title}
-        </Text>
+          <Text
+            numberOfLines={1}
+            style={{
+              // width: wp('58%'),
+              fontWeight: 'bold',
+              fontSize: hp('2.5%'),
+              color: 'white',
+              paddingHorizontal: 12,
+              // alignSelf: 'center',
+            }}>
+            {props.Title}
+          </Text>
+        </View>
       </View>
       {/* <TouchableOpacity
         style={{

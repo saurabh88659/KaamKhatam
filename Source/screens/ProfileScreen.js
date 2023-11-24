@@ -52,12 +52,12 @@ const ProfileScreen = ({navigation, route}) => {
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    // if (isFocused || profileUrl) {
-    console.log('===============runnig _getprofileapi==============');
-    _getprofileapi();
-    getFirstLetters;
-    // }
-  }, [profileUrl]);
+    if (isFocused || profileUrl) {
+      console.log('===============runnig _getprofileapi==============');
+      _getprofileapi();
+      getFirstLetters;
+    }
+  }, [profileUrl, isFocused]);
 
   const toggleBottomNavigationView = () => {
     setVisible(!visible);
@@ -105,7 +105,6 @@ const ProfileScreen = ({navigation, route}) => {
     const token = await _getStorage('token');
     Toast.showWithGravity('Please wait...', Toast.SHORT, Toast.BOTTOM);
     console.log('=======imageData==========', imageData);
-
     var filename = imageData?.path?.replace(/^.*[\\\/]/, '');
     console.log('=======filename', filename);
     const profilePic = new FormData();
@@ -432,7 +431,7 @@ const ProfileScreen = ({navigation, route}) => {
                   </Text>
                 </View>
               </View>
-              {/* <View style={Styles.box2}>
+              <View style={Styles.box2}>
                 <View
                   style={{
                     flexDirection: 'row',
@@ -453,8 +452,8 @@ const ProfileScreen = ({navigation, route}) => {
                     {profileData.dateOfBirth}
                   </Text>
                 </View>
-              </View> */}
-              {/* <View style={Styles.box2}>
+              </View>
+              <View style={Styles.box2}>
                 <View
                   style={{
                     flexDirection: 'row',
@@ -475,8 +474,9 @@ const ProfileScreen = ({navigation, route}) => {
                     {profileData.city}
                   </Text>
                 </View>
-              </View> */}
+              </View>
             </View>
+
             {imageData && (
               <TouchableOpacity
                 onPress={_updateProfilePic}
@@ -506,6 +506,7 @@ const ProfileScreen = ({navigation, route}) => {
           </ScrollView>
         </View>
       )}
+
       <BottomSheet
         visible={visible}
         onBackButtonPress={toggleBottomNavigationView}
@@ -562,6 +563,7 @@ const ProfileScreen = ({navigation, route}) => {
               Choose From Gellery
             </Text>
           </TouchableOpacity>
+
           <TouchableOpacity
             onPress={() => setVisible(!visible)}
             style={{
@@ -580,6 +582,7 @@ const ProfileScreen = ({navigation, route}) => {
           </TouchableOpacity>
         </View>
       </BottomSheet>
+
       <InternetInfoall />
     </SafeAreaView>
   );

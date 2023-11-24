@@ -40,6 +40,10 @@ import PayWithWalletScreen from '../../screens/PayWithWalletScreen';
 import EditGmailScreen from '../../screens/EditGmailScreen';
 import AllCategoryScreen from '../../screens/AllCategoryScreen';
 import Topservices from '../../screens/Category/Topservices';
+import CurrentMobileOtp from '../../screens/CurrentMobileOtp';
+import AddAddress from '../../screens/AddAddress';
+import EditSaveAdress from '../../screens/EditSaveAdress';
+import NotificationSaved from '../../screens/NotificationSaved';
 
 const Stack = createNativeStackNavigator();
 
@@ -73,8 +77,23 @@ function AuthStack() {
         options={{headerShown: false}}
       />
       <Stack.Screen
+        name="NotificationSaved"
+        component={NotificationSaved}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
         name="SearchService"
         component={SearchService}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="EditSaveAdress"
+        component={EditSaveAdress}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="AddAddress"
+        component={AddAddress}
         options={{headerShown: false}}
       />
       <Stack.Screen
@@ -109,6 +128,12 @@ function AuthStack() {
         component={Abouts}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+        name="CurrentMobileOtp"
+        component={CurrentMobileOtp}
+        options={{headerShown: false}}
+      />
+
       <Stack.Screen
         name="Termsandconditions"
         component={Termsandconditions}
@@ -215,6 +240,7 @@ function AuthStack() {
         component={Mybooking2}
         options={{headerShown: false}}
       />
+
       <Stack.Screen
         name="ProfileScreen"
         component={ProfileScreen}
@@ -225,6 +251,7 @@ function AuthStack() {
         component={EditProfileScreen}
         options={{headerShown: false}}
       />
+
       <Stack.Screen
         name="ServicesRatingsilver"
         component={ServicesRatingsilver}

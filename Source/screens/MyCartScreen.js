@@ -369,9 +369,11 @@ const MyCartScreen = props => {
                     {mycartname?.price}
                   </Text>
                 </View>
+
                 <Text style={{fontSize: 14, color: Colors.black, marginTop: 4}}>
                   {mycartname?.serviceDescripton}
                 </Text>
+
                 <View style={{flexDirection: 'row', marginTop: 4}}>
                   <Text
                     style={{
@@ -379,12 +381,16 @@ const MyCartScreen = props => {
                       fontWeight: '700',
                       color: Colors.black,
                     }}>
-                    Service Type:{' '}
+                    {/* Service Type:{' '}/////////////////////////////////// */}
                   </Text>
                   <Text
+                    // numberOfLines={1}
                     style={{
+                      width: '100%',
                       fontSize: 16,
                       color: Colors.black,
+                      fontWeight: '600',
+                      // backgroundColor: '#000',
                     }}>
                     {mycartname?.packageDescription}
                   </Text>
@@ -402,6 +408,7 @@ const MyCartScreen = props => {
                     width: '90%',
                     height: 90,
                     backgroundColor: '#F4F4F4',
+                    // backgroundColor: 'red',
                     borderRadius: 5,
                   }}></View>
               </View>

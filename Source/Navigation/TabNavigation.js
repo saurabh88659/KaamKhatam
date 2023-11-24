@@ -10,7 +10,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Mywallet from '../screens/Mywallet';
-
+import MyNewBooking from '../screens/MyNewBooking';
 const Tab = createBottomTabNavigator();
 
 function TabNavigation() {
@@ -64,7 +64,7 @@ function TabNavigation() {
         }}
       />
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Booking"
         component={Mybooking}
         options={{
@@ -78,7 +78,23 @@ function TabNavigation() {
             />
           ),
         }}
+      /> */}
+      <Tab.Screen
+        name="Booking"
+        component={MyNewBooking}
+        options={{
+          headerShown: false,
+          tabBarColor: '',
+          tabBarIcon: ({focused}) => (
+            <FontAwesome5
+              name="calendar-alt"
+              color={focused ? '#7A33C2' : Colors.black}
+              size={28}
+            />
+          ),
+        }}
       />
+
       <Tab.Screen
         name="Cart"
         component={MyCartScreen}
@@ -94,6 +110,7 @@ function TabNavigation() {
           ),
         }}
       />
+
       {/* <Tab.Screen
         name="Profile"
         component={ProfileScreen}
@@ -108,6 +125,7 @@ function TabNavigation() {
           ),
         }}
       /> */}
+
       <Tab.Screen
         name="Wallet"
         component={Mywallet}

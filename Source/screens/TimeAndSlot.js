@@ -25,14 +25,12 @@ import {useNavigation} from '@react-navigation/native';
 import {setBookingID} from '../features/updatedata/update.reducer';
 
 const {height, width} = Dimensions.get('window');
-
 const TimeAndSlot = props => {
   const dispatch = useDispatch();
   const cartId = useSelector(state => state.updateState.cartId);
   const totalServiceAmount = useSelector(
     state => state.updateState.totalServiceAmount,
   );
-
   // console.log('=========cartId (time and slot)=====', cartId);
   const [index, setIndex] = useState(1);
   const [index2, setIndex2] = useState('');
@@ -58,7 +56,6 @@ const TimeAndSlot = props => {
   const [userSaveas, setUserSaveas] = useState(null);
   console.log('========_Isdate=========', _Isdate);
   console.log(selectedTimeFrame, 'selectedTimeFrame====');
-
   useEffect(() => {
     // getUserAddress();
   }, []);
@@ -235,10 +232,10 @@ const TimeAndSlot = props => {
   };
 
   const handleConfirm = date => {
-    const formattedDate = `${('0' + date.getDate()).slice(-2)}/${(
+    const formattedDate = `${('0' + date.getDate()).slice(-2)}-${(
       '0' +
       (date.getMonth() + 1)
-    ).slice(-2)}/${date.getFullYear()}`;
+    ).slice(-2)}-${date.getFullYear()}`;
     set_Isdate(formattedDate);
     console.log('date--', formattedDate);
     hideDatePicker();
@@ -260,7 +257,7 @@ const TimeAndSlot = props => {
       addressId: orderLoaction._id,
     };
 
-    console.log('========book===========', book);
+    console.log('========book ================>', book);
     axios
       .post(BASE_URL + `/booking`, book, {
         headers: {Authorization: `Bearer ${token}`},
@@ -345,8 +342,12 @@ const TimeAndSlot = props => {
             // pinCode: orderLoaction.pincode,
             // name: orderLoaction.name,
             // save_as: orderLoaction.saveas,
-            addressId: orderLoaction.addressId,
+            addressId: orderLoaction._id,
           };
+          console.log(
+            '===============book of time and date====================>>',
+            book,
+          );
           console.log(res.data.message, 'run conBooking====');
           props.navigation.replace('PaymentScreen', {book});
           // conBooking();
@@ -394,7 +395,6 @@ const TimeAndSlot = props => {
 
     return finalDays;
   };
-
   getNext7Days();
 
   const renderTimeSlotView = timeSlot => {
@@ -474,7 +474,7 @@ const TimeAndSlot = props => {
             <View
               style={{
                 flexDirection: 'row',
-                width: '90%',
+                width: '82%',
                 // backgroundColor: 'red',
                 marginTop: 5,
               }}>
@@ -504,8 +504,7 @@ const TimeAndSlot = props => {
                   color: Colors.black,
                   fontWeight: '600',
                 }}>
-                {orderLoaction.bookingLocation} {''}
-                {/* {orderLoaction.pinCode} */}
+                {orderLoaction.area} {orderLoaction.flat}
               </Text>
             </View>
 
@@ -522,7 +521,8 @@ const TimeAndSlot = props => {
                   color: Colors.black,
                   fontWeight: '600',
                 }}>
-                {orderLoaction.address} {''} {orderLoaction.pinCode}
+                {orderLoaction.pinCode}- {orderLoaction.city},
+                {orderLoaction.state}
               </Text>
             </View>
           </View>
@@ -723,7 +723,6 @@ const TimeAndSlot = props => {
                   </TouchableOpacity>
                 );
               }
-
               return <View key={index}>{renderTimeSlotView(timeSlot)}</View>;
             })}
           </View>

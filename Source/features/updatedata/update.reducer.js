@@ -8,6 +8,12 @@ const initialState = {
   chatQuestion: [],
   chatAnswer: null,
   netAnswer: [],
+  verifiedCurrentNumberOtp: false,
+  notification: [],
+  notificationCount: 0,
+  latitude: null,
+  longitude: null,
+  userData: null,
 };
 
 export const UserSlice = createSlice({
@@ -38,6 +44,24 @@ export const UserSlice = createSlice({
     setNetAnswer: (state, action) => {
       state.netAnswer.push(action.payload);
     },
+    setVerifiedCurrentNumberOtp: (state, action) => {
+      state.verifiedCurrentNumberOtp = action.payload;
+    },
+    SetNotification: (state, action) => {
+      state.notification = action.payload;
+    },
+    SetNotificationCount: (state, action) => {
+      state.notificationCount = action.payload;
+    },
+    SetLatitude: (state, action) => {
+      state.latitude = action.payload;
+    },
+    SetLongitude: (state, action) => {
+      state.longitude = action.payload;
+    },
+    SetUserData: (state, action) => {
+      state.userData = action.payload;
+    },
   },
 });
 export default UserSlice.reducer;
@@ -50,4 +74,10 @@ export const {
   setChatQuestion,
   setChatAnswer,
   setNetAnswer,
+  setVerifiedCurrentNumberOtp,
+  SetNotification,
+  SetNotificationCount,
+  SetLatitude,
+  SetLongitude,
+  SetUserData,
 } = UserSlice.actions;

@@ -18,50 +18,67 @@ import {
 import {BASE_URL} from '../Assets/utils/Restapi/Config';
 import {_getStorage} from '../Assets/utils/storage/Storage';
 import Toast from 'react-native-simple-toast';
+import {useDispatch, useSelector} from 'react-redux';
 import {setVerifiedCurrentNumberOtp} from '../features/updatedata/update.reducer';
-import {useDispatch} from 'react-redux';
-function MobileOtp({navigation, route}) {
+
+function CurrentMobileOtp({navigation, route}) {
   const dispatch = useDispatch();
   const [pin, setPin] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [changenumber, setChangenubmer] = useState('');
   const phonenum = route.params.phone;
+
   const fNumber = phonenum.split('', 6);
 
-  const handleSubmit = async () => {
+  const handleSubmitCurrentMobileOtp = async () => {
     const token = await _getStorage('token');
+    console.log(token);
     const newObj = {
       phone: route.params.phone,
       otp: Number(pin),
     };
     setIsLoading(false);
     axios
-      .post(BASE_URL + `/currentNumberVerify`, newObj, {
+      .put(BASE_URL + `/phone`, newObj, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(val => {
-        console.log('val of handleSubmitCurrentMobileOtp====>', val.data);
-        if (val.data.message == 'OTP Verified') {
-          navigation.navigate('ProfileScreen');
-          dispatch(setVerifiedCurrentNumberOtp(false));
+        console.log('val of handleSubmit==> ', val);
+        if (val.data?.message === 'Updated successfully') {
+          //   setIsLoading(true);
+          navigation.goBack();
+          dispatch(setVerifiedCurrentNumberOtp(true));
+          // navigation.navigate('RegisterAccount'),
+          //   {
+          //     phone: changenumber,
+          //     otp: Number(pin),
+          //   };
+        }
+      })
+      .catch(error => {
+        console.log('error of handleSubmit===========', error);
+        console.log('Mobile Otp Catch Error', error?.response?.data);
+        if (error.response.data.message == 'OTP Expired') {
           Toast.showWithGravity(
-            'Number successfully updated',
+            error?.response?.data?.message,
             Toast.LONG,
             Toast.BOTTOM,
           );
         }
-        setIsLoading(true);
-      })
-      .catch(error => {
-        console.log('error of handleSubmitCurrentMobileOtp ', error);
-        console.log('Mobile Otp Catch Error', error?.response?.data);
+        //  else {
+        //   Toast.showWithGravity(
+        //     'This Number Already Verified In Database',
+        //     Toast.LONG,
+        //     Toast.BOTTOM,
+        //   );
+        // }
       });
+    //=========================old================
   };
 
   // ===========================resendOTP++++++++++===============
   const [counter, setCounter] = React.useState(30);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-
   useEffect(() => {
     const timer =
       counter > 0 && setInterval(() => setCounter(counter - 1), 1000);
@@ -103,6 +120,7 @@ function MobileOtp({navigation, route}) {
           onPress={() => navigation.goBack('')}
         />
       </View>
+
       <View style={{marginHorizontal: 30, top: 30}}>
         <Text style={{fontWeight: '500', fontSize: 20, color: Colors.black}}>
           Enter OTP
@@ -186,14 +204,14 @@ function MobileOtp({navigation, route}) {
             width={wp('90%')}
             height={hp('7%')}
             color={Colors.white}
-            onPress={handleSubmit}
+            onPress={handleSubmitCurrentMobileOtp}
           />
         )}
       </View>
     </>
   );
 }
-export default MobileOtp;
+export default CurrentMobileOtp;
 
 const styles = StyleSheet.create({
   borderStyleBase: {
