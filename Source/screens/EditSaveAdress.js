@@ -571,10 +571,9 @@ const EditSaveAdress = props => {
                       setState(text);
                     }}
                   />
-
                   {/* <Picker
                     dropdownIconColor={'#B6B6B6'}
-                    dropdownIconRippleColor={'#775AAC'}
+                    dropdownIconRippleColor={'#775 rAAC'}
                     style={
                       {
                         // width: '90%',

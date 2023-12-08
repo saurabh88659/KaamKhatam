@@ -24,7 +24,7 @@ import Header from '../ReusableComponents/Header';
 import {getFirstLetters} from '../Assets/utils/Handler/NameAvatar';
 import {useIsFocused} from '@react-navigation/native';
 import InternetInfoall from '../Assets/utils/Handler/InternetInfoall';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   SetprofiledataupdateState,
   setProfileImgeUrl,
@@ -36,8 +36,14 @@ import {
 import FontAwesome5 from 'react-native-vector-icons/MaterialIcons';
 import {StatusBar} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Clipboard from '@react-native-clipboard/clipboard';
+
 const {height, width} = Dimensions.get('window');
+
 const ProfileScreen = ({navigation, route}) => {
+  const UserData = useSelector(state => state.updateState.userData);
+  console.log('UserData=======on ExclusiveOfferScreen', UserData.referralId);
   // const profileImgeUrl = useSelector(state => state.updateState.profileImgeUrl);
   const dispatch = useDispatch();
   const [profileData, setProfileData] = useState('');
@@ -49,6 +55,8 @@ const ProfileScreen = ({navigation, route}) => {
   const [, setIsImage] = useState('');
   const [onUpdateImage, setOnUpdateImage] = useState(Math.random());
   const [buttonLoading, setButtonLoading] = useState(false);
+  const [copiedText, setCopiedText] = useState('');
+
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -61,6 +69,10 @@ const ProfileScreen = ({navigation, route}) => {
 
   const toggleBottomNavigationView = () => {
     setVisible(!visible);
+  };
+
+  const copyToClipboard = () => {
+    Clipboard.setString('hello world');
   };
 
   const onGallary = () => {
@@ -453,6 +465,7 @@ const ProfileScreen = ({navigation, route}) => {
                   </Text>
                 </View>
               </View>
+
               <View style={Styles.box2}>
                 <View
                   style={{
@@ -473,6 +486,42 @@ const ProfileScreen = ({navigation, route}) => {
                     }}>
                     {profileData.city}
                   </Text>
+                </View>
+              </View>
+              <View style={Styles.box2}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginVertical: 20,
+                    marginHorizontal: 20,
+                    justifyContent: 'space-between',
+                  }}>
+                  <View style={{flexDirection: 'row'}}>
+                    <View style={{height: 20, width: 22}}>
+                      <MaterialIcons
+                        name="person-add-alt-1"
+                        size={22}
+                        color={'#000'}
+                      />
+                    </View>
+                    <Text
+                      style={{
+                        paddingHorizontal: 20,
+                        fontWeight: '500',
+                        color: Colors.black,
+                      }}>
+                      {UserData.referralId}
+                    </Text>
+                  </View>
+
+                  <TouchableOpacity onPress={copyToClipboard} style={{}}>
+                    <MaterialCommunityIcons
+                      name={'content-copy'}
+                      size={18}
+                      color={'#000'}
+                    />
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>

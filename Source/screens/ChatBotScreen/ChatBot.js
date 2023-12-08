@@ -29,9 +29,8 @@ import {
 import {ScrollView} from 'react-native-gesture-handler';
 const {height, width} = Dimensions.get('window');
 import Toast from 'react-native-simple-toast';
-
+import moment from 'moment-timezone';
 let chats = [];
-
 const ChatBot = ({navigation}) => {
   const scrollViewRef = useRef();
   const dispatch = useDispatch();
@@ -45,6 +44,10 @@ const ChatBot = ({navigation}) => {
   const [otherQueryModal, setOtherQueryuModal] = useState(false);
   const [otherQuery, setOtherQuery] = useState(null);
   const [modalButtonLoading, setModalButtonLoading] = useState(false);
+  const [currentTime, setCurrentTime] = useState('');
+
+  // Other existing code...
+
   const chatQuestion = useSelector(state => state.updateState.chatQuestion);
   const chatAnswer = useSelector(state => state.updateState.chatAnswer);
   const netAnswer = useSelector(state => state.updateState.netAnswer);
@@ -52,6 +55,7 @@ const ChatBot = ({navigation}) => {
   console.log('chatAnswer---->', chatAnswer);
   console.log('netAnswer---->', netAnswer);
   console.log('answers====>', answers);
+
   // console.log('chatList----------', chatList);
   // console.log('questions===>', questions);
   // const getAnswer = q => {
@@ -131,32 +135,36 @@ const ChatBot = ({navigation}) => {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
-        // setLoading(false);
         console.log('-------response getAnswer--->>>', res.data.answer);
-        dispatch(setNetAnswer({message: res.data, from: 'answer'}));
-
-        // setAnswers(res.data.answer);
+        const currentDate = new Date().toISOString();
+        dispatch(
+          setNetAnswer({message: res.data, from: 'answer', date: currentDate}),
+        );
         dispatch(setChatAnswer(res.data.answer));
       })
       .catch(error => {
-        // setLoading(false);
         console.log(
           '-------error getAnswer------>>>',
-          error.response.data.message,
+          error?.response?.data?.message,
         );
       });
   };
 
   const getAnswerofquestion = item => {
     setSelectedQuestion(item.question);
-    dispatch(setNetAnswer({message: item.question, from: 'question'}));
+    const currentDate = new Date().toISOString();
+    dispatch(
+      setNetAnswer({
+        message: item.question,
+        from: 'question',
+        date: currentDate,
+      }),
+    );
     handleAnswer(item.id);
     if (scrollViewRef.current) {
       console.log('scroll tpo end ========================');
       scrollViewRef.current.scrollToEnd({animated: true}, 200);
     }
-    // scrollViewRef.current.
-    // scrollViewRef.current.scrollToEnd({animated: true});
   };
 
   const submitQuery = async () => {
@@ -377,7 +385,6 @@ const ChatBot = ({navigation}) => {
                     // if (item.from == 'user') {
                     //   console.log('user');
                     //}
-
                     return (
                       <View
                         key={index}
@@ -388,10 +395,12 @@ const ChatBot = ({navigation}) => {
                           alignSelf:
                             item.from == 'answer' ? 'flex-end' : 'flex-start',
                           marginBottom: 4,
-                          // marginRight: 8,
+                          marginRight: 8,
                           paddingLeft: 10,
                           paddingRight: 40,
-                          paddingVertical: 18,
+                          // paddingVertical: 10,
+                          paddingBottom: 5,
+                          paddingTop: 10,
                           borderRadius: 5,
                           borderBottomLeftRadius: 5,
                           // item.from == 'answer' ? 19 : 2,
@@ -403,40 +412,60 @@ const ChatBot = ({navigation}) => {
                           position: 'relative',
                           marginRight: 8,
                           marginLeft: 8,
+                          // height: 9,
                         }}>
                         {item.message.answer ? (
-                          <Text
-                            style={{
-                              fontSize: 17,
-                              color: '#483d8b',
-                              fontWeight: '600',
-                              marginBottom: 5,
-                            }}>
-                            {item.message.answer}
-                          </Text>
+                          <View>
+                            <Text
+                              style={{
+                                fontSize: 17,
+                                color: '#483d8b',
+                                fontWeight: '600',
+                                marginBottom: 20,
+                              }}>
+                              {item.message.answer}
+                            </Text>
+                            {/* <Text
+                              style={{
+                                width: 90,
+                                position: 'absolute',
+                                bottom: 0,
+                                right: item.from == 'answer' ? null : 8,
+                                left: item.from == 'answer' ? 6 : null,
+                                fontSize: 12,
+                                color:
+                                  item.from == 'answer' ? '#483d8b' : '#fff',
+                              }}>
+                              {moment(item.dateMoment).format('hh:mm A')}
+                            </Text> */}
+                          </View>
                         ) : (
-                          <Text
-                            style={{
-                              fontSize: 17,
-                              color: '#fff',
-                              fontWeight: '600',
-                              // marginLeft: 4,
-                              marginBottom: 5,
-                            }}>
-                            {item.message}
-                          </Text>
+                          <View>
+                            <Text
+                              style={{
+                                fontSize: 17,
+                                color: '#fff',
+                                fontWeight: '600',
+                                // marginLeft: 4,
+                                marginBottom: 20,
+                              }}>
+                              {item.message}
+                            </Text>
+                            {/* <Text
+                              style={{
+                                width: 90,
+                                position: 'absolute',
+                                bottom: 0,
+                                right: 0,
+                                left: 0,
+                                fontSize: 12,
+                                color:
+                                  item.from == 'answer' ? '#483d8b' : '#fff',
+                              }}>
+                              {moment(item.dateMoment).format('hh:mm A')}
+                            </Text> */}
+                          </View>
                         )}
-                        {/* <Text
-                          style={{
-                            position: 'absolute',
-                            bottom: 3,
-                            right: item.from == 'answer' ? 8 : null,
-                            left: item.from == 'answer' ? null : 6,
-                            fontSize: 12,
-                            color: item.from == 'answer' ? '#483d8b' : '#fff',
-                          }}>
-                          12:09 PM
-                        </Text> */}
                       </View>
                     );
                   })}

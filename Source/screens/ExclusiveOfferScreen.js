@@ -15,11 +15,14 @@ import {
 import Colors from '../Assets/Constants/Colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {useSelector} from 'react-redux';
 
 const ExclusiveOfferScreen = ({navigation}) => {
+  const UserData = useSelector(state => state.updateState.userData);
+  console.log('UserData=======on ExclusiveOfferScreen', UserData.referralId);
   const shareContent = async () => {
     const appLink = 'https://example.com/your-app';
-    const referralCode = 959590;
+    const referralCode = UserData.referralId;
     try {
       const result = await Share.share({
         message: `REFERRAL CODE : ${referralCode} Unlock special offers! Join now: ${appLink}`,
@@ -33,6 +36,7 @@ const ExclusiveOfferScreen = ({navigation}) => {
       console.error('Error sharing content:', error.message);
     }
   };
+
   return (
     <View style={{backgroundColor: '#fff', flex: 1}}>
       <View

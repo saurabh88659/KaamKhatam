@@ -78,6 +78,7 @@ const RegisterAccount = props => {
   const [landMark, setLandMark] = useState('');
   const [latitude, SetLatitude] = useState('');
   const [longitude, SetLongitude] = useState('');
+  const [promoCode, setPromoCode] = useState('');
   const [currentLocationLoadingButton, SetCurrentLocationLoadingButton] =
     useState(false);
   const getCurrentDate = () => {
@@ -201,13 +202,14 @@ const RegisterAccount = props => {
         landmark: landMark,
         phone: dataupdate.phone,
         deviceToken: deviceToken,
+        referralCode: 'SaKu170202187766865x1i1',
         location: {
           type: 'Point',
           coordinates: [latitude, longitude],
         },
       };
 
-      console.log('newOBJ', newObj);
+      console.log('#####newOBJ======>>', newObj);
       setIsLoading(true);
       axios
         .put(BASE_URL + `/profile`, newObj, {
@@ -385,7 +387,6 @@ const RegisterAccount = props => {
     console.log('-------state------', selectedStateData);
     setCityData(selectedStateData ? selectedStateData?.cities : []);
     console.log('-------city data------', cityData);
-
     // console.log('Stta......Select', selctState) ;
     // StateData.map((item, index) => {
     //   console.log('Item...................', item.cities);
@@ -1090,25 +1091,45 @@ const RegisterAccount = props => {
                     color={Colors.purple}
                     size={28}
                   />
-
-                  {/* <TouchableOpacity
-                    onPress={() =>
-                      props.navigation.navigate(
-                        'EditMobileNumber',
-                        dataupdate.phone,
-                      )
-                    }
-                    style={{
-                      marginHorizontal: 8,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}>
-                    <Image
-                      source={require('../Assets/Images/editicones.png')}
-                      style={{width: 24, height: 24}}
-                    />
-                  </TouchableOpacity> */}
                 </View>
+              </View>
+
+              <View
+                style={{
+                  height: hp('13%'),
+                  // backgroundColor: 'red',
+                  // marginTop: -6,
+                }}>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: 15,
+                    marginHorizontal: 20,
+                    top: 10,
+                    color: Colors.black,
+                  }}>
+                  {' '}
+                  Have a referral code?
+                </Text>
+                <TextInput
+                  placeholder="Enter Referral Code"
+                  placeholderTextColor="grey"
+                  value={promoCode}
+                  keyboardType={'default'}
+                  onChangeText={text => {
+                    setPromoCode(text);
+                  }}
+                  style={{
+                    marginHorizontal: 15,
+                    borderColor: Colors.purple,
+                    borderWidth: 1,
+                    borderRadius: 6,
+                    paddingHorizontal: 15,
+                    // marginVertical: 15,
+                    color: 'black',
+                    marginTop: 15,
+                  }}
+                />
               </View>
 
               {isLoading === true ? (

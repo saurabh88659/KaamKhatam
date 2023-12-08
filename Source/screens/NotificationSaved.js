@@ -32,6 +32,7 @@ export default function NotificationSaved({navigation}) {
     'notifications at NotificationSaved.js=====++++++++++++++++++++++++>',
     JSON.stringify(notification),
   );
+
   const [chat, setChat] = useState([]);
   const [chatId, setChatID] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
@@ -43,12 +44,14 @@ export default function NotificationSaved({navigation}) {
   }, [refresh]);
 
   const getNotification = async () => {
+    setIsLoading(true);
     const token = await _getStorage('token');
     axios
       .get(BASE_URL + `/notifications`, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(async res => {
+        setIsLoading(false);
         console.log(
           '+++++++++++++++++++++++++++++++getNotification res=====>>',
           res.data,
@@ -57,6 +60,8 @@ export default function NotificationSaved({navigation}) {
         dispatch(SetNotificationCount(res.data.count));
       })
       .catch(e => {
+        setIsLoading(false);
+
         console.log(
           'home screen catch error getNotification ',
           e?.response?.data,
@@ -97,7 +102,7 @@ export default function NotificationSaved({navigation}) {
         title="Notifications"
         onPress={() => navigation.goBack()}
       />
-      {!isLoading ? (
+      {isLoading ? (
         <View
           style={{
             display: 'flex',
