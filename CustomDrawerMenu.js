@@ -27,6 +27,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import LinearGradient from 'react-native-linear-gradient';
 
 const {height, width} = Dimensions.get('screen');
 
@@ -71,6 +72,10 @@ const CustomDrawerMenu = props => {
       })
       .then(val => {
         setProfileData(val.data.result);
+        console.log(
+          'profole data res of profileapi in drawer========>>',
+          val.data.result,
+        );
         setImagee(val.data.result?.imageUrl);
         if (val.data.result?.imageUrl) {
           AsyncStorage.setItem('ProfileImage', val.data.result?.imageUrl);
@@ -116,65 +121,90 @@ const CustomDrawerMenu = props => {
       'https://play.google.com/store/apps/details?id=com.allonone',
     );
   };
+
   return (
-    <ScrollView style={{flex: 1, backgroundColor: Colors.white}}>
+    <ScrollView
+      showsHorizontalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
+      style={{flex: 1, backgroundColor: Colors.white}}>
       <DrawerContentScrollView
         {...props}
         contentContainerStyle={{backgroundColor: Colors.white}}>
-        <View style={{marginVertical: 20}}>
-          <TouchableOpacity
-            style={{
-              height: 80,
-              width: 80,
-              borderRadius: 100,
-              borderColor: Colors.black,
-              borderWidth: 1,
-              alignSelf: 'center',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: Colors.lightGray,
-            }}
-            onPress={() => props.navigation.navigate('ProfileScreen')}>
-            {console.log('ddddddddddddddddddddddddddddd', imgUrl)}
-            {profileData?.imageUrl ? (
-              <Image
+        <View style={{marginTop: '-1.4%', paddingBottom: '5%'}}>
+          <LinearGradient
+            colors={['#532DC4', '#784CD2', '#8E57FF', '#A67FF9']}
+            start={{x: 0.5, y: 0}}
+            end={{x: 0.5, y: 1.0}}
+            // style={{backgroundColor: 'grey', flex: 0.4}}
+          >
+            <View style={{paddingVertical: 25}}>
+              <TouchableOpacity
                 style={{
-                  height: '100%',
-                  width: '100%',
+                  height: 80,
+                  width: 80,
                   borderRadius: 100,
-                  resizeMode: 'cover',
+                  borderColor: Colors.black,
+                  // borderWidth: 1,
+                  alignSelf: 'center',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: Colors.grayShade,
                 }}
-                // source={{uri: profileData?.imageUrl + '?' + onUpdateImage}}
-                source={{uri: imgUrl}}
-              />
-            ) : (
-              <Text
+                onPress={() => props.navigation.navigate('ProfileScreen')}>
+                {console.log('ddddddddddddddddddddddddddddd', imgUrl)}
+                {profileData?.imageUrl ? (
+                  <Image
+                    style={{
+                      height: '100%',
+                      width: '100%',
+                      borderRadius: 100,
+                      resizeMode: 'cover',
+                    }}
+                    // source={{uri: profileData?.imageUrl + '?' + onUpdateImage}}
+                    source={{uri: imgUrl}}
+                  />
+                ) : (
+                  <Text
+                    style={{
+                      color: Colors.purple,
+                      fontSize: 40,
+                      fontWeight: '600',
+                    }}>
+                    {getFirstLetters(profileData?.firstName || '')}
+                  </Text>
+                )}
+                <View style={{position: 'absolute', right: 0, bottom: 6}}>
+                  <FontAwesome5 name="edit" color={Colors.white} size={15} />
+                </View>
+              </TouchableOpacity>
+
+              <View style={{alignItems: 'center', marginTop: 10}}>
+                <Text style={{color: '#fff', fontSize: 19, fontWeight: '400'}}>
+                  {profileData.firstName + ' ' + profileData.lastName}
+                </Text>
+              </View>
+              <View
                 style={{
-                  color: Colors.purple,
-                  fontSize: 40,
-                  fontWeight: '600',
+                  // alignItems: 'center',
+                  marginTop: 5,
+                  flexDirection: 'row',
+                  justifyContent: 'center',
                 }}>
-                {getFirstLetters(profileData?.firstName || '')}
-              </Text>
-            )}
-            {/* <Text style={{color: '#000'}}>
-              {getFirstLetters(profileData?.firstName || '')}
-            </Text> */}
-            {/* <Image
-              source={{uri: profileData.imageUrl}}
-              style={Styles.iconestyle}
-            /> */}
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              props.navigation.navigate('ProfileScreen');
-            }}>
-            <View style={Styles.textlable}>
-              <Text style={Styles.textstyl}>
-                {profileData.firstName + ' ' + profileData.lastName}
-              </Text>
+                <View style={{}}>
+                  <Ionicons name="call-sharp" size={20} color={'#000'} />
+                </View>
+                <Text
+                  style={{
+                    color: '#fff',
+                    fontSize: 15,
+                    fontWeight: '400',
+                    marginLeft: 3,
+                  }}>
+                  {profileData.phone}
+                </Text>
+              </View>
             </View>
-          </TouchableOpacity>
+          </LinearGradient>
 
           {/* <View style={Styles.linesstyles}></View> */}
           {/* <TouchableOpacity
@@ -201,23 +231,25 @@ const CustomDrawerMenu = props => {
           </View> */}
 
           {/* /=========================== */}
-          <View>
-            <View style={Styles.linesstyles}></View>
-            <TouchableOpacity
-              style={Styles.constyles}
-              onPress={() => props.navigation.navigate('Mybooking')}>
-              <FontAwesome5
-                name="calendar-alt"
-                color={Colors.black}
-                size={22}
-              />
-              {/* <Image
+
+          <View
+            style={{
+              // borderWidth: 0.5,
+              // marginVertical: 20,
+              borderColor: 'grey',
+              // marginTop: 10,
+              paddingVertical: 10,
+            }}></View>
+          <TouchableOpacity
+            style={Styles.constyles}
+            onPress={() => props.navigation.navigate('Mybooking')}>
+            <FontAwesome5 name="calendar-alt" color={Colors.black} size={22} />
+            {/* <Image
                 source={require('./Source/Assets/Images/information-buttonicone.png')}
                 style={Styles.iconestyles}
               /> */}
-              <Text style={Styles.textstyles1}>My booking</Text>
-            </TouchableOpacity>
-          </View>
+            <Text style={Styles.textstyles1}>My booking</Text>
+          </TouchableOpacity>
 
           <View>
             <View style={Styles.linesstyles}></View>

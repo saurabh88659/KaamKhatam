@@ -76,9 +76,7 @@ const Otp = ({navigation, route}) => {
   };
 
   console.log('Props: ', navigation);
-
   //  =================resend======================>
-
   useEffect(() => {
     const timer =
       counter > 0 && setInterval(() => setCounter(counter - 1), 1000);

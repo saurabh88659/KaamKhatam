@@ -42,7 +42,6 @@ import Geolocation from '@react-native-community/geolocation';
 const RegisterAccount = props => {
   // const latitude = useSelector(state => state.updateState.latitude);
   // const longitude = useSelector(state => state.updateState.longitude);
-
   const [modalVisible, setModalVisible] = useState(false);
   const [firstname, setFirstname] = useState('');
   const [error, setError] = useState('');

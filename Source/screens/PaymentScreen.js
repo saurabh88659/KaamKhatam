@@ -162,7 +162,6 @@ const PaymentScreen = props => {
         if (response.data) {
           console.log(' Orderdetail response ---------111>>>', response?.data);
           setOrderdetail(response.data);
-
           if (response?.data?.orderStatus == '1') {
             Toast.showWithGravity(
               `Order Status: ${response?.data?.OrderPaymentStatusText}`,

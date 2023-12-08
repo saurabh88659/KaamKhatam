@@ -180,6 +180,7 @@ const Location = props => {
   //     console.error('Error requesting location permission:', error);
   //   }
   // };
+  
   return (
     <View style={styles.container}>
       <InternetInfoall />

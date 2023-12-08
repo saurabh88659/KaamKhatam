@@ -136,7 +136,7 @@ const AddAddress = props => {
       },
     };
 
-    console.log('obj-----> save address', obj);
+    console.log('@@@obj-----> save address========', obj);
     if (
       !fullName ||
       !phoneNumber ||

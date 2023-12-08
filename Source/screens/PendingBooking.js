@@ -32,7 +32,6 @@ const {height, width} = Dimensions.get('window');
 
 function PendingBooking({navigation}) {
   const IST_TIMEZONE = 'Asia/Kolkata';
-
   const dispatch = useDispatch();
   const [bookdetails, setBookdetails] = useState([]);
   const [noData, setNoData] = useState('');

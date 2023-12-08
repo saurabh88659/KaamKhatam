@@ -77,7 +77,7 @@ const Viewdetails = props => {
     useState(false);
   console.log(cancellationReason, '========cancellationReason======');
   console.log(
-    '========================bookinviewdetails(View Details)=======================',
+    '#######========================Bookinviewdetails (View Details)=======================',
     bookinviewdetails,
   );
   console.log('===================rating=====================', rating1);
@@ -429,6 +429,7 @@ const Viewdetails = props => {
                   }}>
                   Thanks for choosing
                 </Text>
+
                 <Text
                   style={{
                     color: '#000',
@@ -437,6 +438,15 @@ const Viewdetails = props => {
                     marginBottom: 6,
                   }}>
                   Kaam Khatam
+                </Text>
+                <Text
+                  style={{
+                    color: Colors.darkGray,
+                    fontSize: 16,
+                    fontWeight: '400',
+                    // marginBottom: 6,
+                  }}>
+                  Paid ₹{bookinviewdetails.amtWithGst}
                 </Text>
               </View>
               <TouchableOpacity
@@ -465,6 +475,7 @@ const Viewdetails = props => {
                 <Text style={{color: '#000'}}>View Recipt</Text>
               </TouchableOpacity>
             </View>
+
             {/* {===================================vendor details==========================================} */}
             {(bookinviewdetails.bookingStatus === 'Confirmed' ||
               bookinviewdetails.bookingStatus === 'Completed' ||
@@ -1270,7 +1281,6 @@ const Viewdetails = props => {
               </View>
             </View>
             {/* {=====================================Booking Details====================================} */}
-
             {/* {====================================StepIndicator========================================} */}
             <View
               style={{
@@ -2089,6 +2099,7 @@ const Viewdetails = props => {
                 // top: 20,
                 // marginVertical: 15,
                 marginBottom: 20,
+                marginTop: 10,
               }}>
               <TouchableOpacity
                 style={{
@@ -2408,10 +2419,11 @@ const styles = StyleSheet.create({
     // marginHorizontal: 20,
     paddingHorizontal: 20,
   },
+
   modalView: {
     backgroundColor: 'white',
     borderRadius: 10,
-    height: height / 4.5,
+    height: height / 4.2,
     justifyContent: 'space-between',
     width: '100%',
     // bottom: 0,

@@ -448,7 +448,13 @@ function Home() {
       });
   };
 
+  const GotoExclusiveOffer = () => {
+    console.log('GotoExclusiveOffer==>>>>>');
+    navigation.navigate('ExclusiveOfferScreen');
+  };
+
   const img = require('../../Assets/Images/hairdressing2.png');
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -502,6 +508,7 @@ function Home() {
               // editable={false}
             />
           </View>
+
           {/* <Text
             numberOfLines={1}
             style={{
@@ -653,24 +660,6 @@ function Home() {
                 top: 20, //=============afterbanner
                 // marginHorizontal: 20,
               }}>
-              <Swiper
-                showsButtons={false}
-                autoplay={true}
-                autoplayTimeout={10}
-                showsPagination={false}
-                style={styles.scroll}>
-                {bannerUrl
-                  .slice()
-                  .reverse()
-                  .map((value, index) => (
-                    <TouchableOpacity key={index}>
-                      <Image
-                        source={{uri: value.imageUrl}}
-                        style={styles.imgSlider}
-                      />
-                    </TouchableOpacity>
-                  ))}
-              </Swiper>
               <View
                 style={{
                   top: -15,
@@ -717,6 +706,40 @@ function Home() {
                 </TouchableOpacity>
               </View>
             </View>
+            <View
+              style={{
+                marginTop: 6,
+                borderBottomWidth: 4,
+                borderBottomColor: Colors.grayShade,
+              }}>
+              <Text
+                style={{
+                  color: '#000',
+                  fontWeight: '400',
+                  fontSize: 20,
+                  paddingHorizontal: 15,
+                }}>
+                Hot Offers
+              </Text>
+              <Swiper
+                showsButtons={false}
+                autoplay={true}
+                autoplayTimeout={10}
+                showsPagination={false}
+                style={styles.scroll}>
+                {bannerUrl
+                  .slice()
+                  .reverse()
+                  .map((value, index) => (
+                    <TouchableOpacity key={index}>
+                      <Image
+                        source={{uri: value.imageUrl}}
+                        style={styles.imgSlider}
+                      />
+                    </TouchableOpacity>
+                  ))}
+              </Swiper>
+            </View>
 
             <View
               style={{
@@ -724,7 +747,7 @@ function Home() {
                 // backgroundColor: Colors.lightGray,
                 alignItems: 'center',
                 justifyContent: 'center',
-                marginTop: 15,
+                // marginTop: 15,
               }}>
               <View
                 style={{
@@ -734,7 +757,7 @@ function Home() {
                   paddingBottom: hp('2%'),
                   elevation: 5,
                 }}>
-                <LinearGradient
+                {/* <LinearGradient
                   start={{x: 0.0, y: 0.25}}
                   end={{x: 0.9, y: 1.0}}
                   // locations={[0, 0.8, 0.6]}
@@ -753,8 +776,7 @@ function Home() {
                     }}>
                     India's Safest At Home Beauty Services
                   </Text>
-                </LinearGradient>
-
+                </LinearGradient> */}
                 {/* <View
                   style={{
                     flexDirection: 'row',
@@ -773,7 +795,6 @@ function Home() {
                     image={require('../../Assets/Images/Massage1.png')}
                   />
                 </View> */}
-
                 {/* <View
                   style={{
                     flexDirection: 'row',
@@ -791,13 +812,10 @@ function Home() {
                     title="Skin Brightening"
                     image={require('../../Assets/Images/Massage4.png')}
                     // onPress={() => {
-                    //   props.navigation.navigate('Cleanup', props);
+                    //   props.navigation.navigate('CSleanup', props);
                     // }}
-                  />
                 </View> */}
-
                 {/* {byb api servixces ==========} */}
-
                 <FlatList
                   // style={{justifyContent: 'space-between'}}
                   // style={{padding: 10}}
@@ -817,6 +835,7 @@ function Home() {
                     )
                   )}
                 />
+
                 {/* {byb api servixces ==========} */}
                 <TouchableOpacity
                   style={{
@@ -841,7 +860,7 @@ function Home() {
               </View>
             </View>
             {/* <View style={{backgroundColor: 'red', height: hp('20  %')}}> */}
-            <Swiper
+            {/* <Swiper
               showsButtons={false}
               autoplay={true}
               autoplayTimeout={10}
@@ -855,8 +874,25 @@ function Home() {
                   />
                 </TouchableOpacity>
               ))}
-            </Swiper>
-            {/* </View> */}
+            </Swiper> */}
+
+            <View
+              style={{
+                height: 300,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <TouchableOpacity onPress={GotoExclusiveOffer}>
+                <Text
+                  numberOfLines={10}
+                  style={{
+                    color: Colors.purple,
+                    fontSize: 20,
+                  }}>
+                  EXCLUSIV OFFERS
+                </Text>
+              </TouchableOpacity>
+            </View>
           </ScrollView>
         </View>
       )}

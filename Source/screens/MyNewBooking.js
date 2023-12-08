@@ -9,7 +9,6 @@ import HeaderBack from '../ReusableComponents/HeaderBack';
 import PendingBooking from './PendingBooking';
 import CancelledBooking from './CancelledBooking';
 import CompletedBooking from './CompletedBooking';
-
 const Tab = createMaterialTopTabNavigator();
 
 const Mywallet = ({navigation}) => {
@@ -17,16 +16,14 @@ const Mywallet = ({navigation}) => {
     <>
       <HeaderBack
         color={'#fff'}
-        Title="My Wallet"
+        Title="My Bookings"
         onPress={() => navigation.replace('DrowerNavigation')}
       />
-
       <Tab.Navigator
         screenOptions={{
           tabBarLabelStyle: {fontSize: 14, fontWeight: 'bold'},
           tabBarIndicatorStyle: {
             borderBottomColor: Colors.purple,
-
             borderBottomWidth: 3,
           },
         }}>

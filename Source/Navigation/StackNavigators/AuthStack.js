@@ -44,6 +44,7 @@ import CurrentMobileOtp from '../../screens/CurrentMobileOtp';
 import AddAddress from '../../screens/AddAddress';
 import EditSaveAdress from '../../screens/EditSaveAdress';
 import NotificationSaved from '../../screens/NotificationSaved';
+import ExclusiveOfferScreen from '../../screens/ExclusiveOfferScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -265,6 +266,11 @@ function AuthStack() {
       <Stack.Screen
         name="ServicesRatingplatinum"
         component={ServicesRatingplatinum}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ExclusiveOfferScreen"
+        component={ExclusiveOfferScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

@@ -155,7 +155,6 @@ const ChatBot = ({navigation}) => {
       console.log('scroll tpo end ========================');
       scrollViewRef.current.scrollToEnd({animated: true}, 200);
     }
-
     // scrollViewRef.current.
     // scrollViewRef.current.scrollToEnd({animated: true});
   };
@@ -174,6 +173,7 @@ const ChatBot = ({navigation}) => {
       .then(res => {
         setModalButtonLoading(false);
         if (res.data.message == 'Query Sent successfully') {
+          setOtherQuery('');
           setOtherQueryuModal(!otherQueryModal);
           Toast.showWithGravity(
             "Thank you for your query! We'll be in touch with you soon",
@@ -184,6 +184,8 @@ const ChatBot = ({navigation}) => {
         console.log('-------response submitQuery--->>>', res.data);
       })
       .catch(error => {
+        setModalButtonLoading(false);
+
         if (
           error.response.data.message ==
           'chatbotQueries validation failed: query: Path `query` is required.'
@@ -405,24 +407,36 @@ const ChatBot = ({navigation}) => {
                         {item.message.answer ? (
                           <Text
                             style={{
-                              fontSize: 16,
+                              fontSize: 17,
                               color: '#483d8b',
                               fontWeight: '600',
-                              // marginLeft: 4,
+                              marginBottom: 5,
                             }}>
                             {item.message.answer}
                           </Text>
                         ) : (
                           <Text
                             style={{
-                              fontSize: 16,
+                              fontSize: 17,
                               color: '#fff',
                               fontWeight: '600',
                               // marginLeft: 4,
+                              marginBottom: 5,
                             }}>
                             {item.message}
                           </Text>
                         )}
+                        {/* <Text
+                          style={{
+                            position: 'absolute',
+                            bottom: 3,
+                            right: item.from == 'answer' ? 8 : null,
+                            left: item.from == 'answer' ? null : 6,
+                            fontSize: 12,
+                            color: item.from == 'answer' ? '#483d8b' : '#fff',
+                          }}>
+                          12:09 PM
+                        </Text> */}
                       </View>
                     );
                   })}
