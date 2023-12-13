@@ -369,7 +369,6 @@ const MyCartScreen = props => {
                     {mycartname?.price}
                   </Text>
                 </View>
-
                 <Text style={{fontSize: 14, color: Colors.black, marginTop: 4}}>
                   {mycartname?.serviceDescripton}
                 </Text>

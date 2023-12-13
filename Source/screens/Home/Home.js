@@ -50,6 +50,8 @@ import {
   SetUserData,
 } from '../../features/updatedata/update.reducer';
 import {color} from 'react-native-reanimated';
+import DealOfTheDayServices from './Component/DealOfTheDayServices';
+import {Item} from 'react-native-paper/lib/typescript/components/List/List';
 // import {check, request, PERMISSIONS, RESULTS} from '@react-native-permissions';
 
 // import {Modal} from 'react-native-paper';
@@ -99,6 +101,7 @@ function Home() {
   const [selectedItem, setSelectedItem] = useState(null); // State to keep track of the selected item
   const BASEURL = 'https://kaamkhatamapi.kickrtechnology.online';
   const [topServices, setTopservices] = useState(null);
+  const [dealOfTheDayData, setDealOfTheDayData] = useState([]);
 
   // const requestNotificationPermission = async () => {
   //   const result = await request(PERMISSIONS.ANDROID.POST_NOTIFICATIONS);
@@ -346,31 +349,6 @@ function Home() {
   };
 
   useEffect(() => {
-    getTopServices();
-  }, []);
-
-  const getTopServices = async () => {
-    const token = await _getStorage('token');
-    axios
-      .get(BASEURL + `/api/v1/admin/topService`, {
-        headers: {Authorization: `Bearer ${token}`},
-      })
-      .then(async resp => {
-        // setCategory(resp.data.category);
-        // setIsLoading(false);
-        console.log(
-          'top services== category--------------',
-          resp.data.topServices,
-        );
-        setTopservices(resp.data.topServices);
-      })
-      .catch(e => {
-        console.log('home screen catch error top services', e.response.data);
-        // setIsLoading(false);
-      });
-  };
-
-  useEffect(() => {
     if (isFocused) {
       getNotification();
     }
@@ -447,13 +425,88 @@ function Home() {
         console.log('====in catch====', error);
       });
   };
-
   const GotoExclusiveOffer = () => {
     console.log('GotoExclusiveOffer==>>>>>');
     navigation.navigate('ExclusiveOfferScreen');
   };
 
-  const img = require('../../Assets/Images/hairdressing2.png');
+  //============================================HOT OFFERS================================
+  useEffect(() => {
+    getHotOffers();
+  }, []);
+  const getHotOffers = async () => {
+    const token = await _getStorage('token');
+    axios
+      .get(BASE_URL + `/hotOffers`, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(async res => {
+        console.log(
+          '@@@@@res of getHotOffers:=====>>',
+          JSON.stringify(res.data),
+        );
+      })
+      .catch(e => {
+        console.log(
+          'home screen catch error of getHotOffers',
+          e.response?.data,
+        );
+      });
+  };
+  //============================================HOT OFFERS================================
+
+  //============================================DEAL OF THE DAY================================
+  useEffect(() => {
+    getDealOftheDay();
+  }, []);
+  const getDealOftheDay = async () => {
+    const token = await _getStorage('token');
+    axios
+      .get(BASE_URL + `/dealOfTheDay`, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(async res => {
+        console.log(
+          '#####res of getDealOftheDay:=====>>',
+          JSON.stringify(res.data),
+        );
+        setDealOfTheDayData(res.data?.services);
+      })
+      .catch(e => {
+        console.log(
+          'home screen catch error of getDealOftheDay',
+          e.response?.data,
+        );
+      });
+  };
+  //============================================DEAL OF THE DAY================================
+
+  //============================================TOP SERVICES================================
+  useEffect(() => {
+    getTopServices();
+  }, []);
+  const getTopServices = async () => {
+    const token = await _getStorage('token');
+    axios
+      .get(BASEURL + `/api/v1/admin/topService`, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(async resp => {
+        // setCategory(resp.data.category);
+        // setIsLoading(false);
+        console.log(
+          'res of getTopServices--------------',
+          JSON.stringify(resp.data),
+        );
+        setTopservices(resp.data.topServices);
+      })
+      .catch(e => {
+        console.log('home screen catch error top services', e.response.data);
+        // setIsLoading(false);
+      });
+  };
+  //============================================TOP SERVICES================================
+  const data = [1, 4, 4, 5, 5, 66, 7, 77, 7, 8];
 
   return (
     <SafeAreaView style={styles.container}>
@@ -699,6 +752,7 @@ function Home() {
                     borderRadius: 10,
                     borderColor: '#000',
                     borderWidth: 1,
+                    marginBottom: 30,
                   }}>
                   <Text style={{color: '#000', fontWeight: '500'}}>
                     Explore More
@@ -706,7 +760,79 @@ function Home() {
                 </TouchableOpacity>
               </View>
             </View>
+
+            {/* {========================================HOT OFFERS  COMPONENT========================================== } */}
             <View
+              style={{
+                // backgroundColor: 'red',
+                // width: wp('90%'),
+                // alignSelf: 'center',
+                paddingVertical: 10,
+                // borderTopWidth: 7,
+                // borderTopColor: Colors.grayShade,
+              }}>
+              <Text
+                style={{
+                  color: '#000',
+                  fontSize: 18,
+                  fontWeight: '500',
+                  marginHorizontal: 15,
+                  marginBottom: 10,
+                }}>
+                Hot Offers
+              </Text>
+              <FlatList
+                horizontal={true} // Set to true for horizontal scrolling
+                data={dealOfTheDayData}
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item}) => (
+                  console.log(
+                    'I#####tem of deal of the dealOfTheDayData--->',
+                    item.id,
+                  ),
+                  (
+                    <View
+                      style={{
+                        // height: 200,
+                        marginHorizontal: 10,
+                        // width: '70%',
+                        // height: wp('48%'),
+                        // borderRadius: 10,
+                        // borderWidth: 1.5,
+                        // borderColor: 'grey',
+                      }}>
+                      <View
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <Image
+                          source={{uri: item.imageUrl}}
+                          style={{
+                            width: wp('50%'),
+                            height: wp('28%'),
+                            borderRadius: 10,
+                          }}
+                        />
+                        {/* <Text
+                          style={{
+                            fontSize: hp('1.7%'),
+                            fontWeight: 'bold',
+                            marginTop: hp('1%'),
+                            color: 'black',
+                          }}>
+                          {item.name}
+                        </Text> */}
+                      </View>
+                    </View>
+                  )
+                )}
+              />
+            </View>
+            {/* {========================================HOT OFFERS  COMPONENT========================================== } */}
+
+            {/* <View
               style={{
                 marginTop: 6,
                 borderBottomWidth: 4,
@@ -739,8 +865,9 @@ function Home() {
                     </TouchableOpacity>
                   ))}
               </Swiper>
-            </View>
+            </View> */}
 
+            {/* {========================================TOP SERVIES COMPONENT========================================== } */}
             <View
               style={{
                 paddingVertical: hp('3%'),
@@ -859,39 +986,630 @@ function Home() {
                 </TouchableOpacity>
               </View>
             </View>
-            {/* <View style={{backgroundColor: 'red', height: hp('20  %')}}> */}
-            {/* <Swiper
-              showsButtons={false}
-              autoplay={true}
-              autoplayTimeout={10}
-              showsPagination={false}
-              style={styles.scroll}>
-              {bannerUrl.map((value, index) => (
-                <TouchableOpacity key={index}>
-                  <Image
-                    source={{uri: value.imageUrl}}
-                    style={styles.imgSlider}
-                  />
-                </TouchableOpacity>
-              ))}
-            </Swiper> */}
+            {/* {========================================TOP SERVIES COMPONENT========================================== } */}
 
+            {/* {========================================SERVICE FOR MEN ONLY  COMPONENT========================================== } */}
+            <View
+              style={{
+                // backgroundColor: 'red',
+                // width: wp('90%'),
+                // alignSelf: 'center',
+                paddingVertical: 10,
+                borderTopWidth: 7,
+                borderTopColor: Colors.grayShade,
+                marginTop: 12,
+                // marginHorizontal: 10,
+              }}>
+              <Text
+                style={{
+                  color: '#000',
+                  fontSize: 18,
+                  fontWeight: '500',
+                  marginHorizontal: 15,
+                  marginBottom: 10,
+                }}>
+                Services For Mens
+              </Text>
+              {/* {====================================================1ST ROWS================================================} */}
+
+              <FlatList
+                horizontal={true} // Set to true for horizontal scrolling
+                // data={dealOfTheDayData}
+                data={data.slice(0, Math.ceil(data.length / 2))}
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item}) => (
+                  console.log(
+                    'I#####tem of deal of the dealOfTheDayData--->',
+                    item.id,
+                  ),
+                  (
+                    <View
+                      style={{
+                        // height: 200,
+                        marginHorizontal: 10,
+                        // width: '70%',
+                        // height: wp('48%'),
+                        // borderRadius: 10,
+                        // borderWidth: 1.5,
+                        // borderColor: 'grey',
+                      }}>
+                      <View
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <Image
+                          source={{uri: item?.imageUrl}}
+                          style={{
+                            width: wp('36%'),
+                            height: wp('22%'),
+                            borderRadius: 10,
+                            backgroundColor: 'red',
+                          }}
+                        />
+                        <Text
+                          style={{
+                            fontSize: hp('1.7%'),
+                            fontWeight: 'bold',
+                            marginTop: hp('1%'),
+                            color: 'black',
+                          }}>
+                          {item?.name}
+                        </Text>
+                      </View>
+                    </View>
+                  )
+                )}
+              />
+              {/* {====================================================2ND ROWS================================================} */}
+              <FlatList
+                horizontal={true}
+                data={data.slice(Math.ceil(data.length / 2))}
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item}) => (
+                  console.log(
+                    'I#####tem of deal of the dealOfTheDayData--->',
+                    item.id,
+                  ),
+                  (
+                    <View
+                      style={{
+                        // height: 200,
+                        marginHorizontal: 10,
+                        // width: '70%',
+                        // height: wp('48%'),
+                        // borderRadius: 10,
+                        // borderWidth: 1.5,
+                        // borderColor: 'grey',
+                      }}>
+                      <View
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <Image
+                          source={{uri: item?.imageUrl}}
+                          style={{
+                            width: wp('36%'),
+                            height: wp('22%'),
+                            borderRadius: 10,
+                            backgroundColor: 'red',
+                          }}
+                        />
+                        <Text
+                          style={{
+                            fontSize: hp('1.7%'),
+                            fontWeight: 'bold',
+                            marginTop: hp('1%'),
+                            color: 'black',
+                          }}>
+                          {item?.name}
+                        </Text>
+                      </View>
+                    </View>
+                  )
+                )}
+              />
+            </View>
+            {/* {=======================================SERVICE FOR MEN ONLY  COMPONENT========================================== } */}
+
+            {/* {========================================###SERVICE FOR WOMEN ONLY  COMPONENT####========================================= } */}
+            <View
+              style={{
+                // backgroundColor: 'red',
+                // width: wp('90%'),
+                // alignSelf: 'center',
+                paddingVertical: 10,
+                borderTopWidth: 7,
+                borderTopColor: Colors.grayShade,
+                marginTop: 12,
+                // marginHorizontal: 10,
+              }}>
+              <Text
+                style={{
+                  color: '#000',
+                  fontSize: 18,
+                  fontWeight: '500',
+                  marginHorizontal: 15,
+                  marginBottom: 10,
+                }}>
+                Services For Women Only
+              </Text>
+              {/* {====================================================1ST ROWS================================================} */}
+
+              <FlatList
+                horizontal={true} // Set to true for horizontal scrolling
+                // data={dealOfTheDayData}
+                data={data.slice(0, Math.ceil(data.length / 2))}
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item}) => (
+                  console.log(
+                    'I#####tem of deal of the dealOfTheDayData--->',
+                    item.id,
+                  ),
+                  (
+                    <View
+                      style={{
+                        // height: 200,
+                        marginHorizontal: 10,
+                        // width: '70%',
+                        // height: wp('48%'),
+                        // borderRadius: 10,
+                        // borderWidth: 1.5,
+                        // borderColor: 'grey',
+                      }}>
+                      <View
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <Image
+                          source={{uri: item?.imageUrl}}
+                          style={{
+                            width: wp('36%'),
+                            height: wp('22%'),
+                            borderRadius: 10,
+                            backgroundColor: 'red',
+                          }}
+                        />
+                        <Text
+                          style={{
+                            fontSize: hp('1.7%'),
+                            fontWeight: 'bold',
+                            marginTop: hp('1%'),
+                            color: 'black',
+                          }}>
+                          {item?.name}
+                        </Text>
+                      </View>
+                    </View>
+                  )
+                )}
+              />
+              {/* {====================================================2ND ROWS================================================} */}
+              <FlatList
+                horizontal={true}
+                data={data.slice(Math.ceil(data.length / 2))}
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item}) => (
+                  console.log(
+                    'I#####tem of deal of the dealOfTheDayData--->',
+                    item.id,
+                  ),
+                  (
+                    <View
+                      style={{
+                        // height: 200,
+                        marginHorizontal: 10,
+                        // width: '70%',
+                        // height: wp('48%'),
+                        // borderRadius: 10,
+                        // borderWidth: 1.5,
+                        // borderColor: 'grey',
+                      }}>
+                      <View
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <Image
+                          source={{uri: item?.imageUrl}}
+                          style={{
+                            width: wp('36%'),
+                            height: wp('22%'),
+                            borderRadius: 10,
+                            backgroundColor: 'red',
+                          }}
+                        />
+                        <Text
+                          style={{
+                            fontSize: hp('1.7%'),
+                            fontWeight: 'bold',
+                            marginTop: hp('1%'),
+                            color: 'black',
+                          }}>
+                          {item?.name}
+                        </Text>
+                      </View>
+                    </View>
+                  )
+                )}
+              />
+            </View>
+            {/* {=======================================##SERVICE FOR WOMEN ONLY  COMPONENT##========================================== } */}
+
+            {/* {========================================DETAL OF THE  COMPONENT========================================== } */}
+            <View
+              style={{
+                // backgroundColor: 'red',
+                // width: wp('90%'),
+                // alignSelf: 'center',
+                paddingVertical: 10,
+                borderTopWidth: 7,
+                borderTopColor: Colors.grayShade,
+              }}>
+              <Text
+                style={{
+                  color: '#000',
+                  fontSize: 18,
+                  fontWeight: '500',
+                  marginHorizontal: 15,
+                  marginBottom: 10,
+                }}>
+                DEAL OF THE DAY
+              </Text>
+              <FlatList
+                horizontal={true} // Set to true for horizontal scrolling
+                data={dealOfTheDayData}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item}) => (
+                  console.log(
+                    'I#####tem of deal of the dealOfTheDayData--->',
+                    item.id,
+                  ),
+                  (
+                    <View
+                      style={{
+                        // height: 200,
+                        marginHorizontal: 10,
+                        // width: '70%',
+                        height: wp('48%'),
+                        borderRadius: 10,
+                        borderWidth: 1.5,
+                        borderColor: 'grey',
+                      }}>
+                      <View
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <Image
+                          source={{uri: item.imageUrl}}
+                          style={{
+                            width: wp('35%'),
+                            height: wp('32%'),
+                            borderRadius: 10,
+                          }}
+                        />
+                        <Text
+                          style={{
+                            fontSize: hp('1.7%'),
+                            fontWeight: 'bold',
+                            marginTop: hp('1%'),
+                            color: 'black',
+                          }}>
+                          {item.name}
+                        </Text>
+                      </View>
+                    </View>
+                  )
+                )}
+              />
+            </View>
+            {/* {========================================DETAL OF THE  COMPONENT========================================== } */}
+
+            {/* <View style={{backgroundColor: 'red', height: hp('20  %')}}> */}
+
+            {/* {=================================SPA & MASSAG FOR WOMEN POSTER============================} */}
+            <View
+              style={{
+                width: '100%',
+                height: 280,
+                // backgroundColor: '#000',
+                paddingHorizontal: 15,
+                marginVertical: 20,
+              }}>
+              <View
+                style={{
+                  height: '100%',
+                  width: '100%',
+                  backgroundColor: '#000',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text style={{color: '#fff'}}>POSTER</Text>
+              </View>
+            </View>
+            {/* {=================================SPA & MASSAG FOR WOMEN POSTER============================} */}
+
+            {/* {=======================================PROFESSIONAL CLEAING SERVICE  COMPONENT##  COMPONENT####========================================= } */}
+            <View
+              style={{
+                // backgroundColor: 'red',
+                // width: wp('90%'),
+                // alignSelf: 'center',
+                paddingVertical: 10,
+                borderTopWidth: 7,
+                borderTopColor: Colors.grayShade,
+                marginTop: 12,
+                // marginHorizontal: 10,
+              }}>
+              <Text
+                style={{
+                  color: '#000',
+                  fontSize: 18,
+                  fontWeight: '500',
+                  marginHorizontal: 15,
+                  marginBottom: 10,
+                }}>
+                Professional Cleaning Services
+              </Text>
+              {/* {====================================================1ST ROWS================================================} */}
+
+              <FlatList
+                horizontal={true} // Set to true for horizontal scrolling
+                // data={dealOfTheDayData}
+                data={data.slice(0, Math.ceil(data.length / 2))}
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item}) => (
+                  console.log(
+                    'I#####tem of deal of the dealOfTheDayData--->',
+                    item.id,
+                  ),
+                  (
+                    <View
+                      style={{
+                        // height: 200,
+                        marginHorizontal: 10,
+                        // width: '70%',
+                        // height: wp('48%'),
+                        // borderRadius: 10,
+                        // borderWidth: 1.5,
+                        // borderColor: 'grey',
+                      }}>
+                      <View
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <Image
+                          source={{uri: item?.imageUrl}}
+                          style={{
+                            width: wp('45%'),
+                            height: wp('25%'),
+                            borderRadius: 10,
+                            backgroundColor: 'red',
+                          }}
+                        />
+                        <Text
+                          style={{
+                            fontSize: hp('1.7%'),
+                            fontWeight: 'bold',
+                            marginTop: hp('1%'),
+                            color: 'black',
+                          }}>
+                          {item?.name}
+                        </Text>
+                      </View>
+                    </View>
+                  )
+                )}
+              />
+              {/* {====================================================2ND ROWS================================================} */}
+              <FlatList
+                horizontal={true}
+                data={data.slice(Math.ceil(data.length / 2))}
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item}) => (
+                  console.log(
+                    'I#####tem of deal of the dealOfTheDayData--->',
+                    item.id,
+                  ),
+                  (
+                    <View
+                      style={{
+                        // height: 200,
+                        marginHorizontal: 10,
+                        // width: '70%',
+                        // height: wp('48%'),
+                        // borderRadius: 10,
+                        // borderWidth: 1.5,
+                        // borderColor: 'grey',
+                      }}>
+                      <View
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <Image
+                          source={{uri: item?.imageUrl}}
+                          style={{
+                            width: wp('45%'),
+                            height: wp('25%'),
+                            borderRadius: 10,
+                            backgroundColor: 'red',
+                          }}
+                        />
+                        <Text
+                          style={{
+                            fontSize: hp('1.7%'),
+                            fontWeight: 'bold',
+                            marginTop: hp('1%'),
+                            color: 'black',
+                          }}>
+                          {item?.name}
+                        </Text>
+                      </View>
+                    </View>
+                  )
+                )}
+              />
+            </View>
+            {/* {=======================================PROFESSIONAL CLEAING SERVICE  COMPONENT##========================================== } */}
+            {/* {========================================THERAPIES FOR MEN ONLY========================================== } */}
+            <View
+              style={{
+                // backgroundColor: 'red',
+                // width: wp('90%'),
+                // alignSelf: 'center',
+                paddingVertical: 10,
+                borderTopWidth: 7,
+                borderTopColor: Colors.grayShade,
+                marginTop: 12,
+                // marginHorizontal: 10,
+              }}>
+              <Text
+                style={{
+                  color: '#000',
+                  fontSize: 18,
+                  fontWeight: '500',
+                  marginHorizontal: 15,
+                  marginBottom: 10,
+                }}>
+                Theapies For Men Only
+              </Text>
+              {/* {====================================================1ST ROWS================================================} */}
+              <FlatList
+                horizontal={true} // Set to true for horizontal scrolling
+                // data={dealOfTheDayData}
+                data={data}
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item}) => (
+                  console.log(
+                    'I#####tem of deal of the dealOfTheDayData--->',
+                    item.id,
+                  ),
+                  (
+                    <View
+                      style={{
+                        // height: 200,
+                        marginHorizontal: 8,
+                        // width: '70%',
+                        // height: wp('48%'),
+                        // borderRadius: 10,
+                        // borderWidth: 1.5,
+                        // borderColor: 'grey',
+                      }}>
+                      <View
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <Image
+                          source={{uri: item?.imageUrl}}
+                          style={{
+                            width: wp('36%'),
+                            height: wp('48%'),
+                            // borderRadius: 10,
+                            backgroundColor: 'red',
+                          }}
+                        />
+                        <Text
+                          style={{
+                            fontSize: hp('1.7%'),
+                            fontWeight: 'bold',
+                            marginTop: hp('1%'),
+                            color: 'black',
+                          }}>
+                          kkrkrkk
+                          {item?.name}
+                        </Text>
+                      </View>
+                    </View>
+                  )
+                )}
+              />
+            </View>
+            {/* {=================================BANNERS=======================================================} */}
+
+            <View
+              style={{
+                borderTopWidth: 7,
+                borderTopColor: Colors.grayShade,
+              }}>
+              <Swiper
+                showsButtons={false}
+                autoplay={true}
+                autoplayTimeout={10}
+                showsPagination={false}
+                style={{
+                  backgroundColor: '#fff',
+                  height: hp('25%'),
+                  borderRadius: 20,
+                  resizeMode: 'cover',
+                  paddingTop: 20,
+                }}>
+                {bannerUrl.map((value, index) => (
+                  <TouchableOpacity key={index}>
+                    <Image
+                      source={{uri: value.imageUrl}}
+                      style={{
+                        alignSelf: 'center',
+                        borderWidth: 2,
+                        borderColor: Colors.white,
+                        borderRadius: 10,
+                        width: '95%',
+                        height: '90%',
+                        resizeMode: 'contain',
+                      }}
+                    />
+                  </TouchableOpacity>
+                ))}
+              </Swiper>
+            </View>
+
+            {/* {=================================BANNERS=======================================================} */}
+
+            {/* {=======================================THERAPIES FOR MEN ONLY  COMPONENT========================================== } */}
             <View
               style={{
                 height: 300,
                 justifyContent: 'center',
                 alignItems: 'center',
+                borderTopColor: Colors.grayShade,
+                borderTopWidth: 7,
+                // backgroundColor: '#000',
+                marginTop: 10,
               }}>
-              <TouchableOpacity onPress={GotoExclusiveOffer}>
-                <Text
-                  numberOfLines={10}
-                  style={{
-                    color: Colors.purple,
-                    fontSize: 20,
-                  }}>
-                  EXCLUSIV OFFERS
-                </Text>
-              </TouchableOpacity>
+              <View
+                style={{
+                  height: 200,
+                  width: 200,
+                  borderRadius: 100,
+                  // backgroundColor: '#fff',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderColor: Colors.purple,
+                  borderWidth: 2,
+                }}>
+                <TouchableOpacity onPress={GotoExclusiveOffer}>
+                  <Text
+                    numberOfLines={10}
+                    style={{
+                      color: Colors.purple,
+                      fontSize: 20,
+                    }}>
+                    EXCLUSIV OFFERS
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </ScrollView>
         </View>

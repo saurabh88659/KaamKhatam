@@ -4,6 +4,7 @@ import {
   SafeAreaView,
   ScrollView,
   RefreshControl,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Colors from '../../Assets/Constants/Colors';
@@ -11,15 +12,21 @@ import {_getStorage} from '../../Assets/utils/storage/Storage';
 import axios from 'axios';
 import {BASE_URL} from '../../Assets/utils/Restapi/Config';
 import moment from 'moment-timezone';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
+import {useIsFocused} from '@react-navigation/native';
 
 export default function TranscationsScreen() {
   const IST_TIMEZONE = 'Asia/Kolkata';
   const [historytra, setHistorytra] = useState([]);
   const [ismessage, setIsmessage] = useState('');
   const [refresh, setRfresh] = useState(false);
-  // const date = historytra[0].time;
-  // console.log(date, '==');
-  console.log(historytra, '===========historytra=============');
+  const [isLoading, setIsLoading] = useState(true);
+  const isFocused = useIsFocused();
+
+  console.log(historytra, '===========history=============');
   useEffect(() => {
     _getPaymentHistory();
     // getPaymentHistory();
@@ -31,12 +38,14 @@ export default function TranscationsScreen() {
 
   //old api----------of hostory
   const _getPaymentHistory = async () => {
+    setIsLoading(true);
     const token = await _getStorage('token');
     axios
       .get(BASE_URL + `/transactions/paymentHistory`, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(res => {
+        setIsLoading(false);
         console.log(
           res.data.history.payment_history,
           '===============transaction history====================',
@@ -44,10 +53,11 @@ export default function TranscationsScreen() {
         if (res.data.message === 'No History Record') {
           setIsmessage(res.data.message);
         } else if (res.data?.message == 'History Fetched') {
-          setHistorytra(res.data.history.payment_history);
+          setHistorytra(res?.data?.history?.payment_history);
         }
       })
       .catch(error => {
+        setIsLoading(false);
         console.log('Payment History catch error', error);
         // setIsmessage(error.respone.data);
       });
@@ -77,23 +87,47 @@ export default function TranscationsScreen() {
   console.log('ismessage-----------', ismessage);
   return (
     <SafeAreaView style={{flex: 1}}>
-      <ScrollView
-        contentContainerStyle={{paddingBottom: 20}}
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl refreshing={refresh} onRefresh={_getPaymentHistory} />
-        }>
-        {historytra == [] ? (
+      {isLoading === true ? (
+        <ActivityIndicator
+          color="#FFA034"
+          size="large"
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginTop: hp('37%'),
+          }}
+        />
+      ) : historytra.length === 0 ? (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Text
             style={{
-              // textAlign: 'center',
-              // marginTop: '80%',
-              color: '#000',
+              color: Colors.darkGray,
+              fontSize: 21,
+              fontWeight: '500',
             }}>
-            NO DATA
+            No transaction history available.
           </Text>
-        ) : (
-          historytra
+          <Text
+            style={{
+              color: Colors.lightGray,
+              fontSize: 15,
+              fontWeight: 'normal',
+              marginTop: 10,
+            }}>
+            You haven't made any transactions yet
+          </Text>
+        </View>
+      ) : (
+        <ScrollView
+          contentContainerStyle={{paddingBottom: 20}}
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={refresh}
+              onRefresh={_getPaymentHistory}
+            />
+          }>
+          {historytra
             .slice() // Create a shallow copy of the original array to avoid modifying it
             .reverse()
             .map((value, index) => {
@@ -159,7 +193,8 @@ export default function TranscationsScreen() {
                             // marginVertical: 6,
                             marginHorizontal: 7,
                           }}>
-                          {istMoment.format('HH:mm A')}
+                          {istMoment.format('h:mm A')}
+                          {/* {istMoment.format('HH:mm A')} */}
                         </Text>
                       </View>
                       {value?.purpose == 'refund' ? null : (
@@ -209,9 +244,9 @@ export default function TranscationsScreen() {
                   </View>
                 </View>
               );
-            })
-        )}
-      </ScrollView>
+            })}
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 }

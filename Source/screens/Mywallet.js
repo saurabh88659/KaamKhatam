@@ -8,7 +8,6 @@ import HeaderDrawer from '../ReusableComponents/HeaderDrawer';
 import HeaderBack from '../ReusableComponents/HeaderBack';
 
 const Tab = createMaterialTopTabNavigator();
-
 const Mywallet = ({navigation}) => {
   return (
     <>
@@ -17,7 +16,6 @@ const Mywallet = ({navigation}) => {
         Title="My Wallet"
         onPress={() => navigation.replace('DrowerNavigation')}
       />
-
       <Tab.Navigator
         screenOptions={{
           tabBarLabelStyle: {fontSize: 14, fontWeight: 'bold'},
@@ -32,5 +30,4 @@ const Mywallet = ({navigation}) => {
     </>
   );
 };
-
 export default Mywallet;

@@ -18,7 +18,6 @@ import Editaddress from './Source/screens/Editaddress';
 import EditSaveAdress from './Source/screens/EditSaveAdress';
 import Viewdetails from './Source/screens/Viewdetails';
 import NotificationSaved from './Source/screens/NotificationSaved';
-
 function App() {
   // useEffect(() => {
   //   geteviceToken();
@@ -28,7 +27,6 @@ function App() {
   //   const token = await notificationOndisplay.getDeviceToken();
   //   console.log(token, '===================================----====+++++###');
   // };
-
   // const HandleNotificationOndisplay = () => {
   //   notificationListeners();
   // };

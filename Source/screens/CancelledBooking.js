@@ -55,8 +55,8 @@ function CancelledBooking({navigation}) {
   setTimeout(() => {
     setRfresh(false);
   }, 3000);
-  // console.log(bookdetails, '-------------bookdetails');
 
+  // console.log(bookdetails, '-------------bookdetails');
   // function handleBackButtonClick() {
   //   navigation.navigate('Home');
   //   return true;

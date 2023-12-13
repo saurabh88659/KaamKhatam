@@ -45,6 +45,7 @@ const ProfileScreen = ({navigation, route}) => {
   const UserData = useSelector(state => state.updateState.userData);
   console.log('UserData=======on ExclusiveOfferScreen', UserData.referralId);
   // const profileImgeUrl = useSelector(state => state.updateState.profileImgeUrl);
+
   const dispatch = useDispatch();
   const [profileData, setProfileData] = useState('');
   const [visible, setVisible] = useState(false);
@@ -56,7 +57,6 @@ const ProfileScreen = ({navigation, route}) => {
   const [onUpdateImage, setOnUpdateImage] = useState(Math.random());
   const [buttonLoading, setButtonLoading] = useState(false);
   const [copiedText, setCopiedText] = useState('');
-
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -72,7 +72,8 @@ const ProfileScreen = ({navigation, route}) => {
   };
 
   const copyToClipboard = () => {
-    Clipboard.setString('hello world');
+    Clipboard.setString(`REFERRAL CODE : ${UserData.referralId}`);
+    Toast.showWithGravity('copied to clipboard', Toast.SHORT, Toast.BOTTOM);
   };
 
   const onGallary = () => {

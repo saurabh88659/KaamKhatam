@@ -96,7 +96,6 @@ function PendingBooking({navigation}) {
           if (!hasRequiredFields) {
             setNoData('No data Found!');
           }
-
           console.log('======all Bookdetails 0000=====>', res.data.newData);
         }
         setIsLoading(false);

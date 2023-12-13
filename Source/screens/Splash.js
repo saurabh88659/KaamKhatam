@@ -77,6 +77,9 @@ const Splash = ({navigation}) => {
                   })
                   .catch(error => {
                     console.log('errr--->>>', error.response?.data.message);
+                    if (error.response?.data.message == 'Wrong refresh token') {
+                      navigation.replace('Login');
+                    }
                   });
                 // update access token in storage
               }
