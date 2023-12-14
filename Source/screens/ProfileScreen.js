@@ -239,45 +239,39 @@ const ProfileScreen = ({navigation, route}) => {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-      <StatusBar translucent={true} backgroundColor={'transparent'} />
-      <LinearGradient
-        colors={['#5E2DC4', '#320F52']}
-        start={{x: 0, y: 0.5}}
-        end={{x: 1.0, y: 0.5}}
-        // style={{backgroundColor: 'grey', flex: 0.4}}
-      >
-        <SafeAreaView
-          style={{
-            width: wp('100%'),
-            height: hp('8%'),
-            // backgroundColor: Colors.topNavbarColor,
-            paddingHorizontal: wp('4%'),
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginTop: hp('4.5%'),
-          }}>
-          <TouchableOpacity
-            style={{width: 20}}
-            onPress={() => navigation.goBack('')}>
-            <FontAwesome5
-              name="keyboard-backspace"
-              color={Colors.white}
-              size={hp('3.7%')}
-            />
-          </TouchableOpacity>
-          <View>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                fontSize: hp('2.7%'),
-                color: Colors.white,
-                marginLeft: wp('5%'),
-              }}>
-              My Profile
-            </Text>
-          </View>
-        </SafeAreaView>
-      </LinearGradient>
+      <StatusBar translucent={true} backgroundColor={Colors.topNavbarColor} />
+
+      <SafeAreaView
+        style={{
+          width: wp('100%'),
+          height: hp('8%'),
+          backgroundColor: Colors.topNavbarColor,
+          paddingHorizontal: wp('4%'),
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginTop: hp('3%'),
+        }}>
+        <TouchableOpacity
+          style={{width: 20}}
+          onPress={() => navigation.goBack('')}>
+          <FontAwesome5
+            name="keyboard-backspace"
+            color={Colors.white}
+            size={hp('3.7%')}
+          />
+        </TouchableOpacity>
+        <View>
+          <Text
+            style={{
+              fontWeight: 'bold',
+              fontSize: hp('2.7%'),
+              color: Colors.white,
+              marginLeft: wp('5%'),
+            }}>
+            My Profile
+          </Text>
+        </View>
+      </SafeAreaView>
 
       {isLoading ? (
         <View
@@ -295,9 +289,10 @@ const ProfileScreen = ({navigation, route}) => {
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{paddingBottom: 70}}>
             <LinearGradient
-              colors={['#5E2DC4', '#320F52']}
-              start={{x: 0, y: 0.5}}
-              end={{x: 1.0, y: 0.5}}
+              // colors={['#5E2DC4', '#320F52']}
+              colors={['#7A33C2', '#A67FF9']}
+              start={{x: 0.5, y: 0}} // vertical gradient start from the top
+              end={{x: 0.5, y: 1.0}}
               style={{backgroundColor: 'grey', flex: 0.4}}>
               <ImageBackground
                 source={require('../Assets/Images/profilePicture123.png')}

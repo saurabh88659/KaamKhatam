@@ -48,13 +48,13 @@ const Topservices = props => {
   const [getallservices, setGetallservices] = useState([]);
   const preData = props.route.params;
   // const allservices = props.route.params.item._id;
-  const allservices = props.route.params.selectedItem._id;
+  const allservices = props.route.params?.Item;
 
   useEffect(() => {
     setGetallservices(allservices);
   }, []);
 
-  console.log('preData----------service', preData);
+  console.log('###preData----------service', preData);
   console.log('getallservices----------service', getallservices);
 
   const toggleBottomNavigationView = id => {

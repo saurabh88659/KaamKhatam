@@ -35,7 +35,6 @@ import InternetInfoall from '../../Assets/utils/Handler/InternetInfoall';
 import LinearGradient from 'react-native-linear-gradient';
 import BeautyServices from './Component/BeautyServices';
 import Toast from 'react-native-simple-toast';
-
 import MapmyIndiaGL from 'mapmyindia-map-react-native-beta';
 import Mapmyindia from 'mapmyindia-restapi-react-native-beta';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -53,28 +52,21 @@ import {color} from 'react-native-reanimated';
 import DealOfTheDayServices from './Component/DealOfTheDayServices';
 import {Item} from 'react-native-paper/lib/typescript/components/List/List';
 // import {check, request, PERMISSIONS, RESULTS} from '@react-native-permissions';
-
 // import {Modal} from 'react-native-paper';
 
 const API_KEY = 'AIzaSyD3Uol_-mBQSaZgIfuzVVK1oHXqBHPkrZE';
-
 MapmyIndiaGL.setMapSDKKey(' 8ee0b13464d3c2f63fb06806e1611675'); //place your mapsdkKey
-
 MapmyIndiaGL.setRestAPIKey(' 8ee0b13464d3c2f63fb06806e1611675'); //your restApiKey
-
 MapmyIndiaGL.setAtlasClientId(
   '33OkryzDZsLNc-DO6bIDFY9l_l5dL23iJ6BJLxWsgCrFmfNqrCvjxEwLlpddSqKrYf0tkJe5lViOffRo8YDrwQ====',
 ); //your atlasClientId key
 MapmyIndiaGL.setAtlasClientSecret(
   '33OkryzDZsLNc-DO6bIDFY9l_l5dL23iJ6BJLxWsgCrFmfNqrCvjxEwLlpddSqKrYf0tkJe5lViOffRo8YDrwQ====',
 ); //your atlasClientSecret key
-
 Mapmyindia.setRestApiKey(' 8ee0b13464d3c2f63fb06806e1611675');
-
 Mapmyindia.setClientId(
   '33OkryzDZsINNUKLtouGXDuMmyarRjHCpMqepZrjyJtohZ_anWX8b1U3lPyf3IVPPmR9grAaNwt1IKFH7RXrNg==',
 );
-
 Mapmyindia.setClientSecret(
   'lrFxI-lrFxI-iSEg8Ees5ciZfVNWogwrQ839ihm1r9GZUgnt9umUjxUwgYkll_UDKTarotOmyqYrESMXTt_DDBJ1fsNm8xPF0lFRWl',
 );
@@ -100,8 +92,15 @@ function Home() {
   const [Coordinates, setCoordinates] = useState('');
   const [selectedItem, setSelectedItem] = useState(null); // State to keep track of the selected item
   const BASEURL = 'https://kaamkhatamapi.kickrtechnology.online';
-  const [topServices, setTopservices] = useState(null);
+  const [hotOffersData, setHotOffersData] = useState([]);
+  const [topServices, setTopservices] = useState([]);
+  const [serviceForMenData, setserviceForMenData] = useState([]);
+  const [serviceForWomenData, setserviceForWomenData] = useState([]);
   const [dealOfTheDayData, setDealOfTheDayData] = useState([]);
+  const [ProfessionalCleaningServiceData, setProfessionalCleaningServiceData] =
+    useState([]);
+  const [ElectricalSerives, setElectricalSerives] = useState([]);
+  const [therapiesForMenServices, SetTherapiesForMenServices] = useState([]);
 
   // const requestNotificationPermission = async () => {
   //   const result = await request(PERMISSIONS.ANDROID.POST_NOTIFICATIONS);
@@ -159,7 +158,10 @@ function Home() {
       })
       .then(async resp => {
         setCategory(resp.data.category);
-        setIsLoading(false);
+
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1000);
         // console.log('home category--------------', resp.data.category);
       })
       .catch(e => {
@@ -188,11 +190,9 @@ function Home() {
         } else {
         }
         console.log('subCategory-------->>>', resp.data.result.subCategory);
-        setIsLoading(false);
       })
       .catch(error => {
         console.log('in catch error data home', error.response);
-        setIsLoading(false);
       });
   };
 
@@ -312,7 +312,6 @@ function Home() {
         Toast.SHORT,
         Toast.BOTTOM,
       );
-
       currentCount += 1;
     }
     setTimeout(() => {
@@ -341,11 +340,16 @@ function Home() {
       );
     } else {
       console.log('jjj=======>', selectedItem);
-      navigation.navigate('Topservices', {selectedItem});
+      // navigation.navigate('Topservices', {selectedItem});
       setTimeout(() => {
         setSelectedItem(null);
       }, 500);
     }
+  };
+
+  const bookAnyService = async Item => {
+    console.log('check Item of BookAnyService:', Item);
+    navigation.navigate('Topservices', {Item});
   };
 
   useEffect(() => {
@@ -434,6 +438,7 @@ function Home() {
   useEffect(() => {
     getHotOffers();
   }, []);
+
   const getHotOffers = async () => {
     const token = await _getStorage('token');
     axios
@@ -441,21 +446,100 @@ function Home() {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(async res => {
+        // setIsLoading(false);
+
         console.log(
           '@@@@@res of getHotOffers:=====>>',
           JSON.stringify(res.data),
         );
+        setHotOffersData(res.data);
       })
       .catch(e => {
+        // setIsLoading(false);
+
         console.log(
           'home screen catch error of getHotOffers',
           e.response?.data,
         );
       });
   };
-  //============================================HOT OFFERS================================
+  //============================================HOT OFFERS===================================================================
 
-  //============================================DEAL OF THE DAY================================
+  //============================================TOP SERVICES================================
+  useEffect(() => {
+    getTopServices();
+  }, []);
+
+  const getTopServices = async () => {
+    const token = await _getStorage('token');
+    axios
+      .get(BASEURL + `/api/v1/admin/topService`, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(async resp => {
+        console.log(
+          'res of getTopServices--------------',
+          JSON.stringify(resp.data),
+        );
+        setTopservices(resp.data.topServices);
+      })
+      .catch(e => {
+        console.log('home screen catch error top services', e.response.data);
+      });
+  };
+  //============================================ SERVICES FOR MEN API================================
+
+  useEffect(() => {
+    getServicesForMen();
+  }, []);
+
+  const getServicesForMen = async () => {
+    const token = await _getStorage('token');
+    const object = {categoryType: 'serviceForMen'};
+    axios
+      .post(BASE_URL + `/serviceHome`, object, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(async resp => {
+        console.log(
+          '%%%%%%%%%%%%%%%%%%%%%%%%%%res of getServicesForMen%%%%%%%%%%%%%%%%%%%%%%%%%%%%%',
+          JSON.stringify(resp.data?.services),
+        );
+        setserviceForMenData(resp.data?.services);
+      })
+      .catch(e => {
+        console.log('Catch error getServicesForMen', e?.response?.data);
+      });
+  };
+  //============================================SERVICES FOR MEN API================================
+
+  //============================================ SERVICES FOR WOMEN API================================
+
+  useEffect(() => {
+    getServicesForWomen();
+  }, []);
+
+  const getServicesForWomen = async () => {
+    const token = await _getStorage('token');
+    const object = {categoryType: 'serviceForWomen'};
+    axios
+      .post(BASE_URL + `/serviceHome`, object, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(async resp => {
+        console.log(
+          'res of getServicesForWomen--------------',
+          JSON.stringify(resp.data),
+        );
+        setserviceForWomenData(resp.data?.services);
+      })
+      .catch(e => {
+        console.log('Catch error getServicesForWomen', e?.response?.data);
+      });
+  };
+  //============================================SERVICES FOR WOMEN API================================
+
+  //============================================DEAL OF THE DAY API==============================================================
   useEffect(() => {
     getDealOftheDay();
   }, []);
@@ -467,7 +551,7 @@ function Home() {
       })
       .then(async res => {
         console.log(
-          '#####res of getDealOftheDay:=====>>',
+          '#####Res of getDealOftheDay:=====>>',
           JSON.stringify(res.data),
         );
         setDealOfTheDayData(res.data?.services);
@@ -479,35 +563,98 @@ function Home() {
         );
       });
   };
-  //============================================DEAL OF THE DAY================================
+  //============================================DEAL OF THE DAY API===============================
 
-  //============================================TOP SERVICES================================
+  //============================================CLEANING API==============================================================
   useEffect(() => {
-    getTopServices();
+    getCleaningServices();
   }, []);
-  const getTopServices = async () => {
+  const getCleaningServices = async () => {
     const token = await _getStorage('token');
+    const object = {categoryType: 'cleaning'};
+
     axios
-      .get(BASEURL + `/api/v1/admin/topService`, {
+      .post(BASE_URL + `/serviceHome`, object, {
         headers: {Authorization: `Bearer ${token}`},
       })
-      .then(async resp => {
-        // setCategory(resp.data.category);
-        // setIsLoading(false);
+      .then(async res => {
         console.log(
-          'res of getTopServices--------------',
-          JSON.stringify(resp.data),
+          '%%%%Res of getCleaningServices:=====>>',
+          JSON.stringify(res.data),
         );
-        setTopservices(resp.data.topServices);
+        setProfessionalCleaningServiceData(res.data?.services);
       })
       .catch(e => {
-        console.log('home screen catch error top services', e.response.data);
-        // setIsLoading(false);
+        console.log(
+          'home screen catch error of getCleaningServices',
+          e.response?.data,
+        );
       });
   };
-  //============================================TOP SERVICES================================
-  const data = [1, 4, 4, 5, 5, 66, 7, 77, 7, 8];
+  //============================================CLEANING API===============================
 
+  //============================================CLEANING API==============================================================
+  useEffect(() => {
+    getElectricalServices();
+  }, []);
+  const getElectricalServices = async () => {
+    const token = await _getStorage('token');
+    const object = {categoryType: 'electricians'};
+
+    axios
+      .post(BASE_URL + `/serviceHome`, object, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(async res => {
+        console.log(
+          '%%%%Res of getElectricalServices:=====>>',
+          JSON.stringify(res.data),
+        );
+        setElectricalSerives(res.data?.services);
+      })
+      .catch(e => {
+        console.log(
+          'home screen catch error of getElectricalServices',
+          e.response?.data,
+        );
+      });
+  };
+
+  //============================================CLEANING API===============================
+
+  //============================================THERAPIES FOR MEN API==============================================================
+  useEffect(() => {
+    getTherapiesForMen();
+  }, []);
+
+  const getTherapiesForMen = async () => {
+    const token = await _getStorage('token');
+    const object = {categoryType: 'therapies'};
+    axios
+      .post(BASE_URL + `/serviceHome`, object, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(async res => {
+        console.log(
+          '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Res of get Theapies For Men:=====>>',
+          JSON.stringify(res.data),
+        );
+        SetTherapiesForMenServices(res.data?.services);
+      })
+      .catch(e => {
+        console.log(
+          '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++home screen catch error of getTheapiesForMen',
+          e.response?.data,
+        );
+      });
+  };
+  //===========================================THERAPIES FOR MEN API===============================
+  // console.log(
+  //   '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@22Item of Services For Mens --->',
+  //   serviceForMenData,
+  // );
+
+  const data = [1, 2, 3, 4, 5];
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -701,6 +848,7 @@ function Home() {
               </Swiper>
             </View> */}
 
+            {/* {========================================CATEGORY  COMPONENT========================================== } */}
             <View
               style={{
                 backgroundColor: Colors.white,
@@ -710,7 +858,8 @@ function Home() {
                 shadowOpacity: 0.4,
                 shadowRadius: 3,
                 // elevation: 5,
-                top: 20, //=============afterbanner
+                top: 20,
+                //=============afterbanner
                 // marginHorizontal: 20,
               }}>
               <View
@@ -760,6 +909,7 @@ function Home() {
                 </TouchableOpacity>
               </View>
             </View>
+            {/* {========================================CATEGORY  COMPONENT========================================== } */}
 
             {/* {========================================HOT OFFERS  COMPONENT========================================== } */}
             <View
@@ -787,12 +937,10 @@ function Home() {
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({item}) => (
-                  console.log(
-                    'I#####tem of deal of the dealOfTheDayData--->',
-                    item.id,
-                  ),
+                  console.log('Item of HOT OFFERS--->', item.id),
                   (
-                    <View
+                    <TouchableOpacity
+                      onPress={() => bookAnyService(item)}
                       style={{
                         // height: 200,
                         marginHorizontal: 10,
@@ -825,7 +973,7 @@ function Home() {
                           {item.name}
                         </Text> */}
                       </View>
-                    </View>
+                    </TouchableOpacity>
                   )
                 )}
               />
@@ -868,7 +1016,8 @@ function Home() {
             </View> */}
 
             {/* {========================================TOP SERVIES COMPONENT========================================== } */}
-            <View
+
+            {/* <View
               style={{
                 paddingVertical: hp('3%'),
                 // backgroundColor: Colors.lightGray,
@@ -882,70 +1031,9 @@ function Home() {
                   borderRadius: hp('1%'),
                   backgroundColor: Colors.white,
                   paddingBottom: hp('2%'),
-                  elevation: 5,
+                  // elevation: 5,
                 }}>
-                {/* <LinearGradient
-                  start={{x: 0.0, y: 0.25}}
-                  end={{x: 0.9, y: 1.0}}
-                  // locations={[0, 0.8, 0.6]}
-                  colors={['#5E2DC4', '#7A33C2', '#320F52']}
-                  style={{
-                    padding: hp('2%'),
-                    alignItems: 'center',
-                    borderTopLeftRadius: hp('1%'),
-                    borderTopRightRadius: hp('1%'),
-                  }}>
-                  <Text
-                    style={{
-                      color: 'white',
-                      fontWeight: 'bold',
-                      fontSize: hp('2%'),
-                    }}>
-                    India's Safest At Home Beauty Services
-                  </Text>
-                </LinearGradient> */}
-                {/* <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-around',
-                  }}>
-                  <BeautyServices
-                    title="Classic Mani & Pedi"
-                    image={require('../../Assets/Images/hairdressing2.png')}
-                    // onPress={() => props.navigation.navigate('Manicure', props)}
-                  />
-                  <BeautyServices
-                    onPress={() => {
-                      // props.navigation.navigate('Bleach', props);
-                    }}
-                    title="Clean up + Bleach"
-                    image={require('../../Assets/Images/Massage1.png')}
-                  />
-                </View> */}
-                {/* <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-around',
-                    paddingBottom: hp('1%'),
-                  }}>
-                  <BeautyServices
-                    title="Chocolate Wax"
-                    image={require('../../Assets/Images/Massage3.png')}
-                    // onPress={() => {
-                    //   props.navigation.navigate('Chocolatewax', props);
-                    // }}
-                  />
-                  <BeautyServices
-                    title="Skin Brightening"
-                    image={require('../../Assets/Images/Massage4.png')}
-                    // onPress={() => {
-                    //   props.navigation.navigate('CSleanup', props);
-                    // }}
-                </View> */}
-                {/* {byb api servixces ==========} */}
                 <FlatList
-                  // style={{justifyContent: 'space-between'}}
-                  // style={{padding: 10}}
                   data={topServices}
                   keyExtractor={(item, index) => index.toString()}
                   numColumns={2} // Set the number of columns
@@ -963,7 +1051,6 @@ function Home() {
                   )}
                 />
 
-                {/* {byb api servixces ==========} */}
                 <TouchableOpacity
                   style={{
                     paddingHorizontal: wp('15%'),
@@ -985,10 +1072,10 @@ function Home() {
                   </Text>
                 </TouchableOpacity>
               </View>
-            </View>
+            </View> */}
             {/* {========================================TOP SERVIES COMPONENT========================================== } */}
 
-            {/* {========================================SERVICE FOR MEN ONLY  COMPONENT========================================== } */}
+            {/* {======================================== NEW TOP SERVICES  COMPONENT  COMPONENT========================================== } */}
             <View
               style={{
                 // backgroundColor: 'red',
@@ -1008,20 +1095,74 @@ function Home() {
                   marginHorizontal: 15,
                   marginBottom: 10,
                 }}>
-                Services For Mens
+                Top Services
               </Text>
               {/* {====================================================1ST ROWS================================================} */}
 
               <FlatList
-                horizontal={true} // Set to true for horizontal scrolling
-                // data={dealOfTheDayData}
-                data={data.slice(0, Math.ceil(data.length / 2))}
+                horizontal={true}
+                data={
+                  topServices?.length >= 5
+                    ? topServices.slice(0, Math.ceil(topServices.length / 2))
+                    : topServices
+                }
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item}) => (
+                  console.log('@@@@Item new Top services--->', item),
+                  (
+                    <TouchableOpacity
+                      onPress={() => bookAnyService(item)}
+                      style={{
+                        // height: 200,
+                        marginHorizontal: 10,
+                        // width: '70%',
+                        // height: wp('48%'),
+                        // borderRadius: 10,
+                        // borderWidth: 1.5,
+                        // borderColor: 'grey',
+                      }}>
+                      <View
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <Image
+                          source={{uri: item?.imageUrl}}
+                          style={{
+                            width: wp('36%'),
+                            height: wp('22%'),
+                            borderRadius: 10,
+                            // backgroundColor: 'red',
+                          }}
+                        />
+                        <Text
+                          style={{
+                            fontSize: hp('1.7%'),
+                            fontWeight: 'bold',
+                            marginTop: hp('1%'),
+                            color: 'black',
+                          }}>
+                          {item?.name}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  )
+                )}
+              />
+              {/* {====================================================2ND ROWS================================================} */}
+              <FlatList
+                horizontal={true}
+                data={
+                  topServices.length >= 5
+                    ? topServices.slice(Math.ceil(topServices.length / 2))
+                    : []
+                }
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({item}) => (
                   console.log(
-                    'I#####tem of deal of the dealOfTheDayData--->',
-                    item.id,
+                    console.log('%%%%Item new Top services--->', item),
                   ),
                   (
                     <View
@@ -1062,10 +1203,104 @@ function Home() {
                   )
                 )}
               />
+            </View>
+            {/* {=======================================NEW TOP SERVICES  COMPONENT  COMPONENT========================================== } */}
+
+            {/* {========================================SERVICE FOR MEN ONLY  COMPONENT========================================== } */}
+            <View
+              style={{
+                // backgroundColor: 'red',
+                // width: wp('90%'),
+                // alignSelf: 'center',
+                paddingVertical: 10,
+                borderTopWidth: 7,
+                borderTopColor: Colors.grayShade,
+                marginTop: 12,
+                // marginHorizontal: 10,
+              }}>
+              <Text
+                style={{
+                  color: '#000',
+                  fontSize: 18,
+                  fontWeight: '500',
+                  marginHorizontal: 15,
+                  marginBottom: 10,
+                }}>
+                Services For Mens
+              </Text>
+              {/* {====================================================1ST ROWS================================================} */}
+
+              <FlatList
+                horizontal={true} // Set to true for horizontal scrolling
+                // data={dealOfTheDayData}
+                // numColumns={2}
+                /* data={data.slice(0, Math.ceil(data.length / 2))} */
+                data={
+                  serviceForMenData.length >= 5
+                    ? serviceForMenData.slice(
+                        0,
+                        Math.ceil(serviceForMenData.length / 2),
+                      )
+                    : serviceForMenData
+                }
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item}) => (
+                  console.log(
+                    '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@22Item of Services For Mens --->',
+                    item,
+                  ),
+                  (
+                    <TouchableOpacity
+                      onPress={() => bookAnyService(item)}
+                      style={{
+                        // height: 200,
+                        marginHorizontal: 10,
+                        // width: '70%',
+                        // height: wp('48%'),
+                        // borderRadius: 10,
+                        // borderWidth: 1.5,
+                        // borderColor: 'grey',
+                      }}>
+                      <View
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <Image
+                          source={{uri: item?.imageUrl}}
+                          style={{
+                            width: wp('36%'),
+                            height: wp('22%'),
+                            borderRadius: 10,
+                            // backgroundColor: 'red',
+                          }}
+                        />
+                        <Text
+                          style={{
+                            fontSize: hp('1.7%'),
+                            fontWeight: 'bold',
+                            marginTop: hp('1%'),
+                            color: 'black',
+                          }}>
+                          {item?.name}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  )
+                )}
+              />
+
               {/* {====================================================2ND ROWS================================================} */}
               <FlatList
                 horizontal={true}
-                data={data.slice(Math.ceil(data.length / 2))}
+                data={
+                  serviceForMenData.length >= 5
+                    ? serviceForMenData.slice(
+                        Math.ceil(serviceForMenData.length / 2),
+                      )
+                    : []
+                }
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({item}) => (
@@ -1074,7 +1309,8 @@ function Home() {
                     item.id,
                   ),
                   (
-                    <View
+                    <TouchableOpacity
+                      onPress={() => bookAnyService(item)}
                       style={{
                         // height: 200,
                         marginHorizontal: 10,
@@ -1108,7 +1344,7 @@ function Home() {
                           {item?.name}
                         </Text>
                       </View>
-                    </View>
+                    </TouchableOpacity>
                   )
                 )}
               />
@@ -1142,107 +1378,110 @@ function Home() {
               <FlatList
                 horizontal={true} // Set to true for horizontal scrolling
                 // data={dealOfTheDayData}
-                data={data.slice(0, Math.ceil(data.length / 2))}
+                data={
+                  serviceForWomenData.length >= 5
+                    ? serviceForWomenData.slice(
+                        0,
+                        Math.ceil(serviceForWomenData.length / 2),
+                      )
+                    : serviceForWomenData
+                }
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({item}) => (
-                  console.log(
-                    'I#####tem of deal of the dealOfTheDayData--->',
-                    item.id,
-                  ),
-                  (
+                  <TouchableOpacity
+                    onPress={() => bookAnyService(item)}
+                    style={{
+                      // height: 200,
+                      marginHorizontal: 10,
+                      // width: '70%',
+                      // height: wp('48%'),
+                      // borderRadius: 10,
+                      // borderWidth: 1.5,
+                      // borderColor: 'grey',
+                    }}>
                     <View
                       style={{
-                        // height: 200,
-                        marginHorizontal: 10,
-                        // width: '70%',
-                        // height: wp('48%'),
-                        // borderRadius: 10,
-                        // borderWidth: 1.5,
-                        // borderColor: 'grey',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                       }}>
-                      <View
+                      <Image
+                        source={{uri: item?.imageUrl}}
                         style={{
-                          justifyContent: 'center',
-                          alignItems: 'center',
+                          width: wp('36%'),
+                          height: wp('22%'),
+                          borderRadius: 10,
+                          // backgroundColor: 'red',
+                        }}
+                      />
+                      <Text
+                        style={{
+                          fontSize: hp('1.7%'),
+                          fontWeight: 'bold',
+                          marginTop: hp('1%'),
+                          color: 'black',
                         }}>
-                        <Image
-                          source={{uri: item?.imageUrl}}
-                          style={{
-                            width: wp('36%'),
-                            height: wp('22%'),
-                            borderRadius: 10,
-                            backgroundColor: 'red',
-                          }}
-                        />
-                        <Text
-                          style={{
-                            fontSize: hp('1.7%'),
-                            fontWeight: 'bold',
-                            marginTop: hp('1%'),
-                            color: 'black',
-                          }}>
-                          {item?.name}
-                        </Text>
-                      </View>
+                        {item?.name}
+                      </Text>
                     </View>
-                  )
+                  </TouchableOpacity>
                 )}
               />
               {/* {====================================================2ND ROWS================================================} */}
               <FlatList
                 horizontal={true}
-                data={data.slice(Math.ceil(data.length / 2))}
+                data={
+                  serviceForWomenData.length >= 5
+                    ? serviceForWomenData.slice(
+                        Math.ceil(serviceForWomenData.length / 2),
+                      )
+                    : []
+                }
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({item}) => (
-                  console.log(
-                    'I#####tem of deal of the dealOfTheDayData--->',
-                    item.id,
-                  ),
-                  (
+                  <TouchableOpacity
+                    onPress={() => bookAnyService(item)}
+                    style={{
+                      // height: 200,
+                      marginHorizontal: 10,
+                      // width: '70%',
+                      // height: wp('48%'),
+                      // borderRadius: 10,
+                      // borderWidth: 1.5,
+                      // borderColor: 'grey',
+                    }}>
                     <View
                       style={{
-                        // height: 200,
-                        marginHorizontal: 10,
-                        // width: '70%',
-                        // height: wp('48%'),
-                        // borderRadius: 10,
-                        // borderWidth: 1.5,
-                        // borderColor: 'grey',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                       }}>
-                      <View
+                      <Image
+                        source={{uri: item?.imageUrl}}
                         style={{
-                          justifyContent: 'center',
-                          alignItems: 'center',
+                          width: wp('36%'),
+                          height: wp('22%'),
+                          borderRadius: 10,
+                          backgroundColor: 'red',
+                        }}
+                      />
+                      <Text
+                        style={{
+                          fontSize: hp('1.7%'),
+                          fontWeight: 'bold',
+                          marginTop: hp('1%'),
+                          color: 'black',
                         }}>
-                        <Image
-                          source={{uri: item?.imageUrl}}
-                          style={{
-                            width: wp('36%'),
-                            height: wp('22%'),
-                            borderRadius: 10,
-                            backgroundColor: 'red',
-                          }}
-                        />
-                        <Text
-                          style={{
-                            fontSize: hp('1.7%'),
-                            fontWeight: 'bold',
-                            marginTop: hp('1%'),
-                            color: 'black',
-                          }}>
-                          {item?.name}
-                        </Text>
-                      </View>
+                        {item?.name}
+                      </Text>
                     </View>
-                  )
+                  </TouchableOpacity>
                 )}
               />
             </View>
             {/* {=======================================##SERVICE FOR WOMEN ONLY  COMPONENT##========================================== } */}
 
-            {/* {========================================DETAL OF THE  COMPONENT========================================== } */}
+            {/* {========================================DETAL OF THE DAY  COMPONENT========================================== } */}
             <View
               style={{
                 // backgroundColor: 'red',
@@ -1267,58 +1506,51 @@ function Home() {
                 data={dealOfTheDayData}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({item}) => (
-                  console.log(
-                    'I#####tem of deal of the dealOfTheDayData--->',
-                    item.id,
-                  ),
-                  (
+                  <TouchableOpacity
+                    onPress={() => bookAnyService(item)}
+                    style={{
+                      // height: 200,
+                      marginHorizontal: 10,
+                      // width: '70%',
+                      height: wp('48%'),
+                      borderRadius: 10,
+                      borderWidth: 1.5,
+                      borderColor: 'grey',
+                    }}>
                     <View
                       style={{
-                        // height: 200,
-                        marginHorizontal: 10,
-                        // width: '70%',
-                        height: wp('48%'),
-                        borderRadius: 10,
-                        borderWidth: 1.5,
-                        borderColor: 'grey',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                       }}>
-                      <View
+                      <Image
+                        source={{uri: item.imageUrl}}
                         style={{
-                          justifyContent: 'center',
-                          alignItems: 'center',
+                          width: wp('35%'),
+                          height: wp('32%'),
+                          borderRadius: 10,
+                        }}
+                      />
+                      <Text
+                        style={{
+                          fontSize: hp('1.7%'),
+                          fontWeight: 'bold',
+                          marginTop: hp('1%'),
+                          color: 'black',
                         }}>
-                        <Image
-                          source={{uri: item.imageUrl}}
-                          style={{
-                            width: wp('35%'),
-                            height: wp('32%'),
-                            borderRadius: 10,
-                          }}
-                        />
-                        <Text
-                          style={{
-                            fontSize: hp('1.7%'),
-                            fontWeight: 'bold',
-                            marginTop: hp('1%'),
-                            color: 'black',
-                          }}>
-                          {item.name}
-                        </Text>
-                      </View>
+                        {item.name}
+                      </Text>
                     </View>
-                  )
+                  </TouchableOpacity>
                 )}
               />
             </View>
             {/* {========================================DETAL OF THE  COMPONENT========================================== } */}
 
-            {/* <View style={{backgroundColor: 'red', height: hp('20  %')}}> */}
-
             {/* {=================================SPA & MASSAG FOR WOMEN POSTER============================} */}
             <View
               style={{
                 width: '100%',
-                height: 280,
+                height: hp(40),
                 // backgroundColor: '#000',
                 paddingHorizontal: 15,
                 marginVertical: 20,
@@ -1331,12 +1563,20 @@ function Home() {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <Text style={{color: '#fff'}}>POSTER</Text>
+                <Image
+                  source={{uri: serviceForMenData[0]?.imageUrl}}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    // borderRadius: 10,
+                  }}
+                />
+                {/* <Text style={{color: '#fff'}}>POSTER</Text> */}
               </View>
             </View>
             {/* {=================================SPA & MASSAG FOR WOMEN POSTER============================} */}
 
-            {/* {=======================================PROFESSIONAL CLEAING SERVICE  COMPONENT##  COMPONENT####========================================= } */}
+            {/*{=======================================PROFESSIONAL CLEAING SERVICE  COMPONENT##  COMPONENT####========================================= } */}
             <View
               style={{
                 // backgroundColor: 'red',
@@ -1359,110 +1599,113 @@ function Home() {
                 Professional Cleaning Services
               </Text>
               {/* {====================================================1ST ROWS================================================} */}
-
               <FlatList
                 horizontal={true} // Set to true for horizontal scrolling
                 // data={dealOfTheDayData}
-                data={data.slice(0, Math.ceil(data.length / 2))}
+                data={
+                  ProfessionalCleaningServiceData.length >= 5
+                    ? ProfessionalCleaningServiceData.slice(
+                        0,
+                        Math.ceil(ProfessionalCleaningServiceData.length / 2),
+                      )
+                    : ProfessionalCleaningServiceData
+                }
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({item}) => (
-                  console.log(
-                    'I#####tem of deal of the dealOfTheDayData--->',
-                    item.id,
-                  ),
-                  (
+                  <TouchableOpacity
+                    onPress={() => bookAnyService(item)}
+                    style={{
+                      // height: 200,
+                      marginHorizontal: 10,
+                      // width: '70%',
+                      // height: wp('48%'),
+                      // borderRadius: 10,
+                      // borderWidth: 1.5,
+                      // borderColor: 'grey',
+                    }}>
                     <View
                       style={{
-                        // height: 200,
-                        marginHorizontal: 10,
-                        // width: '70%',
-                        // height: wp('48%'),
-                        // borderRadius: 10,
-                        // borderWidth: 1.5,
-                        // borderColor: 'grey',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                       }}>
-                      <View
+                      <Image
+                        source={{uri: item?.imageUrl}}
                         style={{
-                          justifyContent: 'center',
-                          alignItems: 'center',
+                          width: wp('45%'),
+                          height: wp('25%'),
+                          borderRadius: 10,
+                          // backgroundColor: 'red',
+                        }}
+                      />
+                      <Text
+                        style={{
+                          fontSize: hp('1.7%'),
+                          fontWeight: 'bold',
+                          marginTop: hp('1%'),
+                          color: 'black',
                         }}>
-                        <Image
-                          source={{uri: item?.imageUrl}}
-                          style={{
-                            width: wp('45%'),
-                            height: wp('25%'),
-                            borderRadius: 10,
-                            backgroundColor: 'red',
-                          }}
-                        />
-                        <Text
-                          style={{
-                            fontSize: hp('1.7%'),
-                            fontWeight: 'bold',
-                            marginTop: hp('1%'),
-                            color: 'black',
-                          }}>
-                          {item?.name}
-                        </Text>
-                      </View>
+                        {item?.name}
+                      </Text>
                     </View>
-                  )
+                  </TouchableOpacity>
                 )}
               />
               {/* {====================================================2ND ROWS================================================} */}
               <FlatList
                 horizontal={true}
-                data={data.slice(Math.ceil(data.length / 2))}
+                data={
+                  ProfessionalCleaningServiceData.length >= 5
+                    ? ProfessionalCleaningServiceData.slice(
+                        Math.ceil(ProfessionalCleaningServiceData.length / 2),
+                      )
+                    : []
+                }
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({item}) => (
-                  console.log(
-                    'I#####tem of deal of the dealOfTheDayData--->',
-                    item.id,
-                  ),
-                  (
+                  <TouchableOpacity
+                    onPress={() => bookAnyService(item)}
+                    style={{
+                      // height: 200,
+                      marginHorizontal: 10,
+                      // width: '70%',
+                      // height: wp('48%'),
+                      // borderRadius: 10,
+                      // borderWidth: 1.5,
+                      // borderColor: 'grey',
+                    }}>
                     <View
                       style={{
-                        // height: 200,
-                        marginHorizontal: 10,
-                        // width: '70%',
-                        // height: wp('48%'),
-                        // borderRadius: 10,
-                        // borderWidth: 1.5,
-                        // borderColor: 'grey',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                       }}>
-                      <View
+                      <Image
+                        source={{uri: item?.imageUrl}}
                         style={{
-                          justifyContent: 'center',
-                          alignItems: 'center',
+                          width: wp('45%'),
+                          height: wp('25%'),
+                          borderRadius: 10,
+                          backgroundColor: 'red',
+                        }}
+                      />
+                      <Text
+                        style={{
+                          fontSize: hp('1.7%'),
+                          fontWeight: 'bold',
+                          marginTop: hp('1%'),
+                          color: 'black',
                         }}>
-                        <Image
-                          source={{uri: item?.imageUrl}}
-                          style={{
-                            width: wp('45%'),
-                            height: wp('25%'),
-                            borderRadius: 10,
-                            backgroundColor: 'red',
-                          }}
-                        />
-                        <Text
-                          style={{
-                            fontSize: hp('1.7%'),
-                            fontWeight: 'bold',
-                            marginTop: hp('1%'),
-                            color: 'black',
-                          }}>
-                          {item?.name}
-                        </Text>
-                      </View>
+                        {item?.name}
+                      </Text>
                     </View>
-                  )
+                  </TouchableOpacity>
                 )}
               />
             </View>
             {/* {=======================================PROFESSIONAL CLEAING SERVICE  COMPONENT##========================================== } */}
-            {/* {========================================THERAPIES FOR MEN ONLY========================================== } */}
+
+            {/* {=======================================ELECTRICIAN FOR YOU ONLY SERVICE  COMPONENT========================================= } */}
             <View
               style={{
                 // backgroundColor: 'red',
@@ -1482,61 +1725,37 @@ function Home() {
                   marginHorizontal: 15,
                   marginBottom: 10,
                 }}>
-                Theapies For Men Only
+                Electriccians For You Only
               </Text>
-              {/* {====================================================1ST ROWS================================================} */}
-              <FlatList
-                horizontal={true} // Set to true for horizontal scrolling
-                // data={dealOfTheDayData}
-                data={data}
-                showsHorizontalScrollIndicator={false}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({item}) => (
-                  console.log(
-                    'I#####tem of deal of the dealOfTheDayData--->',
-                    item.id,
-                  ),
-                  (
-                    <View
-                      style={{
-                        // height: 200,
-                        marginHorizontal: 8,
-                        // width: '70%',
-                        // height: wp('48%'),
-                        // borderRadius: 10,
-                        // borderWidth: 1.5,
-                        // borderColor: 'grey',
-                      }}>
-                      <View
-                        style={{
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                        }}>
-                        <Image
-                          source={{uri: item?.imageUrl}}
-                          style={{
-                            width: wp('36%'),
-                            height: wp('48%'),
-                            // borderRadius: 10,
-                            backgroundColor: 'red',
-                          }}
-                        />
-                        <Text
-                          style={{
-                            fontSize: hp('1.7%'),
-                            fontWeight: 'bold',
-                            marginTop: hp('1%'),
-                            color: 'black',
-                          }}>
-                          kkrkrkk
-                          {item?.name}
-                        </Text>
-                      </View>
+              <View
+                style={{
+                  backgroundColor: Colors.white,
+                  // backgroundColor: 'red',
+                  shadowColor: '#000',
+                  shadowOffset: {width: 1, height: 1},
+                  shadowOpacity: 0.4,
+                  shadowRadius: 3,
+                }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    justifyContent: 'space-evenly',
+                  }}>
+                  {ElectricalSerives.map((val, index) => (
+                    <View key={index} style={{alignItems: 'center'}}>
+                      <ServicesComp
+                        title={val.name}
+                        image={{uri: val.imageUrl}}
+                        newStyle
+                        onPress={() => bookAnyService(val)}
+                      />
                     </View>
-                  )
-                )}
-              />
+                  ))}
+                </View>
+              </View>
             </View>
+            {/* {=======================================ELECTRICIAN FOR YOU ONLY SERVICE  COMPONENT========================================== } */}
             {/* {=================================BANNERS=======================================================} */}
 
             <View
@@ -1574,8 +1793,78 @@ function Home() {
                 ))}
               </Swiper>
             </View>
-
             {/* {=================================BANNERS=======================================================} */}
+
+            {/* {========================================THERAPIES FOR MEN ONLY========================================== } */}
+            <View
+              style={{
+                // backgroundColor: 'red',
+                // width: wp('90%'),
+                // alignSelf: 'center',
+                paddingVertical: 10,
+                borderTopWidth: 7,
+                borderTopColor: Colors.grayShade,
+                marginTop: 12,
+                // marginHorizontal: 10,
+              }}>
+              <Text
+                style={{
+                  color: '#000',
+                  fontSize: 18,
+                  fontWeight: '500',
+                  marginHorizontal: 15,
+                  marginBottom: 10,
+                }}>
+                Therapies For Men Only
+              </Text>
+              {/* {====================================================1ST ROWS================================================} */}
+              <FlatList
+                horizontal={true} // Set to true for horizontal scrolling
+                // data={dealOfTheDayData}
+                data={therapiesForMenServices}
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item}) => (
+                  <TouchableOpacity
+                    onPress={() => bookAnyService(item)}
+                    style={{
+                      // height: 200,
+                      marginHorizontal: 8,
+                      // width: '70%',
+                      // height: wp('48%'),
+                      // borderRadius: 10,
+                      // borderWidth: 1.5,
+                      // borderColor: 'grey',
+                    }}>
+                    <View
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                      <Image
+                        source={{uri: item?.imageUrl}}
+                        style={{
+                          width: wp('36%'),
+                          height: wp('48%'),
+                          // borderRadius: 10,
+                          // backgroundColor: 'red',
+                        }}
+                      />
+                      <Text
+                        style={{
+                          fontSize: hp('1.7%'),
+                          fontWeight: 'bold',
+                          marginTop: hp('1%'),
+                          color: 'black',
+                        }}>
+                        {/* kkrkrkk */}
+                        {item?.name}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                )}
+              />
+            </View>
 
             {/* {=======================================THERAPIES FOR MEN ONLY  COMPONENT========================================== } */}
             <View
@@ -1606,7 +1895,7 @@ function Home() {
                       color: Colors.purple,
                       fontSize: 20,
                     }}>
-                    EXCLUSIV OFFERS
+                    EXCLUSIVE OFFERS
                   </Text>
                 </TouchableOpacity>
               </View>

@@ -315,12 +315,14 @@ const EditProfileScreen = props => {
   return (
     <SafeAreaView style={{flex: 1, marginTop: hp('3.2%')}}>
       <StatusBar backgroundColor={Colors.topNavbarColor} />
-      <Header
-        bgColor={Colors.topNavbarColor}
-        color={Colors.white}
-        title="Edit Profile"
-        onPress={() => props.navigation.goBack()}
-      />
+      <View style={{marginTop: '-0.8%'}}>
+        <Header
+          bgColor={Colors.topNavbarColor}
+          color={Colors.white}
+          title="Edit Profile"
+          onPress={() => props.navigation.goBack()}
+        />
+      </View>
 
       {isLoading === true ? (
         <View

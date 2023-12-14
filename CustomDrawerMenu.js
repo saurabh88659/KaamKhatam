@@ -132,7 +132,8 @@ const CustomDrawerMenu = props => {
         contentContainerStyle={{backgroundColor: Colors.white}}>
         <View style={{marginTop: '-1.4%', paddingBottom: '5%'}}>
           <LinearGradient
-            colors={['#532DC4', '#784CD2', '#8E57FF', '#A67FF9']}
+            // colors={['#532DC4', '#784CD2', '#8E57FF', '#A67FF9']}
+            colors={['#7A33C2', '#A67FF9']}
             start={{x: 0.5, y: 0}}
             end={{x: 0.5, y: 1.0}}
             // style={{backgroundColor: 'grey', flex: 0.4}}
