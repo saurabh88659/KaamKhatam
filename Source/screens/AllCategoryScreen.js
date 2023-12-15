@@ -133,7 +133,7 @@ const AllCategoryScreen = () => {
           }}>
           <ActivityIndicator color={Colors.deepSafron} size={39} />
         </View>
-      ) : (
+      ) : filteredData.length > 0 ? (
         <ScrollView>
           <View
             style={{
@@ -153,6 +153,14 @@ const AllCategoryScreen = () => {
             ))}
           </View>
         </ScrollView>
+      ) : (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Text
+            style={{fontSize: 20, fontWeight: '400', color: Colors.darkGray}}>
+            No results found{' '}
+          </Text>
+          {/* You can also add an image or any other UI element to enhance the message */}
+        </View>
       )}
     </View>
   );

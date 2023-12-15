@@ -521,7 +521,6 @@ const ProfileScreen = ({navigation, route}) => {
                 </View>
               </View>
             </View>
-
             {imageData && (
               <TouchableOpacity
                 onPress={_updateProfilePic}
@@ -533,6 +532,7 @@ const ProfileScreen = ({navigation, route}) => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   paddingVertical: 8,
+                  marginBottom: '10%',
                 }}>
                 {buttonLoading ? (
                   <ActivityIndicator color={'#fff'} size={25} />

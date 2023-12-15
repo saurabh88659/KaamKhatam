@@ -223,7 +223,6 @@ const ExclusiveOfferScreen = ({navigation}) => {
               />
             </View>
             {/* {====================deal of the day====================} */}
-
             {/* {========================REFER & WIN==============================} */}
             <View style={{marginTop: hp(1)}}>
               <View style={{paddingVertical: hp(2)}}>
@@ -246,7 +245,8 @@ const ExclusiveOfferScreen = ({navigation}) => {
                 }}>
                 <Image
                   resizeMode="cover"
-                  source={{uri: dealOfTheDayData[0]?.imageUrl}}
+                  // source={{uri: dealOfTheDayData[0]?.imageUrl}}
+                  source={require('../Assets/Images/ReferAndEarn.png')}
                   style={{
                     width: '100%',
                     height: '100%',
@@ -289,10 +289,11 @@ const ExclusiveOfferScreen = ({navigation}) => {
                 }}>
                 <Text
                   style={{
-                    fontSize: 16,
+                    fontSize: 18,
                     fontWeight: '500',
                     color: Colors.darkGray,
                     marginRight: 5,
+                    letterSpacing: 0.8,
                   }}>
                   REFER NOW
                 </Text>

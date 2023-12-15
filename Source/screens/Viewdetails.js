@@ -801,71 +801,34 @@ const Viewdetails = props => {
                 </Text>
               </View>
 
+              <View
+                style={{
+                  marginTop: 20,
+                  marginHorizontal: 15,
+                }}>
+                <Text style={{fontSize: 16, color: Colors.black}}>
+                  {bookinviewdetails.packageName}
+                </Text>
+              </View>
+
               <View style={{marginHorizontal: 15}}>
-                {/* <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    // marginVertical: 20,
-                    marginTop: 20,
-                  }}>
-                  <Text
-                    style={{
-                      color: Colors.black,
-                      fontSize: 15,
-                      fontWeight: 'bold',
-                    }}>
-                    Rating
-                  </Text>
-                  <Text style={{color: Colors.darkGray, fontSize: 15}}>
-                    {bookinviewdetails?.rating}
-                  </Text>
-                </View> */}
-                {/* <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    // flexWrap: 'wrap',
-                  }}>
-                  <Text
-                    style={{
-                      color: Colors.black,
-                      fontSize: 15,
-                      fontWeight: 'bold',
-                    }}>
-                    Service Name
-                  </Text>
-
-                  <Text
-                    style={{
-                      color: Colors.darkGray,
-                      fontSize: 15,
-                      textAlign: 'center',
-                    }}>
-                    {bookinviewdetails.serviceName}
-                  </Text>
-                </View> */}
-
                 <View
                   style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     // marginVertical: 20,
-                    marginTop: 20,
+                    marginTop: 5,
                     marginBottom: 5,
                   }}>
                   <Text
                     style={{
                       color: Colors.black,
                       fontSize: 18,
-                      fontWeight: 'bold',
+                      fontWeight: '500',
                     }}>
                     {bookinviewdetails.serviceName}
                   </Text>
-                  {/* <Text style={{color: Colors.darkGray, fontSize: 15}}>
-                    {bookinviewdetails.amountToBePaid}
-                  </Text> */}
 
                   <View
                     style={{
@@ -924,7 +887,30 @@ const Viewdetails = props => {
                   </View>
                 ) : null}
 
+                {/* <Text style={{color: Colors.darkGray}}>
+                  {'.'.repeat(width / 4.7)}
+                </Text> */}
+
                 <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginBottom: 5,
+                    // marginTop: 10,
+                  }}>
+                  {/* <Text
+                    style={{
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: '400',
+                    }}>
+                    Category
+                  </Text> */}
+                  <Text style={{color: Colors.darkGray, fontSize: 17}}>
+                    {bookinviewdetails.categoryName}
+                  </Text>
+                </View>
+                {/* <View
                   style={{
                     flexDirection: 'row',
                     // marginBottom: 10,
@@ -938,31 +924,60 @@ const Viewdetails = props => {
                     }}>
                     {bookinviewdetails.amountToBePaid}
                   </Text>
-                </View>
-                <Text style={{color: Colors.darkGray}}>
-                  {'.'.repeat(width / 4.7)}
-                </Text>
-
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    marginBottom: 10,
-                    marginTop: 10,
-                  }}>
-                  <Text
+                </View> */}
+                <View style={{}}>
+                  <View
                     style={{
-                      color: Colors.black,
-                      fontSize: 15,
-                      fontWeight: 'bold',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      marginBottom: 5,
                     }}>
-                    Category
-                  </Text>
-                  <Text style={{color: Colors.darkGray, fontSize: 15}}>
-                    {bookinviewdetails.categoryName}
-                  </Text>
+                    <Text
+                      style={{fontSize: 17, color: '#000', fontWeight: '400'}}>
+                      Service Amount
+                    </Text>
+                    <Text
+                      style={{fontSize: 17, color: '#000', fontWeight: '400'}}>
+                      ₹{bookinviewdetails.amountToBePaid}
+                    </Text>
+                  </View>
+
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      marginBottom: 5,
+                    }}>
+                    <Text
+                      style={{fontSize: 17, color: '#000', fontWeight: '400'}}>
+                      Tax and Fees
+                    </Text>
+                    <Text
+                      style={{fontSize: 17, color: '#000', fontWeight: '400'}}>
+                      ₹
+                      {bookinviewdetails.amtWithGst -
+                        bookinviewdetails.amountToBePaid}
+                    </Text>
+                  </View>
+
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      marginBottom: 10,
+                    }}>
+                    <Text
+                      style={{fontSize: 17, color: '#000', fontWeight: '400'}}>
+                      Total Amount
+                    </Text>
+                    <Text
+                      style={{fontSize: 17, color: '#000', fontWeight: '400'}}>
+                      ₹{bookinviewdetails.amtWithGst}
+                    </Text>
+                  </View>
                 </View>
-                <View
+
+                {/* <View
                   style={{
                     flexDirection: 'row',
                     // justifyContent: 'space-between',
@@ -990,8 +1005,8 @@ const Viewdetails = props => {
                     }}>
                     {bookinviewdetails.serviceDescription}
                   </Text>
-                </View>
-                <View
+                </View> */}
+                {/* <View
                   style={{
                     flexDirection: 'row',
                     // justifyContent: 'space-between',
@@ -1019,7 +1034,7 @@ const Viewdetails = props => {
                     }}>
                     {bookinviewdetails.packageDescription}
                   </Text>
-                </View>
+                </View> */}
               </View>
             </View>
             {/* {============================================new service details=========================================} */}
@@ -1285,7 +1300,7 @@ const Viewdetails = props => {
             <View
               style={{
                 paddingHorizontal: 15,
-                height: labels.length * 100,
+                height: labels?.length * 100,
                 // backgroundColor: 'red',
                 marginTop: 10,
               }}>
@@ -1295,8 +1310,8 @@ const Viewdetails = props => {
               </Text>
               <StepIndicator
                 customStyles={yourCustomStyles}
-                currentPosition={labels.length}
-                stepCount={labels.length}
+                currentPosition={labels?.length}
+                stepCount={labels?.length}
                 // labels={allBookingStatus.map(status => status.status)}
                 labels={labels}
                 direction={'vertical'}
